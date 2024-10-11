@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6343842895949506335}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -74,7 +74,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52aaddcd0af3f47d3a49782e02fa7da4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 4
   cameraTransform: {fileID: 6633332428589849383}
   playerCamera: {fileID: 746694866651064237}
   bobFrequency: 15
@@ -85,6 +85,10 @@ MonoBehaviour:
   transitionSpeed: 5
   movingFOV: 75
   neutralFOV: 70
+  pickupDistance: 2
+  hudElement: {fileID: 0}
+  crosshair: {fileID: 0}
+  glowMaterial: {fileID: 2100000, guid: b0f5e6da047e347cc8ff13af5d2b3ce0, type: 2}
 --- !u!1 &3229422647656377278
 GameObject:
   m_ObjectHideFlags: 0
@@ -97,7 +101,7 @@ GameObject:
   - component: {fileID: 5800695711802409649}
   m_Layer: 0
   m_Name: hitbox
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
