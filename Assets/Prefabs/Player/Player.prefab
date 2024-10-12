@@ -74,18 +74,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52aaddcd0af3f47d3a49782e02fa7da4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
+  movementSpeed: 5
   cameraTransform: {fileID: 6633332428589849383}
   playerCamera: {fileID: 746694866651064237}
-  bobFrequency: 15
-  neutralBobFrequency: 5
+  bobFrequency: 2
+  neutralBobFrequency: 1
   bobHeight: 0.075
   bobWidth: 0.05
-  resetSpeed: 2
   transitionSpeed: 5
   movingFOV: 75
   neutralFOV: 70
-  pickupDistance: 2
+  pickupDistance: 3
+  throwForce: 4
   hudElement: {fileID: 0}
   crosshair: {fileID: 0}
   glowMaterial: {fileID: 2100000, guid: b0f5e6da047e347cc8ff13af5d2b3ce0, type: 2}

@@ -1,53 +1,56 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class playerController : MonoBehaviour
+/// <summary>
+/// Controls player movement, object interaction, and camera effects.
+/// </summary>
+public class PlayerMovementController : MonoBehaviour
 {
-    public float speed = 5.0f;
+    // Public variables for player movement and camera settings
+    public float movementSpeed = 5.0f;
     public Transform cameraTransform;
     public Camera playerCamera;
     public float bobFrequency = 2.0f;
     public float neutralBobFrequency = 1.0f;
     public float bobHeight = 0.1f;
     public float bobWidth = 0.05f;
-    public float resetSpeed = 2.0f;
     public float transitionSpeed = 5.0f;
     public float movingFOV = 75.0f;
     public float neutralFOV = 70.0f;
     public float pickupDistance = 2.0f;
-    private Transform pickedObject = null;
-    private Rigidbody pickedObjectRb = null;
-    private Collider playerCollider;
+    public float throwForce = 4.0f; // Force applied when throwing an object
 
-    private Rigidbody rb;
+    // Private variables for internal state management
+    private Transform heldObject = null;
+    private Rigidbody heldObjectRb = null;
+    private Rigidbody playerRb;
     private float bobbingTime = 0.0f;
-    private Vector3 initialCameraLocalPosition;
+    private Vector3 initialCameraPosition;
     private float currentBobFrequency;
     private float currentBobHeight;
     private float currentFOV;
     private LayerMask interactableLayer;
-
-    public GameObject hudElement; // Reference to the HUD element
-    public GameObject crosshair; // Direct reference to the Crosshair
-    public Material glowMaterial; // Reference to the glow material
-    private Material originalMaterial; // To store the original material of the object
-
     private Renderer lastHighlightedRenderer = null;
-    private Dictionary<Renderer, Material[]> originalMaterialsMap = new Dictionary<Renderer, Material[]>(); // Map to store original materials
+    private Material originalMaterial = null;
+
+    // UI and visual elements
+    public GameObject hudElement;
+    public GameObject crosshair;
+    public Material glowMaterial;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        rb.useGravity = true;
-        initialCameraLocalPosition = cameraTransform.localPosition;
+        // Initialize player components and settings
+        playerRb = GetComponent<Rigidbody>();
+        playerRb.useGravity = true;
+        initialCameraPosition = cameraTransform.localPosition;
         currentBobFrequency = bobFrequency;
         currentBobHeight = bobHeight;
         currentFOV = playerCamera.fieldOfView;
         interactableLayer = LayerMask.GetMask("Pickup");
-        playerCollider = GetComponent<Collider>();
 
+        // Initialize HUD elements
         if (hudElement != null)
         {
             Transform crosshairTransform = hudElement.transform.Find("Crosshair");
@@ -68,97 +71,145 @@ public class playerController : MonoBehaviour
 
     void Update()
     {
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
+        // Handle player movement and camera effects
+        HandleMovement();
+        HandleCameraEffects();
 
-        Vector3 forwardMovement = transform.forward * moveVertical;
-        Vector3 rightMovement = transform.right * moveHorizontal;
-        Vector3 movement = forwardMovement + rightMovement;
-
-        Vector3 velocity = movement * speed;
-        velocity.y = rb.velocity.y;
-        rb.velocity = velocity;
-
-        float targetBobFrequency = (movement.magnitude > 0) ? bobFrequency : neutralBobFrequency;
-        float targetBobHeight = (movement.magnitude > 0) ? bobHeight : bobHeight * 0.5f;
-        float targetFOV = (movement.magnitude > 0) ? movingFOV : neutralFOV;
-
-        currentBobFrequency = Mathf.Lerp(currentBobFrequency, targetBobFrequency, Time.deltaTime * transitionSpeed);
-        currentBobHeight = Mathf.Lerp(currentBobHeight, targetBobHeight, Time.deltaTime * transitionSpeed);
-        currentFOV = Mathf.Lerp(currentFOV, targetFOV, Time.deltaTime * 1);
-
-        bobbingTime += Time.deltaTime * currentBobFrequency;
-
-        float verticalBob = Mathf.Sin(bobbingTime) * currentBobHeight;
-        float horizontalBob = Mathf.Sin(bobbingTime * 0.5f) * bobWidth;
-
-        cameraTransform.localPosition = initialCameraLocalPosition + new Vector3(horizontalBob, verticalBob, 0);
-        playerCamera.fieldOfView = currentFOV;
-
+        // Handle object interaction
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (pickedObject == null)
+            if (heldObject == null)
             {
                 TryPickupObject();
             }
             else
             {
-                DropObject();
+                DropObject(false);
             }
         }
 
+        // Handle throwing the held object
+        if (Input.GetMouseButtonDown(0) && heldObject != null)
+        {
+            DropObject(true);
+        }
+
+        // Update UI and object glow effects
         UpdateCrosshairVisibility();
         UpdateObjectGlow();
     }
 
+    void HandleMovement()
+    {
+        // Calculate movement based on input
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
+        Vector3 movement = (transform.forward * verticalInput + transform.right * horizontalInput) * movementSpeed;
+        movement.y = playerRb.velocity.y;
+        playerRb.velocity = movement;
+    }
+
+    void HandleCameraEffects()
+    {
+        // Adjust camera bobbing and field of view based on movement
+        float targetBobFrequency = (playerRb.velocity.magnitude > 0) ? bobFrequency : neutralBobFrequency;
+        float targetBobHeight = (playerRb.velocity.magnitude > 0) ? bobHeight : bobHeight * 0.5f;
+        float targetFOV = (playerRb.velocity.magnitude > 0) ? movingFOV : neutralFOV;
+
+        currentBobFrequency = Mathf.Lerp(currentBobFrequency, targetBobFrequency, Time.deltaTime * transitionSpeed);
+        currentBobHeight = Mathf.Lerp(currentBobHeight, targetBobHeight, Time.deltaTime * transitionSpeed);
+        currentFOV = Mathf.Lerp(currentFOV, targetFOV, Time.deltaTime);
+
+        bobbingTime += Time.deltaTime * currentBobFrequency;
+        float verticalBob = Mathf.Sin(bobbingTime) * currentBobHeight;
+        float horizontalBob = Mathf.Sin(bobbingTime * 0.5f) * bobWidth;
+
+        cameraTransform.localPosition = initialCameraPosition + new Vector3(horizontalBob, verticalBob, 0);
+        playerCamera.fieldOfView = currentFOV;
+    }
+
     void TryPickupObject()
     {
+        // Attempt to pick up an object within range
         Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, pickupDistance, interactableLayer))
+        if (Physics.Raycast(ray, out RaycastHit hit, pickupDistance, interactableLayer))
         {
-            pickedObject = hit.transform;
-            pickedObjectRb = pickedObject.GetComponent<Rigidbody>();
-            Collider pickedObjectCollider = pickedObject.GetComponent<Collider>();
+            heldObject = hit.transform;
+            heldObjectRb = heldObject.GetComponent<Rigidbody>();
+            Collider heldObjectCollider = heldObject.GetComponent<Collider>();
 
-            if (pickedObjectRb != null)
+            if (heldObjectRb != null)
             {
-                pickedObjectRb.useGravity = false;
-                pickedObjectRb.isKinematic = false;
+                heldObjectRb.useGravity = false;
+                heldObjectRb.isKinematic = false;
             }
 
-            if (pickedObjectCollider != null)
+            if (heldObjectCollider != null)
             {
-                Collider[] playerColliders = GameObject.FindGameObjectsWithTag("Player")
-                                                      .Select(go => go.GetComponent<Collider>())
-                                                      .Where(c => c != null)
-                                                      .ToArray();
-                foreach (var playerCollider in playerColliders)
+                IgnorePlayerCollisions(heldObjectCollider, true);
+            }
+
+            heldObject.SetParent(cameraTransform);
+            heldObject.localPosition = new Vector3(0, 0, pickupDistance);
+        }
+    }
+
+    void DropObject(bool applyThrowForce)
+    {
+        // Drop the currently held object, optionally applying a throw force
+        if (heldObject != null)
+        {
+            if (heldObjectRb != null)
+            {
+                heldObjectRb.useGravity = true;
+                heldObjectRb.isKinematic = false;
+
+                if (applyThrowForce)
                 {
-                    Physics.IgnoreCollision(pickedObjectCollider, playerCollider, true);
+                    // Apply a force in the direction of the player's crosshair
+                    Vector3 throwDirection = cameraTransform.forward;
+                    heldObjectRb.AddForce(throwDirection * throwForce, ForceMode.Impulse);
                 }
             }
 
-            pickedObject.SetParent(cameraTransform);
-            pickedObject.localPosition = new Vector3(0, 0, pickupDistance);
+            Collider heldObjectCollider = heldObject.GetComponent<Collider>();
+            if (heldObjectCollider != null)
+            {
+                IgnorePlayerCollisions(heldObjectCollider, false);
+            }
+
+            heldObject.SetParent(null);
+            heldObject = null;
+            heldObjectRb = null;
+        }
+    }
+
+    void IgnorePlayerCollisions(Collider objectCollider, bool ignore)
+    {
+        // Ignore or restore collisions between the player and the object
+        Collider[] playerColliders = GameObject.FindGameObjectsWithTag("Player")
+                                              .Select(go => go.GetComponent<Collider>())
+                                              .Where(c => c != null)
+                                              .ToArray();
+        foreach (var playerCollider in playerColliders)
+        {
+            Physics.IgnoreCollision(objectCollider, playerCollider, ignore);
         }
     }
 
     void UpdateCrosshairVisibility()
     {
+        // Update crosshair visibility based on object interaction
         if (crosshair != null)
         {
-            if (pickedObject != null)
+            if (heldObject != null)
             {
                 crosshair.SetActive(false);
                 return;
             }
 
             Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit, pickupDistance, interactableLayer))
+            if (Physics.Raycast(ray, out RaycastHit hit, pickupDistance, interactableLayer))
             {
                 crosshair.SetActive(false);
             }
@@ -169,106 +220,47 @@ public class playerController : MonoBehaviour
         }
     }
 
-    void DropObject()
-    {
-        if (pickedObject != null)
-        {
-            if (pickedObjectRb != null)
-            {
-                pickedObjectRb.useGravity = true;
-                pickedObjectRb.isKinematic = false;
-            }
-
-            Collider pickedObjectCollider = pickedObject.GetComponent<Collider>();
-            if (pickedObjectCollider != null)
-            {
-                Collider[] playerColliders = GameObject.FindGameObjectsWithTag("Player")
-                                                      .Select(go => go.GetComponent<Collider>())
-                                                      .Where(c => c != null)
-                                                      .ToArray();
-                foreach (var playerCollider in playerColliders)
-                {
-                    Physics.IgnoreCollision(pickedObjectCollider, playerCollider, false);
-                }
-            }
-
-            pickedObject.SetParent(null);
-            pickedObject = null;
-            pickedObjectRb = null;
-        }
-    }
-
-    void FixedUpdate()
-    {
-        if (pickedObject != null && pickedObjectRb != null)
-        {
-            Vector3 targetPosition = cameraTransform.position + cameraTransform.forward * pickupDistance;
-            Vector3 direction = targetPosition - pickedObject.position;
-            pickedObjectRb.velocity = direction * 10f;
-        }
-    }
-
-    void OnDrawGizmos()
-    {
-        if (cameraTransform != null)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawRay(cameraTransform.position, cameraTransform.forward * pickupDistance);
-        }
-    }
-
     void UpdateObjectGlow()
     {
+        // Update the glow effect on objects being looked at
         Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
-        RaycastHit hit;
-        bool isHit = Physics.Raycast(ray, out hit, pickupDistance, interactableLayer);
+        bool isHit = Physics.Raycast(ray, out RaycastHit hit, pickupDistance, interactableLayer);
 
-        if (pickedObject == null && isHit)
+        if (heldObject == null && isHit)
         {
             Renderer objectRenderer = hit.transform.GetComponent<Renderer>();
             if (objectRenderer != null)
             {
-                // If the object is different from the last highlighted one, restore the last one
                 if (lastHighlightedRenderer != null && lastHighlightedRenderer != objectRenderer)
                 {
                     RestoreOriginalMaterial(lastHighlightedRenderer);
                 }
 
-                // Get current materials
                 Material[] currentMaterials = objectRenderer.materials;
-
-                // Check if the glow material is already added
                 if (currentMaterials.Length == 1 || !currentMaterials.Contains(glowMaterial))
                 {
-                    // Store the original material if not already stored
                     if (originalMaterial == null)
                     {
                         originalMaterial = currentMaterials[0];
                     }
 
-                    // Create a new array with the original and glow material
                     Material[] newMaterials = new Material[2];
                     newMaterials[0] = originalMaterial;
                     newMaterials[1] = glowMaterial;
-
-                    // Assign the new materials array back to the renderer
                     objectRenderer.materials = newMaterials;
                 }
 
-                // Update the last highlighted renderer
                 lastHighlightedRenderer = objectRenderer;
             }
         }
-        else if (pickedObject == null && lastHighlightedRenderer != null)
+        else if (heldObject == null && lastHighlightedRenderer != null)
         {
-            // Restore the original material of the last highlighted object
             RestoreOriginalMaterial(lastHighlightedRenderer);
             lastHighlightedRenderer = null;
         }
-        // If an object is picked, ensure it retains the glow material
-        else if (pickedObject != null)
+        else if (heldObject != null)
         {
-            Renderer objectRenderer = pickedObject.GetComponent<Renderer>();
+            Renderer objectRenderer = heldObject.GetComponent<Renderer>();
             if (objectRenderer != null)
             {
                 Material[] currentMaterials = objectRenderer.materials;
@@ -285,10 +277,32 @@ public class playerController : MonoBehaviour
 
     void RestoreOriginalMaterial(Renderer renderer)
     {
+        // Restore the original material of a renderer
         if (renderer != null && originalMaterial != null)
         {
             renderer.materials = new Material[] { originalMaterial };
-            originalMaterial = null; // Clear the stored original material
+            originalMaterial = null;
+        }
+    }
+
+    void FixedUpdate()
+    {
+        // Update the position of the held object in physics updates
+        if (heldObject != null && heldObjectRb != null)
+        {
+            Vector3 targetPosition = cameraTransform.position + cameraTransform.forward * pickupDistance;
+            Vector3 direction = targetPosition - heldObject.position;
+            heldObjectRb.velocity = direction * 10f;
+        }
+    }
+
+    void OnDrawGizmos()
+    {
+        // Draw a ray in the editor to visualize the pickup range
+        if (cameraTransform != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawRay(cameraTransform.position, cameraTransform.forward * pickupDistance);
         }
     }
 }
