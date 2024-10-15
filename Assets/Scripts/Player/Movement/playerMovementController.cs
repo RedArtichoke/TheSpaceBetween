@@ -111,10 +111,17 @@ public class PlayerMovementController : MonoBehaviour
 
     void HandleCameraEffects()
     {
+        // Calculate the magnitude of the player's horizontal velocity
+        Vector3 horizontalVelocity = new Vector3(playerRb.velocity.x, 0, playerRb.velocity.z);
+        float velocityMagnitude = horizontalVelocity.magnitude;
+
+        // Define a threshold for movement
+        float movementThreshold = 0.1f;
+
         // Adjust camera bobbing and field of view based on movement
-        float targetBobFrequency = (playerRb.velocity.magnitude > 0) ? bobFrequency : neutralBobFrequency;
-        float targetBobHeight = (playerRb.velocity.magnitude > 0) ? bobHeight : bobHeight * 0.5f;
-        float targetFOV = (playerRb.velocity.magnitude > 0) ? movingFOV : neutralFOV;
+        float targetBobFrequency = (velocityMagnitude > movementThreshold) ? bobFrequency : neutralBobFrequency;
+        float targetBobHeight = (velocityMagnitude > movementThreshold) ? bobHeight : bobHeight * 0.5f;
+        float targetFOV = (velocityMagnitude > movementThreshold) ? movingFOV : neutralFOV;
 
         currentBobFrequency = Mathf.Lerp(currentBobFrequency, targetBobFrequency, Time.deltaTime * transitionSpeed);
         currentBobHeight = Mathf.Lerp(currentBobHeight, targetBobHeight, Time.deltaTime * transitionSpeed);
@@ -140,6 +147,10 @@ public class PlayerMovementController : MonoBehaviour
 
             if (heldObjectRb != null)
             {
+                // Remove all forces from the object
+                heldObjectRb.velocity = Vector3.zero;
+                heldObjectRb.angularVelocity = Vector3.zero;
+
                 heldObjectRb.useGravity = false;
                 heldObjectRb.isKinematic = false;
             }
@@ -287,12 +298,16 @@ public class PlayerMovementController : MonoBehaviour
 
     void FixedUpdate()
     {
-        // Update the position of the held object in physics updates
+        // Update the position and rotation of the held object in physics updates
         if (heldObject != null && heldObjectRb != null)
         {
             Vector3 targetPosition = cameraTransform.position + cameraTransform.forward * pickupDistance;
-            Vector3 direction = targetPosition - heldObject.position;
-            heldObjectRb.velocity = direction * 10f;
+
+            // Directly set the position to the target position
+            heldObject.position = targetPosition;
+
+            // Lock the rotation to match the camera's rotation
+            heldObject.rotation = cameraTransform.rotation;
         }
     }
 
