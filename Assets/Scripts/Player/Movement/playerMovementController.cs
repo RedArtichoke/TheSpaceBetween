@@ -94,6 +94,12 @@ public class PlayerMovementController : MonoBehaviour
             DropObject(true);
         }
 
+        // Handle dropping the held object with right-click
+        if (Input.GetMouseButtonDown(1) && heldObject != null)
+        {
+            DropObject(false);
+        }
+
         // Update UI and object glow effects
         UpdateCrosshairVisibility();
         UpdateObjectGlow();
@@ -133,6 +139,14 @@ public class PlayerMovementController : MonoBehaviour
 
         cameraTransform.localPosition = initialCameraPosition + new Vector3(horizontalBob, verticalBob, 0);
         playerCamera.fieldOfView = currentFOV;
+
+        // Apply bobbing to the held object with a slight delay
+        if (heldObject != null)
+        {
+            float objectVerticalBob = Mathf.Sin(bobbingTime - 0.1f) * currentBobHeight; // Slight delay
+            float objectHorizontalBob = Mathf.Sin((bobbingTime - 0.1f) * 0.5f) * bobWidth;
+            heldObject.localPosition = new Vector3(objectHorizontalBob, objectVerticalBob, pickupDistance);
+        }
     }
 
     void TryPickupObject()
