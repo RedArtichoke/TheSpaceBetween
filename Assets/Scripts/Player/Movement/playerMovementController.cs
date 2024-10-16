@@ -76,7 +76,7 @@ public class PlayerMovementController : MonoBehaviour
         HandleCameraEffects();
 
         // Handle object interaction
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(1))
         {
             if (heldObject == null)
             {
@@ -92,12 +92,6 @@ public class PlayerMovementController : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && heldObject != null)
         {
             DropObject(true);
-        }
-
-        // Handle dropping the held object with right-click
-        if (Input.GetMouseButtonDown(1) && heldObject != null)
-        {
-            DropObject(false);
         }
 
         // Update UI and object glow effects
@@ -143,7 +137,7 @@ public class PlayerMovementController : MonoBehaviour
         // Apply bobbing to the held object with a slight delay
         if (heldObject != null)
         {
-            float objectVerticalBob = Mathf.Sin(bobbingTime - 0.1f) * currentBobHeight; // Slight delay
+            float objectVerticalBob = Mathf.Sin(bobbingTime - 0.1f) * currentBobHeight;
             float objectHorizontalBob = Mathf.Sin((bobbingTime - 0.1f) * 0.5f) * bobWidth;
             heldObject.localPosition = new Vector3(objectHorizontalBob, objectVerticalBob, pickupDistance);
         }
@@ -322,16 +316,6 @@ public class PlayerMovementController : MonoBehaviour
 
             // Lock the rotation to match the camera's rotation
             heldObject.rotation = cameraTransform.rotation;
-        }
-    }
-
-    void OnDrawGizmos()
-    {
-        // Draw a ray in the editor to visualize the pickup range
-        if (cameraTransform != null)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawRay(cameraTransform.position, cameraTransform.forward * pickupDistance);
         }
     }
 }

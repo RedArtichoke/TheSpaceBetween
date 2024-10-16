@@ -99,6 +99,7 @@ GameObject:
   m_Component:
   - component: {fileID: 551782598037348635}
   - component: {fileID: 5800695711802409649}
+  - component: {fileID: 4303543429258138873}
   m_Layer: 0
   m_Name: hitbox
   m_TagString: Player
@@ -144,6 +145,27 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &4303543429258138873
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3229422647656377278}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.5, y: 0.1, z: 0.5}
+  m_Center: {x: 0, y: -1, z: 0}
 --- !u!1 &3979727799474700649
 GameObject:
   m_ObjectHideFlags: 0
@@ -294,6 +316,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8975a5b86b3420f849466210c26f44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseSensitivity: 500
+  mouseSensitivity: 300
   playerBody: {fileID: 5443115629039691449}
   lerpSpeed: 0.1
