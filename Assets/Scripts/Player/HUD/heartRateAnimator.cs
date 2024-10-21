@@ -20,6 +20,10 @@ public class heartRateAnimator : MonoBehaviour
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.clip = heartBeatSound;
         noiseOffset = Random.Range(0f, 100f); // Random starting point for Perlin noise
+
+        // Add a reverb filter to the audio source
+        var reverbFilter = gameObject.AddComponent<AudioReverbFilter>();
+        reverbFilter.reverbPreset = AudioReverbPreset.Cave; // Choose a preset or customize
     }
 
     void Update()
