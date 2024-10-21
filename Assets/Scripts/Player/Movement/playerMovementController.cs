@@ -134,6 +134,13 @@ public class PlayerMovementController : MonoBehaviour
         cameraTransform.localPosition = initialCameraPosition + new Vector3(horizontalBob, verticalBob, 0);
         playerCamera.fieldOfView = currentFOV;
 
+        // Apply bobbing to the flashlight
+        Transform flashlightTransform = cameraTransform.Find("flashlight");
+        if (flashlightTransform != null)
+        {
+            flashlightTransform.localPosition = new Vector3(horizontalBob, verticalBob, flashlightTransform.localPosition.z);
+        }
+
         // Apply bobbing to the held object with a slight delay
         if (heldObject != null)
         {
