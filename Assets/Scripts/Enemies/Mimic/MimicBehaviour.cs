@@ -5,13 +5,16 @@ using UnityEngine.AI;
 
 public class MimicBehaviour : MonoBehaviour
 {
-    public float roamRadius = 10f;
-    public float neighborRadius = 10f;
-    public float cohesionDistance = 7f;
-    public float detectionRange = 10f;
-    public LayerMask playerLayer;
-    public GameObject footprintPrefab; // Reference to the footprint prefab
-    private NavMeshAgent agent;
+    // Public variables for setting up the mimic's behavior
+    public float roamRadius = 10f; // How far can the mimic wander?
+    public float neighborRadius = 10f; // How close do we need to be friends?
+    public float cohesionDistance = 7f; // How close is too close?
+    public float detectionRange = 10f; // Can you see me now?
+    public LayerMask playerLayer; // Who's the player here?
+    public GameObject footprintPrefab; // Footprint factory!
+
+    // Private variables for internal mimic shenanigans
+    private NavMeshAgent navAgent;
     private Vector3 groupDestination;
     private bool isLeader = false;
     private bool isAttacking = false;
@@ -20,19 +23,19 @@ public class MimicBehaviour : MonoBehaviour
     private float lastFootprintTime = 0f;
     private float footprintCooldown = 0.5f;
 
-    // Public list to store found neighbors
+    // A list to keep track of our mimic buddies
     public List<GameObject> foundNeighbors = new List<GameObject>();
 
     void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
-        InvokeRepeating("Roam", Random.Range(5f, 10f), Random.Range(10f, 15f)); // Random delay
-        InvokeRepeating("LeaveFootprint", 0.5f, 0.5f); // Check for footprints every 0.5 seconds
+        navAgent = GetComponent<NavMeshAgent>();
+        InvokeRepeating("RoamAround", Random.Range(5f, 10f), Random.Range(10f, 15f)); // Roaming with style
+        InvokeRepeating("LeaveFootprint", 0.5f, 0.5f); // Footprint party every 0.5 seconds
     }
 
-    void Roam()
+    void RoamAround()
     {
-        if (isAttacking) return;
+        if (isAttacking) return; // No roaming while attacking, silly!
 
         if (foundNeighbors.Count > 0)
         {
@@ -43,14 +46,14 @@ public class MimicBehaviour : MonoBehaviour
 
             if (isLeader)
             {
-                // Leader generates a new group destination
+                // I'm the leader, let's go somewhere new!
                 Vector3 randomDirection = Random.insideUnitSphere * roamRadius;
-                randomDirection.y = 0; // Keep movement on
+                randomDirection.y = 0; // No flying allowed!
                 groupDestination = transform.position + randomDirection;
             }
             else
             {
-                // Followers use the leader's destination with a slight offset
+                // Follow the leader, but with a twist!
                 groupDestination = foundNeighbors[0].GetComponent<MimicBehaviour>().groupDestination;
                 groupDestination += new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f));
             }
@@ -59,33 +62,33 @@ public class MimicBehaviour : MonoBehaviour
         {
             isLeader = false;
             Vector3 randomDirection = Random.insideUnitSphere * roamRadius;
-            randomDirection.y = 0; // Keep movement on
+            randomDirection.y = 0; // Stay grounded!
             groupDestination = transform.position + randomDirection;
         }
 
         NavMeshHit hit;
         if (NavMesh.SamplePosition(groupDestination, out hit, roamRadius, 1))
         {
-            agent.SetDestination(hit.position);
+            navAgent.SetDestination(hit.position);
         }
     }
 
-    bool DetectPlayer()
+    bool IsPlayerDetected()
     {
         Collider[] players = Physics.OverlapSphere(transform.position, detectionRange, playerLayer);
         foreach (var player in players)
         {
             if (player.CompareTag("Player"))
             {
-                return true;
+                return true; // Player spotted! Engage!
             }
         }
-        return false;
+        return false; // No players here, just us mimics.
     }
 
     void Update()
     {
-        // Real-time ally detection
+        // Let's find our mimic friends!
         foundNeighbors.Clear();
         Collider[] neighbors = Physics.OverlapSphere(transform.position, neighborRadius);
         foreach (var neighbor in neighbors)
@@ -96,8 +99,8 @@ public class MimicBehaviour : MonoBehaviour
             }
         }
 
-        // Real-time player detection
-        if (foundNeighbors.Count > 0 && DetectPlayer())
+        // Time to play tag with the player!
+        if (foundNeighbors.Count > 0 && IsPlayerDetected())
         {
             isAttacking = true;
             player = GameObject.FindGameObjectWithTag("Player");
@@ -107,35 +110,35 @@ public class MimicBehaviour : MonoBehaviour
         {
             if (Vector3.Distance(transform.position, player.transform.position) > detectionRange)
             {
-                isAttacking = false; // Stop pursuing if out of range
+                isAttacking = false; // Player ran away, let's chill.
             }
             else
             {
-                agent.SetDestination(player.transform.position);
+                navAgent.SetDestination(player.transform.position);
             }
         }
     }
 
     void LeaveFootprint()
     {
-        if (footprintPrefab != null && agent.velocity.magnitude > 0.1f && Time.time - lastFootprintTime > footprintCooldown) // Check if moving and cooldown passed
+        if (footprintPrefab != null && navAgent.velocity.magnitude > 1f && Time.time - lastFootprintTime > footprintCooldown)
         {
             Vector3 offset = leftFoot ? new Vector3(-0.2f, 0, 0) : new Vector3(0.2f, 0, 0);
-            Vector3 position = transform.position + transform.TransformDirection(offset) + new Vector3(0, 0.1f, 0); // Slightly above ground
+            Vector3 position = transform.position + transform.TransformDirection(offset) + new Vector3(0, 0.1f, 0);
 
             // Check for existing footprints within 1 meter
             Collider[] nearbyFootprints = Physics.OverlapSphere(position, 1f, LayerMask.GetMask("Footprints"));
             if (nearbyFootprints.Length == 0)
             {
-                Quaternion rotation = Quaternion.LookRotation(agent.velocity.normalized);
-                float angleOffset = leftFoot ? -15f : 15f; // Rotate left or right by 15 degrees
-                rotation *= Quaternion.Euler(0, angleOffset + 180f, 0); // Flip 180 degrees
+                Quaternion rotation = Quaternion.LookRotation(navAgent.velocity.normalized);
+                float angleOffset = leftFoot ? -15f : 15f; // Left or right foot?
+                rotation *= Quaternion.Euler(0, angleOffset + 180f, 0); // Spin around!
 
                 GameObject footprint = Instantiate(footprintPrefab, position, rotation);
-                footprint.transform.localScale = new Vector3(0.02f, 0.1f, 0.02f); // Small scale
-                Destroy(footprint, 15f); // Destroy after 15 seconds
-                leftFoot = !leftFoot; // Alternate foot
-                lastFootprintTime = Time.time; // Update last footprint time
+                footprint.transform.localScale = new Vector3(0.02f, 0.1f, 0.02f); // Tiny footprints!
+                Destroy(footprint, 15f); // Footprints vanish after 15 seconds
+                leftFoot = !leftFoot; // Switch feet for the next step
+                lastFootprintTime = Time.time; // Update the last footprint time
             }
         }
     }

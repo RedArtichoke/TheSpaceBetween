@@ -2,62 +2,61 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class heartRateAnimator : MonoBehaviour
+public class HeartRateAnimator : MonoBehaviour
 {
-    public float beatsPerMinute = 150.0f;
-    public float pulseMagnitude = 0.1f;
-    public AudioClip heartBeatSound;
+    public float beatsPerMinute = 150.0f; // How fast is your heart racing?
+    public float pulseMagnitude = 0.1f; // How much does your heart grow when it beats?
+    public AudioClip heartBeatSound; // The sound of your heart going "thump thump"
 
-    private Vector3 initialScale;
-    private float pulseSpeed;
-    private AudioSource audioSource;
-    private float lastBeatTime = 0.0f;
-    private float noiseOffset;
+    private Vector3 originalScale; // The heart's original size before it gets all excited
+    private float pulseSpeed; // How quickly the heart beats
+    private AudioSource heartAudioSource; // The source of the heart's sound
+    private float lastHeartBeatTime = 0.0f; // When did the heart last go "thump"?
+    private float noiseOffset; // A little randomness to keep things interesting
 
     void Start()
     {
-        initialScale = transform.localScale;
-        audioSource = gameObject.AddComponent<AudioSource>();
-        audioSource.clip = heartBeatSound;
-        noiseOffset = Random.Range(0f, 100f); // Random starting point for Perlin noise
+        originalScale = transform.localScale; // Remember the heart's original size
+        heartAudioSource = gameObject.AddComponent<AudioSource>(); // Give the heart a voice
+        heartAudioSource.clip = heartBeatSound; // Assign the heartbeat sound
+        noiseOffset = Random.Range(0f, 100f); // Start the randomness at a random place
 
-        // Add a reverb filter to the audio source
+        // Add a reverb filter to make the heart sound like it's in a cave (spooky!)
         var reverbFilter = gameObject.AddComponent<AudioReverbFilter>();
-        reverbFilter.reverbPreset = AudioReverbPreset.Cave; // Choose a preset or customize
+        reverbFilter.reverbPreset = AudioReverbPreset.Cave; // Choose your echo chamber
     }
 
     void Update()
     {
-        pulseSpeed = beatsPerMinute / 60.0f * Mathf.PI * 2;
-        float time = Time.time * pulseSpeed;
+        pulseSpeed = beatsPerMinute / 60.0f * Mathf.PI * 2; // Calculate how fast the heart should beat
+        float time = Time.time * pulseSpeed; // Time to get the heart racing
         float scaleFactor = 1 + Mathf.Sin(time) * Mathf.Exp(-Mathf.Pow(time % (2 * Mathf.PI) - Mathf.PI, 2)) * pulseMagnitude;
         
-        // Apply Perlin noise to scale
-        float noiseScale = Mathf.PerlinNoise(Time.time, noiseOffset) * 0.05f; // Adjust 0.05f for desired effect
-        transform.localScale = initialScale * (scaleFactor + noiseScale);
+        // Add a dash of randomness to the heart's size
+        float noiseScale = Mathf.PerlinNoise(Time.time, noiseOffset) * 0.05f; // A sprinkle of noise
+        transform.localScale = originalScale * (scaleFactor + noiseScale); // Make the heart grow and shrink
 
-        // Check if it's time to play the heartbeat sound
-        // Adjust the condition to play a "badump badump" sound
-        if ((Mathf.Sin(time) > 0.95f || Mathf.Sin(time - Mathf.PI / 2) > 0.95f) && Time.time - lastBeatTime > 60.0f / beatsPerMinute / 2.5f)
+        // Is it time for the heart to go "thump thump"?
+        if ((Mathf.Sin(time) > 0.95f || Mathf.Sin(time - Mathf.PI / 2) > 0.95f) && Time.time - lastHeartBeatTime > 60.0f / beatsPerMinute / 2.5f)
         {
-            lastBeatTime = Time.time;
-            PlayHeartBeatSound();
+            lastHeartBeatTime = Time.time; // Update the last heartbeat time
+            PlayHeartBeatSound(); // Let the heart sing its song
         }
     }
 
     void PlayHeartBeatSound()
     {
-        // Base pitch adjustment based on beats per minute
+        // Adjust the pitch based on how fast the heart is beating
         float basePitch = Mathf.Lerp(0.8f, 1.3f, (beatsPerMinute - 70) / (110 - 70));
 
-        // Vary pitch more significantly with Perlin noise
+        // Add some randomness to the pitch for extra fun
         float noisePitch = Mathf.PerlinNoise(Time.time, noiseOffset + 1) * 0.4f - 0.2f; // Range [-0.2, 0.2]
-        audioSource.pitch = basePitch + noisePitch;
+        heartAudioSource.pitch = basePitch + noisePitch;
 
-        // Adjust volume to be more subtle at 70 BPM and more defined at 110 BPM
+        // Adjust the volume to match the heart's excitement level
         float noiseVolume = Mathf.PerlinNoise(Time.time, noiseOffset + 2) * 0.1f; // Range [0, 0.1]
-        audioSource.volume = Mathf.Lerp(0.3f, 1.0f, (beatsPerMinute - 70) / (110 - 70)) + noiseVolume;
+        heartAudioSource.volume = Mathf.Lerp(0.3f, 1.0f, (beatsPerMinute - 70) / (110 - 70)) + noiseVolume;
 
-        audioSource.Play();
+        heartAudioSource.Play(); // Let the heart's sound echo through the land
     }
 }
