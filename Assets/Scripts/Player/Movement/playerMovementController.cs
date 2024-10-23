@@ -228,20 +228,26 @@ public class PlayerMovementController : MonoBehaviour
         // Update crosshair visibility based on object interaction
         if (crosshair != null)
         {
+            CanvasGroup crosshairCanvasGroup = crosshair.GetComponent<CanvasGroup>();
+            if (crosshairCanvasGroup == null)
+            {
+                crosshairCanvasGroup = crosshair.AddComponent<CanvasGroup>();
+            }
+
             if (heldObject != null)
             {
-                crosshair.SetActive(false);
+                crosshairCanvasGroup.alpha = 0f; // Make crosshair invisible
                 return;
             }
 
             Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
             if (Physics.Raycast(ray, out RaycastHit hit, pickupDistance, interactableLayer))
             {
-                crosshair.SetActive(false);
+                crosshairCanvasGroup.alpha = 0f; // Make crosshair invisible
             }
             else
             {
-                crosshair.SetActive(true);
+                crosshairCanvasGroup.alpha = 1f; // Make crosshair visible
             }
         }
     }
@@ -326,4 +332,3 @@ public class PlayerMovementController : MonoBehaviour
         }
     }
 }
-
