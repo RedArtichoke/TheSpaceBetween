@@ -10,7 +10,6 @@ public class MimicBehaviour : MonoBehaviour
     public float neighborRadius = 10f; // How close do we need to be friends?
     public float cohesionDistance = 7f; // How close is too close?
     public float detectionRange = 10f; // Can you see me now?
-    public LayerMask playerLayer; // Who's the player here?
     public GameObject footprintPrefab; // Footprint factory!
 
     // Private variables for internal mimic shenanigans
@@ -24,52 +23,64 @@ public class MimicBehaviour : MonoBehaviour
     private float footprintCooldown = 0.5f;
 
     // A list to keep track of our mimic buddies
-    public List<GameObject> foundNeighbors = new List<GameObject>();
+    public List<GameObject> foundNeighbours = new List<GameObject>();
+
+    private LayerMask playerLayer; // Layer for detecting the player
 
     void Start()
     {
         navAgent = GetComponent<NavMeshAgent>();
+        playerLayer = LayerMask.GetMask("Player"); // Set player layer
         InvokeRepeating("RoamAround", Random.Range(5f, 10f), Random.Range(10f, 15f)); // Roaming with style
         InvokeRepeating("LeaveFootprint", 0.5f, 0.5f); // Footprint party every 0.5 seconds
     }
 
     void RoamAround()
     {
-        if (isAttacking) return; // No roaming while attacking, silly!
+        if (isAttacking) return; // No roaming while attacking
 
-        if (foundNeighbors.Count > 0)
+        if (foundNeighbours.Count > 0)
         {
+            // Ensure only one leader
             if (!isLeader)
             {
-                isLeader = foundNeighbors[0].GetComponent<MimicBehaviour>().isLeader == false;
+                isLeader = !foundNeighbours.Exists(neighbor => neighbor.GetComponent<MimicBehaviour>().isLeader);
             }
 
             if (isLeader)
             {
-                // I'm the leader, let's go somewhere new!
+                // Leader decides the new destination
                 Vector3 randomDirection = Random.insideUnitSphere * roamRadius;
-                randomDirection.y = 0; // No flying allowed!
+                randomDirection.y = 0; // No flying
                 groupDestination = transform.position + randomDirection;
             }
             else
             {
-                // Follow the leader, but with a twist!
-                groupDestination = foundNeighbors[0].GetComponent<MimicBehaviour>().groupDestination;
-                groupDestination += new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f));
+                // Follow the leader's destination with an offset
+                var leader = foundNeighbours.Find(neighbor => neighbor.GetComponent<MimicBehaviour>().isLeader);
+                if (leader != null)
+                {
+                    Vector3 offset = (transform.position - leader.transform.position).normalized * 2f;
+                    groupDestination = leader.GetComponent<MimicBehaviour>().groupDestination + offset;
+                }
             }
         }
         else
         {
             isLeader = false;
+            // Only generate a new destination if not in a group
             Vector3 randomDirection = Random.insideUnitSphere * roamRadius;
-            randomDirection.y = 0; // Stay grounded!
+            randomDirection.y = 0; // Stay grounded
             groupDestination = transform.position + randomDirection;
         }
 
-        NavMeshHit hit;
-        if (NavMesh.SamplePosition(groupDestination, out hit, roamRadius, 1))
+        if (isLeader || Vector3.Distance(transform.position, groupDestination) > 2f)
         {
-            navAgent.SetDestination(hit.position);
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(groupDestination, out hit, roamRadius, 1))
+            {
+                navAgent.SetDestination(hit.position);
+            }
         }
     }
 
@@ -89,18 +100,18 @@ public class MimicBehaviour : MonoBehaviour
     void Update()
     {
         // Let's find our mimic friends!
-        foundNeighbors.Clear();
+        foundNeighbours.Clear();
         Collider[] neighbors = Physics.OverlapSphere(transform.position, neighborRadius);
         foreach (var neighbor in neighbors)
         {
             if (neighbor.CompareTag("Mimic") && neighbor.gameObject != this.gameObject)
             {
-                foundNeighbors.Add(neighbor.gameObject);
+                foundNeighbours.Add(neighbor.gameObject);
             }
         }
 
         // Time to play tag with the player!
-        if (foundNeighbors.Count > 0 && IsPlayerDetected())
+        if (foundNeighbours.Count > 0 && IsPlayerDetected())
         {
             isAttacking = true;
             player = GameObject.FindGameObjectWithTag("Player");
