@@ -11,10 +11,10 @@ public class PlayerMovementController : MonoBehaviour
     public float movementSpeed = 5.0f;
     public Transform cameraTransform;
     public Camera playerCamera;
-    public float bobFrequency = 2.0f;
+    public float bobFrequency = 15.0f;
     public float neutralBobFrequency = 1.0f;
-    public float bobHeight = 0.1f;
-    public float bobWidth = 0.05f;
+    private float bobHeight = 0.075f;
+    private float bobWidth = 0.05f;
     public float transitionSpeed = 5.0f;
     public float movingFOV = 75.0f;
     public float neutralFOV = 70.0f;
@@ -33,6 +33,8 @@ public class PlayerMovementController : MonoBehaviour
     private LayerMask interactableLayer;
     private Renderer lastHighlightedRenderer = null;
     private Material originalMaterial = null;
+    private float currentCrouchOffset = 0f;
+    public bool isCrouching = false;
 
     // UI and visual elements
     public GameObject hudElement;
@@ -71,6 +73,13 @@ public class PlayerMovementController : MonoBehaviour
 
     void Update()
     {
+        // Update crouch state based on input
+        isCrouching = Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl);
+
+        // Adjust bob frequency and movement speed based on crouch state
+        bobFrequency = isCrouching ? 10.0f : 15.0f;
+        movementSpeed = isCrouching ? 3.0f : 5.0f;
+
         // Handle player movement and camera effects
         HandleMovement();
         HandleCameraEffects();
@@ -129,10 +138,14 @@ public class PlayerMovementController : MonoBehaviour
 
         bobbingTime += Time.deltaTime * currentBobFrequency;
         float verticalBob = Mathf.Sin(bobbingTime) * currentBobHeight;
-        float horizontalBob = Mathf.Sin(bobbingTime * 0.5f) * bobWidth;
 
-        cameraTransform.localPosition = initialCameraPosition + new Vector3(horizontalBob, verticalBob, 0);
-        playerCamera.fieldOfView = currentFOV;
+        // Determine target crouch offset based on isCrouching
+        float targetCrouchOffset = isCrouching ? -1f : 0f;
+
+        // Smoothly interpolate current crouch offset towards target
+        currentCrouchOffset = Mathf.Lerp(currentCrouchOffset, targetCrouchOffset, Time.deltaTime * transitionSpeed);
+
+        float horizontalBob = Mathf.Sin(bobbingTime * 0.5f) * bobWidth;
 
         // Apply bobbing to the flashlight
         Transform flashlightTransform = cameraTransform.Find("flashlight");
@@ -148,6 +161,12 @@ public class PlayerMovementController : MonoBehaviour
             float objectHorizontalBob = Mathf.Sin((bobbingTime - 0.1f) * 0.5f) * bobWidth;
             heldObject.localPosition = new Vector3(objectHorizontalBob, objectVerticalBob, pickupDistance);
         }
+
+        // Apply crouch offset to vertical bob
+        verticalBob += currentCrouchOffset;
+
+        cameraTransform.localPosition = initialCameraPosition + new Vector3(horizontalBob, verticalBob, 0);
+        playerCamera.fieldOfView = currentFOV;
     }
 
     void TryPickupObject()

@@ -136,6 +136,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2239211560778674251, guid: 92d3c161303074aa9828954d7e6984ee,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3520768420689916725, guid: 92d3c161303074aa9828954d7e6984ee,
         type: 3}
       propertyPath: m_Name
@@ -672,6 +677,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9b98c09ea694042e6998841e8381ced1, type: 3}
+--- !u!4 &508986006 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 551782598037348635, guid: 98f852bed5c5e4afc99579e1f507d406,
+    type: 3}
+  m_PrefabInstance: {fileID: 749889737}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &681738518
 GameObject:
   m_ObjectHideFlags: 0
@@ -905,6 +916,11 @@ PrefabInstance:
       propertyPath: hud
       value: 
       objectReference: {fileID: 1336300107}
+    - target: {fileID: 6343842895949506335, guid: 98f852bed5c5e4afc99579e1f507d406,
+        type: 3}
+      propertyPath: hitbox
+      value: 
+      objectReference: {fileID: 508986006}
     - target: {fileID: 6343842895949506335, guid: 98f852bed5c5e4afc99579e1f507d406,
         type: 3}
       propertyPath: crosshair
