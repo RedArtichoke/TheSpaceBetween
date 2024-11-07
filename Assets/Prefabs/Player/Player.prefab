@@ -80,13 +80,12 @@ MonoBehaviour:
   playerCamera: {fileID: 746694866651064237}
   bobFrequency: 15
   neutralBobFrequency: 2
-  bobHeight: 0.075
-  bobWidth: 0.05
   transitionSpeed: 5
   movingFOV: 75
   neutralFOV: 70
   pickupDistance: 3
   throwForce: 4
+  isCrouching: 0
   hudElement: {fileID: 0}
   crosshair: {fileID: 0}
   glowMaterial: {fileID: 2100000, guid: b0f5e6da047e347cc8ff13af5d2b3ce0, type: 2}
@@ -320,6 +319,7 @@ GameObject:
   - component: {fileID: 4962198852525939279}
   - component: {fileID: 2972442856528941773}
   - component: {fileID: 5455051491816515686}
+  - component: {fileID: 3255369818217998842}
   m_Layer: 6
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -461,3 +461,19 @@ MonoBehaviour:
   mouseSensitivity: 200
   playerBody: {fileID: 5443115629039691449}
   lerpSpeed: 0.05
+--- !u!114 &3255369818217998842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3979727799474700649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d48a9e64ede26146aedd2feb8bdd855, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionRange: 5
+  doorLayer:
+    serializedVersion: 2
+    m_Bits: 256
