@@ -24,7 +24,14 @@ public class DoorInteraction : MonoBehaviour
                 doorOpen door = hit.collider.GetComponent<doorOpen>();
                 if (door != null)
                 {
-                    door.OpenDoor();
+                    if (door.IsLocked)
+                    {
+                        Debug.Log("The door is locked.");
+                    }
+                    else
+                    {
+                        door.OpenDoor();
+                    }
                 }
             }
         }
