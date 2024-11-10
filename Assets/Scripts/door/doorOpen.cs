@@ -5,21 +5,23 @@ using UnityEngine;
 public class doorOpen : MonoBehaviour
 {
     private Animator animator;
-    public bool IsLocked = false;  
+    public bool IsLocked = true;  
     public Light doorLight;  
-    public Light doorLight2;  
+    public Light doorlightback;
     private bool isOpen = false;  
     private float closeDelay = 5f;  
+
+    public Keycard.KeycardIdentity requiredKeycardIdentity;
 
     void Start()
     {
         animator = GetComponent<Animator>();
-        UpdateLightColor(); 
+        UpdateLightColor();  
     }
 
     public void OpenDoor()
     {
-        if (animator != null && !isOpen)
+        if (animator != null && !isOpen && !IsLocked)
         {
             animator.SetTrigger("Open");
             isOpen = true;
@@ -38,7 +40,7 @@ public class doorOpen : MonoBehaviour
         if (doorLight != null)
         {
             doorLight.color = IsLocked ? Color.red : Color.green;
-            doorLight2.color = IsLocked ? Color.red : Color.green;
+            doorlightback.color = IsLocked ? Color.red : Color.green;
         }
     }
 
@@ -52,4 +54,22 @@ public class doorOpen : MonoBehaviour
             isOpen = false;
         }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Keycard"))
+        {
+            Keycard keycard = other.GetComponent<Keycard>();
+            if (keycard != null && keycard.identity == requiredKeycardIdentity)
+            {
+                SetLockState(false);  // Unlock the door
+                Debug.Log("Correct keycard detected. Door is now unlocked.");
+            }
+            else
+            {
+                Debug.Log("Incorrect keycard identity.");
+            }
+        }
+    }
 }
+
