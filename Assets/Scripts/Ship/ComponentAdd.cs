@@ -7,6 +7,8 @@ public class ComponentAdd : MonoBehaviour
     public ShipComponent.ShipComponentIdentity requiredShipComponentIdentity;
     public GameObject objectView;
 
+    public ShipRepair shipRepair;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("ShipComponent"))
@@ -16,6 +18,7 @@ public class ComponentAdd : MonoBehaviour
             {
                 Destroy(shipComponent.gameObject);
                 objectView.SetActive(true);
+                shipRepair.repairCount++;
                 Debug.Log("Added component");
             }
             else

@@ -7,7 +7,8 @@ public class ShipComponent : MonoBehaviour
     public enum ShipComponentIdentity
     {
         Engine,
-        SteeringWheel
+        SteeringWheel,
+        Chair
     }
 
     public ShipComponentIdentity identity;
