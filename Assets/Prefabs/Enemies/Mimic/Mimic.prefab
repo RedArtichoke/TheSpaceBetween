@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roamRadius: 10
-  neighborRadius: 5
+  neighborRadius: 10
   cohesionDistance: 7
   detectionRange: 10
   footprintPrefab: {fileID: 4501082314754199459, guid: 9df63b64c68174d6592991f28e7ddb6e,
@@ -114,7 +114,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 4510365256109511908}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.6
+  m_Radius: 1
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
