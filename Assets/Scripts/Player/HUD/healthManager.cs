@@ -1,63 +1,20 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.Rendering.Universal;
+using UnityEngine.UI;
 
 public class HealthManager : MonoBehaviour
 {
-    // Player's health (0-100)
     public int health = 100;
-
-    // Indicates if the player is damaged
     public bool isDamaged = false;
-
-    // Reference to the global volume for vignette control
-    public Volume globalVolume;
-
-    // Reference to the player's camera
-    private Camera playerCamera;
-
-    // Reference to the vignette component
-    private Vignette vignette;
-
-    // Original vignette color
-    private Color originalColor;
-
-    // Original vignette intensity
-    private float originalIntensity;
-
-    // Reference to the color adjustments component
-    private ColorAdjustments colorAdjustments;
-
-    // Coroutine for strobe effect
+    public Image damageOverlay;
     private Coroutine strobeCoroutine;
+    private Coroutine regenCoroutine;
 
-    // Start is called before the first frame update
     void Start()
     {
-        // Automatically assign the player's camera
-        playerCamera = Camera.main;
-
-        // Try to get the vignette component from the global volume
-        if (globalVolume.profile.TryGet(out vignette))
-        {
-            // Store the original vignette color
-            originalColor = vignette.color.value;
-
-            // Store the original vignette intensity
-            originalIntensity = vignette.intensity.value;
-        }
-
-        // Try to get the color adjustments component from the global volume
-        if (globalVolume.profile.TryGet(out colorAdjustments))
-        {
-            // Set the initial color filter to white
-            colorAdjustments.colorFilter.value = Color.white;
-        }
+        damageOverlay.color = new Color(1f, 0f, 0f, 0f); // Start transparent
     }
 
-    // Damages the player by reducing health
     public void DamagePlayer()
     {
         if (!isDamaged)
@@ -73,37 +30,48 @@ public class HealthManager : MonoBehaviour
 
             if (health < 50)
             {
-                vignette.color.value = Color.red;
                 if (strobeCoroutine != null)
                 {
                     StopCoroutine(strobeCoroutine);
                 }
-                strobeCoroutine = StartCoroutine(StrobeVignette());
+                strobeCoroutine = StartCoroutine(StrobeEffect());
             }
         }
     }
 
-    // Coroutine for damage cooldown
     private IEnumerator DamageCooldown()
     {
         yield return new WaitForSeconds(2f);
         isDamaged = false;
         yield return new WaitForSeconds(15f);
-        if (health >= 50)
+
+        if (health < 100)
         {
-            vignette.color.value = originalColor;
-            vignette.intensity.value = originalIntensity;
-            colorAdjustments.colorFilter.value = Color.white;
+            if (regenCoroutine != null)
+            {
+                StopCoroutine(regenCoroutine);
+            }
+            regenCoroutine = StartCoroutine(RegenerateHealth());
         }
     }
 
-    // Coroutine for screen shake effect
+    private IEnumerator RegenerateHealth()
+    {
+        while (health < 100)
+        {
+            health += 1;
+            float alpha = Mathf.Lerp(0.5f, 0f, health / 100f);
+            damageOverlay.color = new Color(1f, 0f, 0f, alpha);
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
     private IEnumerator ScreenShake()
     {
-        float duration = 0.4f; // Shake duration
-        float initialMagnitude = 0.6f; // Initial shake magnitude
+        float duration = 0.4f;
+        float initialMagnitude = 0.6f;
         float magnitude = initialMagnitude;
-        Vector3 originalPosition = playerCamera.transform.position;
+        Vector3 originalPosition = Camera.main.transform.position;
 
         float elapsed = 0.0f;
         float velocity = 0.0f;
@@ -114,30 +82,25 @@ public class HealthManager : MonoBehaviour
             float x = Random.Range(-1f, 1f) * magnitude;
             float y = Random.Range(-1f, 1f) * magnitude;
 
-            playerCamera.transform.position = new Vector3(originalPosition.x + x, originalPosition.y + y, originalPosition.z);
+            Camera.main.transform.position = new Vector3(originalPosition.x + x, originalPosition.y + y, originalPosition.z);
 
             elapsed += Time.deltaTime;
 
             yield return null;
         }
 
-        playerCamera.transform.position = originalPosition;
+        Camera.main.transform.position = originalPosition;
     }
 
-    // Coroutine for strobe vignette effect
-    private IEnumerator StrobeVignette()
+    private IEnumerator StrobeEffect()
     {
         while (health < 50)
         {
-            float intensity = Mathf.Lerp(0.5f, 0.8f, (50f - health) / 50f);
-            vignette.intensity.value = intensity;
+            float speed = Mathf.Lerp(0.5f, 1.5f, (50f - health) / 50f); // Slower strobe across the board
+            float alpha = Mathf.PingPong(Time.time * speed, 0.5f) * ((50f - health) / 50f);
+            damageOverlay.color = new Color(1f, 0f, 0f, alpha);
 
-            float tintAmount = Mathf.Lerp(0f, 0.7f, (50f - health) / 50f);
-            colorAdjustments.colorFilter.value = Color.Lerp(Color.white, Color.red, tintAmount);
-
-            yield return new WaitForSeconds(Mathf.Lerp(0.5f, 0.3f, (50f - health) / 50f));
-            vignette.intensity.value = Mathf.Lerp(intensity, originalIntensity, 0.5f);
-            yield return new WaitForSeconds(Mathf.Lerp(0.5f, 0.3f, (50f - health) / 50f));
+            yield return null; // Update every frame for smooth strobing
         }
     }
 }

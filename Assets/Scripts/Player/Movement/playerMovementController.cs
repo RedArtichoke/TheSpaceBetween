@@ -60,14 +60,6 @@ public class PlayerMovementController : MonoBehaviour
             {
                 crosshair = crosshairTransform.gameObject;
             }
-            else
-            {
-                Debug.LogWarning("Crosshair object not found under HUD element.");
-            }
-        }
-        else
-        {
-            Debug.LogWarning("HUD element is not assigned.");
         }
     }
 

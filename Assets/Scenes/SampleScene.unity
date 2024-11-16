@@ -846,6 +846,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 2602189809685577192, guid: 98f852bed5c5e4afc99579e1f507d406,
+        type: 3}
+      propertyPath: damageOverlay
+      value: 
+      objectReference: {fileID: 1203945666}
     - target: {fileID: 3482881951145624219, guid: 98f852bed5c5e4afc99579e1f507d406,
         type: 3}
       propertyPath: powerRing
@@ -1535,6 +1540,18 @@ NavMeshObstacle:
 --- !u!114 &1158020514 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1693208950645693233, guid: 92d3c161303074aa9828954d7e6984ee,
+    type: 3}
+  m_PrefabInstance: {fileID: 47421988}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1203945666 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6984942577483884429, guid: 92d3c161303074aa9828954d7e6984ee,
     type: 3}
   m_PrefabInstance: {fileID: 47421988}
   m_PrefabAsset: {fileID: 0}
