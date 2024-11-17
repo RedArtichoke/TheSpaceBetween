@@ -114,7 +114,7 @@ public class MimicBehaviour : MonoBehaviour
         if (foundNeighbours.Count > 0 && IsPlayerDetected())
         {
             isAttacking = true;
-            player = GameObject.FindGameObjectWithTag("Player");
+            player = GameObject.FindGameObjectWithTag("Player").transform.parent.gameObject;
         }
 
         if (isAttacking && player != null)
@@ -127,6 +127,12 @@ public class MimicBehaviour : MonoBehaviour
             {
                 navAgent.SetDestination(player.transform.position);
             }
+        }
+
+        // Check if player is within 1.5 meters and mimic is chasing player
+        if (isAttacking && player != null && Vector3.Distance(transform.position, player.transform.position) <= 1.5f)
+        {
+            StartCoroutine(AttackPlayer());
         }
     }
 
@@ -150,6 +156,40 @@ public class MimicBehaviour : MonoBehaviour
                 Destroy(footprint, 15f); // Footprints vanish after 15 seconds
                 leftFoot = !leftFoot; // Switch feet for the next step
                 lastFootprintTime = Time.time; // Update the last footprint time
+            }
+        }
+    }
+
+    // Handles visibility and movement control
+    IEnumerator AttackPlayer()
+    {        
+        // Damage the player
+        GameObject player = GameObject.FindGameObjectWithTag("Player").transform.parent.gameObject;
+        if (player != null)
+        {
+            HealthManager healthManager = player.GetComponent<HealthManager>();
+            if (healthManager != null)
+            {
+                if (!healthManager.isDamaged)
+                {
+                    healthManager.DamagePlayer();
+                    MimicBody mimicBody = GetComponentInChildren<MimicBody>();
+                    if (mimicBody != null)
+                    {
+                        mimicBody.isVisible = true;
+                        mimicBody.UpdateVisibility();
+                    }
+                    navAgent.isStopped = true;
+                    yield return new WaitForSeconds(Random.Range(0.1f, 0.3f));
+                    if (mimicBody != null)
+                    {
+                        mimicBody.isVisible = false;
+                        mimicBody.UpdateVisibility();
+                    }
+                    yield return new WaitForSeconds(2f);
+
+                    navAgent.isStopped = false;
+                }
             }
         }
     }
