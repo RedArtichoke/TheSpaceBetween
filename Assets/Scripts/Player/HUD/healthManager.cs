@@ -4,17 +4,15 @@ using UnityEngine.UI;
 
 public class HealthManager : MonoBehaviour
 {
-    public float health = 100;
+    public int health = 100;
     public bool isDamaged = false;
     public Image damageOverlay;
     private Coroutine strobeCoroutine;
     private Coroutine regenCoroutine;
-    private HeartRateAnimator heartRateAnimator;
 
     void Start()
     {
-        damageOverlay.color = new Color(1f, 0f, 0f, 0f);
-        heartRateAnimator = GameObject.Find("heartrate").GetComponent<HeartRateAnimator>();
+        damageOverlay.color = new Color(1f, 0f, 0f, 0f); // Start transparent
     }
 
     public void DamagePlayer()
@@ -38,11 +36,6 @@ public class HealthManager : MonoBehaviour
                 }
                 strobeCoroutine = StartCoroutine(StrobeEffect());
             }
-
-            if (regenCoroutine != null)
-            {
-                StopCoroutine(regenCoroutine);
-            }
         }
     }
 
@@ -54,47 +47,60 @@ public class HealthManager : MonoBehaviour
 
         if (health < 100)
         {
+            if (regenCoroutine != null)
+            {
+                StopCoroutine(regenCoroutine);
+            }
             regenCoroutine = StartCoroutine(RegenerateHealth());
         }
     }
 
     private IEnumerator RegenerateHealth()
     {
-        float targetHealth = 100f;
-        float smoothTime = 2f;
-        float velocity = 0f;
-
-        while (health < targetHealth)
-        {
-            health = Mathf.SmoothDamp(health, targetHealth, ref velocity, smoothTime);
-
-            if (health > targetHealth)
-            {
-                health = targetHealth;
-            }
-
-            yield return null;
-        }
-    }
-
-    private IEnumerator StrobeEffect()
-    {
         while (health < 100)
         {
-            float beatsPerMinute = heartRateAnimator.beatsPerMinute;
-            float speed = beatsPerMinute / 60f;
-            float maxAlpha = (100f - health) / 100f;
-            float strobeAlpha = Mathf.SmoothStep(0f, maxAlpha, Mathf.PingPong(Time.time * speed, 1f));
-            
-            damageOverlay.color = new Color(1f, 0f, 0f, strobeAlpha);
-
-            yield return null;
+            health += 1;
+            float alpha = Mathf.Lerp(0.5f, 0f, health / 100f);
+            damageOverlay.color = new Color(1f, 0f, 0f, alpha);
+            yield return new WaitForSeconds(0.1f);
         }
     }
 
     private IEnumerator ScreenShake()
     {
-        // Screen shake logic here
-        yield return null;
+        float duration = 0.4f;
+        float initialMagnitude = 0.6f;
+        float magnitude = initialMagnitude;
+        Vector3 originalPosition = Camera.main.transform.position;
+
+        float elapsed = 0.0f;
+        float velocity = 0.0f;
+
+        while (elapsed < duration)
+        {
+            magnitude = Mathf.SmoothDamp(magnitude, 0f, ref velocity, duration - elapsed);
+            float x = Random.Range(-1f, 1f) * magnitude;
+            float y = Random.Range(-1f, 1f) * magnitude;
+
+            Camera.main.transform.position = new Vector3(originalPosition.x + x, originalPosition.y + y, originalPosition.z);
+
+            elapsed += Time.deltaTime;
+
+            yield return null;
+        }
+
+        Camera.main.transform.position = originalPosition;
+    }
+
+    private IEnumerator StrobeEffect()
+    {
+        while (health < 50)
+        {
+            float speed = Mathf.Lerp(0.5f, 1.5f, (50f - health) / 50f); // Slower strobe across the board
+            float alpha = Mathf.PingPong(Time.time * speed, 0.5f) * ((50f - health) / 50f);
+            damageOverlay.color = new Color(1f, 0f, 0f, alpha);
+
+            yield return null; // Update every frame for smooth strobing
+        }
     }
 }
