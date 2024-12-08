@@ -60,13 +60,5 @@ public class HeartRateAnimator : MonoBehaviour
         heartAudioSource.Play(); // Let the heart's sound echo through the land
     }
 
-    ////arduino ts
-    //void OnMessageArrived(string msg)
-    //{
-    //    Debug.Log("bpm: " + msg);
-    //    beatsPerMinute = float.Parse(msg); //this takes the message from arduino and makes it equal to BPM value
-
-    //}
-
 
 }

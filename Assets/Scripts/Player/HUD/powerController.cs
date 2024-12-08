@@ -12,7 +12,7 @@ public class PowerController : MonoBehaviour
     public Sprite originalHeartRateSprite; // The heart's true form
     public Sprite chargingHeartRateSprite; // The heart on caffeine
     public float power = 100f; // The juice level
-    public float drainRate = 1f; // The juice sipping speed
+    public float drainRate = 1f; // The juice sipping speed 
     
     private bool isDraining = false; // Is the juice being sipped?
     private float targetIntensity = 0f; // The light's ambition
@@ -116,22 +116,6 @@ public class PowerController : MonoBehaviour
         {
             StartCoroutine(FlashlightFlicker()); // Disco time
         }
-
-        ////send power to arduino
-
-        //if (power < 75)
-        //{
-
-        //    serialController.SendSerialMessage("1");
-
-        //}
-        //else
-        //{
-
-        //    serialController.SendSerialMessage("0");
-
-        //}
-        
 
 
     }
