@@ -254,12 +254,20 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6143210289223339198, guid: 92d3c161303074aa9828954d7e6984ee,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1740204073}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 92d3c161303074aa9828954d7e6984ee, type: 3}
+--- !u!114 &47421989 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4977719870331500482, guid: 92d3c161303074aa9828954d7e6984ee,
+    type: 3}
+  m_PrefabInstance: {fileID: 47421988}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a9221b94bc2547d792eca72ecfc94fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &143709404
 GameObject:
   m_ObjectHideFlags: 0
@@ -1602,15 +1610,72 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1305956412
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1305956415}
+  - component: {fileID: 1305956414}
+  - component: {fileID: 1305956413}
+  m_Layer: 0
+  m_Name: ArduinoController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1305956413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1305956412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bc5f48af2cffd747a079fe8c632e2c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  portName: COM8
+  baudRate: 9600
+  messageListener: {fileID: 1305956412}
+  reconnectionDelay: 1000
+  maxUnreadMessages: 1
+--- !u!114 &1305956414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1305956412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76cdc0b68cf8ba64a848e5df69bba25e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  heartRateScript: {fileID: 47421989}
+--- !u!4 &1305956415
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1305956412}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.0556811, y: 0.3479106, z: 11.503711}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1336300107 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3520768420689916725, guid: 92d3c161303074aa9828954d7e6984ee,
-    type: 3}
-  m_PrefabInstance: {fileID: 47421988}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1352550928 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6143210289223339198, guid: 92d3c161303074aa9828954d7e6984ee,
     type: 3}
   m_PrefabInstance: {fileID: 47421988}
   m_PrefabAsset: {fileID: 0}
@@ -2003,29 +2068,12 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 47421988}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1352550928}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1740204073
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1352550928}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bc5f48af2cffd747a079fe8c632e2c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  portName: COM8
-  baudRate: 9600
-  messageListener: {fileID: 1352550928}
-  reconnectionDelay: 1000
-  maxUnreadMessages: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -2045,4 +2093,5 @@ SceneRoots:
   - {fileID: 505812555}
   - {fileID: 899006114}
   - {fileID: 1469354227}
+  - {fileID: 1305956415}
   - {fileID: 908459707}

@@ -60,19 +60,13 @@ public class HeartRateAnimator : MonoBehaviour
         heartAudioSource.Play(); // Let the heart's sound echo through the land
     }
 
-    //arduino ts
-    void OnMessageArrived(string msg)
-    {
-        Debug.Log("bpm: " + msg);
-        beatsPerMinute = float.Parse(msg); //this takes the message from arduino and makes it equal to BPM value
+    ////arduino ts
+    //void OnMessageArrived(string msg)
+    //{
+    //    Debug.Log("bpm: " + msg);
+    //    beatsPerMinute = float.Parse(msg); //this takes the message from arduino and makes it equal to BPM value
 
-    }
-    // Invoked when a connect/disconnect event occurs. The parameter 'success'
-    // will be 'true' upon connection, and 'false' upon disconnection or
-    // failure to connect.
-    void OnConnectionEvent(bool success)
-    {
-        Debug.Log(success ? "Device connected" : "Device disconnected");
-    }
+    //}
+
 
 }

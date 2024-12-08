@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class ArduinoHandler : MonoBehaviour
 {
+
+    public HeartRateAnimator heartRateScript;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -15,4 +19,13 @@ public class ArduinoHandler : MonoBehaviour
     {
         
     }
+
+    void OnMessageArrived(string msg)
+    {
+        Debug.Log("bpm: " + msg);
+        heartRateScript.beatsPerMinute = float.Parse(msg); //this takes the message from arduino and makes it equal to BPM value
+
+    }
+
+
 }
