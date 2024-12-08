@@ -31,6 +31,7 @@ public class PowerController : MonoBehaviour
     private bool isFlickering = false; // Is the light having a disco moment?
     private float flickerChance = 0.001f; // The chance of a disco
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -115,6 +116,24 @@ public class PowerController : MonoBehaviour
         {
             StartCoroutine(FlashlightFlicker()); // Disco time
         }
+
+        ////send power to arduino
+
+        //if (power < 75)
+        //{
+
+        //    serialController.SendSerialMessage("1");
+
+        //}
+        //else
+        //{
+
+        //    serialController.SendSerialMessage("0");
+
+        //}
+        
+
+
     }
 
     // Coroutine to reset the flashlight intensity and angles after the flashbang effect
