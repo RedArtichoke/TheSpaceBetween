@@ -5,6 +5,7 @@
 
 const int PulseSensorPin = A0; //pulse sensor pin
 const int redLEDPin = 13; //heart beat pin
+const int whiteLEDPin = 10;
 
 //RGB Pin Definitions
 const int redRGBPin = 6; 
@@ -17,6 +18,11 @@ int pulseSensorSignal;
 int pulseThreshold = 530; //determine which pulseSensorSignal to "count as a beat" and which to ignore.
 
 float batteryLevel;
+
+// Variables for timing
+unsigned long previousMillis = 0;
+const long interval = 850;  // Interval to flash the LED (in milliseconds)
+bool ledState = false; 
                     
 PulseSensorPlayground pulseSensor; //creates an instance of the PulseSensorPlayground object called "pulseSensor"
 
@@ -32,8 +38,15 @@ void setup()
   pinMode(redRGBPin, OUTPUT);
   pinMode(greenRGBPin, OUTPUT);
   pinMode(blueRGBPin, OUTPUT);
-  //pinMode(whiteLEDPin, OUTPUT);
+  pinMode(whiteLEDPin, OUTPUT);
   //pinMode(buttonPin, INPUT_PULLUP);
+
+  // Double-check the "pulseSensor" object was created and "began" seeing a signal. 
+   if (pulseSensor.begin()) 
+   {
+    Serial.println("We created a pulseSensor Object !");  //This prints one time at Arduino power-up,  or on Arduino reset.  
+  }
+
 }
 
 
@@ -43,7 +56,9 @@ void loop()
   unityPowerLevel();
   RGBLedBattery(batteryLevel); 
   calculateBPM();
-
+  unityFlashbang();
+  //flashLED();
+  
   delay(20);                    
 }
 
@@ -76,6 +91,49 @@ void RGBLedBattery(int value)
   
   setColor(red, green, blue); //update the RGB LED color
 }
+
+/*
+void flashLED()
+{
+  unsigned long currentMillis = millis();
+
+  //flash LED once
+  if (currentMillis - previousMillis >= interval) 
+  {
+    previousMillis = currentMillis;  //save the last time the LED was toggled
+    ledState = !ledState;            //toggle the LED state
+    digitalWrite(whiteLEDPin, ledState);  // update the LED state
+  }
+}*/
+
+void unityFlashbang()
+{
+
+  switch (Serial.read())
+  {
+        case 'L':
+            digitalWrite(whiteLEDPin, HIGH);
+            break;
+  }
+
+
+  /*
+  switch (Serial.read())
+  {
+        case 'L':
+            unsigned long currentMillis = millis();
+
+            //flash LED once
+            if (currentMillis - previousMillis >= interval) 
+            {
+              previousMillis = currentMillis;  //save the last time the LED was toggled
+              ledState = !ledState;            //toggle the LED state
+              digitalWrite(whiteLEDPin, ledState);  // update the LED state
+            }
+            break;
+  }*/
+}
+
 
 void unityPowerLevel()
 {
@@ -117,4 +175,6 @@ void unityPowerLevel()
             break;
   }
 }
+
+
 

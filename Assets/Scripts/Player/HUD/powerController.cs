@@ -31,6 +31,8 @@ public class PowerController : MonoBehaviour
     private bool isFlickering = false; // Is the light having a disco moment?
     private float flickerChance = 0.001f; // The chance of a disco
 
+    public ArduinoHandler arduinoScript;
+
 
     // Start is called before the first frame update
     void Start()
@@ -70,6 +72,7 @@ public class PowerController : MonoBehaviour
                 flashlight.intensity = 10000f; // Supernova mode
                 flashlight.innerSpotAngle = 179f; // Wide-eyed mode
                 flashlight.spotAngle = 179f; // Wide-eyed mode
+                arduinoScript.sendFlashbang();
                 StartCoroutine(ResetFlashlight()); // Cool down the supernova
             }
             else if (holdTime < toggleThreshold)

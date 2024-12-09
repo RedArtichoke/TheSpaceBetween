@@ -41,6 +41,12 @@ public class ArduinoHandler : MonoBehaviour
         heartRateScript.beatsPerMinute = float.Parse(msg); //this takes the message from arduino and makes it equal to BPM value
     }
 
+    public void sendFlashbang()
+    {
+        serialControllerScript.SendSerialMessage("L");
+        Debug.Log("SENDING ARDUINO FLASHBANG");
+    }
+
     void sendPowerLevel()
     {
 
