@@ -27,6 +27,7 @@ public class DarkController : MonoBehaviour
         if (globalVolume.TryGetComponent<Volume>(out volume))
         {
             volume.profile.TryGet(out colorAdjustments);
+            colorAdjustments.postExposure.value = -4f;
             currentExposure = colorAdjustments.postExposure.value;
         }
     }
@@ -37,22 +38,44 @@ public class DarkController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
             inDark = !inDark; // Toggle inDark
-            targetExposure = -7f; // Always transition to -7 first
+            StartCoroutine(AdjustExposure());
         }
+    }
 
-        if (colorAdjustments != null)
+    IEnumerator AdjustExposure()
+    {
+        float duration = 0.15f; // Half of the total time for each transition
+        float elapsedTime = 0f;
+
+        // Transition from -4 to -7
+        while (elapsedTime < duration)
         {
-            currentExposure = Mathf.SmoothDamp(currentExposure, targetExposure, ref exposureVelocity, 0.1f);
+            currentExposure = Mathf.Lerp(-4f, -7f, elapsedTime / duration);
             colorAdjustments.postExposure.value = currentExposure;
-
-            // Check if transition to -7 is complete, then set target to -4
-            if (Mathf.Approximately(currentExposure, -7f))
-            {
-                targetExposure = -4f;
-                ToggleMimics(inDark);
-                ToggleFootprints(inDark);
-            }
+            elapsedTime += Time.deltaTime;
+            yield return null;
         }
+
+        // Ensure it hits -7
+        currentExposure = -7f;
+        colorAdjustments.postExposure.value = currentExposure;
+        ToggleMimics(inDark);
+        ToggleFootprints(inDark);
+
+        elapsedTime = 0f;
+
+        // Transition from -7 to -4
+        while (elapsedTime < duration)
+        {
+            currentExposure = Mathf.Lerp(-7f, -4f, elapsedTime / duration);
+            colorAdjustments.postExposure.value = currentExposure;
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // Ensure it ends at -4
+        currentExposure = -4f;
+        colorAdjustments.postExposure.value = currentExposure;
     }
 
     // Toggles Mimic enemies based on inDark state
