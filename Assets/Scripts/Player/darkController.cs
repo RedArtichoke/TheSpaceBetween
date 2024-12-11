@@ -17,10 +17,18 @@ public class DarkController : MonoBehaviour
     private float targetExposure; // Target exposure value
     private float currentExposure; // Current exposure value
     private float exposureVelocity; // Velocity for SmoothDamp
+    private ParticleSystem darkParticles;
 
     // Start is called before the first frame update
     void Start()
     {
+        // Configure fog
+        RenderSettings.fog = false; 
+        RenderSettings.fogColor = Color.black; // Set fog color
+        RenderSettings.fogMode = FogMode.Linear; // Set fog mode
+        RenderSettings.fogStartDistance = 5f; // Start fog closer
+        RenderSettings.fogEndDistance = 15f; // End fog at a closer distance
+
         globalVolume = GameObject.FindGameObjectWithTag("CameraVolume");
         mainCamera = Camera.main;
 
@@ -29,6 +37,14 @@ public class DarkController : MonoBehaviour
             volume.profile.TryGet(out colorAdjustments);
             colorAdjustments.postExposure.value = -4f;
             currentExposure = colorAdjustments.postExposure.value;
+        }
+
+        GameObject particleEmitter = GameObject.FindGameObjectWithTag("DarkParticleEmitter");
+        if (particleEmitter != null)
+        {
+            darkParticles = particleEmitter.GetComponent<ParticleSystem>();
+            darkParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear); 
+            darkParticles.Clear();
         }
     }
 
@@ -62,14 +78,19 @@ public class DarkController : MonoBehaviour
         ToggleMimics(inDark);
         ToggleFootprints(inDark);
 
-        // Hue shift
+        // Hue shift and fog
         if (inDark)
         {
             colorAdjustments.hueShift.value = 100f;
+            RenderSettings.fog = true; // Enable fog
+            darkParticles.Play(); // Start particles
         }
         else
         {
             colorAdjustments.hueShift.value = 0f;
+            RenderSettings.fog = false; // Disable fog
+            darkParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear); 
+            darkParticles.Clear();
         }
 
         elapsedTime = 0f;
