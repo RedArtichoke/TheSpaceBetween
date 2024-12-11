@@ -8070,6 +8070,11 @@ PrefabInstance:
       propertyPath: chargingRing
       value: 
       objectReference: {fileID: 1523805549}
+    - target: {fileID: 4033284120037939386, guid: 98f852bed5c5e4afc99579e1f507d406,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5443115629039691449, guid: 98f852bed5c5e4afc99579e1f507d406,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -8271,7 +8276,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &832575518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15678,9 +15683,9 @@ GameObject:
   - component: {fileID: 1622353775}
   - component: {fileID: 1622353774}
   - component: {fileID: 1622353773}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SecurityFloor
-  m_TagString: Untagged
+  m_TagString: water
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

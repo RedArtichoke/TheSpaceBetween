@@ -41,6 +41,10 @@ public class PlayerMovementController : MonoBehaviour
     public GameObject crosshair;
     public Material glowMaterial;
 
+    //Other scripts
+    public PlayerAudio footstepAudio;
+    private bool footstepPlayed = false;
+
     void Start()
     {
         // Initialize player components and settings
@@ -130,6 +134,18 @@ public class PlayerMovementController : MonoBehaviour
 
         bobbingTime += Time.deltaTime * currentBobFrequency;
         float verticalBob = Mathf.Sin(bobbingTime) * currentBobHeight;
+
+        //Plays the foostep audio
+        if (Mathf.Sin(bobbingTime) <= -0.99f && !footstepPlayed)
+        {
+            footstepAudio.Footstep();
+            footstepPlayed = true;
+        }
+        if (Mathf.Sin(bobbingTime) > 0f)
+        {
+            footstepPlayed = false;
+        }
+
 
         // Determine target crouch offset based on isCrouching
         float targetCrouchOffset = isCrouching ? -1f : 0f;

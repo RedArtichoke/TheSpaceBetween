@@ -42,17 +42,12 @@ public class PlayerAudio : MonoBehaviour
         }
     }
 
-    void Update() 
-    {
-        //Footstep();
-    }
-
     public void PlayFootstepSound(AudioClip audioClip) 
     {
         audio.pitch = Random.Range(0.8f, 1f);
         audio.PlayOneShot(audioClip);
 
-        Debug.Log("AUDIO PLAYED");
+        //Debug.Log("AUDIO PLAYED");
     }
 
     private void OnDrawGizmos()

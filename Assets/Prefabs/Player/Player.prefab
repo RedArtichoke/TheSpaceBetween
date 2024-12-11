@@ -36,6 +36,7 @@ Transform:
   - {fileID: 7501526612302318266}
   - {fileID: 6633332428589849383}
   - {fileID: 551782598037348635}
+  - {fileID: 1613004491536893691}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &3985313636700696708
@@ -91,6 +92,7 @@ MonoBehaviour:
   hudElement: {fileID: 0}
   crosshair: {fileID: 0}
   glowMaterial: {fileID: 2100000, guid: b0f5e6da047e347cc8ff13af5d2b3ce0, type: 2}
+  footstepAudio: {fileID: 8586990463066505153}
 --- !u!114 &3482881951145624219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,6 +115,7 @@ MonoBehaviour:
     type: 3}
   power: 100
   drainRate: 1
+  arduinoScript: {fileID: 0}
 --- !u!114 &2602189809685577192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338,7 +341,6 @@ GameObject:
   - component: {fileID: 5455051491816515686}
   - component: {fileID: 3255369818217998842}
   - component: {fileID: 8586990463066505153}
-  - component: {fileID: 3284855459657421671}
   m_Layer: 6
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -508,29 +510,61 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b20f8d7df776b44aa67a2b9d7ea93cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audio: {fileID: 3284855459657421671}
+  audio: {fileID: 2225282234202216956}
   concrete: {fileID: 8300000, guid: 059de9659bf30d549b1ea2ed9f749fd5, type: 3}
   metal1: {fileID: 8300000, guid: 059de9659bf30d549b1ea2ed9f749fd5, type: 3}
-  water: {fileID: 8300000, guid: 059de9659bf30d549b1ea2ed9f749fd5, type: 3}
+  water: {fileID: 8300000, guid: adb9ef2b83e93c9408ad97666b641910, type: 3}
   carpet: {fileID: 8300000, guid: 059de9659bf30d549b1ea2ed9f749fd5, type: 3}
   RayStart: {fileID: 6633332428589849383}
   range: 1
   layerMask:
     serializedVersion: 2
     m_Bits: 512
---- !u!82 &3284855459657421671
+--- !u!1 &8855658793851724182
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1613004491536893691}
+  - component: {fileID: 2225282234202216956}
+  m_Layer: 6
+  m_Name: FootstepAudio
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1613004491536893691
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8855658793851724182}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.735, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5443115629039691449}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &2225282234202216956
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3979727799474700649}
+  m_GameObject: {fileID: 8855658793851724182}
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
+  m_PlayOnAwake: 0
+  m_Volume: 0.379
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -574,7 +608,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
