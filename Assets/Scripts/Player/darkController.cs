@@ -62,6 +62,16 @@ public class DarkController : MonoBehaviour
         ToggleMimics(inDark);
         ToggleFootprints(inDark);
 
+        // Hue shift
+        if (inDark)
+        {
+            colorAdjustments.hueShift.value = 100f;
+        }
+        else
+        {
+            colorAdjustments.hueShift.value = 0f;
+        }
+
         elapsedTime = 0f;
 
         // Transition from -7 to -4
