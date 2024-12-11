@@ -74,7 +74,7 @@ public class MimicBehaviour : MonoBehaviour
             groupDestination = transform.position + randomDirection;
         }
 
-        if (isLeader || Vector3.Distance(transform.position, groupDestination) > 2f)
+        if ((isLeader || Vector3.Distance(transform.position, groupDestination) > 2f) && navAgent.isOnNavMesh)
         {
             NavMeshHit hit;
             if (NavMesh.SamplePosition(groupDestination, out hit, roamRadius, 1))
@@ -123,7 +123,7 @@ public class MimicBehaviour : MonoBehaviour
             {
                 isAttacking = false; // Player ran away, let's chill.
             }
-            else
+            else if (navAgent.isOnNavMesh && navAgent.enabled) // Check if agent is on NavMesh and enabled
             {
                 navAgent.SetDestination(player.transform.position);
             }

@@ -144,6 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ba22675851244448aa644d6b46aa7d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inDark: 0
 --- !u!1 &3229422647656377278
 GameObject:
   m_ObjectHideFlags: 0
@@ -723,6 +724,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Global Volume
+      objectReference: {fileID: 0}
+    - target: {fileID: 5356098660778231537, guid: 169fe118e413f413aaea7251e04c30e1,
+        type: 3}
+      propertyPath: m_TagString
+      value: CameraVolume
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
