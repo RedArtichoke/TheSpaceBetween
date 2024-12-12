@@ -146,6 +146,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inDark: 0
+  mimicMarkerPrefab: {fileID: 847762195381366513, guid: 5e241159f455b4196851bc91d70b756d,
+    type: 3}
 --- !u!1 &3229422647656377278
 GameObject:
   m_ObjectHideFlags: 0
@@ -684,7 +686,7 @@ PrefabInstance:
     - target: {fileID: 7360285149526358426, guid: e77f63703e2644ccea708c482e3ba121,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.01
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 7360285149526358426, guid: e77f63703e2644ccea708c482e3ba121,
         type: 3}

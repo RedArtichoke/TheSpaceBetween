@@ -18,6 +18,8 @@ public class DarkController : MonoBehaviour
     private float currentExposure; // Current exposure value
     private float exposureVelocity; // Velocity for SmoothDamp
     private ParticleSystem darkParticles;
+    private List<GameObject> mimicMarkers = new List<GameObject>();
+    public GameObject mimicMarkerPrefab; // Assign in inspector - should be a 2D sprite prefab
 
     // Start is called before the first frame update
     void Start()
@@ -112,7 +114,7 @@ public class DarkController : MonoBehaviour
     // Toggles Mimic enemies based on inDark state
     void ToggleMimics(bool state)
     {
-        if (state) // If in dark, store references and disable mimics
+        if (state) // If entering dark
         {
             mimics = GameObject.FindGameObjectsWithTag("Mimic");
             foreach (GameObject mimic in mimics)
@@ -120,6 +122,11 @@ public class DarkController : MonoBehaviour
                 NavMeshAgent agent = mimic.GetComponent<NavMeshAgent>();
                 if (agent != null)
                 {
+                    Vector3 markerPos = mimic.transform.position;
+                    markerPos.y = 0.01f; // Slightly above ground to prevent z-fighting
+                    GameObject marker = Instantiate(mimicMarkerPrefab, markerPos, Quaternion.Euler(90, 0, 0));
+                    mimicMarkers.Add(marker);
+
                     agent.isStopped = true; // Stop the agent
                     mimic.SetActive(false); // Disable mimics
                 }
@@ -127,6 +134,12 @@ public class DarkController : MonoBehaviour
         }
         else if (mimics != null) // If not in dark, enable stored mimics
         {
+            // Clear all markers
+            foreach (GameObject marker in mimicMarkers)
+            {
+                Destroy(marker);
+            }
+            mimicMarkers.Clear();
             foreach (GameObject mimic in mimics)
             {
                 mimic.SetActive(true); // Enable mimics
