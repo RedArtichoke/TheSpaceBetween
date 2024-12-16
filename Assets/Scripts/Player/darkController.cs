@@ -124,7 +124,7 @@ public class DarkController : MonoBehaviour
                 {
                     Vector3 markerPos = mimic.transform.position;
                     markerPos.y = 0.01f; // Slightly above ground to prevent z-fighting
-                    GameObject marker = Instantiate(mimicMarkerPrefab, markerPos, Quaternion.Euler(90, 0, 0));
+                    GameObject marker = Instantiate(mimicMarkerPrefab, markerPos, Quaternion.Euler(0, 0, 0));
                     mimicMarkers.Add(marker);
 
                     agent.isStopped = true; // Stop the agent
