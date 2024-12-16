@@ -72,7 +72,9 @@ public class PowerController : MonoBehaviour
                 flashlight.intensity = 10000f; // Supernova mode
                 flashlight.innerSpotAngle = 179f; // Wide-eyed mode
                 flashlight.spotAngle = 179f; // Wide-eyed mode
-                arduinoScript.sendFlashbang();
+                if (arduinoScript) {
+                    arduinoScript.sendFlashbang();
+                }
                 StartCoroutine(ResetFlashlight()); // Cool down the supernova
             }
             else if (holdTime < toggleThreshold)

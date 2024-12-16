@@ -46,18 +46,15 @@ public class HeartRateAnimator : MonoBehaviour
 
     void PlayHeartBeatSound()
     {
-        // Adjust the pitch based on how fast the heart is beating
         float basePitch = Mathf.Lerp(0.8f, 1.3f, (beatsPerMinute - 70) / (110 - 70));
-
-        // Add some randomness to the pitch for extra fun
-        float noisePitch = Mathf.PerlinNoise(Time.time, noiseOffset + 1) * 0.4f - 0.2f; // Range [-0.2, 0.2]
+        float noisePitch = Mathf.PerlinNoise(Time.time, noiseOffset + 1) * 0.4f - 0.2f;
         heartAudioSource.pitch = basePitch + noisePitch;
 
-        // Adjust the volume to match the heart's excitement level
-        float noiseVolume = Mathf.PerlinNoise(Time.time, noiseOffset + 2) * 0.1f; // Range [0, 0.1]
+        float noiseVolume = Mathf.PerlinNoise(Time.time, noiseOffset + 2) * 0.1f;
         heartAudioSource.volume = Mathf.Lerp(0.3f, 1.0f, (beatsPerMinute - 70) / (110 - 70)) + noiseVolume;
 
-        heartAudioSource.Play(); // Let the heart's sound echo through the land
+        // Use PlayOneShot to handle quick successive plays
+        heartAudioSource.PlayOneShot(heartBeatSound, heartAudioSource.volume);
     }
 
 

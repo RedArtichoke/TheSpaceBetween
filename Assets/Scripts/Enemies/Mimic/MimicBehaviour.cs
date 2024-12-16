@@ -27,12 +27,27 @@ public class MimicBehaviour : MonoBehaviour
 
     private LayerMask playerLayer; // Layer for detecting the player
 
+    public AudioClip[] mimicSounds; // Array to store mimic sounds
+    private AudioSource mimicAudioSource; // AudioSource for playing sounds
+
     void Start()
     {
         navAgent = GetComponent<NavMeshAgent>();
         playerLayer = LayerMask.GetMask("Player"); // Set player layer
         InvokeRepeating("RoamAround", Random.Range(5f, 10f), Random.Range(10f, 15f)); // Roaming with style
         InvokeRepeating("LeaveFootprint", 0.5f, 0.5f); // Footprint party every 0.5 seconds
+
+        mimicAudioSource = gameObject.AddComponent<AudioSource>();
+        mimicAudioSource.spatialBlend = 1.0f; // Make the sound 3D
+        mimicAudioSource.maxDistance = 35f; // Set max distance for sound
+
+        // Add reverb filter for haunting effect
+        var reverbFilter = gameObject.AddComponent<AudioReverbFilter>();
+        reverbFilter.reverbPreset = AudioReverbPreset.Cave; // Choose a haunting reverb preset
+
+        player = GameObject.FindGameObjectWithTag("Player");
+
+        StartCoroutine(PlayRandomSound());
     }
 
     void RoamAround()
@@ -189,6 +204,42 @@ public class MimicBehaviour : MonoBehaviour
                     yield return new WaitForSeconds(2f);
 
                     navAgent.isStopped = false;
+                }
+            }
+        }
+    }
+
+    IEnumerator PlayRandomSound()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(Random.Range(10f, 20f)); // Random delay between sounds
+
+            if (mimicSounds.Length > 0)
+            {
+                int randomIndex = Random.Range(0, mimicSounds.Length);
+                mimicAudioSource.clip = mimicSounds[randomIndex];
+
+                // Ensure player reference is always available
+                if (player == null)
+                {
+                    player = GameObject.FindGameObjectWithTag("Player");
+                }
+
+                if (player != null)
+                {
+                    // Calculate volume based on proximity to player
+                    float distance = Vector3.Distance(transform.position, player.transform.position);
+                    if (distance <= 35f) // Check if within 35 meters
+                    {
+                        float volume = Mathf.Clamp01(1 - (distance / mimicAudioSource.maxDistance));
+                        mimicAudioSource.volume = volume;
+
+                        // Randomize pitch for uniqueness
+                        mimicAudioSource.pitch = Random.Range(0.8f, 1.2f);
+
+                        mimicAudioSource.Play();
+                    }
                 }
             }
         }

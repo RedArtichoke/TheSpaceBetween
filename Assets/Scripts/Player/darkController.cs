@@ -20,6 +20,10 @@ public class DarkController : MonoBehaviour
     private ParticleSystem darkParticles;
     private List<GameObject> mimicMarkers = new List<GameObject>();
     public GameObject mimicMarkerPrefab; // Assign in inspector - should be a 2D sprite prefab
+    public AudioClip[] darkEntrySounds; // Array to store sound clips
+    private AudioSource audioSource; // AudioSource to play sounds
+    public AudioClip continuousDarkSound; // Sound to play continuously in the dark
+    private AudioSource continuousAudioSource; // Separate AudioSource for continuous sound
 
     // Start is called before the first frame update
     void Start()
@@ -37,7 +41,7 @@ public class DarkController : MonoBehaviour
         if (globalVolume.TryGetComponent<Volume>(out volume))
         {
             volume.profile.TryGet(out colorAdjustments);
-            colorAdjustments.postExposure.value = -4f;
+            colorAdjustments.postExposure.value = -2f;
             currentExposure = colorAdjustments.postExposure.value;
         }
 
@@ -48,6 +52,12 @@ public class DarkController : MonoBehaviour
             darkParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear); 
             darkParticles.Clear();
         }
+
+        audioSource = gameObject.AddComponent<AudioSource>(); // Add AudioSource component
+        continuousAudioSource = gameObject.AddComponent<AudioSource>(); // Add AudioSource component
+        continuousAudioSource.clip = continuousDarkSound;
+        continuousAudioSource.loop = true;
+        continuousAudioSource.volume = 0f; // Start silent
     }
 
     // Update is called once per frame
@@ -57,6 +67,11 @@ public class DarkController : MonoBehaviour
         {
             inDark = !inDark; // Toggle inDark
             StartCoroutine(AdjustExposure());
+
+            if (inDark)
+            {
+                StartCoroutine(ExitDarkAfterDelay(60f)); // Start timer to exit dark
+            }
         }
     }
 
@@ -65,10 +80,10 @@ public class DarkController : MonoBehaviour
         float duration = 0.15f; // Half of the total time for each transition
         float elapsedTime = 0f;
 
-        // Transition from -4 to -7
+        // Transition from -2 to -7
         while (elapsedTime < duration)
         {
-            currentExposure = Mathf.Lerp(-4f, -7f, elapsedTime / duration);
+            currentExposure = Mathf.Lerp(-2f, -7f, elapsedTime / duration);
             colorAdjustments.postExposure.value = currentExposure;
             elapsedTime += Time.deltaTime;
             yield return null;
@@ -83,32 +98,86 @@ public class DarkController : MonoBehaviour
         // Hue shift and fog
         if (inDark)
         {
-            colorAdjustments.hueShift.value = 100f;
+            // Play a random sound with variations when entering the dark
+            if (darkEntrySounds.Length > 0)
+            {
+                int randomIndex = Random.Range(0, darkEntrySounds.Length);
+                
+                // Randomise pitch between 0.8 and 1.2 for variation
+                audioSource.pitch = Random.Range(0.8f, 1.2f);
+                
+                // Randomise reverb zone mix between 0 and 1
+                audioSource.reverbZoneMix = Random.Range(0f, 1f);
+                
+                // Play the sound
+                audioSource.PlayOneShot(darkEntrySounds[randomIndex]);
+            }
+
+            // Apply a light red color filter
+            colorAdjustments.colorFilter.value = new Color(1f, 0.5f, 0.5f); // Light red
+
             RenderSettings.fog = true; // Enable fog
             darkParticles.Play(); // Start particles
+            continuousAudioSource.Play(); // Start playing continuous sound
+            StartCoroutine(FadeInContinuousSound(60f)); // Fade in over 60 seconds
         }
         else
         {
-            colorAdjustments.hueShift.value = 0f;
+            // Reset color filter
+            colorAdjustments.colorFilter.value = Color.white;
+
             RenderSettings.fog = false; // Disable fog
             darkParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear); 
             darkParticles.Clear();
+            continuousAudioSource.Stop(); // Stop continuous sound
         }
 
         elapsedTime = 0f;
 
-        // Transition from -7 to -4
+        // Transition from -7 to -2
         while (elapsedTime < duration)
         {
-            currentExposure = Mathf.Lerp(-7f, -4f, elapsedTime / duration);
+            currentExposure = Mathf.Lerp(-7f, -2f, elapsedTime / duration);
             colorAdjustments.postExposure.value = currentExposure;
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        // Ensure it ends at -4
-        currentExposure = -4f;
+        // Ensure it ends at -2
+        currentExposure = -2f;
         colorAdjustments.postExposure.value = currentExposure;
+    }
+
+    IEnumerator FadeInContinuousSound(float duration)
+    {
+        float elapsedTime = 0f;
+        while (elapsedTime < duration)
+        {
+            continuousAudioSource.volume = Mathf.Lerp(0f, 1f, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        continuousAudioSource.volume = 1f; // Ensure volume is maxed
+    }
+
+    // Boot player out of the dark if they are in it for more than a minute
+    IEnumerator ExitDarkAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        if (inDark) // Check if still in dark
+        {
+            // Reset color filter
+            colorAdjustments.colorFilter.value = Color.white;
+
+            RenderSettings.fog = false; // Disable fog
+            darkParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear); 
+            darkParticles.Clear();
+            continuousAudioSource.Stop(); // Stop continuous sound
+
+            inDark = false; // Exit dark
+            StartCoroutine(AdjustExposure());
+        }
     }
 
     // Toggles Mimic enemies based on inDark state
