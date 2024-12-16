@@ -44,6 +44,7 @@ public class PlayerMovementController : MonoBehaviour
     //Other scripts
     public PlayerAudio footstepAudio;
     private bool footstepPlayed = false;
+    private bool isMoving;
 
     void Start()
     {
@@ -109,9 +110,21 @@ public class PlayerMovementController : MonoBehaviour
         // Calculate movement based on input
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
+
+        if (horizontalInput == 0 && verticalInput == 0)
+        {
+            isMoving = false;
+        }
+        else
+        {
+            isMoving = true;
+        }
+
         Vector3 movement = (transform.forward * verticalInput + transform.right * horizontalInput) * movementSpeed;
         movement.y = playerRb.velocity.y;
         playerRb.velocity = movement;
+
+        //Debug.Log(isMoving);
     }
 
     void HandleCameraEffects()
@@ -136,15 +149,20 @@ public class PlayerMovementController : MonoBehaviour
         float verticalBob = Mathf.Sin(bobbingTime) * currentBobHeight;
 
         //Plays the foostep audio
-        if (Mathf.Sin(bobbingTime) <= -0.99f && !footstepPlayed)
+        if(isMoving)
         {
-            footstepAudio.Footstep();
-            footstepPlayed = true;
+            if (Mathf.Sin(bobbingTime) <= -0.99f && !footstepPlayed)
+            {
+                footstepAudio.Footstep();
+                footstepPlayed = true;
+
+            }
+            if (Mathf.Sin(bobbingTime) > 0f)
+            {
+                footstepPlayed = false;
+            }
         }
-        if (Mathf.Sin(bobbingTime) > 0f)
-        {
-            footstepPlayed = false;
-        }
+        
 
 
         // Determine target crouch offset based on isCrouching
