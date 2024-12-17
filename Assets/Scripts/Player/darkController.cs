@@ -24,6 +24,7 @@ public class DarkController : MonoBehaviour
     private AudioSource audioSource; // AudioSource to play sounds
     public AudioClip continuousDarkSound; // Sound to play continuously in the dark
     private AudioSource continuousAudioSource; // Separate AudioSource for continuous sound
+    private ParticleSystem eyeParticles; // Reference to Eye Particle System
 
     // Start is called before the first frame update
     void Start()
@@ -58,6 +59,15 @@ public class DarkController : MonoBehaviour
         continuousAudioSource.clip = continuousDarkSound;
         continuousAudioSource.loop = true;
         continuousAudioSource.volume = 0f; // Start silent
+
+        // Find and configure Eye Particle Emitter
+        GameObject eyeParticleEmitter = GameObject.FindGameObjectWithTag("EyeParticleEmitter");
+        if (eyeParticleEmitter != null)
+        {
+            eyeParticles = eyeParticleEmitter.GetComponent<ParticleSystem>();
+            eyeParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            eyeParticles.Clear();
+        }
     }
 
     // Update is called once per frame
@@ -71,6 +81,9 @@ public class DarkController : MonoBehaviour
             if (inDark)
             {
                 StartCoroutine(ExitDarkAfterDelay(60f)); // Start timer to exit dark
+            }
+            else {
+                StopCoroutine(ExitDarkAfterDelay(60f)); // Stop timer to exit dark
             }
         }
     }
@@ -117,9 +130,18 @@ public class DarkController : MonoBehaviour
             colorAdjustments.colorFilter.value = new Color(1f, 0.5f, 0.5f); // Light red
 
             RenderSettings.fog = true; // Enable fog
-            darkParticles.Play(); // Start particles
-            continuousAudioSource.Play(); // Start playing continuous sound
-            StartCoroutine(FadeInContinuousSound(60f)); // Fade in over 60 seconds
+            if (darkParticles != null) {
+                darkParticles.Play(); // Start particles
+            }
+            if (continuousAudioSource != null) {
+                continuousAudioSource.Play(); // Start playing continuous sound
+                StartCoroutine(FadeInContinuousSound(60f)); // Fade in over 60 seconds
+            }
+
+            if (eyeParticles != null)
+            {
+                eyeParticles.Play(); // Start eye particles
+            }
         }
         else
         {
@@ -127,9 +149,17 @@ public class DarkController : MonoBehaviour
             colorAdjustments.colorFilter.value = Color.white;
 
             RenderSettings.fog = false; // Disable fog
-            darkParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear); 
-            darkParticles.Clear();
+            if (darkParticles != null) {
+                darkParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear); 
+                darkParticles.Clear();
+            }
             continuousAudioSource.Stop(); // Stop continuous sound
+
+            if (eyeParticles != null)
+            {
+                eyeParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+                eyeParticles.Clear();
+            }
         }
 
         elapsedTime = 0f;
