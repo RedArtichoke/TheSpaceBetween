@@ -153,11 +153,21 @@ public class DarkController : MonoBehaviour
         float elapsedTime = 0f;
         while (elapsedTime < duration)
         {
-            continuousAudioSource.volume = Mathf.Lerp(0f, 1f, elapsedTime / duration);
+            if (inDark) {
+                continuousAudioSource.volume = Mathf.Lerp(0f, 1f, elapsedTime / duration);
+            } 
+            else {
+                continuousAudioSource.volume = 0;
+            }
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        continuousAudioSource.volume = 1f; // Ensure volume is maxed
+        if (inDark) {
+            continuousAudioSource.volume = 1f; // Ensure volume is maxed
+        }
+        else {
+            continuousAudioSource.volume = 0f; // Ensure volume is reset
+        }
     }
 
     // Boot player out of the dark if they are in it for more than a minute
