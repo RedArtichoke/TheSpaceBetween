@@ -7,6 +7,7 @@ using UnityEngine.Rendering.Universal;
 
 public class DarkController : MonoBehaviour
 {
+    public bool hasDevice = false;
     public bool inDark = false; // Tracks if player is in dark
     private GameObject globalVolume; // Reference to Global Volume
     private Camera mainCamera; // Reference to Main Camera
@@ -25,6 +26,11 @@ public class DarkController : MonoBehaviour
     public AudioClip continuousDarkSound; // Sound to play continuously in the dark
     private AudioSource continuousAudioSource; // Separate AudioSource for continuous sound
     private ParticleSystem eyeParticles; // Reference to Eye Particle System
+    private Coroutine fadeInCoroutine; // Store reference to FadeIn coroutine
+    private Coroutine exitDarkCoroutine; // Store reference to ExitDark coroutine
+    private Vignette vignette;
+    private ChromaticAberration chromaticAberration;
+    private LensDistortion lensDistortion;
 
     // Start is called before the first frame update
     void Start()
@@ -42,6 +48,9 @@ public class DarkController : MonoBehaviour
         if (globalVolume.TryGetComponent<Volume>(out volume))
         {
             volume.profile.TryGet(out colorAdjustments);
+            volume.profile.TryGet(out vignette);
+            volume.profile.TryGet(out chromaticAberration);
+            volume.profile.TryGet(out lensDistortion);
             colorAdjustments.postExposure.value = -2f;
             currentExposure = colorAdjustments.postExposure.value;
         }
@@ -73,17 +82,19 @@ public class DarkController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q) && hasDevice)
         {
             inDark = !inDark; // Toggle inDark
             StartCoroutine(AdjustExposure());
 
             if (inDark)
             {
-                StartCoroutine(ExitDarkAfterDelay(60f)); // Start timer to exit dark
+                if (exitDarkCoroutine != null) StopCoroutine(exitDarkCoroutine); // Stop if already running
+                exitDarkCoroutine = StartCoroutine(ExitDarkAfterDelay(60f)); // Start new timer
             }
-            else {
-                StopCoroutine(ExitDarkAfterDelay(60f)); // Stop timer to exit dark
+            else
+            {
+                if (exitDarkCoroutine != null) StopCoroutine(exitDarkCoroutine); // Stop timer
             }
         }
     }
@@ -133,9 +144,11 @@ public class DarkController : MonoBehaviour
             if (darkParticles != null) {
                 darkParticles.Play(); // Start particles
             }
-            if (continuousAudioSource != null) {
-                continuousAudioSource.Play(); // Start playing continuous sound
-                StartCoroutine(FadeInContinuousSound(60f)); // Fade in over 60 seconds
+            if (continuousAudioSource != null)
+            {
+                if (fadeInCoroutine != null) StopCoroutine(fadeInCoroutine); // Stop if already running
+                continuousAudioSource.volume = 0f; // Ensure volume starts at 0
+                fadeInCoroutine = StartCoroutine(FadeInContinuousSound(60f)); // Start fade in
             }
 
             if (eyeParticles != null)
@@ -153,7 +166,8 @@ public class DarkController : MonoBehaviour
                 darkParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear); 
                 darkParticles.Clear();
             }
-            continuousAudioSource.Stop(); // Stop continuous sound
+            if (fadeInCoroutine != null) StopCoroutine(fadeInCoroutine); // Stop fade in
+            continuousAudioSource.volume = 0f; // Ensure volume is reset
 
             if (eyeParticles != null)
             {
@@ -181,22 +195,36 @@ public class DarkController : MonoBehaviour
     IEnumerator FadeInContinuousSound(float duration)
     {
         float elapsedTime = 0f;
+        continuousAudioSource.Play(); // Ensure audio starts playing
         while (elapsedTime < duration)
         {
+            float t = elapsedTime / duration;
             if (inDark) {
-                continuousAudioSource.volume = Mathf.Lerp(0f, 1f, elapsedTime / duration);
+                continuousAudioSource.volume = Mathf.Lerp(0f, 1f, t);
+                if (vignette != null) vignette.intensity.value = Mathf.Lerp(0.1f, 1f, t);
+                if (chromaticAberration != null) chromaticAberration.intensity.value = Mathf.Lerp(0.21f, 1f, t);
+                if (lensDistortion != null) lensDistortion.intensity.value = Mathf.Lerp(0f, 0.6f, t);
             } 
             else {
                 continuousAudioSource.volume = 0;
+                if (vignette != null) vignette.intensity.value = 0.1f;
+                if (chromaticAberration != null) chromaticAberration.intensity.value = 0.21f;
+                if (lensDistortion != null) lensDistortion.intensity.value = 0f;
             }
             elapsedTime += Time.deltaTime;
             yield return null;
         }
         if (inDark) {
             continuousAudioSource.volume = 1f; // Ensure volume is maxed
+            if (vignette != null) vignette.intensity.value = 1f;
+            if (chromaticAberration != null) chromaticAberration.intensity.value = 1f;
+            if (lensDistortion != null) lensDistortion.intensity.value = 0.6f;
         }
         else {
             continuousAudioSource.volume = 0f; // Ensure volume is reset
+            if (vignette != null) vignette.intensity.value = 0.1f;
+            if (chromaticAberration != null) chromaticAberration.intensity.value = 0.21f;
+            if (lensDistortion != null) lensDistortion.intensity.value = 0f;
         }
     }
 

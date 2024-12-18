@@ -201,6 +201,19 @@ public class PlayerMovementController : MonoBehaviour
         Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
         if (Physics.Raycast(ray, out RaycastHit hit, pickupDistance, interactableLayer))
         {
+            if (hit.transform.CompareTag("DarkDevice"))
+            {
+                // Get the DarkController component
+                DarkController darkController = GetComponent<DarkController>();
+                if (darkController != null)
+                {
+                    darkController.hasDevice = true; // Set hasDevice to true
+                }
+
+                Destroy(hit.transform.gameObject); // Delete the object
+                return; // Exit the method
+            }
+
             heldObject = hit.transform;
             heldObjectRb = heldObject.GetComponent<Rigidbody>();
             Collider heldObjectCollider = heldObject.GetComponent<Collider>();
