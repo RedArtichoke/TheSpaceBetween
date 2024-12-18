@@ -65,7 +65,7 @@ public class HeartRateAnimator : MonoBehaviour
         heartAudioSource.pitch = basePitch + noisePitch;
 
         float noiseVolume = Mathf.PerlinNoise(Time.time, noiseOffset + 2) * 0.1f;
-        heartAudioSource.volume = (Mathf.Lerp(0.3f, 1.0f, (beatsPerMinute - 70) / (110 - 70)) + noiseVolume) * 2f; // Double the volume
+        heartAudioSource.volume = (Mathf.Lerp(0.3f, 1.0f, (beatsPerMinute - 70) / (110 - 70)) + noiseVolume) * 1.5f; 
 
         // Use PlayOneShot to handle quick successive plays
         heartAudioSource.PlayOneShot(heartBeatSound, heartAudioSource.volume);
