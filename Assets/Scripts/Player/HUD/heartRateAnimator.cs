@@ -19,11 +19,28 @@ public class HeartRateAnimator : MonoBehaviour
         originalScale = transform.localScale; // Remember the heart's original size
         heartAudioSource = gameObject.AddComponent<AudioSource>(); // Give the heart a voice
         heartAudioSource.clip = heartBeatSound; // Assign the heartbeat sound
+        heartAudioSource.loop = true; // Enable looping
         noiseOffset = Random.Range(0f, 100f); // Start the randomness at a random place
 
         // Add a reverb filter to make the heart sound like it's in a cave (spooky!)
         var reverbFilter = gameObject.AddComponent<AudioReverbFilter>();
         reverbFilter.reverbPreset = AudioReverbPreset.Cave; // Choose your echo chamber
+
+        // Calculate initial delay based on beats per minute
+        float initialDelay = (60.0f / beatsPerMinute) / 1.1f; // Adjust delay proportionally
+
+        // Start playing the looped sound with a delay
+        StartCoroutine(StartHeartBeatWithDelay(initialDelay));
+    }
+
+    IEnumerator StartHeartBeatWithDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        if (!heartAudioSource.isPlaying)
+        {
+            heartAudioSource.Play();
+        }
     }
 
     void Update()
@@ -36,12 +53,9 @@ public class HeartRateAnimator : MonoBehaviour
         float noiseScale = Mathf.PerlinNoise(Time.time, noiseOffset) * 0.05f; // A sprinkle of noise
         transform.localScale = originalScale * (scaleFactor + noiseScale); // Make the heart grow and shrink
 
-        // Is it time for the heart to go "thump thump"?
-        if ((Mathf.Sin(time) > 0.95f || Mathf.Sin(time - Mathf.PI / 2) > 0.95f) && Time.time - lastHeartBeatTime > 60.0f / beatsPerMinute / 2.5f)
-        {
-            lastHeartBeatTime = Time.time; // Update the last heartbeat time
-            PlayHeartBeatSound(); // Let the heart sing its song
-        }
+        // Adjust pitch to match heart rate
+        float basePitch = (beatsPerMinute / 60.0f) / 2.0f; // Halve the pitch to slow down the loop
+        heartAudioSource.pitch = basePitch;
     }
 
     void PlayHeartBeatSound()
@@ -51,7 +65,7 @@ public class HeartRateAnimator : MonoBehaviour
         heartAudioSource.pitch = basePitch + noisePitch;
 
         float noiseVolume = Mathf.PerlinNoise(Time.time, noiseOffset + 2) * 0.1f;
-        heartAudioSource.volume = Mathf.Lerp(0.3f, 1.0f, (beatsPerMinute - 70) / (110 - 70)) + noiseVolume;
+        heartAudioSource.volume = (Mathf.Lerp(0.3f, 1.0f, (beatsPerMinute - 70) / (110 - 70)) + noiseVolume) * 2f; // Double the volume
 
         // Use PlayOneShot to handle quick successive plays
         heartAudioSource.PlayOneShot(heartBeatSound, heartAudioSource.volume);

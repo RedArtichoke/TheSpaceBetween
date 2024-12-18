@@ -31,6 +31,8 @@ public class DarkController : MonoBehaviour
     private Vignette vignette;
     private ChromaticAberration chromaticAberration;
     private LensDistortion lensDistortion;
+    public AudioClip darkAmbientSound; // Sound to play continuously in the dark
+    private AudioSource darkAmbientAudioSource; // Separate AudioSource for ambient sound
 
     // Start is called before the first frame update
     void Start()
@@ -77,6 +79,15 @@ public class DarkController : MonoBehaviour
             eyeParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             eyeParticles.Clear();
         }
+
+        darkAmbientAudioSource = gameObject.AddComponent<AudioSource>(); // Add AudioSource component
+        darkAmbientAudioSource.clip = darkAmbientSound;
+        darkAmbientAudioSource.loop = true;
+        darkAmbientAudioSource.volume = 0.3f; // Set desired volume
+
+        // Add and configure AudioReverbFilter for underwater effect
+        AudioReverbFilter reverbFilter = darkAmbientAudioSource.gameObject.AddComponent<AudioReverbFilter>();
+        reverbFilter.reverbPreset = AudioReverbPreset.Underwater; // Use underwater preset
     }
 
     // Update is called once per frame
@@ -155,6 +166,11 @@ public class DarkController : MonoBehaviour
             {
                 eyeParticles.Play(); // Start eye particles
             }
+
+            if (darkAmbientAudioSource != null && !darkAmbientAudioSource.isPlaying)
+            {
+                darkAmbientAudioSource.Play(); // Start ambient sound
+            }
         }
         else
         {
@@ -173,6 +189,11 @@ public class DarkController : MonoBehaviour
             {
                 eyeParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
                 eyeParticles.Clear();
+            }
+
+            if (darkAmbientAudioSource != null && darkAmbientAudioSource.isPlaying)
+            {
+                darkAmbientAudioSource.Stop(); // Stop ambient sound
             }
         }
 
