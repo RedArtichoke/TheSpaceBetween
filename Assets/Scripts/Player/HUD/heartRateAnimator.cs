@@ -11,7 +11,6 @@ public class HeartRateAnimator : MonoBehaviour
     private Vector3 originalScale; // The heart's original size before it gets all excited
     private float pulseSpeed; // How quickly the heart beats
     private AudioSource heartAudioSource; // The source of the heart's sound
-    private float lastHeartBeatTime = 0.0f; // When did the heart last go "thump"?
     private float noiseOffset; // A little randomness to keep things interesting
 
     void Start()
