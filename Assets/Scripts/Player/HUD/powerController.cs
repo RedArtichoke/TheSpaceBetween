@@ -32,6 +32,9 @@ public class PowerController : MonoBehaviour
     private float flickerChance = 0.001f; // The chance of a disco
 
     public ArduinoHandler arduinoScript;
+    public AudioSource lightClick; // Add this line to declare the audio source
+    public AudioClip[] toggleSounds; // Array of audio clips
+    private AudioSource audioSource; // Declare the audio source
 
 
     // Start is called before the first frame update
@@ -41,6 +44,8 @@ public class PowerController : MonoBehaviour
         originalInnerSpotAngle = flashlight.innerSpotAngle; // Remember the inner secret
         originalOuterSpotAngle = flashlight.spotAngle; // Remember the outer secret
         originalIntensity = flashlight.intensity; // Remember the true power
+        audioSource = GetComponent<AudioSource>(); // Get the AudioSource component
+        audioSource.volume = 0.5f; // Set volume to half
     }
 
     // Update is called once per frame
@@ -83,6 +88,12 @@ public class PowerController : MonoBehaviour
                 isDraining = !isDraining;
                 targetIntensity = isDraining ? 100f : 0f; // Light on or off
                 lerpTime = 0f; // Reset the mind-changing timer
+
+                if (audioSource != null && toggleSounds.Length > 0) {
+                    int randomIndex = Random.Range(0, toggleSounds.Length); // Pick a random clip
+                    audioSource.pitch = Random.Range(0.6f, 1.2f); // Random pitch variation
+                    audioSource.PlayOneShot(toggleSounds[randomIndex]); // Play the random clip
+                }
             }
             holdTime = 0f;
             isCharging = false;
