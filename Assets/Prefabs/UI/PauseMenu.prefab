@@ -138,6 +138,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultColour: {r: 0.44313726, g: 0.4627451, b: 0.5019608, a: 1}
   hoverColour: {r: 0.09411765, g: 0.11372549, b: 0.15294118, a: 1}
+  defaultSprite: {fileID: 21300000, guid: 112081fe47ffd4717b2ed70d40847895, type: 3}
+  hoverSprite: {fileID: 21300000, guid: eb87f6aee49fb441388d5309941bc375, type: 3}
 --- !u!114 &2953261868093652722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,6 +165,7 @@ GameObject:
   - component: {fileID: 6354064535086777935}
   - component: {fileID: 2285560826056284069}
   - component: {fileID: 1460655027058742779}
+  - component: {fileID: 462876344354143807}
   m_Layer: 5
   m_Name: Main Menu
   m_TagString: Untagged
@@ -287,6 +290,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultColour: {r: 0.44313726, g: 0.4627451, b: 0.5019608, a: 1}
   hoverColour: {r: 0.09411765, g: 0.11372549, b: 0.15294118, a: 1}
+  defaultSprite: {fileID: 21300000, guid: 31e31673f394a49ff8d53c0f7e409d08, type: 3}
+  hoverSprite: {fileID: 21300000, guid: 81f5798236774417ea9d7a4da96a299c, type: 3}
+--- !u!114 &462876344354143807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 793095272311986674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97e1d79c48fc942f28a2658239ffa99e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1224780508108740244
 GameObject:
   m_ObjectHideFlags: 0
@@ -300,6 +317,7 @@ GameObject:
   - component: {fileID: 1290631357308916058}
   - component: {fileID: 929283469931988984}
   - component: {fileID: 2932518120586906620}
+  - component: {fileID: 7079965015847900012}
   m_Layer: 5
   m_Name: Resume
   m_TagString: Untagged
@@ -424,6 +442,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultColour: {r: 0.44313726, g: 0.4627451, b: 0.5019608, a: 1}
   hoverColour: {r: 0.09411765, g: 0.11372549, b: 0.15294118, a: 1}
+  defaultSprite: {fileID: 21300000, guid: 2d5a7dcb796624129939e78b82a33f89, type: 3}
+  hoverSprite: {fileID: 21300000, guid: 1552c83c043f84ed6a3de037c7896650, type: 3}
+--- !u!114 &7079965015847900012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1224780508108740244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d60290ca5ab8c4059a15b9b01f715f5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menuController: {fileID: 0}
 --- !u!1 &3584760096663820253
 GameObject:
   m_ObjectHideFlags: 0
@@ -669,6 +702,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultColour: {r: 0.44313726, g: 0.4627451, b: 0.5019608, a: 1}
   hoverColour: {r: 0.09411765, g: 0.11372549, b: 0.15294118, a: 1}
+  defaultSprite: {fileID: 21300000, guid: 5df4e9c68ce5942cf80cec62a43d218a, type: 3}
+  hoverSprite: {fileID: 21300000, guid: 0858310da7b3f4e0fa085f6b5ce22551, type: 3}
 --- !u!1 &4063076089509753521
 GameObject:
   m_ObjectHideFlags: 0
@@ -1680,6 +1715,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultColour: {r: 0.44313726, g: 0.4627451, b: 0.5019608, a: 1}
   hoverColour: {r: 0.09411765, g: 0.11372549, b: 0.15294118, a: 1}
+  defaultSprite: {fileID: 21300000, guid: f52ba6d805c0449ea98c5eb51820fc0e, type: 3}
+  hoverSprite: {fileID: 21300000, guid: 875eb6a6e2ee94c66914e963a82153af, type: 3}
 --- !u!1 &7274108318166614256
 GameObject:
   m_ObjectHideFlags: 0

@@ -22,7 +22,7 @@ public class MenuController : MonoBehaviour
         }
     }
 
-    private void TogglePause()
+    public void TogglePause()
     {
         isPaused = !isPaused; // Toggle the pause state
 
