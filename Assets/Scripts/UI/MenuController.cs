@@ -19,13 +19,6 @@ public class MenuController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             TogglePause();
-
-            // Consume the Escape key event to prevent default behaviour
-            Event e = Event.current;
-            if (e != null && e.isKey && e.keyCode == KeyCode.Escape)
-            {
-                e.Use();
-            }
         }
     }
 
@@ -38,12 +31,16 @@ public class MenuController : MonoBehaviour
             Time.timeScale = 0f; // Freeze time
             pauseMenuPrefab.SetActive(true); // Show the pause menu
             Cursor.visible = true; // Make the cursor visible
+            Cursor.lockState = CursorLockMode.None; // Unlock the cursor
+            AudioListener.pause = true;
         }
         else
         {
             Time.timeScale = 1f; // Resume time
             pauseMenuPrefab.SetActive(false); // Hide the pause menu
             Cursor.visible = false; // Hide the cursor
+            Cursor.lockState = CursorLockMode.Locked; // Lock the cursor
+            AudioListener.pause = false;
         }
     }
 }

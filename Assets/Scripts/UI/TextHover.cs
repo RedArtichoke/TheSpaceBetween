@@ -2,14 +2,14 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
 
-public class TextHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class TextHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     public Color defaultColour; // default text colour
     public Color hoverColour;   // hover text colour
 
     private TextMeshProUGUI tmpText; // reference to TMP text component
+    private static TextHover currentlySelected; // track currently selected button
 
-    // Called when the script instance is being loaded
     void Awake()
     {
         tmpText = GetComponentInChildren<TextMeshProUGUI>();
@@ -23,21 +23,30 @@ public class TextHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         }
     }
 
-    // Called when the pointer enters the UI element
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (tmpText != null)
+        if (tmpText != null && currentlySelected != this)
         {
             tmpText.color = hoverColour;
         }
     }
 
-    // Called when the pointer exits the UI element
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (tmpText != null)
+        if (tmpText != null && currentlySelected != this)
         {
             tmpText.color = defaultColour;
         }
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (currentlySelected != null && currentlySelected != this)
+        {
+            currentlySelected.tmpText.color = currentlySelected.defaultColour;
+        }
+
+        currentlySelected = this;
+        tmpText.color = hoverColour;
     }
 }
