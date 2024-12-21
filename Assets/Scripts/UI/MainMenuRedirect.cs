@@ -21,6 +21,8 @@ public class MainMenuRedirect : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         Debug.Log("Loading Game Scene");
+        Time.timeScale = 1f; 
+        AudioListener.pause = false;
         SceneManager.LoadScene("MainMenu"); 
     }
 }

@@ -11,9 +11,13 @@ public class TextHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     public Sprite defaultSprite; // default sprite
     public Sprite hoverSprite;   // hover sprite
 
+    public bool isSelected; // Select by default
+    public Image tabImage; // Image to show on tab selection
+
     private TextMeshProUGUI tmpText; // reference to TMP text component
     private Image buttonImage; // reference to Image component
-    private static TextHover currentlySelected; // track currently selected button
+    private static TextHover selectedOption; // Track selected option outside "OptionsTabs"
+    private static TextHover selectedTab; // Track selected option inside "OptionsTabs"
 
     void Awake()
     {
@@ -37,11 +41,24 @@ public class TextHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         {
             Debug.LogError("Image component not found!");
         }
+
+        // Select by default if isSelected is true
+        if (isSelected)
+        {
+            if (transform.parent.name == "OptionsTabs")
+            {
+                HandleTabSelection();
+            }
+            else
+            {
+                HandleOptionSelection();
+            }
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (tmpText != null && currentlySelected != this)
+        if (tmpText != null && !IsCurrentlySelected())
         {
             tmpText.color = hoverColour;
             buttonImage.sprite = hoverSprite;
@@ -50,7 +67,7 @@ public class TextHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (tmpText != null && currentlySelected != this)
+        if (tmpText != null && !IsCurrentlySelected())
         {
             tmpText.color = defaultColour;
             buttonImage.sprite = defaultSprite;
@@ -59,17 +76,78 @@ public class TextHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (currentlySelected != this)
+        if (transform.parent.name == "OptionsTabs")
         {
-            if (currentlySelected != null)
-            {
-                currentlySelected.tmpText.color = currentlySelected.defaultColour;
-                currentlySelected.buttonImage.sprite = currentlySelected.defaultSprite;
-            }
-
-            currentlySelected = this;
-            tmpText.color = hoverColour;
-            buttonImage.sprite = hoverSprite;
+            HandleTabSelection();
         }
+        else
+        {
+            HandleOptionSelection();
+        }
+    }
+
+    // Handle selection for buttons inside "OptionsTabs"
+    void HandleTabSelection()
+    {
+        if (selectedTab != null && selectedTab != this)
+        {
+            selectedTab.Deselect();
+
+            // Hide the previous tab's image
+            if (selectedTab.tabImage != null)
+            {
+                selectedTab.tabImage.gameObject.SetActive(false);
+            }
+        }
+        selectedTab = this;
+        Select();
+
+        // Show the image if it exists
+        if (tabImage != null)
+        {
+            tabImage.gameObject.SetActive(true);
+        }
+    }
+
+    // Handle selection for buttons outside "OptionsTabs"
+    void HandleOptionSelection()
+    {
+        if (selectedOption != null && selectedOption != this)
+        {
+            selectedOption.Deselect();
+        }
+        selectedOption = this;
+        Select();
+
+        // Check if the button has the label "Options"
+        if (gameObject.name != "Options")
+        {
+            // Hide sibling with label "OptionsTabs" if it exists
+            Transform sibling = transform.parent.Find("OptionsTabs");
+            if (sibling != null)
+            {
+                sibling.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    // Select the button
+    void Select()
+    {
+        tmpText.color = hoverColour;
+        buttonImage.sprite = hoverSprite;
+    }
+
+    // Deselect the button
+    void Deselect()
+    {
+        tmpText.color = defaultColour;
+        buttonImage.sprite = defaultSprite;
+    }
+
+    // Check if this button is currently selected
+    bool IsCurrentlySelected()
+    {
+        return (selectedOption == this || selectedTab == this);
     }
 }
