@@ -141,10 +141,20 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3457876485182179873, guid: 92d3c161303074aa9828954d7e6984ee,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3520768420689916725, guid: 92d3c161303074aa9828954d7e6984ee,
         type: 3}
       propertyPath: m_Name
       value: HUD
+      objectReference: {fileID: 0}
+    - target: {fileID: 3520768420689916725, guid: 92d3c161303074aa9828954d7e6984ee,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7515507332275965188, guid: 92d3c161303074aa9828954d7e6984ee,
         type: 3}
@@ -250,6 +260,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7756002334737750546, guid: 92d3c161303074aa9828954d7e6984ee,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9003949190355000680, guid: 92d3c161303074aa9828954d7e6984ee,
+        type: 3}
+      propertyPath: m_CullTransparentMesh
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -845,6 +865,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 129007627674792078, guid: 98f852bed5c5e4afc99579e1f507d406,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2602189809685577192, guid: 98f852bed5c5e4afc99579e1f507d406,
         type: 3}
