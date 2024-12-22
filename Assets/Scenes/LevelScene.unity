@@ -573,8 +573,24 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7756002334737750546, guid: 92d3c161303074aa9828954d7e6984ee,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 61640284}
   m_SourcePrefab: {fileID: 100100000, guid: 92d3c161303074aa9828954d7e6984ee, type: 3}
+--- !u!114 &47421990 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1444346999247668334, guid: 92d3c161303074aa9828954d7e6984ee,
+    type: 3}
+  m_PrefabInstance: {fileID: 47421988}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &56256129
 GameObject:
   m_ObjectHideFlags: 0
@@ -785,6 +801,24 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 59831763}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &61640281 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7756002334737750546, guid: 92d3c161303074aa9828954d7e6984ee,
+    type: 3}
+  m_PrefabInstance: {fileID: 47421988}
+  m_PrefabAsset: {fileID: 0}
+--- !u!225 &61640284
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 61640281}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &63416910
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14385,8 +14419,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 403abe75ae7ff2e488a6647a33464c12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BlackScreen: {fileID: 0}
-  IntroText: {fileID: 0}
+  text: {fileID: 47421990}
+  canvasGroup: {fileID: 61640284}
 --- !u!4 &1004282293
 Transform:
   m_ObjectHideFlags: 0
