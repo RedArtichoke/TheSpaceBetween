@@ -6,22 +6,87 @@ using TMPro;
 
 public class IntroCutscene : MonoBehaviour
 {
+    public bool Intro;
+    public GameObject IntroScene;
+
     [SerializeField] private TextMeshProUGUI text;
+    [SerializeField] private TextMeshProUGUI text2;
+    [SerializeField] private TextMeshProUGUI text2Title;
+    [SerializeField] private TextMeshProUGUI text3;
+    [SerializeField] private TextMeshProUGUI text3Title;
+    [SerializeField] private TextMeshProUGUI text4;
+    [SerializeField] private TextMeshProUGUI text5;
     [SerializeField] private CanvasGroup canvasGroup; 
 
     private void Start()
     {
+        //Yogurt cup presents...
         text.gameObject.SetActive(false);
-        StartCoroutine(TextAndImageRoutine());
+
+        //The space between
+        text2.gameObject.SetActive(false);
+        text2Title.gameObject.SetActive(false);
+
+        //Heartbeat
+        text3.gameObject.SetActive(false);
+        text3Title.gameObject.SetActive(false);
+        
+        //Location
+        text4.gameObject.SetActive(false);
+
+        //Ocupation
+        text5.gameObject.SetActive(false);
+
+        if(Intro)
+        {
+            IntroScene.SetActive(true);
+            StartCoroutine(FadeCutscene());
+        }    
+        else 
+        {
+            IntroScene.SetActive(false);
+        }
     }
 
-    private IEnumerator TextAndImageRoutine()
+    private IEnumerator FadeCutscene()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(2f);
 
         text.gameObject.SetActive(true);
+        
+        yield return new WaitForSeconds(3f);
+        text.gameObject.GetComponent<TextFadeIn>().DisableText();
 
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(1f);
+        text2.gameObject.SetActive(true);
+        text2Title.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(4f);
+        text2.gameObject.GetComponent<TextFadeIn>().DisableText();
+        text2Title.gameObject.GetComponent<TextFadeIn>().DisableText();
+
+        yield return new WaitForSeconds(1f);
+        text3.gameObject.SetActive(true);
+        text3Title.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(4f);
+        text3.gameObject.GetComponent<TextFadeIn>().DisableText();
+        text3Title.gameObject.GetComponent<TextFadeIn>().DisableText();
+
+        yield return new WaitForSeconds(1f);
+        text4.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(4f);
+        text4.gameObject.GetComponent<TextFadeIn>().DisableText();
+
+        yield return new WaitForSeconds(1f);
+        text5.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(4f);
+        text5.gameObject.GetComponent<TextFadeIn>().DisableText();
+
+        yield return new WaitForSeconds(1f);
+
 
         float fadeDuration = 1f;
         float elapsedTime = 0f;
