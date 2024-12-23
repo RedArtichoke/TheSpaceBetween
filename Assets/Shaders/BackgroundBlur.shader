@@ -59,6 +59,9 @@ Shader "Custom/BlurBehind"
                 // Apply darkening effect
                 color.rgb *= (1.0 - _DarkenAmount);
 
+                // Apply blue tint
+                color.b += 0.01; // Increase blue channel
+
                 return color;
             }
             ENDHLSL
