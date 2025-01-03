@@ -20,9 +20,9 @@ public class MetalDetector : MonoBehaviour
         warnLight[0].enabled = false;
     }
 
-    void OnCollisionEnter(collision col)
+    void OnCollisionEnter(Collision col)
     {
-        if(col.layer == PlayerLayer)
+        if(col.gameObject.layer == PlayerLayer)
         {
             //metal passed through detector
             StartCoroutine(MetalFound());
