@@ -4,25 +4,19 @@ using UnityEngine;
 
 public class MetalDetector : MonoBehaviour
 {
-    public LayerMask PlayerLayer;
+    public string playerName;
 
     public Light[] warnLight;
 
     // Start is called before the first frame update
     void Start()
     {
-        if (PlayerLayer == null)
-        {
-            PlayerLayer = 6;
-        }
 
-        //status of lights when nothing is detected
-        warnLight[0].enabled = false;
     }
 
-    void OnCollisionEnter(Collision col)
+    void OnTriggerEnter(Collider col)
     {
-        if(col.gameObject.layer == PlayerLayer)
+        if(col.gameObject.tag == "Player")
         {
             //metal passed through detector
             StartCoroutine(MetalFound());
@@ -32,17 +26,17 @@ public class MetalDetector : MonoBehaviour
     IEnumerator MetalFound()
     {
         //turning on or changing colour (metal detected)
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < warnLight.Length; i++)
         {
-            warnLight[0].enabled = true;
+            warnLight[i].enabled = true;
         }
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1.0f);
 
         //back to normal state
-        for (int i = 0; i < 3; i++)
+        for (int j = 0; j < warnLight.Length; j++)
         {
-            warnLight[0].enabled = false;
+            warnLight[j].enabled = false;
         }
     }
 }
