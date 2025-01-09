@@ -10,6 +10,8 @@ public class HealthManager : MonoBehaviour
     private Coroutine strobeCoroutine;
     private Coroutine regenCoroutine;
     private FpsCameraController cameraController;
+    public GameObject gameOverUI;
+    public GameObject UIBlur;
 
     void Start()
     {
@@ -38,6 +40,11 @@ public class HealthManager : MonoBehaviour
                     StopCoroutine(strobeCoroutine);
                 }
                 strobeCoroutine = StartCoroutine(StrobeEffect());
+            }
+
+            if (health <= 0)
+            {
+                RevealGameOverUI();
             }
         }
     }
@@ -79,5 +86,21 @@ public class HealthManager : MonoBehaviour
 
             yield return null; // Update every frame for smooth strobing
         }
+    }
+
+    private void RevealGameOverUI()
+    {
+        if (gameOverUI != null)
+        {
+            UIBlur.SetActive(true);
+            gameOverUI.SetActive(true);
+        }
+
+        // Make the cursor visible and unlock it
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
+        // Freeze the game by setting time scale to 0
+        Time.timeScale = 0f;
     }
 }
