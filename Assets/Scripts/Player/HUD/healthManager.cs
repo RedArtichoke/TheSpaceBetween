@@ -9,10 +9,12 @@ public class HealthManager : MonoBehaviour
     public Image damageOverlay;
     private Coroutine strobeCoroutine;
     private Coroutine regenCoroutine;
+    private FpsCameraController cameraController;
 
     void Start()
     {
         damageOverlay.color = new Color(1f, 0f, 0f, 0f); // Start transparent
+        cameraController = FindObjectOfType<FpsCameraController>();
     }
 
     public void DamagePlayer()
@@ -26,7 +28,8 @@ public class HealthManager : MonoBehaviour
             }
             isDamaged = true;
             StartCoroutine(DamageCooldown());
-            StartCoroutine(ScreenShake());
+
+            cameraController.StartScreenShake();
 
             if (health < 50)
             {
@@ -64,32 +67,6 @@ public class HealthManager : MonoBehaviour
             damageOverlay.color = new Color(1f, 0f, 0f, alpha);
             yield return new WaitForSeconds(0.1f);
         }
-    }
-
-    private IEnumerator ScreenShake()
-    {
-        float duration = 0.4f;
-        float initialMagnitude = 0.6f;
-        float magnitude = initialMagnitude;
-        Vector3 originalPosition = Camera.main.transform.position;
-
-        float elapsed = 0.0f;
-        float velocity = 0.0f;
-
-        while (elapsed < duration)
-        {
-            magnitude = Mathf.SmoothDamp(magnitude, 0f, ref velocity, duration - elapsed);
-            float x = Random.Range(-1f, 1f) * magnitude;
-            float y = Random.Range(-1f, 1f) * magnitude;
-
-            Camera.main.transform.position = new Vector3(originalPosition.x + x, originalPosition.y + y, originalPosition.z);
-
-            elapsed += Time.deltaTime;
-
-            yield return null;
-        }
-
-        Camera.main.transform.position = originalPosition;
     }
 
     private IEnumerator StrobeEffect()

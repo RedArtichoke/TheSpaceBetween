@@ -42,4 +42,36 @@ public class FpsCameraController : MonoBehaviour
         transform.localRotation = Quaternion.Euler(currentXRotation, 0f, 0f);
         playerBody.localRotation = Quaternion.Euler(0f, currentYRotation, 0f);
     }
+
+    // Public method to start screen shake with optional duration
+    public void StartScreenShake(float duration = 0.4f)
+    {
+        StartCoroutine(ScreenShake(duration));
+    }
+
+    // Screen shake coroutine with configurable duration
+    private IEnumerator ScreenShake(float duration)
+    {
+        float initialMagnitude = 0.6f;
+        float magnitude = initialMagnitude;
+        Vector3 originalPosition = Camera.main.transform.position;
+
+        float elapsed = 0.0f;
+        float velocity = 0.0f;
+
+        while (elapsed < duration)
+        {
+            magnitude = Mathf.SmoothDamp(magnitude, 0f, ref velocity, duration - elapsed);
+            float x = Random.Range(-1f, 1f) * magnitude;
+            float y = Random.Range(-1f, 1f) * magnitude;
+
+            Camera.main.transform.position = new Vector3(originalPosition.x + x, originalPosition.y + y, originalPosition.z);
+
+            elapsed += Time.deltaTime;
+
+            yield return null;
+        }
+
+        Camera.main.transform.position = originalPosition;
+    }
 }
