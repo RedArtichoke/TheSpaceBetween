@@ -24,6 +24,11 @@ public class ShipFlight : MonoBehaviour
         }
     }
 
+    public void MoveShip()
+    {
+        StartCoroutine(MoveToTarget());
+    }
+
     IEnumerator MoveToTarget()
     {
         isMoving = true;

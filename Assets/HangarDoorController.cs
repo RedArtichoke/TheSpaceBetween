@@ -7,7 +7,10 @@ public class HangarDoorController : MonoBehaviour
     public GameObject leftHangarDoor;
     public GameObject rightHangarDoor;
     public float doorMoveDistance = 16.8589f;
-    public float moveDuration = 6f; 
+    public float moveDuration = 6f;
+
+    //public BoxCollider collider;
+    private BoxCollider collider;
 
     void Update() 
     {
@@ -19,7 +22,17 @@ public class HangarDoorController : MonoBehaviour
         {
             CloseHangarDoors();
         }
+
     }
+
+    private void OnTriggerEnter(Collider collider)
+    {
+        if (collider.CompareTag("Ship"))
+        {
+            OpenHangarDoors();
+        }
+    }
+
     public void OpenHangarDoors()
     {
         StartCoroutine(MoveDoor(leftHangarDoor.transform, Vector3.right * doorMoveDistance, moveDuration));
