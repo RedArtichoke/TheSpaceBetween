@@ -12,17 +12,6 @@ public class ShipFlight : MonoBehaviour
     public float speed = 5f;
 
     private bool isMoving = false;
-    
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            if (!isMoving)
-            {
-                StartCoroutine(MoveToTarget());
-            }
-        }
-    }
 
     public void MoveShip()
     {

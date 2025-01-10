@@ -9,21 +9,7 @@ public class HangarDoorController : MonoBehaviour
     public float doorMoveDistance = 16.8589f;
     public float moveDuration = 6f;
 
-    //public BoxCollider collider;
     private BoxCollider collider;
-
-    void Update() 
-    {
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            OpenHangarDoors();
-        }
-        else if (Input.GetKeyDown(KeyCode.K))
-        {
-            CloseHangarDoors();
-        }
-
-    }
 
     private void OnTriggerEnter(Collider collider)
     {
