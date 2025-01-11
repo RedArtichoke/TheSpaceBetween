@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class FlickerLight : MonoBehaviour
 {
-    public float brightness;
-    public float onThreshold;
+    float brightness;
+    float onThreshold;
 
-    public float holdTime;
+    float holdTime;
 
     Light myLite;
 
