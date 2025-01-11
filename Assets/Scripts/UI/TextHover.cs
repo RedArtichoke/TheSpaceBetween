@@ -19,6 +19,10 @@ public class TextHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     private static TextHover selectedOption; // Track selected option outside "OptionsTabs"
     private static TextHover selectedTab; // Track selected option inside "OptionsTabs"
 
+    public AudioClip hoverSound; // sound for hover
+    public AudioClip clickSound; // sound for click
+    private AudioSource audioSource; // audio source for playing sounds
+
     void Awake()
     {
         tmpText = GetComponentInChildren<TextMeshProUGUI>();
@@ -54,6 +58,10 @@ public class TextHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
                 HandleOptionSelection();
             }
         }
+
+        // Create an AudioSource component
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.ignoreListenerPause = true; // Play audio regardless of time scale
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -63,6 +71,9 @@ public class TextHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
             tmpText.color = hoverColour;
             buttonImage.sprite = hoverSprite;
         }
+
+        // Play hover sound with random pitch
+        PlaySound(hoverSound);
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -84,6 +95,9 @@ public class TextHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         {
             HandleOptionSelection();
         }
+
+        // Play click sound with random pitch
+        PlaySound(clickSound);
     }
 
     // Handle selection for buttons inside "OptionsTabs"
@@ -149,5 +163,15 @@ public class TextHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     bool IsCurrentlySelected()
     {
         return (selectedOption == this || selectedTab == this);
+    }
+
+    // Play a sound with a random pitch
+    private void PlaySound(AudioClip clip)
+    {
+        if (clip != null)
+        {
+            audioSource.pitch = Random.Range(0.9f, 1.1f); // vary pitch slightly
+            audioSource.PlayOneShot(clip);
+        }
     }
 }

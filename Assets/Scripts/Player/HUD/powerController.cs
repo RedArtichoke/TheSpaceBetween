@@ -194,4 +194,9 @@ public class PowerController : MonoBehaviour
         // Update the fill amount of the power ring
         powerRing.fillAmount = power / 100f; // Show the juice level
     }
+
+    public void AddPower(float amount) {
+        power = Mathf.Min(power + amount, 100f); // Cap power at 100
+        UpdateHUD();
+    }
 }

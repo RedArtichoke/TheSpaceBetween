@@ -45,6 +45,11 @@ public class PlayerMovementController : MonoBehaviour
     public PlayerAudio footstepAudio;
     private bool footstepPlayed = false;
     private bool isMoving;
+    private PowerController powerController;
+
+    // Public variables for audio
+    public AudioClip pickupClip;
+    private AudioSource audioSource;
 
     void Start()
     {
@@ -56,7 +61,7 @@ public class PlayerMovementController : MonoBehaviour
         currentBobHeight = bobHeight;
         currentFOV = playerCamera.fieldOfView;
         interactableLayer = LayerMask.GetMask("Pickup");
-
+        powerController = GetComponent<PowerController>();
         // Initialize HUD elements
         if (hudElement != null)
         {
@@ -65,6 +70,13 @@ public class PlayerMovementController : MonoBehaviour
             {
                 crosshair = crosshairTransform.gameObject;
             }
+        }
+
+        // Ensure an AudioSource is attached to the player
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
         }
     }
 
@@ -208,6 +220,20 @@ public class PlayerMovementController : MonoBehaviour
                 if (darkController != null)
                 {
                     darkController.hasDevice = true; // Set hasDevice to true
+                }
+
+                Destroy(hit.transform.gameObject); // Delete the object
+                return; // Exit the method
+            }
+            else if (hit.transform.CompareTag("Battery"))
+            {
+                powerController.AddPower(75);
+
+                // Play the pickup sound using the audio clip
+                if (pickupClip != null)
+                {
+                    audioSource.clip = pickupClip;
+                    audioSource.Play();
                 }
 
                 Destroy(hit.transform.gameObject); // Delete the object
