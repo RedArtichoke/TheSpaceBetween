@@ -20,31 +20,37 @@ public class ElevatorCutscene : MonoBehaviour
      */
 
     [SerializeField]
-    bool elevatorDone; //cutscene has played
+    bool elevatorDone;  //has cutscene played
+    bool inMotion;      //is the elevator moving?
+
+    Vector3 origPos;    //where the elevator is before "falling"
+
+    //should not be able to see before the cutscene happens
+    public GameObject skull;
+    public GameObject keyItem;
+
+    //to limit their controls during cutscene
+    public GameObject player;
 
     //to open/close during cutscene
     public GameObject doorL; 
     public GameObject doorR;
     float slideDistance; //how far the doors open/close
 
-    //should not be able to see before the cutscene happens
-    GameObject skull;
-    GameObject keyItem;
-
-    //to limit their controls during cutscene
-    GameObject player;
-
     //Raycast button press stuff
     float range;                    //interaction range 
     public LayerMask buttonLayer;
     Ray crosshair;                  //this interacts with colliders
 
+
     private void Start()
     {
+        origPos = gameObject.transform.position;
+
         range = 5.0f;
         slideDistance = 0.8f;
 
-        //skull.SetActive(false);
+        skull.SetActive(false);
         //keyItem.SetActive(false);
     }
 
@@ -62,30 +68,52 @@ public class ElevatorCutscene : MonoBehaviour
                 StartCoroutine(ElevatorStart());
             }
         }
+
+        if (inMotion)
+        {
+            rumble();
+        }
     }
-    
     
     IEnumerator ElevatorStart()
     {
+
         //find a different way so they slide closed
         //one of the is flipped 180 degress so they move in the "same direction"
         doorL.transform.Translate(Vector3.left * slideDistance);
         doorR.transform.Translate(Vector3.left * slideDistance);
 
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(2.0f);
 
         //ELEVATOR DESCENDING SEQUENCE
         Debug.Log("and now you fall...");
+        inMotion = true;
+        yield return new WaitForSeconds(4.0f);
+        inMotion = false;
 
         //DOORS OPEN TO SKULL AND ITEM
+        skull.SetActive(true);
+        gameObject.transform.position = origPos; //falling has stopped
 
         //A STATEMENT TO CHECK IF THE PLAYER GRABBED THE ITEM
 
         //ELEVATOR ASCENDING SEQUENCE
 
-        //DOORS OPEN AND THEY GET ON WITH THE GAME
+        skull.SetActive(false);
 
-        elevatorDone = true;
+        //DOORS OPEN AND THEY GET ON WITH THE GAME
+        doorL.transform.Translate(Vector3.right * slideDistance);
+        doorR.transform.Translate(Vector3.right * slideDistance);
+        //elevatorDone = true;
     }
     
+    void rumble()
+    {
+        float magnitude = 0.1f;
+
+        gameObject.transform.position = new Vector3(
+            Random.Range(-magnitude, magnitude) + origPos.x,
+            Random.Range(-magnitude, magnitude) + origPos.y,
+            Random.Range(-magnitude, magnitude) + origPos.z);
+    }
 }
