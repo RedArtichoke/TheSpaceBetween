@@ -13,6 +13,8 @@ public class doorOpen : MonoBehaviour
 
     public Keycard.KeycardIdentity requiredKeycardIdentity;
 
+    public AudioSource audioSource;
+
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -25,6 +27,9 @@ public class doorOpen : MonoBehaviour
         {
             animator.SetTrigger("Open");
             isOpen = true;
+            
+            audioSource.Play();
+
             StartCoroutine(CloseDoorAfterDelay());
         }
     }
@@ -50,6 +55,8 @@ public class doorOpen : MonoBehaviour
 
         if (animator != null && isOpen)
         {
+            audioSource.Play();
+            
             animator.SetTrigger("Close");
             isOpen = false;
         }
