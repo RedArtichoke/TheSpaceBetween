@@ -13,6 +13,8 @@ public class ShipFlight : MonoBehaviour
 
     private bool isMoving = false;
 
+    public GameObject invisibleWall;
+
     public void MoveShip()
     {
         StartCoroutine(MoveToTarget());
@@ -41,6 +43,7 @@ public class ShipFlight : MonoBehaviour
         }
         
         transform.position = target.position;
+        invisibleWall.SetActive(true);
         
         isMoving = false;
     }
@@ -50,6 +53,8 @@ public class ShipFlight : MonoBehaviour
         Debug.Log("SKipped");
 
         transform.position = target.position;
+        invisibleWall.SetActive(true);
+
     }
 }
 
