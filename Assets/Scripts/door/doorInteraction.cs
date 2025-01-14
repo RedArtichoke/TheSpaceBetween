@@ -9,6 +9,10 @@ public class DoorInteraction : MonoBehaviour
 
     private Camera playerCamera;
 
+    public AudioSource audioSource;
+    public AudioClip openDoor;
+    public AudioClip closeDoor;
+
     void Start()
     {
         playerCamera = Camera.main;
@@ -26,10 +30,18 @@ public class DoorInteraction : MonoBehaviour
                 {
                     if (door.IsLocked)
                     {
+                        audioSource.clip = closeDoor;
+                        audioSource.Play();
+
+                        door.LockFlash();
+
                         Debug.Log("The door is locked.");
                     }
                     else
                     {
+                        audioSource.clip = openDoor;
+                        audioSource.Play();
+
                         door.OpenDoor();
                     }
                 }

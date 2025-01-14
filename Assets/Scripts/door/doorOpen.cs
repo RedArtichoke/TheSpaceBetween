@@ -13,6 +13,18 @@ public class doorOpen : MonoBehaviour
 
     public Keycard.KeycardIdentity requiredKeycardIdentity;
 
+    public AudioSource audioSource;
+    public AudioSource audioSource2;
+    public AudioSource audioSource3;
+
+    public Transform smokepoint1;
+    public Transform smokepoint2;
+    public Transform smokepoint3;
+    public Transform smokepoint4;
+
+    public GameObject SmokePrefab;
+    public GameObject SmokePrefab2;
+
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -25,6 +37,15 @@ public class doorOpen : MonoBehaviour
         {
             animator.SetTrigger("Open");
             isOpen = true;
+            
+            audioSource.Play();
+            audioSource2.Play();
+
+            Instantiate(SmokePrefab, smokepoint1.transform);
+            Instantiate(SmokePrefab, smokepoint2.transform);
+            Instantiate(SmokePrefab, smokepoint3.transform);
+            Instantiate(SmokePrefab2, smokepoint4.transform);
+
             StartCoroutine(CloseDoorAfterDelay());
         }
     }
@@ -44,12 +65,41 @@ public class doorOpen : MonoBehaviour
         }
     }
 
+    public void LockFlash()
+    {
+        StartCoroutine(FlashingLight());
+    }
+
+    private IEnumerator FlashingLight()
+    {
+        float flashDuration = 1.0f;     
+        float flashInterval = 0.2f;      
+        float elapsedTime = 0f;
+        
+        bool lightsOn = false;
+
+        while (elapsedTime < flashDuration)
+        {
+            lightsOn = !lightsOn;
+            doorLight.enabled = lightsOn;
+            doorlightback.enabled = lightsOn;
+
+            yield return new WaitForSeconds(flashInterval);
+            elapsedTime += flashInterval;
+        }
+
+        doorLight.enabled = true;
+        doorlightback.enabled = true;
+    }
+
     private IEnumerator CloseDoorAfterDelay()
     {
         yield return new WaitForSeconds(closeDelay);
 
         if (animator != null && isOpen)
         {
+            audioSource.Play();
+
             animator.SetTrigger("Close");
             isOpen = false;
         }
@@ -64,6 +114,11 @@ public class doorOpen : MonoBehaviour
             {
                 SetLockState(false);  // Unlock the door
                 Debug.Log("Correct keycard detected. Door is now unlocked.");
+
+                audioSource3.Play();
+                StartCoroutine(FlashingLight());
+
+               // keycard.enabled = false;
             }
             else
             {
