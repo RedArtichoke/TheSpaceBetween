@@ -96,12 +96,29 @@ public class ElevatorCutscene : MonoBehaviour
         keyItem.SetActive(true);
         gameObject.transform.position = origPos; //falling has stopped
 
+        yield return new WaitForSeconds(1.0f);
+
+
+        doorL.transform.Translate(Vector3.right * slideDistance);
+        doorR.transform.Translate(Vector3.right * slideDistance);
+
         //A STATEMENT TO CHECK IF THE PLAYER GRABBED THE ITEM
+        yield return new WaitForSeconds(2.0f);
+        Debug.Log("the door won't stay open for now. Don't worry it will later.");
+
+        doorL.transform.Translate(Vector3.left * slideDistance);
+        doorR.transform.Translate(Vector3.left * slideDistance);
 
         //ELEVATOR ASCENDING SEQUENCE
         skull.SetActive(false);
+        Debug.Log("and now you rise...");
+        inMotion = true;
+        yield return new WaitForSeconds(4.0f);
+        inMotion = false;
 
         //DOORS OPEN AND THEY GET ON WITH THE GAME
+        yield return new WaitForSeconds(1.0f);
+
         doorL.transform.Translate(Vector3.right * slideDistance);
         doorR.transform.Translate(Vector3.right * slideDistance);
         //elevatorDone = true;
