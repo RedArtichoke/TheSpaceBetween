@@ -30,7 +30,7 @@ public class ElevatorCutscene : MonoBehaviour
     public GameObject keyItem;
 
     //to limit their controls during cutscene
-    public GameObject player;
+    //public GameObject player;
 
     //to open/close during cutscene
     public GameObject doorL; 
