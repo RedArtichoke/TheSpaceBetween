@@ -33,6 +33,8 @@ public class DoorInteraction : MonoBehaviour
                         audioSource.clip = closeDoor;
                         audioSource.Play();
 
+                        door.LockFlash();
+
                         Debug.Log("The door is locked.");
                     }
                     else
