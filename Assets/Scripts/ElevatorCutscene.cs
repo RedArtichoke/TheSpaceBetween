@@ -51,7 +51,7 @@ public class ElevatorCutscene : MonoBehaviour
         slideDistance = 0.8f;
 
         skull.SetActive(false);
-        //keyItem.SetActive(false);
+        keyItem.SetActive(false);
     }
 
     private void Update()
@@ -93,12 +93,12 @@ public class ElevatorCutscene : MonoBehaviour
 
         //DOORS OPEN TO SKULL AND ITEM
         skull.SetActive(true);
+        keyItem.SetActive(true);
         gameObject.transform.position = origPos; //falling has stopped
 
         //A STATEMENT TO CHECK IF THE PLAYER GRABBED THE ITEM
 
         //ELEVATOR ASCENDING SEQUENCE
-
         skull.SetActive(false);
 
         //DOORS OPEN AND THEY GET ON WITH THE GAME
