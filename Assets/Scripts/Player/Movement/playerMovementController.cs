@@ -255,6 +255,8 @@ public class PlayerMovementController : MonoBehaviour
                     GameObject originalMimic = disguisedMimic.originalMimic;
                     if (originalMimic != null)
                     {
+                        MimicBehaviour mimicBehaviour = originalMimic.GetComponent<MimicBehaviour>();
+
                         // Enable the original mimic
                         originalMimic.SetActive(true);
 
@@ -265,7 +267,8 @@ public class PlayerMovementController : MonoBehaviour
                         originalMimic.transform.SetParent(null);
 
                         // Make mimic attack the player
-                        originalMimic.GetComponent<MimicBehaviour>().isAttacking = true;
+                        mimicBehaviour.foundNeighbours.Clear();
+                        mimicBehaviour.isAttacking = true;
                     }
 
                     // Destroy the disguised mimic object
