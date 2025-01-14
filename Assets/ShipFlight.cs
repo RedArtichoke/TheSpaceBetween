@@ -18,6 +18,14 @@ public class ShipFlight : MonoBehaviour
         StartCoroutine(MoveToTarget());
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            SkipCutscene();
+        }
+    }
+
     IEnumerator MoveToTarget()
     {
         isMoving = true;
@@ -35,6 +43,13 @@ public class ShipFlight : MonoBehaviour
         transform.position = target.position;
         
         isMoving = false;
+    }
+
+    public void SkipCutscene()
+    {
+        Debug.Log("SKipped");
+
+        transform.position = target.position;
     }
 }
 
