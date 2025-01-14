@@ -239,6 +239,40 @@ public class PlayerMovementController : MonoBehaviour
                 Destroy(hit.transform.gameObject); // Delete the object
                 return; // Exit the method
             }
+            else if (hit.transform.CompareTag("Mimic"))
+            {
+                // Handle picking up a disguised mimic
+                DisguisedMimic disguisedMimic = hit.transform.GetComponent<DisguisedMimic>();
+                if (disguisedMimic != null)
+                {
+                    DarkController darkController = GetComponent<DarkController>();
+                    // If player in the dark, mimics will not exit disguise
+                    if (darkController.inDark)
+                    {
+                        return;
+                    }
+
+                    GameObject originalMimic = disguisedMimic.originalMimic;
+                    if (originalMimic != null)
+                    {
+                        // Enable the original mimic
+                        originalMimic.SetActive(true);
+
+                        // Raise the mimic 2 units above its current position
+                        originalMimic.transform.position += Vector3.up * 2;
+
+                        // Deparent the mimic from the disguised object
+                        originalMimic.transform.SetParent(null);
+
+                        // Make mimic attack the player
+                        originalMimic.GetComponent<MimicBehaviour>().isAttacking = true;
+                    }
+
+                    // Destroy the disguised mimic object
+                    Destroy(hit.transform.gameObject);
+                }
+                return;
+            }
 
             heldObject = hit.transform;
             heldObjectRb = heldObject.GetComponent<Rigidbody>();

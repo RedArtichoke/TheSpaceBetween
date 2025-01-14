@@ -16,7 +16,7 @@ public class MimicBehaviour : MonoBehaviour
     private NavMeshAgent navAgent;
     private Vector3 groupDestination;
     private bool isLeader = false;
-    private bool isAttacking = false;
+    public bool isAttacking = false;
     private GameObject player;
     private bool leftFoot = true;
     private float lastFootprintTime = 0f;
@@ -42,8 +42,10 @@ public class MimicBehaviour : MonoBehaviour
         mimicAudioSource.maxDistance = 35f; // Set max distance for sound
 
         // Add reverb filter for haunting effect
-        var reverbFilter = gameObject.AddComponent<AudioReverbFilter>();
-        reverbFilter.reverbPreset = AudioReverbPreset.Cave; // Choose a haunting reverb preset
+        if (!GameObject.Find("MimicReverb")) {
+            var reverbFilter = gameObject.AddComponent<AudioReverbFilter>();
+            reverbFilter.reverbPreset = AudioReverbPreset.Cave; // Choose a haunting reverb preset
+        }
 
         player = GameObject.FindGameObjectWithTag("Player");
 
@@ -149,6 +151,12 @@ public class MimicBehaviour : MonoBehaviour
         {
             StartCoroutine(AttackPlayer());
         }
+
+        // Check if mimic is not attacking
+        if (!isAttacking)
+        {
+            StartCoroutine(DelayedDisguise());
+        }
     }
 
     void LeaveFootprint()
@@ -242,6 +250,45 @@ public class MimicBehaviour : MonoBehaviour
                     }
                 }
             }
+        }
+    }
+
+    void DisguiseAsObject()
+    {
+        // Scan for objects in the "Pickup" layer
+        Collider[] objects = Physics.OverlapSphere(transform.position, roamRadius, LayerMask.GetMask("Pickup"));
+        if (objects.Length == 0) return; // No objects found, continue roaming
+
+        // Choose a random object
+        int randomIndex = Random.Range(0, objects.Length);
+        GameObject chosenObject = objects[randomIndex].gameObject;
+
+        // Duplicate the object above the mimic
+        Vector3 positionAbove = transform.position + Vector3.up;
+        GameObject duplicate = Instantiate(chosenObject, positionAbove, Quaternion.identity);
+
+        // Set the tag of the duplicated object to "Mimic"
+        duplicate.tag = "Mimic";
+
+        // Add the DisguisedMimic component and store reference to the original mimic
+        DisguisedMimic disguisedMimic = duplicate.AddComponent<DisguisedMimic>();
+        disguisedMimic.originalMimic = this.gameObject;
+
+        // Make the mimic a child of the duplicated object
+        transform.SetParent(duplicate.transform);
+
+        // Disable the mimic
+        gameObject.SetActive(false);
+    }
+
+    IEnumerator DelayedDisguise()
+    {
+        yield return new WaitForSeconds(10f); // Wait for 10 seconds
+
+        // Check again if still not attacking
+        if (!isAttacking)
+        {
+            DisguiseAsObject();
         }
     }
 }
