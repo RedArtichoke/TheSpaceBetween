@@ -11,6 +11,9 @@ public class StartShipLanding : MonoBehaviour
 
     public ShipFlight shipFlight;
     
+    public AudioSource audioSource1;
+    public AudioSource audioSource2;
+
 
     void Start()
     {
@@ -32,5 +35,7 @@ public class StartShipLanding : MonoBehaviour
     public void StartTravel()
     {
         shipFlight.MoveShip();
+        audioSource1.Play();
+        audioSource2.Play();
     }
 }

@@ -15,6 +15,9 @@ public class ShipFlight : MonoBehaviour
 
     public GameObject invisibleWall;
 
+    public AudioSource audioSource1;
+    public AudioSource audioSource2;
+
     public void MoveShip()
     {
         StartCoroutine(MoveToTarget());
@@ -44,6 +47,10 @@ public class ShipFlight : MonoBehaviour
         
         transform.position = target.position;
         invisibleWall.SetActive(true);
+
+        audioSource1.Stop();
+        audioSource2.Stop();
+
         
         isMoving = false;
     }
@@ -54,6 +61,9 @@ public class ShipFlight : MonoBehaviour
 
         transform.position = target.position;
         invisibleWall.SetActive(true);
+
+        audioSource1.Stop();
+        audioSource2.Stop();
 
     }
 }
