@@ -34,9 +34,7 @@ public class ElevatorCutscene : MonoBehaviour
     //public GameObject player;
 
     //to open/close during cutscene
-    public GameObject doorL;
-    public GameObject doorR;
-    Animator animator;
+    Animator doorAnimator;
 
     //Raycast button press stuff
     float range;                    //interaction range 
@@ -45,7 +43,8 @@ public class ElevatorCutscene : MonoBehaviour
 
     private void Start()
     {
-        animator = transform.parent.GetComponent<Animator>();
+        doorAnimator = transform.parent.GetComponent<Animator>();
+        skull = transform.parent.GetChild(3).gameObject; //the skull is the 4th child of "Elevator Room";
 
         doorOpen = true;
 
@@ -83,7 +82,7 @@ public class ElevatorCutscene : MonoBehaviour
         //elevatorDone = true; //only trigger scene once because you get the item
 
         //START SCENE
-        animator.SetBool("MotionStart", true);
+        doorAnimator.SetBool("MotionStart", true);
 
         yield return new WaitForSeconds(2.0f);
 
@@ -100,15 +99,15 @@ public class ElevatorCutscene : MonoBehaviour
         gameObject.transform.position = origPos; //falling has stopped
         yield return new WaitForSeconds(1.0f);
 
-        animator.SetBool("MotionStart", false);
-        animator.SetBool("Arrived", true);
+        doorAnimator.SetBool("MotionStart", false);
+        doorAnimator.SetBool("Arrived", true);
 
         //A STATEMENT TO CHECK IF THE PLAYER GRABBED THE ITEM
         yield return new WaitForSeconds(2.0f);
         Debug.Log("the door won't stay open for now. Don't worry it will later.");
 
-        animator.SetBool("Arrived", false);
-        animator.SetBool("MotionStart", true);
+        doorAnimator.SetBool("Arrived", false);
+        doorAnimator.SetBool("MotionStart", true);
 
         //ELEVATOR ASCENDING SEQUENCE
         skull.SetActive(false);
@@ -120,8 +119,8 @@ public class ElevatorCutscene : MonoBehaviour
         //DOORS OPEN AND THEY GET ON WITH THE GAME
         yield return new WaitForSeconds(1.0f);
 
-        animator.SetBool("MotionStart", false);
-        animator.SetBool("Arrived", true);
+        doorAnimator.SetBool("MotionStart", false);
+        doorAnimator.SetBool("Arrived", true);
     }
 
     void rumble()
