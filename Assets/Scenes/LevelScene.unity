@@ -32559,6 +32559,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1345205972}
+  - component: {fileID: 1345205973}
   m_Layer: 0
   m_Name: ElevatorRoom
   m_TagString: Untagged
@@ -32585,6 +32586,27 @@ Transform:
   - {fileID: 1257134046}
   m_Father: {fileID: 699739248}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1345205973
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1345205971}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4261d37b49de5274b8bb209580f875d4, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &1348104586
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -44925,9 +44947,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elevatorDone: 0
   skull: {fileID: 0}
+  player: {fileID: 0}
   keyItem: {fileID: 0}
-  doorL: {fileID: 1878961876}
-  doorR: {fileID: 1546071931}
   buttonLayer:
     serializedVersion: 2
     m_Bits: 4096

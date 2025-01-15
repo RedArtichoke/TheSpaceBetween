@@ -21,17 +21,16 @@ public class ElevatorCutscene : MonoBehaviour
 
     [SerializeField]
     bool elevatorDone;  //has cutscene played
-    bool inMotion;      //is the elevator moving?
-    bool doorOpen;
+    bool inMotion;
 
     Vector3 origPos;    //where the elevator is before "falling"
 
     //should not be able to see before the cutscene happens
     public GameObject skull;
-    public GameObject keyItem;
 
-    //to limit their controls during cutscene
-    //public GameObject player;
+    //checking against "heldObject" to see if they picked it up
+    public PlayerMovementController player;
+    public Transform keyItem;
 
     //to open/close during cutscene
     Animator doorAnimator;
@@ -43,17 +42,16 @@ public class ElevatorCutscene : MonoBehaviour
 
     private void Start()
     {
+
         doorAnimator = transform.parent.GetComponent<Animator>();
         skull = transform.parent.GetChild(3).gameObject; //the skull is the 4th child of "Elevator Room";
 
-        doorOpen = true;
+        skull.SetActive(false);
+        //keyItem.SetActive(false);
 
         origPos = gameObject.transform.position;
 
         range = 5.0f;
-
-        skull.SetActive(false);
-        //keyItem.SetActive(false);
     }
 
     private void Update()
@@ -67,9 +65,15 @@ public class ElevatorCutscene : MonoBehaviour
             {
                 //Debug.Log(hit.transform.name); //what was pressed?
 
-                StartCoroutine(ElevatorStart());
+                StartCoroutine(ElevatorDown());
             }
         }
+        /*
+        if(keyItem == "player.GetHeldObject() or something")
+        {
+            StartCoroutine(ElevatorUp());
+        }
+        */
 
         if (inMotion)
         {
@@ -77,7 +81,7 @@ public class ElevatorCutscene : MonoBehaviour
         }
     }
 
-    IEnumerator ElevatorStart()
+    IEnumerator ElevatorDown()
     {
         //elevatorDone = true; //only trigger scene once because you get the item
 
@@ -101,17 +105,18 @@ public class ElevatorCutscene : MonoBehaviour
 
         doorAnimator.SetBool("MotionStart", false);
         doorAnimator.SetBool("Arrived", true);
+    }
 
-        //A STATEMENT TO CHECK IF THE PLAYER GRABBED THE ITEM
-        yield return new WaitForSeconds(2.0f);
-        Debug.Log("the door won't stay open for now. Don't worry it will later.");
-
+    IEnumerator ElevatorUp()
+    {
+        //PLAYER HAS GRABBED THE ITEM
         doorAnimator.SetBool("Arrived", false);
         doorAnimator.SetBool("MotionStart", true);
 
         //ELEVATOR ASCENDING SEQUENCE
         skull.SetActive(false);
         Debug.Log("and now you rise...");
+
         inMotion = true;
         yield return new WaitForSeconds(4.0f);
         inMotion = false;
@@ -125,6 +130,7 @@ public class ElevatorCutscene : MonoBehaviour
 
     void rumble()
     {
+
         float magnitude = 0.1f;
 
         gameObject.transform.position = new Vector3(
