@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using System.Linq;
 
@@ -53,6 +54,9 @@ public class PlayerMovementController : MonoBehaviour
     // Public variables for audio
     public AudioClip pickupClip;
     private AudioSource audioSource;
+
+    public GameObject QPrompt;
+    public CanvasGroup QGroup;
 
     void Start()
     {
@@ -246,6 +250,8 @@ public class PlayerMovementController : MonoBehaviour
                 {
                     darkController.hasDevice = true; // Set hasDevice to true
                 }
+                QPrompt.SetActive(true);
+                StartCoroutine(DimensionPrompt());
 
                 Destroy(hit.transform.gameObject); // Delete the object
                 return; // Exit the method
@@ -453,6 +459,26 @@ public class PlayerMovementController : MonoBehaviour
         }
     }
 
+    private IEnumerator DimensionPrompt()
+    {
+        yield return new WaitForSeconds (10f);
+        float fadeDuration = 1f;
+        float elapsedTime = 0f;
+        
+        QGroup.alpha = 1f; 
+
+        while (elapsedTime < fadeDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float alpha = Mathf.Lerp(1f, 0f, elapsedTime / fadeDuration);
+            QGroup.alpha = alpha;
+            yield return null;  
+        }
+        yield return new WaitForSeconds (1f);
+
+        QPrompt.SetActive(false);
+    }
+
     void RestoreOriginalMaterial(Renderer renderer)
     {
         // Restore the original material of a renderer
@@ -477,4 +503,6 @@ public class PlayerMovementController : MonoBehaviour
             heldObject.rotation = cameraTransform.rotation;
         }
     }
+
+    
 }

@@ -8182,17 +8182,17 @@ PrefabInstance:
     - target: {fileID: 352987542788830193, guid: 146ae6c7887774629ad2bbc587413f7c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.3905995
+      value: 4.33
       objectReference: {fileID: 0}
     - target: {fileID: 352987542788830193, guid: 146ae6c7887774629ad2bbc587413f7c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 2.557
       objectReference: {fileID: 0}
     - target: {fileID: 352987542788830193, guid: 146ae6c7887774629ad2bbc587413f7c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -60.655785
+      value: -154.545
       objectReference: {fileID: 0}
     - target: {fileID: 352987542788830193, guid: 146ae6c7887774629ad2bbc587413f7c,
         type: 3}
@@ -17845,9 +17845,19 @@ PrefabInstance:
       objectReference: {fileID: 1336300107}
     - target: {fileID: 6343842895949506335, guid: 98f852bed5c5e4afc99579e1f507d406,
         type: 3}
+      propertyPath: QGroup
+      value: 
+      objectReference: {fileID: 927967883}
+    - target: {fileID: 6343842895949506335, guid: 98f852bed5c5e4afc99579e1f507d406,
+        type: 3}
       propertyPath: hitbox
       value: 
       objectReference: {fileID: 2060499437}
+    - target: {fileID: 6343842895949506335, guid: 98f852bed5c5e4afc99579e1f507d406,
+        type: 3}
+      propertyPath: QPrompt
+      value: 
+      objectReference: {fileID: 927967882}
     - target: {fileID: 6343842895949506335, guid: 98f852bed5c5e4afc99579e1f507d406,
         type: 3}
       propertyPath: crosshair
@@ -21992,6 +22002,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 148890926}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &927967882 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 778552828224981550, guid: 92d3c161303074aa9828954d7e6984ee,
+    type: 3}
+  m_PrefabInstance: {fileID: 47421988}
+  m_PrefabAsset: {fileID: 0}
+--- !u!225 &927967883 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 8613470315142092771, guid: 92d3c161303074aa9828954d7e6984ee,
+    type: 3}
+  m_PrefabInstance: {fileID: 47421988}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &931817589
 GameObject:
   m_ObjectHideFlags: 0
@@ -24424,7 +24446,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 403abe75ae7ff2e488a6647a33464c12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Intro: 0
+  Intro: 1
   IntroScene: {fileID: 61640281}
   text: {fileID: 47421992}
   text2: {fileID: 47421991}
@@ -55659,7 +55681,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!208 &2105605101
 NavMeshObstacle:
   m_ObjectHideFlags: 0
