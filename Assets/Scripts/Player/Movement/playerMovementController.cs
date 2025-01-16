@@ -35,6 +35,9 @@ public class PlayerMovementController : MonoBehaviour
     private Material originalMaterial = null;
     private float currentCrouchOffset = 0f;
     public bool isCrouching = false;
+    public CapsuleCollider hitbox;
+    private float originalHeight = 2f;
+    private Vector3 originalCenter;
 
     // UI and visual elements
     public GameObject hudElement;
@@ -62,6 +65,10 @@ public class PlayerMovementController : MonoBehaviour
         currentFOV = playerCamera.fieldOfView;
         interactableLayer = LayerMask.GetMask("Pickup");
         powerController = GetComponent<PowerController>();
+
+        originalHeight = hitbox.height;
+        originalCenter = hitbox.center;
+
         // Initialize HUD elements
         if (hudElement != null)
         {
@@ -88,6 +95,19 @@ public class PlayerMovementController : MonoBehaviour
         // Adjust bob frequency and movement speed based on crouch state
         bobFrequency = isCrouching ? 10.0f : 15.0f;
         movementSpeed = isCrouching ? 3.0f : 5.0f;
+
+        if (isCrouching)
+        {
+            // Set crouched height
+            hitbox.height = 1.5f;
+            hitbox.center = new Vector3(originalCenter.x, originalCenter.y - 0.20f, originalCenter.z);
+        }
+        else
+        {
+            // Restore original height
+            hitbox.height = originalHeight;
+            hitbox.center = originalCenter;
+        }
 
         // Handle player movement and camera effects
         HandleMovement();
