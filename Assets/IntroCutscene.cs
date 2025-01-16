@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 
 public class IntroCutscene : MonoBehaviour
 {
@@ -17,6 +18,9 @@ public class IntroCutscene : MonoBehaviour
     [SerializeField] private TextMeshProUGUI text4;
     [SerializeField] private TextMeshProUGUI text5;
     [SerializeField] private CanvasGroup canvasGroup; 
+    [SerializeField] private CanvasGroup moveControlsGroup;
+    [SerializeField] private GameObject moveControls;
+    [SerializeField] private GameObject InteractControls;
 
     private void Start()
     {
@@ -102,6 +106,32 @@ public class IntroCutscene : MonoBehaviour
         }
         
         canvasGroup.alpha = 0f;
+
+        yield return new WaitForSeconds(2f);
+
+        moveControls.SetActive(true);
+
+        yield return new WaitForSeconds (8f);
+
+        fadeDuration = 1f;
+        elapsedTime = 0f;
+        
+        moveControlsGroup.alpha = 1f; 
+
+        while (elapsedTime < fadeDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float alpha = Mathf.Lerp(1f, 0f, elapsedTime / fadeDuration);
+            moveControlsGroup.alpha = alpha;
+            yield return null;  
+        }
+        yield return new WaitForSeconds (1f);
+
+        moveControls.SetActive(false);
+
+        yield return new WaitForSeconds (3f);
+
+        InteractControls.SetActive(true);
     }
 }
 
