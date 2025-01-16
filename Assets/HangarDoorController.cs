@@ -11,11 +11,14 @@ public class HangarDoorController : MonoBehaviour
 
     private BoxCollider collider;
 
+    public AudioSource audioSource;
+
     private void OnTriggerEnter(Collider collider)
     {
         if (collider.CompareTag("Ship"))
         {
             OpenHangarDoors();
+            audioSource.Play();
         }
     }
 
@@ -45,5 +48,6 @@ public class HangarDoorController : MonoBehaviour
         }
 
         door.position = targetPosition; 
+        audioSource.Stop();
     }
 }
