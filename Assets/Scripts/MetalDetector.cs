@@ -11,7 +11,10 @@ public class MetalDetector : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        for (int j = 0; j < warnLight.Length; j++)
+        {
+            warnLight[j].enabled = false;
+        }
     }
 
     void OnTriggerEnter(Collider col)
