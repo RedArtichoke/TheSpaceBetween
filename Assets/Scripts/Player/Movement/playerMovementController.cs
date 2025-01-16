@@ -117,6 +117,11 @@ public class PlayerMovementController : MonoBehaviour
         UpdateObjectGlow();
     }
 
+    public Transform GetHeldObject()
+    {
+        return heldObject;
+    }
+
     void HandleMovement()
     {
         // Calculate movement based on input

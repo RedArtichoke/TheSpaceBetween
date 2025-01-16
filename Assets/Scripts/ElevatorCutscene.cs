@@ -19,9 +19,9 @@ public class ElevatorCutscene : MonoBehaviour
     
      */
 
-    [SerializeField]
-    bool elevatorDone;  //has cutscene played
-    bool inMotion;
+    [SerializeField] bool elevatorDone;  //player has already went "down"
+
+    [SerializeField] bool inMotion;
 
     Vector3 origPos;    //where the elevator is before "falling"
 
@@ -29,8 +29,8 @@ public class ElevatorCutscene : MonoBehaviour
     public GameObject skull;
 
     //checking against "heldObject" to see if they picked it up
-    public PlayerMovementController player;
-    public Transform keyItem;
+    [SerializeField] PlayerMovementController player;
+    [SerializeField] Transform keyItem;
 
     //to open/close during cutscene
     Animator doorAnimator;
@@ -47,7 +47,7 @@ public class ElevatorCutscene : MonoBehaviour
         skull = transform.parent.GetChild(3).gameObject; //the skull is the 4th child of "Elevator Room";
 
         skull.SetActive(false);
-        //keyItem.SetActive(false);
+        keyItem.gameObject.SetActive(false);
 
         origPos = gameObject.transform.position;
 
@@ -68,12 +68,12 @@ public class ElevatorCutscene : MonoBehaviour
                 StartCoroutine(ElevatorDown());
             }
         }
-        /*
-        if(keyItem == "player.GetHeldObject() or something")
+        
+        if((keyItem == player.GetHeldObject()) && !elevatorDone)
         {
             StartCoroutine(ElevatorUp());
         }
-        */
+        
 
         if (inMotion)
         {
@@ -83,7 +83,6 @@ public class ElevatorCutscene : MonoBehaviour
 
     IEnumerator ElevatorDown()
     {
-        //elevatorDone = true; //only trigger scene once because you get the item
 
         //START SCENE
         doorAnimator.SetBool("MotionStart", true);
@@ -98,7 +97,8 @@ public class ElevatorCutscene : MonoBehaviour
 
         //DOORS OPEN TO SKULL AND ITEM
         skull.SetActive(true);
-        //keyItem.SetActive(true);
+        keyItem.gameObject.SetActive(true);
+
 
         gameObject.transform.position = origPos; //falling has stopped
         yield return new WaitForSeconds(1.0f);
@@ -109,9 +109,13 @@ public class ElevatorCutscene : MonoBehaviour
 
     IEnumerator ElevatorUp()
     {
+        elevatorDone = true; //only trigger scene once because you get the item
+
         //PLAYER HAS GRABBED THE ITEM
         doorAnimator.SetBool("Arrived", false);
         doorAnimator.SetBool("MotionStart", true);
+
+        yield return new WaitForSeconds(1.0f);
 
         //ELEVATOR ASCENDING SEQUENCE
         skull.SetActive(false);
@@ -130,7 +134,6 @@ public class ElevatorCutscene : MonoBehaviour
 
     void rumble()
     {
-
         float magnitude = 0.1f;
 
         gameObject.transform.position = new Vector3(
