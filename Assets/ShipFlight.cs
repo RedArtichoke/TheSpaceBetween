@@ -17,7 +17,13 @@ public class ShipFlight : MonoBehaviour
 
     public AudioSource audioSource1;
     public AudioSource audioSource2;
+    public GameObject FPrompt;
+    public CanvasGroup FGroup;
 
+    public GameObject EPrompt;
+    public CanvasGroup EGroup;
+
+    public rotatingDoorOpen door;
     public void MoveShip()
     {
         StartCoroutine(MoveToTarget());
@@ -51,6 +57,9 @@ public class ShipFlight : MonoBehaviour
         audioSource1.Stop();
         audioSource2.Stop();
 
+        FPrompt.SetActive(true);
+        StartCoroutine(StopFlashlightprompt());
+        door.OpenDoor();
         
         isMoving = false;
     }
@@ -64,6 +73,53 @@ public class ShipFlight : MonoBehaviour
 
         audioSource1.Stop();
         audioSource2.Stop();
+
+    }
+
+    public IEnumerator StopFlashlightprompt()
+    {
+        yield return new WaitForSeconds (10f);
+
+        float fadeDuration = 1f;
+        float elapsedTime = 0f;
+        
+        FGroup.alpha = 1f; 
+
+        while (elapsedTime < fadeDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float alpha = Mathf.Lerp(1f, 0f, elapsedTime / fadeDuration);
+            FGroup.alpha = alpha;
+            yield return null;  
+        }
+        
+        FGroup.alpha = 0f;
+
+        FPrompt.SetActive(false);
+
+        yield return new WaitForSeconds (2f);
+
+        EPrompt.SetActive(true);
+
+        yield return new WaitForSeconds (10f);
+
+        fadeDuration = 1f;
+        elapsedTime = 0f;
+        
+        EGroup.alpha = 1f; 
+
+        while (elapsedTime < fadeDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float alpha = Mathf.Lerp(1f, 0f, elapsedTime / fadeDuration);
+            EGroup.alpha = alpha;
+            yield return null;  
+        }
+        
+        EGroup.alpha = 0f;
+
+        EPrompt.SetActive(false);
+
 
     }
 }

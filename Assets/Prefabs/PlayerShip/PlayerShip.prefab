@@ -1073,6 +1073,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   speed: 5
+  invisibleWall: {fileID: 0}
+  audioSource1: {fileID: 0}
+  audioSource2: {fileID: 0}
+  FPrompt: {fileID: 0}
+  FGroup: {fileID: 0}
+  door: {fileID: 6147189313359459154}
 --- !u!54 &6513256513634499101
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3115,6 +3121,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2048
   shipFlight: {fileID: 6383165724576180872}
+  audioSource1: {fileID: 0}
+  audioSource2: {fileID: 0}
+  interactGroup: {fileID: 0}
 --- !u!135 &7197863031776127313
 SphereCollider:
   m_ObjectHideFlags: 0
