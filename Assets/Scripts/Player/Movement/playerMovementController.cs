@@ -36,7 +36,7 @@ public class PlayerMovementController : MonoBehaviour
     private float currentCrouchOffset = 0f;
     public bool isCrouching = false;
     public CapsuleCollider hitbox;
-    private float originalHeight = 2f;
+    private float originalHeight;
     private Vector3 originalCenter;
 
     // UI and visual elements
