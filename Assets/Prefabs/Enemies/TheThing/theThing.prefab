@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1442036551999421651
+--- !u!1 &8157063107764657310
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,9 +8,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6325214676772383876}
-  - component: {fileID: 8495068527001474779}
-  - component: {fileID: 5048192857308137289}
+  - component: {fileID: 2305574863325484660}
+  - component: {fileID: 533562716661141864}
+  - component: {fileID: 6341821973879973502}
   m_Layer: 0
   m_Name: ParticleSystem
   m_TagString: Untagged
@@ -18,28 +18,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6325214676772383876
+--- !u!4 &2305574863325484660
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1442036551999421651}
+  m_GameObject: {fileID: 8157063107764657310}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8612804169639414291}
+  m_Father: {fileID: 4953243858231691863}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!198 &8495068527001474779
+--- !u!198 &533562716661141864
 ParticleSystem:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1442036551999421651}
+  m_GameObject: {fileID: 8157063107764657310}
   serializedVersion: 8
   lengthInSec: 10
   simulationSpeed: 1
@@ -116,7 +116,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.07
+      scalar: 0.2
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -169,7 +169,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.04
+      scalar: 0.0001
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -287,8 +287,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 7
-      minScalar: 2
+      scalar: 1
+      minScalar: 10
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -340,8 +340,8 @@ ParticleSystem:
     startSizeY:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 7
-      minScalar: 2
+      scalar: 1
+      minScalar: 10
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -393,8 +393,8 @@ ParticleSystem:
     startSizeZ:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 7
-      minScalar: 2
+      scalar: 1
+      minScalar: 10
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -446,8 +446,8 @@ ParticleSystem:
     startRotationX:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 6.283185
-      minScalar: -6.283185
+      scalar: -6.283185
+      minScalar: 6.283185
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -499,8 +499,8 @@ ParticleSystem:
     startRotationY:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 6.283185
-      minScalar: -6.283185
+      scalar: -6.283185
+      minScalar: 6.283185
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -552,8 +552,8 @@ ParticleSystem:
     startRotation:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 6.283185
-      minScalar: -6.283185
+      scalar: -6.283185
+      minScalar: 6.283185
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -734,7 +734,7 @@ ParticleSystem:
           m_RotationOrder: 4
     m_Mesh: {fileID: 0}
     m_MeshRenderer: {fileID: 0}
-    m_SkinnedMeshRenderer: {fileID: 1907143582788136856}
+    m_SkinnedMeshRenderer: {fileID: 2975804247130894300}
     m_Sprite: {fileID: 0}
     m_SpriteRenderer: {fileID: 0}
     m_UseMeshMaterialIndex: 0
@@ -870,7 +870,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1000
+      scalar: 500
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -976,12 +976,12 @@ ParticleSystem:
     m_BurstCount: 0
     m_Bursts: []
   SizeModule:
-    enabled: 0
+    enabled: 1
     curve:
       serializedVersion: 2
-      minMaxState: 1
-      scalar: 1
-      minScalar: 1
+      minMaxState: 3
+      scalar: 1.5
+      minScalar: 0.5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1032,9 +1032,9 @@ ParticleSystem:
         m_RotationOrder: 4
     y:
       serializedVersion: 2
-      minMaxState: 1
-      scalar: 1
-      minScalar: 1
+      minMaxState: 3
+      scalar: 0.5
+      minScalar: 1.5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1085,9 +1085,9 @@ ParticleSystem:
         m_RotationOrder: 4
     z:
       serializedVersion: 2
-      minMaxState: 1
-      scalar: 1
-      minScalar: 1
+      minMaxState: 3
+      scalar: 0.5
+      minScalar: 1.5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1142,7 +1142,7 @@ ParticleSystem:
     x:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0
+      scalar: -6.283185
       minScalar: 6.283185
       maxCurve:
         serializedVersion: 2
@@ -1195,7 +1195,7 @@ ParticleSystem:
     y:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0
+      scalar: -6.283185
       minScalar: 6.283185
       maxCurve:
         serializedVersion: 2
@@ -1248,7 +1248,7 @@ ParticleSystem:
     curve:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0
+      scalar: -6.283185
       minScalar: 6.283185
       maxCurve:
         serializedVersion: 2
@@ -4756,14 +4756,14 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!199 &5048192857308137289
+--- !u!199 &6341821973879973502
 ParticleSystemRenderer:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1442036551999421651}
+  m_GameObject: {fileID: 8157063107764657310}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -4830,7 +4830,7 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!1001 &1532859214785138158
+--- !u!1001 &2773770540574739882
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -4856,17 +4856,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: d5bd512857c25dc47811216af4432e29,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 119.9
+      value: 1.5548458
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d5bd512857c25dc47811216af4432e29,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.3354511
+      value: 0.26999998
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d5bd512857c25dc47811216af4432e29,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 29.7
+      value: 0.2836523
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d5bd512857c25dc47811216af4432e29,
         type: 3}
@@ -4911,7 +4911,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: d5bd512857c25dc47811216af4432e29,
         type: 3}
       propertyPath: m_Name
-      value: theThing
+      value: theThing 1
       objectReference: {fileID: 0}
     - target: {fileID: 2834921348250261931, guid: d5bd512857c25dc47811216af4432e29,
         type: 3}
@@ -4942,18 +4942,18 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7116563274810755069, guid: d5bd512857c25dc47811216af4432e29,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6325214676772383876}
+      addedObject: {fileID: 2305574863325484660}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d5bd512857c25dc47811216af4432e29, type: 3}
---- !u!137 &1907143582788136856 stripped
+--- !u!137 &2975804247130894300 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: -8128355562918026634, guid: d5bd512857c25dc47811216af4432e29,
     type: 3}
-  m_PrefabInstance: {fileID: 1532859214785138158}
+  m_PrefabInstance: {fileID: 2773770540574739882}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &8612804169639414291 stripped
+--- !u!4 &4953243858231691863 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7116563274810755069, guid: d5bd512857c25dc47811216af4432e29,
     type: 3}
-  m_PrefabInstance: {fileID: 1532859214785138158}
+  m_PrefabInstance: {fileID: 2773770540574739882}
   m_PrefabAsset: {fileID: 0}
