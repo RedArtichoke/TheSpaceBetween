@@ -225,10 +225,20 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4977719870331500482, guid: 92d3c161303074aa9828954d7e6984ee,
+        type: 3}
+      propertyPath: beatsPerMinute
+      value: 72
+      objectReference: {fileID: 0}
     - target: {fileID: 5602350326015646057, guid: 92d3c161303074aa9828954d7e6984ee,
         type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6143210289223339198, guid: 92d3c161303074aa9828954d7e6984ee,
+        type: 3}
+      propertyPath: m_TagString
+      value: HeartRateController
       objectReference: {fileID: 0}
     - target: {fileID: 7515507332275965188, guid: 92d3c161303074aa9828954d7e6984ee,
         type: 3}
@@ -746,6 +756,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6195024777594874901, guid: 416de35499f904b7997811b994a31aa5,
+        type: 3}
+      propertyPath: m_WarningMessage
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8156965943875077317, guid: 416de35499f904b7997811b994a31aa5,
         type: 3}
       propertyPath: m_Name
@@ -1101,6 +1116,11 @@ PrefabInstance:
       propertyPath: chargingRing
       value: 
       objectReference: {fileID: 1523805549}
+    - target: {fileID: 5305050087123425412, guid: 98f852bed5c5e4afc99579e1f507d406,
+        type: 3}
+      propertyPath: hasDevice
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5443115629039691449, guid: 98f852bed5c5e4afc99579e1f507d406,
         type: 3}
       propertyPath: m_LocalPosition.x

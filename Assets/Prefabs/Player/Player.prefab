@@ -160,6 +160,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hasDevice: 0
   inDark: 0
+  darkParticles: {fileID: 7562230659690191737}
   mimicMarkerPrefab: {fileID: 847762195381366513, guid: 5e241159f455b4196851bc91d70b756d,
     type: 3}
   darkEntrySounds:
@@ -167,6 +168,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 2597a9185a09e4d248620901f7bf8d8a, type: 3}
   - {fileID: 8300000, guid: dc7e75b3098b941f2b8fd4237fe8ea1d, type: 3}
   continuousDarkSound: {fileID: 8300000, guid: 0a392e6ea796549188afcc2e178e2da8, type: 3}
+  eyeParticles: {fileID: 8135002703491202321}
   darkAmbientSound: {fileID: 8300000, guid: 143af89a4c3ca44379639e500a9f1c52, type: 3}
 --- !u!1 &2708353557646452750
 GameObject:
@@ -6212,6 +6214,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: darkParticleEmitter
       objectReference: {fileID: 0}
+    - target: {fileID: 7036168973560278830, guid: e77f63703e2644ccea708c482e3ba121,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7360285149526358426, guid: e77f63703e2644ccea708c482e3ba121,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6270,6 +6277,12 @@ PrefabInstance:
 --- !u!4 &1428617165760561955 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7360285149526358426, guid: e77f63703e2644ccea708c482e3ba121,
+    type: 3}
+  m_PrefabInstance: {fileID: 8500416645573311161}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &7562230659690191737 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2091353927802954176, guid: e77f63703e2644ccea708c482e3ba121,
     type: 3}
   m_PrefabInstance: {fileID: 8500416645573311161}
   m_PrefabAsset: {fileID: 0}

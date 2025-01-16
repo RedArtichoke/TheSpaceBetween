@@ -18,14 +18,14 @@ public class DarkController : MonoBehaviour
     private float targetExposure; // Target exposure value
     private float currentExposure; // Current exposure value
     private float exposureVelocity; // Velocity for SmoothDamp
-    private ParticleSystem darkParticles;
+    public ParticleSystem darkParticles;
     private List<GameObject> mimicMarkers = new List<GameObject>();
     public GameObject mimicMarkerPrefab; // Assign in inspector - should be a 2D sprite prefab
     public AudioClip[] darkEntrySounds; // Array to store sound clips
     private AudioSource audioSource; // AudioSource to play sounds
     public AudioClip continuousDarkSound; // Sound to play continuously in the dark
     private AudioSource continuousAudioSource; // Separate AudioSource for continuous sound
-    private ParticleSystem eyeParticles; // Reference to Eye Particle System
+    public ParticleSystem eyeParticles; // Reference to Eye Particle System
     private Coroutine fadeInCoroutine; // Store reference to FadeIn coroutine
     private Coroutine exitDarkCoroutine; // Store reference to ExitDark coroutine
     private Vignette vignette;
