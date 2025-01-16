@@ -14130,6 +14130,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1020667447}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &600082161 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7063778423229589899, guid: 92d3c161303074aa9828954d7e6984ee,
+    type: 3}
+  m_PrefabInstance: {fileID: 47421988}
+  m_PrefabAsset: {fileID: 0}
+--- !u!225 &600082162 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 8967978796348260885, guid: 92d3c161303074aa9828954d7e6984ee,
+    type: 3}
+  m_PrefabInstance: {fileID: 47421988}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &603307874
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -55696,6 +55708,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6383165724576180872, guid: 8778e27f0b231e841b40f1963f23e652,
         type: 3}
+      propertyPath: EGroup
+      value: 
+      objectReference: {fileID: 600082162}
+    - target: {fileID: 6383165724576180872, guid: 8778e27f0b231e841b40f1963f23e652,
+        type: 3}
       propertyPath: FGroup
       value: 
       objectReference: {fileID: 350928031}
@@ -55704,6 +55721,11 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 654166615}
+    - target: {fileID: 6383165724576180872, guid: 8778e27f0b231e841b40f1963f23e652,
+        type: 3}
+      propertyPath: EPrompt
+      value: 
+      objectReference: {fileID: 600082161}
     - target: {fileID: 6383165724576180872, guid: 8778e27f0b231e841b40f1963f23e652,
         type: 3}
       propertyPath: FPrompt

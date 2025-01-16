@@ -20,6 +20,9 @@ public class ShipFlight : MonoBehaviour
     public GameObject FPrompt;
     public CanvasGroup FGroup;
 
+    public GameObject EPrompt;
+    public CanvasGroup EGroup;
+
     public rotatingDoorOpen door;
     public void MoveShip()
     {
@@ -91,6 +94,33 @@ public class ShipFlight : MonoBehaviour
         }
         
         FGroup.alpha = 0f;
+
+        FPrompt.SetActive(false);
+
+        yield return new WaitForSeconds (2f);
+
+        EPrompt.SetActive(true);
+
+        yield return new WaitForSeconds (10f);
+
+        fadeDuration = 1f;
+        elapsedTime = 0f;
+        
+        EGroup.alpha = 1f; 
+
+        while (elapsedTime < fadeDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float alpha = Mathf.Lerp(1f, 0f, elapsedTime / fadeDuration);
+            EGroup.alpha = alpha;
+            yield return null;  
+        }
+        
+        EGroup.alpha = 0f;
+
+        EPrompt.SetActive(false);
+
+
     }
 }
 
