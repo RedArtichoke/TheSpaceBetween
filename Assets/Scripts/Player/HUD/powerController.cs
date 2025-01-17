@@ -40,11 +40,18 @@ public class PowerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        chargingRing.gameObject.SetActive(false); // Hide the charging circle
-        originalInnerSpotAngle = flashlight.innerSpotAngle; // Remember the inner secret
-        originalOuterSpotAngle = flashlight.spotAngle; // Remember the outer secret
-        originalIntensity = flashlight.intensity; // Remember the true power
+        if (chargingRing != null) { 
+            chargingRing.gameObject.SetActive(false); // Hide the charging circle
+        }
+        if (flashlight != null) {
+            originalInnerSpotAngle = flashlight.innerSpotAngle; // Remember the inner secret
+            originalOuterSpotAngle = flashlight.spotAngle; // Remember the outer secret
+            originalIntensity = flashlight.intensity; // Remember the true power
+        }
         audioSource = GetComponent<AudioSource>(); // Get the AudioSource component
+        if (audioSource == null) {
+            audioSource = gameObject.AddComponent<AudioSource>(); // Add an AudioSource component if not found
+        }
         audioSource.volume = 0.5f; // Set volume to half
     }
 

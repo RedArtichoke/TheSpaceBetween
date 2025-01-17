@@ -21,6 +21,7 @@ public class PlayGameButton : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         Debug.Log("Loading Game Scene");
+        Time.timeScale = 1; // Ensure time is running
         SceneManager.LoadScene("LevelScene"); 
     }
 }

@@ -17,7 +17,8 @@ public class MimicBehaviour : MonoBehaviour
     private Vector3 groupDestination;
     private bool isLeader = false;
     public bool isAttacking = false;
-    private GameObject player;
+    // Crappy solution to a bizarre problem- made player public for permanent reference
+    public GameObject player;
     private bool leftFoot = true;
     private float lastFootprintTime = 0f;
     private float footprintCooldown = 0.5f;
@@ -116,46 +117,47 @@ public class MimicBehaviour : MonoBehaviour
 
     void Update()
     {
-        // Let's find our mimic friends!
-        foundNeighbours.Clear();
-        Collider[] neighbors = Physics.OverlapSphere(transform.position, neighborRadius);
-        foreach (var neighbor in neighbors)
+        if (player == null)
         {
-            if (neighbor.CompareTag("Mimic") && neighbor.gameObject != this.gameObject)
-            {
-                foundNeighbours.Add(neighbor.gameObject);
-            }
+            // Debug.LogError("Player reference is null.");
+            return;
         }
 
-        // Time to play tag with the player!
-        if (foundNeighbours.Count > 0 && IsPlayerDetected())
+        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+        // Debug.Log("Distance to player: " + distanceToPlayer);
+
+        if (distanceToPlayer <= detectionRange)
         {
             isAttacking = true;
-            player = GameObject.FindGameObjectWithTag("Player").transform.parent.gameObject;
+            // Debug.Log("Player detected, attacking!");
+        }
+        else
+        {
+            isAttacking = false;
+            // Debug.Log("Player out of range.");
         }
 
-        if (isAttacking && player != null)
+        if (isAttacking)
         {
-            if (Vector3.Distance(transform.position, player.transform.position) > detectionRange)
-            {
-                isAttacking = false; // Player ran away, let's chill.
-            }
-            else if (navAgent.isOnNavMesh && navAgent.enabled) // Check if agent is on NavMesh and enabled
+            if (navAgent.isOnNavMesh && navAgent.enabled)
             {
                 navAgent.SetDestination(player.transform.position);
+                // Debug.Log("Chasing player.");
+            }
+
+            if (distanceToPlayer <= 1.5f)
+            {
+                StartCoroutine(AttackPlayer());
+                // Debug.Log("Attacking player!");
             }
         }
-
-        // Check if player is within 1.5 meters and mimic is chasing player
-        if (isAttacking && player != null && Vector3.Distance(transform.position, player.transform.position) <= 1.5f)
+        else
         {
-            StartCoroutine(AttackPlayer());
-        }
-
-        // Check if mimic is not attacking
-        if (!isAttacking)
-        {
-            StartCoroutine(DelayedDisguise());
+            // Only disguise if not attacking
+            if (!isAttacking)
+            {
+                StartCoroutine(DelayedDisguise());
+            }
         }
     }
 
@@ -187,7 +189,6 @@ public class MimicBehaviour : MonoBehaviour
     IEnumerator AttackPlayer()
     {        
         // Damage the player
-        GameObject player = GameObject.FindGameObjectWithTag("Player").transform.parent.gameObject;
         if (player != null)
         {
             HealthManager healthManager = player.GetComponent<HealthManager>();

@@ -5,8 +5,8 @@ using UnityEngine.AI;
 
 public class ThingController : MonoBehaviour
 {
+    public GameObject player; // Reference to the player
     private NavMeshAgent navAgent; // Handles navigation
-    private GameObject player; // Reference to the player
     private DarkController darkController;
     public float roamRadius = 10f; // How far can the thing wander?
     private Collider thingCollider; // Reference to the collider
@@ -32,11 +32,12 @@ public class ThingController : MonoBehaviour
         navAgent = GetComponent<NavMeshAgent>(); // Get the NavMeshAgent component
         thingCollider = GetComponent<Collider>(); // Get the Collider component
 
-        GameObject playerObject = GameObject.FindGameObjectWithTag("Player"); // Find the player by tag
+        // Last minute fix to make this bloody thing work- made player public for permanent reference
+        // GameObject playerObject = GameObject.FindGameObjectWithTag("Player"); // Find the player by tag
 
-        if (playerObject != null)
+        if (player != null)
         {
-            player = playerObject.transform.parent.gameObject; // Get the parent of the player object
+            // player = playerObject.transform.parent.gameObject; // Get the parent of the player object
             darkController = player.GetComponent<DarkController>();
         }
 
