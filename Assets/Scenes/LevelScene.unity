@@ -11112,10 +11112,35 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1096992690}
     m_Modifications:
+    - target: {fileID: 2516883925462503514, guid: 4464393b7ecf1ef4ca1a505484562944,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.0028
+      objectReference: {fileID: 0}
     - target: {fileID: 2653952004597285408, guid: 4464393b7ecf1ef4ca1a505484562944,
         type: 3}
       propertyPath: m_Name
       value: SecurityProps
+      objectReference: {fileID: 0}
+    - target: {fileID: 3474051632845783328, guid: 4464393b7ecf1ef4ca1a505484562944,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.0002
+      objectReference: {fileID: 0}
+    - target: {fileID: 3507483558345346211, guid: 4464393b7ecf1ef4ca1a505484562944,
+        type: 3}
+      propertyPath: playerName
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 3677390412650932560, guid: 4464393b7ecf1ef4ca1a505484562944,
+        type: 3}
+      propertyPath: playerName
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 3704558224638746748, guid: 4464393b7ecf1ef4ca1a505484562944,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 5.81
       objectReference: {fileID: 0}
     - target: {fileID: 3975599506196188256, guid: 4464393b7ecf1ef4ca1a505484562944,
         type: 3}
@@ -11166,6 +11191,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7528681324072049409, guid: 4464393b7ecf1ef4ca1a505484562944,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.0013
+      objectReference: {fileID: 0}
+    - target: {fileID: 7720379604914223709, guid: 4464393b7ecf1ef4ca1a505484562944,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.297
+      objectReference: {fileID: 0}
+    - target: {fileID: 7729803498794087281, guid: 4464393b7ecf1ef4ca1a505484562944,
+        type: 3}
+      propertyPath: playerName
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8836261287523011195, guid: 4464393b7ecf1ef4ca1a505484562944,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.0017
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -16448,6 +16493,7 @@ GameObject:
   - component: {fileID: 627473469}
   - component: {fileID: 627473468}
   - component: {fileID: 627473467}
+  - component: {fileID: 627473470}
   m_Layer: 0
   m_Name: DormsFloor
   m_TagString: Untagged
@@ -16542,6 +16588,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 627473465}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &627473470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 627473465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 0}
+  m_BuildHeightMesh: 0
 --- !u!1 &631565336 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2881749478023077256, guid: 7adcb716161db814f9d07a42efaad574,
