@@ -217,4 +217,16 @@ public class ThingController : MonoBehaviour
             audioSource.PlayOneShot(selectedClip, 0.3f); // Play the selected footstep clip with calculated volume
         }
     }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("DoorController"))
+        {
+            doorOpen doorOpener = other.GetComponent<doorOpen>();
+            if (doorOpener != null)
+            {
+                doorOpener.OpenDoor(); // Call the OpenDoor method
+            }
+        }
+    }
 }
