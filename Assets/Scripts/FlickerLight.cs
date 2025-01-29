@@ -17,9 +17,10 @@ public class FlickerLight : MonoBehaviour
     void Start()
     {
         holdTime = 0.0f;
-        brightness = 5f;
 
         myLite = GetComponent<Light>();
+
+        brightness = myLite.intensity;
     }
 
     // Update is called once per frame
@@ -31,13 +32,13 @@ public class FlickerLight : MonoBehaviour
 
             if (onThreshold > 0.9f)
             {
-                myLite.intensity = brightness;
+                myLite.intensity = brightness * 2;
                 //audioSource.Play();
 
             }
             else if (onThreshold > 0.7f)
             {
-                myLite.intensity = brightness / 2f;
+                myLite.intensity = brightness;
             }
             else
             {
