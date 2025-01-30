@@ -230,4 +230,17 @@ public class ThingController : MonoBehaviour
             }
         }
     }
+
+    void OnTriggerStay(Collider other){
+        if (other.CompareTag("Player"))
+        {
+            float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+
+            if (darkController != null && distanceToPlayer <= 2f)
+            {
+                player.GetComponent<HealthManager>().DamagePlayer();
+                darkController.ExitDark(); // Call ExitDark method
+            }
+        }
+    }
 }
