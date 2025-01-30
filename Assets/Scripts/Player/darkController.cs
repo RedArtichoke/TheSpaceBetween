@@ -95,17 +95,13 @@ public class DarkController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q) && hasDevice)
         {
-            inDark = !inDark; // Toggle inDark
-            StartCoroutine(AdjustExposure());
-
             if (inDark)
             {
-                if (exitDarkCoroutine != null) StopCoroutine(exitDarkCoroutine); // Stop if already running
-                exitDarkCoroutine = StartCoroutine(ExitDarkAfterDelay(60f)); // Start new timer
+                ExitDark();
             }
             else
             {
-                if (exitDarkCoroutine != null) StopCoroutine(exitDarkCoroutine); // Stop timer
+                EnterDark();
             }
         }
     }
@@ -333,6 +329,36 @@ public class DarkController : MonoBehaviour
                 {
                     footprint.SetActive(true); // Enable footprints
                 }
+            }
+        }
+    }
+
+    public void EnterDark()
+    {
+        if (!inDark)
+        {
+            inDark = true; // Set inDark to true
+            StartCoroutine(AdjustExposure()); // Adjust exposure for entering dark
+
+            if (exitDarkCoroutine != null)
+            {
+                StopCoroutine(exitDarkCoroutine); // Stop if already running
+            }
+            exitDarkCoroutine = StartCoroutine(ExitDarkAfterDelay(60f)); // Start new timer
+        }
+    }
+
+    public void ExitDark()
+    {
+        if (inDark)
+        {
+            inDark = false; // Set inDark to false
+            StopCoroutine(AdjustExposure());
+            StartCoroutine(AdjustExposure()); // Adjust exposure for exiting dark
+
+            if (exitDarkCoroutine != null)
+            {
+                StopCoroutine(exitDarkCoroutine); // Stop exit timer
             }
         }
     }

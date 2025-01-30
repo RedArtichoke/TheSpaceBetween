@@ -8,6 +8,7 @@
 
 using UnityEngine;
 using System.Threading;
+using System;
 
 /**
  * This class allows a Unity program to continually check for messages from a
@@ -63,12 +64,34 @@ public class SerialController : MonoBehaviour
     // ------------------------------------------------------------------------
     void OnEnable()
     {
-        serialThread = new SerialThreadLines(portName, 
-                                             baudRate, 
-                                             reconnectionDelay,
-                                             maxUnreadMessages);
-        thread = new Thread(new ThreadStart(serialThread.RunForever));
-        thread.Start();
+        try
+        {
+            if (IsPortAvailable(portName))
+            {
+                serialThread = new SerialThreadLines(portName, 
+                                                     baudRate, 
+                                                     reconnectionDelay,
+                                                     maxUnreadMessages);
+                thread = new Thread(new ThreadStart(serialThread.RunForever));
+                thread.Start();
+            }
+            else
+            {
+                Debug.LogWarning("Arduino not detected. Disabling Arduino features.");
+                // Disable Arduino-dependent features here
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Failed to start serial thread: " + e.Message);
+        }
+    }
+
+    bool IsPortAvailable(string portName)
+    {
+        // Implement logic to check if the port is available
+        // This could involve checking available serial ports
+        return false; // Placeholder: return true if available, false otherwise
     }
 
     // ------------------------------------------------------------------------
@@ -109,8 +132,11 @@ public class SerialController : MonoBehaviour
     {
         // If the user prefers to poll the messages instead of receiving them
         // via SendMessage, then the message listener should be null.
-        if (messageListener == null)
+        if (messageListener == null || serialThread == null)
+        {
+            Debug.LogWarning("MessageListener or SerialThread is not initialized.");
             return;
+        }
 
         // Read the next message from the queue
         string message = (string)serialThread.ReadMessage();
@@ -142,6 +168,12 @@ public class SerialController : MonoBehaviour
     // ------------------------------------------------------------------------
     public void SendSerialMessage(string message)
     {
+        if (serialThread == null)
+        {
+            Debug.LogWarning("SerialThread is not initialized.");
+            return;
+        }
+
         serialThread.SendMessage(message);
     }
 
