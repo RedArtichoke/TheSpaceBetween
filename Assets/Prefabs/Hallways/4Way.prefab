@@ -17,7 +17,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &898603079298398283
 Transform:
@@ -123,7 +123,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &8001585433839197921
 Transform:
@@ -222,6 +222,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8001585433839197921}
     m_Modifications:
+    - target: {fileID: 5397351636486433494, guid: 9c82f1511a5fd4646a0bb91bae38c6d1,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 8176173279910597353, guid: 9c82f1511a5fd4646a0bb91bae38c6d1,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -296,6 +301,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: doorway (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8807997348596467795, guid: 9c82f1511a5fd4646a0bb91bae38c6d1,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

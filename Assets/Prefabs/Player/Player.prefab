@@ -101,6 +101,8 @@ MonoBehaviour:
   glowMaterial: {fileID: 2100000, guid: b0f5e6da047e347cc8ff13af5d2b3ce0, type: 2}
   footstepAudio: {fileID: 8586990463066505153}
   pickupClip: {fileID: 8300000, guid: c2a084258ca834cdaac7db1e35daf7b1, type: 3}
+  QPrompt: {fileID: 0}
+  QGroup: {fileID: 0}
 --- !u!114 &3482881951145624219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5137,8 +5139,8 @@ Light:
   m_Color: {r: 0.9386792, g: 0.9868416, b: 1, a: 1}
   m_Intensity: 100
   m_Range: 200
-  m_SpotAngle: 80
-  m_InnerSpotAngle: 50
+  m_SpotAngle: 60
+  m_InnerSpotAngle: 20
   m_CookieSize: 10
   m_Shadows:
     m_Type: 1
