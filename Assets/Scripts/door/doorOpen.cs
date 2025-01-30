@@ -118,6 +118,7 @@ public class doorOpen : MonoBehaviour
                 audioSource3.Play();
                 StartCoroutine(FlashingLight());
 
+                OpenDoor();
                // keycard.enabled = false;
             }
             else
