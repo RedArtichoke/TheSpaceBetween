@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8498374706113002506}
   - component: {fileID: 3436913709725477954}
   - component: {fileID: 7205775545797069990}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Mimic
   m_TagString: Mimic
   m_Icon: {fileID: 0}
@@ -104,14 +104,14 @@ MonoBehaviour:
   detectionRange: 10
   footprintPrefab: {fileID: 4501082314754199459, guid: 9df63b64c68174d6592991f28e7ddb6e,
     type: 3}
+  isAttacking: 0
+  player: {fileID: 0}
   foundNeighbours: []
   mimicSounds:
   - {fileID: 8300000, guid: c7b0b3eed53b94679a72f9bbf24e8173, type: 3}
   - {fileID: 8300000, guid: 43572c4318b244f0b8f7aacbe6e57d5c, type: 3}
   - {fileID: 8300000, guid: f3f3128bfa64f412e96a441e74df21eb, type: 3}
   - {fileID: 8300000, guid: 48c0db72ea19248778fb667135289b75, type: 3}
-  disguiseDelay: 10
-  mimicPrefab: {fileID: 4510365256109511908}
 --- !u!195 &7205775545797069990
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 3856627935917176334}
   - component: {fileID: 739293800329791798}
   - component: {fileID: 2722068054458778567}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: visualRep
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -66,7 +66,7 @@ public class DisguisedMimic : MonoBehaviour
             }
 
             // Wait for a random delay before repeating
-            yield return new WaitForSeconds(Random.Range(2f, 10f));
+            yield return new WaitForSeconds(Random.Range(10f, 20f));
         }
     }
 }
