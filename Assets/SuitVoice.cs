@@ -7,10 +7,15 @@ public class SuitVoice : MonoBehaviour
 {
     public PowerController powerController;
     public AudioSource suitVoice;
+    [Header("Power")]
     public AudioClip power75;
     public AudioClip power50;
     public AudioClip power25;
     public AudioClip power10;
+
+    [Header("Health")]
+    public AudioClip criticalDamageTaken;
+    public AudioClip medicalRestore;
 
     private bool hasPlayed75 = false;
     private bool hasPlayed50 = false;
@@ -69,4 +74,15 @@ public class SuitVoice : MonoBehaviour
         }
     }
     
+    public void playDamageAudio()
+    {
+        suitVoice.clip = criticalDamageTaken;
+        suitVoice.Play();
+    }
+
+    public void playRestoreAudio()
+    {
+        suitVoice.clip = medicalRestore;
+        suitVoice.Play();
+    }
 }

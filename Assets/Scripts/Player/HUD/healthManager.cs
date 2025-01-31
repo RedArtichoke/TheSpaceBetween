@@ -16,6 +16,8 @@ public class HealthManager : MonoBehaviour
     public AudioClip[] damageSounds; // Array of audio clips for damage
     private AudioSource audioSource; // AudioSource component
 
+    public SuitVoice suitVoice;
+
     void Start()
     {
         damageOverlay.color = new Color(1f, 0f, 0f, 0f); // Start transparent
@@ -37,6 +39,8 @@ public class HealthManager : MonoBehaviour
 
     public void DamagePlayer()
     {
+        suitVoice.playDamageAudio();
+
         if (!isDamaged)
         {
             // Play random damage sound with pitch variation
@@ -86,6 +90,7 @@ public class HealthManager : MonoBehaviour
             {
                 StopCoroutine(regenCoroutine);
             }
+            suitVoice.playRestoreAudio();
             regenCoroutine = StartCoroutine(RegenerateHealth());
         }
     }
