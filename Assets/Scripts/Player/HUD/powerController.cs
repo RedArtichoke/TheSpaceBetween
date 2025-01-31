@@ -36,6 +36,7 @@ public class PowerController : MonoBehaviour
     public AudioClip[] toggleSounds; // Array of audio clips
     private AudioSource audioSource; // Declare the audio source
 
+    private float originalDrainRate; // Store the original drain rate
 
     // Start is called before the first frame update
     void Start()
@@ -53,6 +54,7 @@ public class PowerController : MonoBehaviour
             audioSource = gameObject.AddComponent<AudioSource>(); // Add an AudioSource component if not found
         }
         audioSource.volume = 0.5f; // Set volume to half
+        originalDrainRate = drainRate; // Save the original drain rate
     }
 
     // Update is called once per frame
@@ -108,12 +110,12 @@ public class PowerController : MonoBehaviour
             heartRateUI.sprite = originalHeartRateSprite; // Back to normal heart
         }
 
-        // Lerp spotlight intensity
-        if (lerpTime < lerpDuration)
+        // Set power to 100 with the 0 key
+        if (Input.GetKeyDown(KeyCode.Alpha0))
         {
-            lerpTime += Time.deltaTime;
-            float t = lerpTime / lerpDuration;
-            flashlight.intensity = Mathf.Lerp(flashlight.intensity, targetIntensity, t); // Smoothly change the light's mind
+            power = 100f;
+            UpdateHUD();
+            Debug.Log("Power reset to 100.");
         }
 
         // Drain power if toggled on
@@ -140,7 +142,13 @@ public class PowerController : MonoBehaviour
             StartCoroutine(FlashlightFlicker()); // Disco time
         }
 
-
+        // Lerp spotlight intensity
+        if (lerpTime < lerpDuration)
+        {
+            lerpTime += Time.deltaTime;
+            float t = lerpTime / lerpDuration;
+            flashlight.intensity = Mathf.Lerp(flashlight.intensity, targetIntensity, t); // Smoothly change the light's mind
+        }
     }
 
     // Coroutine to reset the flashlight intensity and angles after the flashbang effect

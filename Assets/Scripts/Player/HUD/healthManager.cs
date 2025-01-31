@@ -25,6 +25,16 @@ public class HealthManager : MonoBehaviour
         audioSource = gameObject.AddComponent<AudioSource>();
     }
 
+    void Update()
+    {
+        // Set health to 100 with the 0 key
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            health = 100;
+            Debug.Log("Health reset to 100.");
+        }
+    }
+
     public void DamagePlayer()
     {
         if (!isDamaged)
