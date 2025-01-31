@@ -148,7 +148,6 @@ MonoBehaviour:
   damageOverlay: {fileID: 0}
   gameOverUI: {fileID: 6615726323835050706}
   UIBlur: {fileID: 7847846447635641258}
-  audioSource: {fileID: 2225282234202216956}
   damageSounds:
   - {fileID: 8300000, guid: 79d9af61ac7ed4874abdb2d1dce1bca1, type: 3}
   - {fileID: 8300000, guid: bcad9905817d840e09858f62fbef33b6, type: 3}
@@ -176,6 +175,10 @@ MonoBehaviour:
   continuousDarkSound: {fileID: 8300000, guid: 0a392e6ea796549188afcc2e178e2da8, type: 3}
   eyeParticles: {fileID: 8135002703491202321}
   darkAmbientSound: {fileID: 8300000, guid: 143af89a4c3ca44379639e500a9f1c52, type: 3}
+  keyItemReplacementPrefab: {fileID: 847762195381366513, guid: b8989396734aa45e2b9e86f4bd5ac385,
+    type: 3}
+  keyItemChildPrefab: {fileID: 847762195381366513, guid: b8989396734aa45e2b9e86f4bd5ac385,
+    type: 3}
 --- !u!1 &2708353557646452750
 GameObject:
   m_ObjectHideFlags: 0

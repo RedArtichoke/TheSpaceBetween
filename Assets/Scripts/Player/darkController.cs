@@ -33,6 +33,10 @@ public class DarkController : MonoBehaviour
     private LensDistortion lensDistortion;
     public AudioClip darkAmbientSound; // Sound to play continuously in the dark
     private AudioSource darkAmbientAudioSource; // Separate AudioSource for ambient sound
+    public GameObject keyItemReplacementPrefab; // Assign in inspector
+    public GameObject keyItemChildPrefab; // Assign in inspector
+
+    private List<GameObject> keyItemsWithHighlights = new List<GameObject>();
 
     // Start is called before the first frame update
     void Start()
@@ -340,11 +344,25 @@ public class DarkController : MonoBehaviour
             inDark = true; // Set inDark to true
             StartCoroutine(AdjustExposure()); // Adjust exposure for entering dark
 
+            AddKeyItemHighlights(); // Add child prefab to key items
+
             if (exitDarkCoroutine != null)
             {
                 StopCoroutine(exitDarkCoroutine); // Stop if already running
             }
             exitDarkCoroutine = StartCoroutine(ExitDarkAfterDelay(60f)); // Start new timer
+        }
+    }
+
+    private void AddKeyItemHighlights()
+    {
+        // Find all objects on the "KeyItems" layer
+        GameObject[] keyItems = GameObject.FindGameObjectsWithTag("KeyItem");
+        foreach (GameObject keyItem in keyItems)
+        {
+            // Instantiate the child prefab and set it as a child of the key item
+            GameObject child = Instantiate(keyItemChildPrefab, keyItem.transform);
+            keyItemsWithHighlights.Add(child);
         }
     }
 
@@ -356,10 +374,24 @@ public class DarkController : MonoBehaviour
             StopCoroutine(AdjustExposure());
             StartCoroutine(AdjustExposure()); // Adjust exposure for exiting dark
 
+            RemoveKeyItemHighlights(); // Remove child prefab from key items
+
             if (exitDarkCoroutine != null)
             {
                 StopCoroutine(exitDarkCoroutine); // Stop exit timer
             }
         }
+    }
+
+    private void RemoveKeyItemHighlights()
+    {
+        foreach (GameObject child in keyItemsWithHighlights)
+        {
+            if (child != null && child.layer == LayerMask.NameToLayer("KeyItems"))
+            {
+                Destroy(child); // Destroy the child prefab
+            }
+        }
+        keyItemsWithHighlights.Clear(); // Clear the list
     }
 }
