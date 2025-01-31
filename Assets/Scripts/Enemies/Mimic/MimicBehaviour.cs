@@ -191,30 +191,60 @@ public class MimicBehaviour : MonoBehaviour
         // Damage the player
         if (player != null)
         {
-            HealthManager healthManager = player.GetComponent<HealthManager>();
-            if (healthManager != null)
-            {
-                if (!healthManager.isDamaged)
-                {
-                    healthManager.DamagePlayer();
-                    MimicBody mimicBody = GetComponentInChildren<MimicBody>();
-                    if (mimicBody != null)
-                    {
-                        mimicBody.isVisible = true;
-                        mimicBody.UpdateVisibility();
-                    }
-                    navAgent.isStopped = true;
-                    yield return new WaitForSeconds(Random.Range(0.1f, 0.3f));
-                    if (mimicBody != null)
-                    {
-                        mimicBody.isVisible = false;
-                        mimicBody.UpdateVisibility();
-                    }
-                    yield return new WaitForSeconds(2f);
+            // Get the parent of the player object
+            GameObject actualPlayer = player.transform.parent?.gameObject;
 
-                    navAgent.isStopped = false;
+            if (actualPlayer != null)
+            {
+                Debug.Log("Actual player found. Player name: " + actualPlayer.name);
+
+                HealthManager healthManager = actualPlayer.GetComponent<HealthManager>();
+                if (healthManager != null)
+                {
+                    Debug.Log("HealthManager found on actual player: " + actualPlayer.name);
+
+                    if (!healthManager.isDamaged)
+                    {
+                        Debug.Log("Player is not damaged. Attacking player.");
+
+                        healthManager.DamagePlayer();
+                        MimicBody mimicBody = GetComponentInChildren<MimicBody>();
+                        if (mimicBody != null)
+                        {
+                            Debug.Log("MimicBody found. Making it visible.");
+                            mimicBody.isVisible = true;
+                            mimicBody.UpdateVisibility();
+                        }
+                        navAgent.isStopped = true;
+                        yield return new WaitForSeconds(Random.Range(0.1f, 0.3f));
+                        if (mimicBody != null)
+                        {
+                            Debug.Log("Hiding MimicBody.");
+                            mimicBody.isVisible = false;
+                            mimicBody.UpdateVisibility();
+                        }
+                        yield return new WaitForSeconds(2f);
+
+                        navAgent.isStopped = false;
+                    }
+                    else
+                    {
+                        Debug.Log("Player is already damaged.");
+                    }
+                }
+                else
+                {
+                    Debug.Log("HealthManager not found on actual player: " + actualPlayer.name);
                 }
             }
+            else
+            {
+                Debug.Log("Actual player is null.");
+            }
+        }
+        else
+        {
+            Debug.Log("Player is null.");
         }
     }
 
