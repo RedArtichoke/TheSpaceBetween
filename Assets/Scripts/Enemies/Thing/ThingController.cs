@@ -232,7 +232,7 @@ public class ThingController : MonoBehaviour
     }
 
     void OnTriggerStay(Collider other){
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && darkController.inDark)
         {
             float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
 

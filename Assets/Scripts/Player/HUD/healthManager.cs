@@ -13,16 +13,31 @@ public class HealthManager : MonoBehaviour
     public GameObject gameOverUI;
     public GameObject UIBlur;
 
+    public AudioClip[] damageSounds; // Array of audio clips for damage
+    private AudioSource audioSource; // AudioSource component
+
     void Start()
     {
         damageOverlay.color = new Color(1f, 0f, 0f, 0f); // Start transparent
         cameraController = FindObjectOfType<FpsCameraController>();
+
+        // Create and configure the AudioSource
+        audioSource = gameObject.AddComponent<AudioSource>();
     }
 
     public void DamagePlayer()
     {
         if (!isDamaged)
         {
+            // Play random damage sound with pitch variation
+            if (damageSounds.Length > 0)
+            {
+                int randomIndex = Random.Range(0, damageSounds.Length);
+                audioSource.clip = damageSounds[randomIndex];
+                audioSource.pitch = Random.Range(0.9f, 1.1f); // Slight pitch variation
+                audioSource.Play();
+            }
+
             health -= 70;
             if (health < 0)
             {
