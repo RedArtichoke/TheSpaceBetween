@@ -74,7 +74,6 @@ public class ElevatorCutscene : MonoBehaviour
             StartCoroutine(ElevatorUp());
         }
         
-
         if (inMotion)
         {
             rumble();
@@ -83,6 +82,7 @@ public class ElevatorCutscene : MonoBehaviour
 
     IEnumerator ElevatorDown()
     {
+       
 
         //START SCENE
         doorAnimator.SetBool("MotionStart", true);
@@ -95,6 +95,11 @@ public class ElevatorCutscene : MonoBehaviour
         yield return new WaitForSeconds(4.0f);
         inMotion = false;
 
+        //turn on fog, door light should not be seen
+        RenderSettings.fog = true;  //consider adding reference to if in the Dark
+        RenderSettings.fogStartDistance = 3f;
+        RenderSettings.fogEndDistance = 7f;
+
         //DOORS OPEN TO SKULL AND ITEM
         skull.SetActive(true);
         keyItem.gameObject.SetActive(true);
@@ -105,11 +110,15 @@ public class ElevatorCutscene : MonoBehaviour
 
         doorAnimator.SetBool("MotionStart", false);
         doorAnimator.SetBool("Arrived", true);
-    }
 
-    IEnumerator ElevatorUp()
-    {
+        yield return new WaitForSeconds(4.0f);
+
+        keyItem.GetComponent<Rigidbody>().velocity = 10 * Vector3.back;
+
         elevatorDone = true; //only trigger scene once because you get the item
+
+        yield return new WaitForSeconds(1.0f);
+
 
         //PLAYER HAS GRABBED THE ITEM
         doorAnimator.SetBool("Arrived", false);
@@ -130,6 +139,8 @@ public class ElevatorCutscene : MonoBehaviour
 
         doorAnimator.SetBool("MotionStart", false);
         doorAnimator.SetBool("Arrived", true);
+
+        RenderSettings.fog = false; //consider adding reference to if in the Dark
     }
 
     void rumble()
