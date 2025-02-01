@@ -28,6 +28,16 @@ public class SuitVoice : MonoBehaviour
     private bool hasPlayed25 = false;
     private bool hasPlayed10 = false;
 
+    [Header("Effects")]
+    public GameObject steam1;
+    public GameObject steam2;
+
+    void Start()
+    {
+        steam1.SetActive(false);
+        steam2.SetActive(false);
+    }
+
     void Update()
     {
         //75% WARNING
@@ -90,6 +100,9 @@ public class SuitVoice : MonoBehaviour
     {
         suitVoice.clip = medicalRestore;
         suitVoice.Play();
+
+        EnableSuitSteamEffect();
+
     }
 
     public void PlayPowerRestoreAudio()
@@ -116,4 +129,21 @@ public class SuitVoice : MonoBehaviour
         suitVoice.Play();
     }
 
+    public void EnableSuitSteamEffect()
+    {
+        StartCoroutine(SteamEffect());
+    }
+
+    public IEnumerator SteamEffect()
+    {
+        yield return new WaitForSeconds(3f);
+
+        steam1.SetActive(true);
+        steam2.SetActive(true);
+
+        yield return new WaitForSeconds(4f);
+
+        steam1.SetActive(false);
+        steam2.SetActive(false);
+    }
 }
