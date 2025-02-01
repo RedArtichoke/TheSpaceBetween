@@ -21,6 +21,8 @@ public class SuitVoice : MonoBehaviour
     public AudioClip conStable;
     public AudioClip suitEquip;
 
+    public AudioClip suitInstall;
+
     private bool hasPlayed75 = false;
     private bool hasPlayed50 = false;
     private bool hasPlayed25 = false;
@@ -107,4 +109,11 @@ public class SuitVoice : MonoBehaviour
         suitVoice.clip = suitEquip;
         suitVoice.Play();
     }
+
+    public void PlaySuitInstallAudio()
+    {
+        suitVoice.clip = suitInstall;
+        suitVoice.Play();
+    }
+
 }

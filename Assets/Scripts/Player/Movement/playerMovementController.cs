@@ -252,6 +252,8 @@ public class PlayerMovementController : MonoBehaviour
                 {
                     darkController.hasDevice = true; // Set hasDevice to true
                 }
+                suitVoice.PlaySuitInstallAudio();
+
                 QPrompt.SetActive(true);
                 StartCoroutine(DimensionPrompt());
 
