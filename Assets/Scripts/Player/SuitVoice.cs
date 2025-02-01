@@ -19,6 +19,7 @@ public class SuitVoice : MonoBehaviour
     public AudioClip criticalDamageTaken;
     public AudioClip medicalRestore;
     public AudioClip conStable;
+    public AudioClip suitEquip;
 
     private bool hasPlayed75 = false;
     private bool hasPlayed50 = false;
@@ -98,6 +99,12 @@ public class SuitVoice : MonoBehaviour
     public void PlayConditionStabilizedAudio()
     {
         suitVoice.clip = conStable;
+        suitVoice.Play();
+    }
+
+    public void PlaySuitEquipAudio()
+    {
+        suitVoice.clip = suitEquip;
         suitVoice.Play();
     }
 }

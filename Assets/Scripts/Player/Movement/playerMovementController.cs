@@ -273,6 +273,23 @@ public class PlayerMovementController : MonoBehaviour
                 Destroy(hit.transform.gameObject); // Delete the object
                 return; // Exit the method
             }
+            else if (hit.transform.CompareTag("Suit"))
+            {
+                //powerController.AddPower(100);
+                suitVoice.PlaySuitEquipAudio();
+                
+                // Play the pickup sound using the audio clip
+                if (pickupClip != null)
+                {
+                    audioSource.clip = pickupClip;
+                    audioSource.Play();
+                }
+
+                Debug.Log("Suit equipped");
+
+                Destroy(hit.transform.gameObject); // Delete the object
+                return; // Exit the method
+            }
             else if (hit.transform.CompareTag("Mimic"))
             {
                 // Handle picking up a disguised mimic
