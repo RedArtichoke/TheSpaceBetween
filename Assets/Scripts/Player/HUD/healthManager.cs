@@ -39,7 +39,7 @@ public class HealthManager : MonoBehaviour
 
     public void DamagePlayer()
     {
-        suitVoice.playDamageAudio();
+        
 
         if (!isDamaged)
         {
@@ -69,6 +69,11 @@ public class HealthManager : MonoBehaviour
                     StopCoroutine(strobeCoroutine);
                 }
                 strobeCoroutine = StartCoroutine(StrobeEffect());
+            }
+
+            if(health > 0)
+            {
+                suitVoice.playDamageAudio();
             }
 
             if (health <= 0)
@@ -104,6 +109,8 @@ public class HealthManager : MonoBehaviour
             damageOverlay.color = new Color(1f, 0f, 0f, alpha);
             yield return new WaitForSeconds(0.1f);
         }
+
+        suitVoice.PlayConditionStabilizedAudio();
     }
 
     private IEnumerator StrobeEffect()
