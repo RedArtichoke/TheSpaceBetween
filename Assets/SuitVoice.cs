@@ -13,6 +13,8 @@ public class SuitVoice : MonoBehaviour
     public AudioClip power25;
     public AudioClip power10;
 
+    public AudioClip powerRestored;
+
     [Header("Health")]
     public AudioClip criticalDamageTaken;
     public AudioClip medicalRestore;
@@ -83,6 +85,12 @@ public class SuitVoice : MonoBehaviour
     public void playRestoreAudio()
     {
         suitVoice.clip = medicalRestore;
+        suitVoice.Play();
+    }
+
+    public void PlayPowerRestoreAudio()
+    {
+        suitVoice.clip = powerRestored;
         suitVoice.Play();
     }
 }

@@ -58,6 +58,8 @@ public class PlayerMovementController : MonoBehaviour
     public GameObject QPrompt;
     public CanvasGroup QGroup;
 
+    public SuitVoice suitVoice;
+
     void Start()
     {
         // Initialize player components and settings
@@ -258,8 +260,9 @@ public class PlayerMovementController : MonoBehaviour
             }
             else if (hit.transform.CompareTag("Battery"))
             {
-                powerController.AddPower(75);
-
+                powerController.AddPower(100);
+                suitVoice.PlayPowerRestoreAudio();
+                
                 // Play the pickup sound using the audio clip
                 if (pickupClip != null)
                 {
