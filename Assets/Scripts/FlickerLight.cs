@@ -11,7 +11,7 @@ public class FlickerLight : MonoBehaviour
 
     Light myLite;
 
-    //public AudioSource audioSource;
+    public AudioSource audioSource;
 
     // Start is called before the first frame update
     void Start()
@@ -33,12 +33,13 @@ public class FlickerLight : MonoBehaviour
             if (onThreshold > 0.9f)
             {
                 myLite.intensity = brightness * 2;
-                //audioSource.Play();
+                
 
             }
             else if (onThreshold > 0.7f)
             {
                 myLite.intensity = brightness;
+                audioSource.Play();
             }
             else
             {
