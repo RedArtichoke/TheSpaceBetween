@@ -8,6 +8,8 @@ public class MetalDetector : MonoBehaviour
 
     public Light[] warnLight;
 
+    public AudioSource beepAudio;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +30,7 @@ public class MetalDetector : MonoBehaviour
 
     IEnumerator MetalFound()
     {
+        beepAudio.Play();
         //turning on or changing colour (metal detected)
         for (int i = 0; i < warnLight.Length; i++)
         {
@@ -41,5 +44,6 @@ public class MetalDetector : MonoBehaviour
         {
             warnLight[j].enabled = false;
         }
+        beepAudio.Stop();
     }
 }
