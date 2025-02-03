@@ -51,6 +51,7 @@ public class AudioTrigger : MonoBehaviour
                 if (audioState == AudioState.DestroyOnEnter)
                 {
                     readyToDestroy = true;
+                    triggerRange.enabled = false;
                 }
             }
         }

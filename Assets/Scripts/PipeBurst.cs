@@ -10,10 +10,13 @@ public class PipeBurst : MonoBehaviour
 
     public AudioSource pipeAudio;
 
+    public GameObject burstMetal;
+
     void Start()
     {
         pipeBurst.SetActive(false);
         burstEffect.SetActive(false);
+        burstMetal.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -31,6 +34,7 @@ public class PipeBurst : MonoBehaviour
     {
         pipeBurst.SetActive(true);
         burstEffect.SetActive(true);
+        burstMetal.SetActive(true);
         StartCoroutine(playAudio());
     }
 
