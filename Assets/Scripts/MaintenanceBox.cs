@@ -13,10 +13,15 @@ public class MaintenanceBox : MonoBehaviour
     public GameObject[] lights;
 
     public GameObject[] lightParticles;
+    public SphereCollider colliderSphere;
+
+    public GameObject box;
+    public GameObject brokenBox;
 
     void Start()
     {
         burstEffect.SetActive(false);
+        brokenBox.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -44,7 +49,13 @@ public class MaintenanceBox : MonoBehaviour
         }
 
         burstEffect.SetActive(true);
-        StartCoroutine(playAudio());
+        burstAudio.Play();
+        colliderSphere.enabled = false;
+
+        brokenBox.SetActive(true);
+        box.GetComponent<MeshRenderer>().enabled = false;
+
+        //StartCoroutine(playAudio());
     }
 
 
@@ -52,8 +63,8 @@ public class MaintenanceBox : MonoBehaviour
     {
         yield return new WaitForSeconds(0.2f);
         burstAudio.Play();
-        yield return new WaitForSeconds(2f);
-        burstAudio.enabled = false;
+        //yield return new WaitForSeconds(2f);
+        //burstAudio.enabled = false;
 
     }
 }
