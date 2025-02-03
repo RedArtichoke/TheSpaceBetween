@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 using System.Linq;
+using Unity.VisualScripting;
 
 /// <summary>
 /// Controls player movement, object interaction, and camera effects.
