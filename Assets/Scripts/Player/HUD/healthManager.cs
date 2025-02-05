@@ -16,6 +16,8 @@ public class HealthManager : MonoBehaviour
     public AudioClip[] damageSounds; // Array of audio clips for damage
     private AudioSource audioSource; // AudioSource component
 
+    public SuitVoice suitVoice;
+
     void Start()
     {
         damageOverlay.color = new Color(1f, 0f, 0f, 0f); // Start transparent
@@ -37,6 +39,8 @@ public class HealthManager : MonoBehaviour
 
     public void DamagePlayer()
     {
+        
+
         if (!isDamaged)
         {
             // Play random damage sound with pitch variation
@@ -67,6 +71,11 @@ public class HealthManager : MonoBehaviour
                 strobeCoroutine = StartCoroutine(StrobeEffect());
             }
 
+            if(health > 0)
+            {
+                suitVoice.playDamageAudio();
+            }
+
             if (health <= 0)
             {
                 RevealGameOverUI();
@@ -86,6 +95,7 @@ public class HealthManager : MonoBehaviour
             {
                 StopCoroutine(regenCoroutine);
             }
+            suitVoice.playRestoreAudio();
             regenCoroutine = StartCoroutine(RegenerateHealth());
         }
     }
@@ -99,6 +109,8 @@ public class HealthManager : MonoBehaviour
             damageOverlay.color = new Color(1f, 0f, 0f, alpha);
             yield return new WaitForSeconds(0.1f);
         }
+
+        suitVoice.PlayConditionStabilizedAudio();
     }
 
     private IEnumerator StrobeEffect()

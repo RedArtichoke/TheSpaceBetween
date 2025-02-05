@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 using System.Linq;
+using Unity.VisualScripting;
 
 /// <summary>
 /// Controls player movement, object interaction, and camera effects.
@@ -57,6 +58,8 @@ public class PlayerMovementController : MonoBehaviour
 
     public GameObject QPrompt;
     public CanvasGroup QGroup;
+
+    public SuitVoice suitVoice;
 
     void Start()
     {
@@ -250,6 +253,8 @@ public class PlayerMovementController : MonoBehaviour
                 {
                     darkController.hasDevice = true; // Set hasDevice to true
                 }
+                suitVoice.PlaySuitInstallAudio();
+
                 QPrompt.SetActive(true);
                 StartCoroutine(DimensionPrompt());
 
@@ -258,14 +263,32 @@ public class PlayerMovementController : MonoBehaviour
             }
             else if (hit.transform.CompareTag("Battery"))
             {
-                powerController.AddPower(75);
-
+                powerController.AddPower(100);
+                suitVoice.PlayPowerRestoreAudio();
+                
                 // Play the pickup sound using the audio clip
                 if (pickupClip != null)
                 {
                     audioSource.clip = pickupClip;
                     audioSource.Play();
                 }
+
+                Destroy(hit.transform.gameObject); // Delete the object
+                return; // Exit the method
+            }
+            else if (hit.transform.CompareTag("Suit"))
+            {
+                //powerController.AddPower(100);
+                suitVoice.PlaySuitEquipAudio();
+                
+                // Play the pickup sound using the audio clip
+                if (pickupClip != null)
+                {
+                    audioSource.clip = pickupClip;
+                    audioSource.Play();
+                }
+
+                Debug.Log("Suit equipped");
 
                 Destroy(hit.transform.gameObject); // Delete the object
                 return; // Exit the method

@@ -19,6 +19,7 @@ public class FpsCameraController : MonoBehaviour
     private float lastAudioPlayTime = -Mathf.Infinity; // Track last play time
 
     private AudioSource audioSource;
+    public SuitVoice suitVoice;
 
     void Start()
     {
@@ -115,6 +116,7 @@ public class FpsCameraController : MonoBehaviour
         if (audioSource != null && enemyAudioCue != null)
         {
             audioSource.Play();
+            suitVoice.PlayHostileDetected();
         }
     }
 
