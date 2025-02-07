@@ -34,10 +34,19 @@ public class SuitVoice : MonoBehaviour
     public GameObject steam1;
     public GameObject steam2;
 
+    private bgMusicPlayer musicPlayer;
+
     void Start()
     {
         steam1.SetActive(false);
         steam2.SetActive(false);
+
+        // Find the GameObject with the bgMusicPlayer component
+        GameObject musicPlayerObject = GameObject.Find("Main Camera");
+        if (musicPlayerObject != null)
+        {
+            musicPlayer = musicPlayerObject.GetComponent<bgMusicPlayer>();
+        }
     }
 
     void Update()
@@ -92,49 +101,63 @@ public class SuitVoice : MonoBehaviour
         }
     }
     
+    private void PlayAudioWithVolumeControl(AudioClip clip)
+    {
+        if (musicPlayer != null)
+        {
+            musicPlayer.HalveVolume(); // Halve the volume before playing
+        }
+
+        suitVoice.clip = clip;
+        suitVoice.Play();
+
+        StartCoroutine(ResetVolumeAfterPlayback());
+    }
+
+    private IEnumerator ResetVolumeAfterPlayback()
+    {
+        yield return new WaitWhile(() => suitVoice.isPlaying); // Wait for audio to finish
+
+        if (musicPlayer != null)
+        {
+            musicPlayer.ResetVolume(); // Reset volume after playback
+        }
+    }
+
     public void playDamageAudio()
     {
-        suitVoice.clip = criticalDamageTaken;
-        suitVoice.Play();
+        PlayAudioWithVolumeControl(criticalDamageTaken);
     }
 
     public void playRestoreAudio()
     {
-        suitVoice.clip = medicalRestore;
-        suitVoice.Play();
-
+        PlayAudioWithVolumeControl(medicalRestore);
         EnableSuitSteamEffect();
-
     }
 
     public void PlayPowerRestoreAudio()
     {
-        suitVoice.clip = powerRestored;
-        suitVoice.Play();
+        PlayAudioWithVolumeControl(powerRestored);
     }
 
     public void PlayConditionStabilizedAudio()
     {
-        suitVoice.clip = conStable;
-        suitVoice.Play();
+        PlayAudioWithVolumeControl(conStable);
     }
 
     public void PlaySuitEquipAudio()
     {
-        suitVoice.clip = suitEquip;
-        suitVoice.Play();
+        PlayAudioWithVolumeControl(suitEquip);
     }
 
     public void PlaySuitInstallAudio()
     {
-        suitVoice.clip = suitInstall;
-        suitVoice.Play();
+        PlayAudioWithVolumeControl(suitInstall);
     }
 
     public void PlayHostileDetected()
     {
-        suitVoice.clip = hostile;
-        suitVoice.Play();
+        PlayAudioWithVolumeControl(hostile);
     }
 
     public void EnableSuitSteamEffect()

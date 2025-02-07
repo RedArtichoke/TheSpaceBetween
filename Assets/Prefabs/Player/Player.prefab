@@ -5393,6 +5393,7 @@ GameObject:
   - component: {fileID: 2082942935819276145}
   - component: {fileID: 8586990463066505153}
   - component: {fileID: 8464997635603633652}
+  - component: {fileID: 3314867519783491035}
   m_Layer: 6
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -5597,6 +5598,7 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 512
+  player: {fileID: 6343842895949506335}
 --- !u!114 &8464997635603633652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5611,6 +5613,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseMenuPrefab: {fileID: 2259027185159233832}
   screenQuad: {fileID: 7847846447635641258}
+--- !u!114 &3314867519783491035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3979727799474700649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64e2133ea464442f3989872fa0d94d8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioTracks:
+  - {fileID: 8300000, guid: 743c0473c30f24b90a9efea44a623e7e, type: 3}
+  - {fileID: 8300000, guid: c0871bb0ab79a4d84a9f4c386e6117dd, type: 3}
+  - {fileID: 8300000, guid: ac4f898573e604b669027ad10f2a814c, type: 3}
 --- !u!1 &4702062976006618551
 GameObject:
   m_ObjectHideFlags: 0

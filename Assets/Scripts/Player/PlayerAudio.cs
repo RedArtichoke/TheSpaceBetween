@@ -18,7 +18,8 @@ public class PlayerAudio : MonoBehaviour
     public Transform RayStart;
     public float range;
     public LayerMask layerMask;
-    
+    //public PlayerMovementController player;
+
     public void Footstep() 
     {
         if(Physics.Raycast(RayStart.position, RayStart.transform.up * -1, out hit, range, layerMask)) 
@@ -34,6 +35,7 @@ public class PlayerAudio : MonoBehaviour
             if(hit.collider.CompareTag("water"))
             {
                 PlayFootstepSound(water);
+                //player.movementSpeed = player.isCrouching ? 3.0f : 1.0f;
             }
             if(hit.collider.CompareTag("carpet"))
             {

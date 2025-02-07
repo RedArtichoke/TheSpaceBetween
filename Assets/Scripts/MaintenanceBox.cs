@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class MaintenanceBox : MonoBehaviour
 {
-    public float beatsPerMinute;
+    public HeartRateAnimator heartRateScript;
+    //public float beatsPerMinute;
     public GameObject normalBox;
     public GameObject burstEffect;
 
@@ -26,7 +27,7 @@ public class MaintenanceBox : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && beatsPerMinute > 100)
+        if (other.CompareTag("Player") && heartRateScript.beatsPerMinute > 100)
         {
             if (Random.value < 0.3f) // 30% chance
             {

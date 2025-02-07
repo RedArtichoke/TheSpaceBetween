@@ -113,6 +113,15 @@ public class FpsCameraController : MonoBehaviour
 
     private void PlayEnemyAudioCue()
     {
+        // Get the bgMusicPlayer component
+        bgMusicPlayer musicPlayer = GetComponent<bgMusicPlayer>();
+        
+        // Cancel the background music before playing the enemy audio cue
+        if (musicPlayer != null)
+        {
+            musicPlayer.CancelMusic();
+        }
+
         if (audioSource != null && enemyAudioCue != null)
         {
             audioSource.Play();
