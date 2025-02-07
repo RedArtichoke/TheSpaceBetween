@@ -18,7 +18,7 @@ public class PlayerAudio : MonoBehaviour
     public Transform RayStart;
     public float range;
     public LayerMask layerMask;
-    //public PlayerMovementController player;
+    public PlayerMovementController player;
 
     public void Footstep() 
     {
@@ -27,19 +27,22 @@ public class PlayerAudio : MonoBehaviour
             if(hit.collider.CompareTag("concrete"))
             {
                 PlayFootstepSound(concrete);
+                player.speedModifier = 0.0f;
             }
             if(hit.collider.CompareTag("metal1"))
             {
                 PlayFootstepSound(metal1);
+                player.speedModifier = 0.0f;
             }
             if(hit.collider.CompareTag("water"))
             {
                 PlayFootstepSound(water);
-                //player.movementSpeed = player.isCrouching ? 3.0f : 1.0f;
+                player.speedModifier = -2.0f;
             }
             if(hit.collider.CompareTag("carpet"))
             {
                 PlayFootstepSound(carpet);
+                player.speedModifier = 0.0f;
             }
         }
     }
