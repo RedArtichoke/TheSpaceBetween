@@ -49,7 +49,7 @@ public class ElevatorCutscene : MonoBehaviour
     private void Start()
     {
         doorAnimator = transform.parent.GetComponent<Animator>();
-        skull = transform.parent.GetChild(3).gameObject; //the skull is the 4th child of "Elevator Room";
+        //skull = transform.parent.GetChild(3).gameObject; //the skull is the 4th child of "Elevator Room";
 
         skull.SetActive(false);
         keyItem.gameObject.SetActive(false);
