@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class PipeBurst : MonoBehaviour
 {
-    public float beatsPerMinute;
+    public HeartRateAnimator heartRateScript;
+    //public float beatsPerMinute;
     public GameObject pipeBurst;
     public GameObject burstEffect;
 
@@ -21,7 +22,7 @@ public class PipeBurst : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && beatsPerMinute > 100)
+        if (other.CompareTag("Player") && heartRateScript.beatsPerMinute > 100)
         {
             if (Random.value < 0.3f) // 30% chance
             {
