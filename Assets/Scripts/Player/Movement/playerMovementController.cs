@@ -10,7 +10,10 @@ using Unity.VisualScripting;
 public class PlayerMovementController : MonoBehaviour
 {
     // Public variables for player movement and camera settings
-    public float movementSpeed = 5.0f;
+    public float currentMovementSpeed = 5.0f;
+    public float speedModifier = 0.0f;   // <----- This variable is for adjusting both walk and crouch speeds
+    private float walkingSpeed = 5.0f;
+    private float crouchingSpeed = 3.0f;
     public Transform cameraTransform;
     public Camera playerCamera;
     public float bobFrequency = 15.0f;
@@ -101,7 +104,9 @@ public class PlayerMovementController : MonoBehaviour
 
         // Adjust bob frequency and movement speed based on crouch state
         bobFrequency = isCrouching ? 10.0f : 15.0f;
-        movementSpeed = isCrouching ? 3.0f : 5.0f;
+
+        // Dictate player move speed
+        currentMovementSpeed = (isCrouching ? crouchingSpeed : walkingSpeed) + speedModifier;
 
         if (isCrouching)
         {
@@ -164,7 +169,7 @@ public class PlayerMovementController : MonoBehaviour
             isMoving = true;
         }
 
-        Vector3 movement = (transform.forward * verticalInput + transform.right * horizontalInput) * movementSpeed;
+        Vector3 movement = (transform.forward * verticalInput + transform.right * horizontalInput) * currentMovementSpeed;
         movement.y = playerRb.velocity.y;
         playerRb.velocity = movement;
 
