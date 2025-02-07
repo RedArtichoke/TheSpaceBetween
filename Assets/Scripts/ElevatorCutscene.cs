@@ -40,9 +40,14 @@ public class ElevatorCutscene : MonoBehaviour
     public LayerMask buttonLayer;
     Ray crosshair;                  //this interacts with colliders
 
+    [SerializeField] AudioSource vatorOpen;
+    [SerializeField] AudioSource vatorClose;
+    [SerializeField] AudioSource vatorNoise;
+    [SerializeField] AudioSource vatorShake;
+    [SerializeField] AudioSource vatorArrival;
+
     private void Start()
     {
-
         doorAnimator = transform.parent.GetComponent<Animator>();
         skull = transform.parent.GetChild(3).gameObject; //the skull is the 4th child of "Elevator Room";
 
@@ -52,6 +57,12 @@ public class ElevatorCutscene : MonoBehaviour
         origPos = gameObject.transform.position;
 
         range = 5.0f;
+
+        //vatorOpen = transform.parent.GetComponents<AudioSource>()[0];
+        //vatorClose = transform.parent.GetComponents<AudioSource>()[1];
+        //vatorNoise = transform.parent.GetComponents<AudioSource>()[2];
+        //vatorShake = transform.parent.GetComponents<AudioSource>()[3];
+        //vatorArrival = transform.parent.GetComponents<AudioSource>()[4];
     }
 
     private void Update()
@@ -65,14 +76,14 @@ public class ElevatorCutscene : MonoBehaviour
             {
                 //Debug.Log(hit.transform.name); //what was pressed?
 
-                StartCoroutine(ElevatorDown());
+                StartCoroutine(ElevatorSequence());
             }
         }
-        
+        /*
         if((keyItem == player.GetHeldObject()) && !elevatorDone)
         {
             StartCoroutine(ElevatorUp());
-        }
+        }*/
         
         if (inMotion)
         {
@@ -80,34 +91,43 @@ public class ElevatorCutscene : MonoBehaviour
         }
     }
 
-    IEnumerator ElevatorDown()
+    IEnumerator ElevatorSequence()
     {
-       
-
-        //START SCENE
+        //START SEQUENCE
+        vatorClose.Play();
         doorAnimator.SetBool("MotionStart", true);
 
         yield return new WaitForSeconds(2.0f);
 
         //ELEVATOR DESCENDING SEQUENCE
+        vatorShake.Play();
+        vatorNoise.Play();
+
         Debug.Log("and now you fall...");
         inMotion = true;
         yield return new WaitForSeconds(4.0f);
         inMotion = false;
+
+        vatorShake.Stop();
+        vatorNoise.Stop();
 
         //turn on fog, door light should not be seen
         RenderSettings.fog = true;  //consider adding reference to if in the Dark
         RenderSettings.fogStartDistance = 3f;
         RenderSettings.fogEndDistance = 7f;
 
-        //DOORS OPEN TO SKULL AND ITEM
+        //REACHING THE BOTTOM FLOOR
+        vatorArrival.Play();
+
         skull.SetActive(true);
         keyItem.gameObject.SetActive(true);
 
-
         gameObject.transform.position = origPos; //falling has stopped
+
         yield return new WaitForSeconds(1.0f);
 
+        //DOORS OPENING
+        vatorOpen.Play();
         doorAnimator.SetBool("MotionStart", false);
         doorAnimator.SetBool("Arrived", true);
 
@@ -120,13 +140,18 @@ public class ElevatorCutscene : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
 
 
-        //PLAYER HAS GRABBED THE ITEM
+        //ITEM IN ELEVATOR
+        vatorClose.Play();
+
         doorAnimator.SetBool("Arrived", false);
         doorAnimator.SetBool("MotionStart", true);
 
         yield return new WaitForSeconds(1.0f);
 
         //ELEVATOR ASCENDING SEQUENCE
+        vatorShake.Play();
+        vatorNoise.Play();
+
         skull.SetActive(false);
         Debug.Log("and now you rise...");
 
@@ -134,8 +159,16 @@ public class ElevatorCutscene : MonoBehaviour
         yield return new WaitForSeconds(4.0f);
         inMotion = false;
 
+        vatorShake.Stop();
+        vatorNoise.Stop();
+
+        //ELEVATOR ARRIVES AT TOP FLOOR
+        yield return new WaitForSeconds(1.0f);
+        vatorArrival.Play();
+
         //DOORS OPEN AND THEY GET ON WITH THE GAME
         yield return new WaitForSeconds(1.0f);
+        vatorOpen.Play();
 
         doorAnimator.SetBool("MotionStart", false);
         doorAnimator.SetBool("Arrived", true);
