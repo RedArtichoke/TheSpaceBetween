@@ -126,6 +126,14 @@ public class doorOpen : MonoBehaviour
                 Debug.Log("Incorrect keycard identity.");
             }
         }
+
+
+        if (other.CompareTag("KeyItem"))
+        {
+            OpenDoor();
+        }
+
+        
     }
 }
 
