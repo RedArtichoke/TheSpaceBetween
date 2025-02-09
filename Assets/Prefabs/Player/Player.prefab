@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3482881951145624219}
   - component: {fileID: 2602189809685577192}
   - component: {fileID: 5305050087123425412}
+  - component: {fileID: 6236270798415800849}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -85,7 +86,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52aaddcd0af3f47d3a49782e02fa7da4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 5
+  currentMovementSpeed: 5
+  speedModifier: 0
   cameraTransform: {fileID: 6633332428589849383}
   playerCamera: {fileID: 746694866651064237}
   bobFrequency: 15
@@ -182,6 +184,18 @@ MonoBehaviour:
     type: 3}
   keyItemChildPrefab: {fileID: 847762195381366513, guid: b8989396734aa45e2b9e86f4bd5ac385,
     type: 3}
+--- !u!114 &6236270798415800849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 129007627674792078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36e76d0a053ac2f47b1a169fecae1edf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2708353557646452750
 GameObject:
   m_ObjectHideFlags: 0

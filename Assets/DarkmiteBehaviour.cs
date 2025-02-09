@@ -19,6 +19,8 @@ public class DarkmiteBehaviour : MonoBehaviour
 
     public Animator animator;
 
+    public GameObject splatDecal;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -65,39 +67,34 @@ public class DarkmiteBehaviour : MonoBehaviour
         isAttacking = true;
         canJump = false;
 
-        // Stop movement and prepare for the jump
         agent.isStopped = true;
-        agent.enabled = false; // Disable NavMeshAgent to allow free Y movement
-        rb.velocity = Vector3.zero; // Stop Rigidbody movement
-        rb.isKinematic = false; // Ensure physics is applied
-        rb.useGravity = true; // Enable gravity
+        agent.enabled = false; 
+        rb.velocity = Vector3.zero; 
+        rb.isKinematic = false; 
+        rb.useGravity = true; 
 
         animator.SetTrigger("Jump");
 
-        yield return new WaitForSeconds(1f); // 1-second warning time
+        yield return new WaitForSeconds(1f); 
 
         Vector3 targetPosition = player.position;
         Vector3 startPosition = transform.position;
 
         float gravity = Mathf.Abs(Physics.gravity.y);
-        float heightOffset = 2.5f; // Increase this for a higher jump
+        float heightOffset = 2.5f; 
         float timeToPeak = Mathf.Sqrt(2 * heightOffset / gravity);
-        float timeToTarget = timeToPeak * 2; // Time to go up + time to land
+        float timeToTarget = timeToPeak * 2; 
 
-        // Calculate horizontal velocity (move towards player)
         Vector3 horizontalDirection = (targetPosition - startPosition);
         horizontalDirection.y = 0;
         Vector3 horizontalVelocity = horizontalDirection / timeToTarget;
 
-        // Calculate proper vertical velocity to form an arc
         float verticalVelocity = Mathf.Sqrt(2 * gravity * heightOffset);
 
-        // Apply jump force
         rb.velocity = new Vector3(horizontalVelocity.x, verticalVelocity, horizontalVelocity.z);
 
-        yield return new WaitForSeconds(timeToTarget); // Wait until landing
+        yield return new WaitForSeconds(timeToTarget); 
 
-        // Re-enable NavMeshAgent after landing
         agent.enabled = true;
         agent.isStopped = false;
     
@@ -108,11 +105,12 @@ public class DarkmiteBehaviour : MonoBehaviour
     }
 
 
-    // Detect when the Darkmite lands
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            player.GetComponent<SplatEffect>().ShowSplat();
+
             Destroy(gameObject);
             Debug.Log("Darkmite hit player");
         }
@@ -136,5 +134,15 @@ public class DarkmiteBehaviour : MonoBehaviour
             animator.SetBool("isIdle", false);
         }
     }
+
+    public void Splat()
+    {
+        Quaternion rotationOffset = Quaternion.Euler(90f, 0f, 0f);
+    
+        Quaternion newRotation = transform.rotation * rotationOffset;
+    
+        GameObject decal = Instantiate(splatDecal, transform.position, newRotation);
+    }
+
 
 }
