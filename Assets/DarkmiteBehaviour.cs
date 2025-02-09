@@ -17,6 +17,8 @@ public class DarkmiteBehaviour : MonoBehaviour
     private bool canJump = true;
     private bool isAttacking = false;
 
+    public Animator animator;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -41,6 +43,8 @@ public class DarkmiteBehaviour : MonoBehaviour
         {
             StartCoroutine(JumpAttack());
         }
+
+        UpdateAnimations();
     }
 
     void ChasePlayer()
@@ -67,6 +71,8 @@ public class DarkmiteBehaviour : MonoBehaviour
         rb.velocity = Vector3.zero; // Stop Rigidbody movement
         rb.isKinematic = false; // Ensure physics is applied
         rb.useGravity = true; // Enable gravity
+
+        animator.SetTrigger("Jump");
 
         yield return new WaitForSeconds(1f); // 1-second warning time
 
@@ -109,6 +115,25 @@ public class DarkmiteBehaviour : MonoBehaviour
         {
             Destroy(gameObject);
             Debug.Log("Darkmite hit player");
+        }
+    }
+
+    void UpdateAnimations()
+    {
+        if (isAttacking)
+        {
+            return; // Don't update animations while attacking
+        }
+
+        if (!agent.enabled || agent.velocity.magnitude < 0.1f)
+        {
+            animator.SetBool("isWalking", false);
+            animator.SetBool("isIdle", true);
+        }
+        else
+        {
+            animator.SetBool("isWalking", true);
+            animator.SetBool("isIdle", false);
         }
     }
 
