@@ -34,7 +34,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Monitor_mat
-  m_Shader: {fileID: -6465566751694194690, guid: a5ad71abfea8c7b47bee494da5c3093e,
+  m_Shader: {fileID: -6465566751694194690, guid: 53e10a6ebf3b9b5478f2f8ef66a06cd3,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -94,6 +94,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: 178286258af057241ab2cb11867e52bf, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_a3e860a652864f7b9a9676d090b5664b_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 178286258af057241ab2cb11867e52bf, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -134,6 +138,7 @@ Material:
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
+    - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Smoothness: 0.5
