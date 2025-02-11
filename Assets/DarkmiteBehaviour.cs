@@ -126,10 +126,19 @@ public class DarkmiteBehaviour : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+        if (collision.gameObject.CompareTag("metal1"))
+        {
+            Splat(); 
+        }
+
+        if (collision.gameObject.CompareTag("concrete"))
+        {
+            Splat();
+        }
+
         if (collision.gameObject.CompareTag("Player"))
         {
             player.GetComponent<SplatEffect>().ShowSplat();
-
             Destroy(gameObject);
             Debug.Log("Darkmite hit player");
         }
