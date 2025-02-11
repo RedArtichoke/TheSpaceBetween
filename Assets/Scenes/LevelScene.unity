@@ -23424,6 +23424,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09607afa6eafff44a9bfdeeb33cd05e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canFlicker: 0
+  flickerRate: 0.1
   audioSource: {fileID: 731731921}
 --- !u!1 &461620024
 GameObject:
@@ -23726,6 +23728,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1487311836}
     m_Modifications:
+    - target: {fileID: 638038846594239314, guid: 5f11e4d2b6cd84ae0b8e8ef28686c4cc,
+        type: 3}
+      propertyPath: canFlicker
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3678210614861992906, guid: 5f11e4d2b6cd84ae0b8e8ef28686c4cc,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -23815,6 +23822,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1594258189}
     m_Modifications:
+    - target: {fileID: 638038846594239314, guid: 5f11e4d2b6cd84ae0b8e8ef28686c4cc,
+        type: 3}
+      propertyPath: canFlicker
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3678210614861992906, guid: 5f11e4d2b6cd84ae0b8e8ef28686c4cc,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -38328,6 +38340,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09607afa6eafff44a9bfdeeb33cd05e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canFlicker: 0
+  flickerRate: 0.1
   audioSource: {fileID: 1916658655}
 --- !u!114 &740995071
 MonoBehaviour:
@@ -58429,6 +58443,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1545929606}
     m_Modifications:
+    - target: {fileID: 638038846594239314, guid: 5f11e4d2b6cd84ae0b8e8ef28686c4cc,
+        type: 3}
+      propertyPath: canFlicker
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3678210614861992906, guid: 5f11e4d2b6cd84ae0b8e8ef28686c4cc,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -64920,6 +64939,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1925733542}
     m_Modifications:
+    - target: {fileID: 638038846594239314, guid: 5f11e4d2b6cd84ae0b8e8ef28686c4cc,
+        type: 3}
+      propertyPath: canFlicker
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 638038846594239314, guid: 5f11e4d2b6cd84ae0b8e8ef28686c4cc,
+        type: 3}
+      propertyPath: flickerRate
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 3678210614861992906, guid: 5f11e4d2b6cd84ae0b8e8ef28686c4cc,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -68223,6 +68252,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1054848613}
     m_Modifications:
+    - target: {fileID: 638038846594239314, guid: 5f11e4d2b6cd84ae0b8e8ef28686c4cc,
+        type: 3}
+      propertyPath: canFlicker
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3678210614861992906, guid: 5f11e4d2b6cd84ae0b8e8ef28686c4cc,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -70723,6 +70757,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2027984567}
     m_Modifications:
+    - target: {fileID: 638038846594239314, guid: 5f11e4d2b6cd84ae0b8e8ef28686c4cc,
+        type: 3}
+      propertyPath: canFlicker
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3678210614861992906, guid: 5f11e4d2b6cd84ae0b8e8ef28686c4cc,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -108069,6 +108108,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 46028592}
     m_Modifications:
+    - target: {fileID: 638038846594239314, guid: 5f11e4d2b6cd84ae0b8e8ef28686c4cc,
+        type: 3}
+      propertyPath: canFlicker
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 638038846594239314, guid: 5f11e4d2b6cd84ae0b8e8ef28686c4cc,
+        type: 3}
+      propertyPath: flickerRate
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 3678210614861992906, guid: 5f11e4d2b6cd84ae0b8e8ef28686c4cc,
         type: 3}
       propertyPath: m_LocalScale.x
