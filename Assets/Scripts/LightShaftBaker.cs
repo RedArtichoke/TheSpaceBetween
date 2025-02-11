@@ -26,13 +26,13 @@ public class LightShaftBaker : MonoBehaviour
                 cylinder.transform.localRotation = Quaternion.Euler(-90, 0, 0);
 
                 // Set fixed length for the cone
-                float fixedLength = 15f;
+                float fixedLength = 150f;
                 float angle = spotlight.spotAngle;
                 float radius = fixedLength * Mathf.Tan(angle * 0.5f * Mathf.Deg2Rad);
                 cylinder.transform.localScale = new Vector3(radius * 2, fixedLength, radius * 2);
 
                 // Offset the cone downward by half its height
-                cylinder.transform.localPosition = new Vector3(0, 0, fixedLength -5);
+                cylinder.transform.localPosition = new Vector3(0, 0, fixedLength -20);
 
                 // Adjust the top vertices to form a cone
                 MeshFilter meshFilter = cylinder.GetComponent<MeshFilter>();
