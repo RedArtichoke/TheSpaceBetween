@@ -75,7 +75,7 @@ public class DarkmiteBehaviour : MonoBehaviour
 
     void Wander()
     {
-        if (agent.remainingDistance <= 0.5f)
+        if (agent.enabled && agent.isOnNavMesh && agent.remainingDistance <= 0.5f)
         {
             Vector3 randomPos = transform.position + new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5));
             agent.SetDestination(randomPos);
