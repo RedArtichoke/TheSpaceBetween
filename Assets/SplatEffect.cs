@@ -7,6 +7,8 @@ public class SplatEffect : MonoBehaviour
 {
     public GameObject splatImage;
 
+    public AudioSource splatSound;
+
     public void ShowSplat()
     {
         StartCoroutine(SplatTimer());
@@ -15,6 +17,7 @@ public class SplatEffect : MonoBehaviour
     public IEnumerator SplatTimer()
     {
         splatImage.SetActive(true);
+        splatSound.Play();
 
         yield return new WaitForSeconds(3f);
 

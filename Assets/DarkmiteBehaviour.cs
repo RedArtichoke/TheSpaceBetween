@@ -21,11 +21,30 @@ public class DarkmiteBehaviour : MonoBehaviour
 
     public GameObject splatDecal;
 
+    [Header("SFX")]
+    public AudioSource SplatAudio;
+
+    public AudioClip soundEffect1;
+    public AudioClip soundEffect2;
+    public AudioClip squishClip;
+
+    public AudioSource RandomSFX;
+
+    public AudioSource squishAudio;
+
+    [Header("Pitch")]
+    public float minPitch = 0.8f;
+    public float maxPitch = 1.2f;
+    public float minInterval = 8f;
+    public float maxInterval = 15f;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent>();
         agent.speed = moveSpeed;
+        
+        StartCoroutine(PlayRandomSound());
     }
 
     void Update()
@@ -116,6 +135,21 @@ public class DarkmiteBehaviour : MonoBehaviour
         }
     }
 
+    private IEnumerator PlayRandomSound()
+    {
+        while (true)
+        {
+            float waitTime = Random.Range(minInterval, maxInterval);
+            yield return new WaitForSeconds(waitTime);
+
+            AudioClip chosenClip = (Random.Range(0, 2) == 0) ? soundEffect1 : soundEffect2;
+
+            RandomSFX.pitch = Random.Range(minPitch, maxPitch);
+
+            RandomSFX.PlayOneShot(chosenClip);
+        }
+    }
+
     void UpdateAnimations()
     {
         if (isAttacking)
@@ -142,6 +176,20 @@ public class DarkmiteBehaviour : MonoBehaviour
         Quaternion newRotation = transform.rotation * rotationOffset;
     
         GameObject decal = Instantiate(splatDecal, transform.position, newRotation);
+
+        SplatAudio.Play();
+    }
+
+    public void Squish()
+    {
+        squishAudio.clip = squishClip;
+        squishAudio.Play();
+    }
+
+    public void Gargle()
+    {
+        squishAudio.clip = soundEffect2;
+        squishAudio.Play();
     }
 
 
