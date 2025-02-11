@@ -62,7 +62,7 @@ public class FpsCameraController : MonoBehaviour
     private void CheckForVisibleEnemies()
     {
         // Define the tags to search for
-        string[] enemyTags = { "Mimic", "Thing" };
+        string[] enemyTags = { "Mimic", "Thing", "Mite" };
         List<GameObject> enemies = new List<GameObject>();
 
         // Find all game objects with the specified tags
