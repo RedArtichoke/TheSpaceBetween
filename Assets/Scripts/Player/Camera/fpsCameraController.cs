@@ -125,7 +125,10 @@ public class FpsCameraController : MonoBehaviour
         if (audioSource != null && enemyAudioCue != null)
         {
             audioSource.Play();
-            suitVoice.PlayHostileDetected();
+            if (suitVoice != null)
+            {
+                suitVoice.PlayHostileDetected();
+            }
         }
     }
 

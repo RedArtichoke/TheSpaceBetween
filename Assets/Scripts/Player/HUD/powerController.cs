@@ -38,6 +38,11 @@ public class PowerController : MonoBehaviour
 
     private float originalDrainRate; // Store the original drain rate
 
+    public AudioClip stunSound; // Add this line to declare the stun sound
+    public AudioClip preStunSound; // Add this line to declare the pre-stun sound
+    public AudioClip chargeSound; // Add this line to declare the pre-stun sound
+    private bool chargeAudioPlaying = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -73,6 +78,13 @@ public class PowerController : MonoBehaviour
                 {
                     heartRateUI.sprite = chargingHeartRateSprite; // Heart on caffeine
                 }
+                if (!chargeAudioPlaying){
+                    audioSource.PlayOneShot(chargeSound);
+                    chargeAudioPlaying = true;
+                }
+                if (chargeAudioPlaying && holdTime >= chargeDuration){
+                    audioSource.Stop(); 
+                }
             }
         }
 
@@ -86,9 +98,36 @@ public class PowerController : MonoBehaviour
                 flashlight.intensity = 10000f; // Supernova mode
                 flashlight.innerSpotAngle = 179f; // Wide-eyed mode
                 flashlight.spotAngle = 179f; // Wide-eyed mode
+                audioSource.priority = 0;       
                 if (arduinoScript) {
                     arduinoScript.sendFlashbang();
                 }
+
+                // Play pre-stun sound
+                if (audioSource != null && preStunSound != null) {
+                    audioSource.PlayOneShot(preStunSound); // Play the pre-stun sound
+                }
+
+                // Play stun sound
+                if (audioSource != null && stunSound != null) {
+                    audioSource.PlayOneShot(stunSound); // Play the stun sound
+                }
+                
+                // Logic to stun mimics
+                RaycastHit[] hits = Physics.SphereCastAll(transform.position, 10f, Vector3.forward, 0f);
+                foreach (RaycastHit hit in hits)
+                {
+                    Debug.Log(hit.collider.name);
+                    if (hit.collider.CompareTag("Mimic"))
+                    {
+                        MimicBehaviour mimic = hit.collider.GetComponent<MimicBehaviour>();
+                        if (mimic != null)
+                        {
+                            StartCoroutine(mimic.StunMimic());
+                        }
+                    }
+                }
+                
                 StartCoroutine(ResetFlashlight()); // Cool down the supernova
             }
             else if (holdTime < toggleThreshold)
@@ -99,15 +138,26 @@ public class PowerController : MonoBehaviour
                 lerpTime = 0f; // Reset the mind-changing timer
 
                 if (audioSource != null && toggleSounds.Length > 0) {
+                    audioSource.priority = 0; // Set to max priority, so it plays over the background music
                     int randomIndex = Random.Range(0, toggleSounds.Length); // Pick a random clip
                     audioSource.pitch = Random.Range(0.6f, 1.2f); // Random pitch variation
                     audioSource.PlayOneShot(toggleSounds[randomIndex]); // Play the random clip
+                }
+            }
+            else if (holdTime < chargeDuration && holdTime > toggleThreshold)
+            {
+                if (audioSource.isPlaying)
+                {
+                    audioSource.Stop(); 
+                    chargeAudioPlaying = false;
                 }
             }
             holdTime = 0f;
             isCharging = false;
             chargingRing.gameObject.SetActive(false); // Hide the charging circle
             heartRateUI.sprite = originalHeartRateSprite; // Back to normal heart
+
+            chargeAudioPlaying = false; // Reset the flag when charging is completed
         }
 
         // Set power to 100 with the 0 key

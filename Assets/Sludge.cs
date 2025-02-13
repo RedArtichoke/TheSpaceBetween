@@ -5,6 +5,7 @@ using UnityEngine;
 public class Sludge : MonoBehaviour
 {
     public DarkController darkController;
+    public HeartRateAnimator heartRate;
 
     public GameObject particles;
 
@@ -13,17 +14,21 @@ public class Sludge : MonoBehaviour
     public BoxCollider boxCollider;
     void Update()
     {
-        if(darkController.inDark)
+        if (heartRate.beatsPerMinute > 90)
         {
-            particles.SetActive(true);
-            meshRenderer.enabled = true;
-            boxCollider.enabled = true;
+            if(darkController.inDark)
+            {
+                particles.SetActive(true);
+                meshRenderer.enabled = true;
+                boxCollider.enabled = true;
+            }
+            else
+            {
+                particles.SetActive(false);
+                meshRenderer.enabled = false;
+                boxCollider.enabled = false;
+            }
         }
-        else
-        {
-            particles.SetActive(false);
-            meshRenderer.enabled = false;
-            boxCollider.enabled = false;
-        }
+        
     }
 }

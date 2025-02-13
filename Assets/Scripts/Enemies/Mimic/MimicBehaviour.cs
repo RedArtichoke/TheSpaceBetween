@@ -31,6 +31,10 @@ public class MimicBehaviour : MonoBehaviour
     public AudioClip[] mimicSounds; // Array to store mimic sounds
     private AudioSource mimicAudioSource; // AudioSource for playing sounds
 
+    public AudioClip stepSound; // Add this line to declare the step sound
+
+    public AudioClip[] stunSounds; // Array to store stun sounds
+
     void Start()
     {
         navAgent = GetComponent<NavMeshAgent>();
@@ -38,7 +42,7 @@ public class MimicBehaviour : MonoBehaviour
         InvokeRepeating("RoamAround", Random.Range(5f, 10f), Random.Range(10f, 15f)); // Roaming with style
         InvokeRepeating("LeaveFootprint", 0.5f, 0.5f); // Footprint party every 0.5 seconds
 
-        mimicAudioSource = gameObject.AddComponent<AudioSource>();
+        mimicAudioSource = gameObject.GetComponent<AudioSource>();
         mimicAudioSource.spatialBlend = 1.0f; // Make the sound 3D
         mimicAudioSource.maxDistance = 35f; // Set max distance for sound
 
@@ -181,6 +185,13 @@ public class MimicBehaviour : MonoBehaviour
                 Destroy(footprint, 15f); // Footprints vanish after 15 seconds
                 leftFoot = !leftFoot; // Switch feet for the next step
                 lastFootprintTime = Time.time; // Update the last footprint time
+
+                // Play step sound with random pitch
+                if (stepSound != null)
+                {
+                    mimicAudioSource.pitch = Random.Range(0.8f, 1.2f); // Random pitch variation
+                    mimicAudioSource.PlayOneShot(stepSound);
+                }
             }
         }
     }
@@ -196,22 +207,17 @@ public class MimicBehaviour : MonoBehaviour
 
             if (actualPlayer != null)
             {
-                Debug.Log("Actual player found. Player name: " + actualPlayer.name);
 
                 HealthManager healthManager = actualPlayer.GetComponent<HealthManager>();
                 if (healthManager != null)
                 {
-                    Debug.Log("HealthManager found on actual player: " + actualPlayer.name);
-
                     if (!healthManager.isDamaged)
                     {
-                        Debug.Log("Player is not damaged. Attacking player.");
 
                         healthManager.DamagePlayer();
                         MimicBody mimicBody = GetComponentInChildren<MimicBody>();
                         if (mimicBody != null)
                         {
-                            Debug.Log("MimicBody found. Making it visible.");
                             mimicBody.isVisible = true;
                             mimicBody.UpdateVisibility();
                         }
@@ -219,7 +225,6 @@ public class MimicBehaviour : MonoBehaviour
                         yield return new WaitForSeconds(Random.Range(0.1f, 0.3f));
                         if (mimicBody != null)
                         {
-                            Debug.Log("Hiding MimicBody.");
                             mimicBody.isVisible = false;
                             mimicBody.UpdateVisibility();
                         }
@@ -246,6 +251,35 @@ public class MimicBehaviour : MonoBehaviour
         {
             Debug.Log("Player is null.");
         }
+    }
+
+    // Handles visibility and movement control
+    public IEnumerator StunMimic()
+    {        
+        // Play a random stun sound with varying pitch
+        if (stunSounds.Length > 0)
+        {
+            int randomIndex = Random.Range(0, stunSounds.Length); // Pick a random sound
+            mimicAudioSource.pitch = Random.Range(0.8f, 1.2f); // Random pitch variation
+            mimicAudioSource.PlayOneShot(stunSounds[randomIndex]); // Play the sound
+        }
+
+        MimicBody mimicBody = GetComponentInChildren<MimicBody>();
+        if (mimicBody != null)
+        {
+            mimicBody.isVisible = true;
+            mimicBody.UpdateVisibility();
+        }
+        navAgent.isStopped = true;
+        yield return new WaitForSeconds(Random.Range(0.5f, 0.1f));
+        if (mimicBody != null)
+        {
+            mimicBody.isVisible = false;
+            mimicBody.UpdateVisibility();
+        }
+        yield return new WaitForSeconds(5f);
+
+        navAgent.isStopped = false;
     }
 
     IEnumerator PlayRandomSound()

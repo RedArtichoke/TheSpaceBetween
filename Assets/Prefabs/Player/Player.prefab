@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2602189809685577192}
   - component: {fileID: 5305050087123425412}
   - component: {fileID: 6236270798415800849}
+  - component: {fileID: 2331251499457265882}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -136,6 +137,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 4f1dbec4942c043019f0e50d5df40795, type: 3}
   - {fileID: 8300000, guid: 38f48473edf64426c8dc69266cca63ab, type: 3}
   - {fileID: 8300000, guid: bf172636970954a71803281af1da911f, type: 3}
+  stunSound: {fileID: 8300000, guid: 4d15b01d6909e4251b4d5c8430d41f05, type: 3}
+  preStunSound: {fileID: 8300000, guid: 429ca7308d0164e6fa58374292188395, type: 3}
+  chargeSound: {fileID: 8300000, guid: 8c230b93a2946414e84c2c3eb1761bfa, type: 3}
 --- !u!114 &2602189809685577192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,8 +201,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36e76d0a053ac2f47b1a169fecae1edf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  splatImage: {fileID: 0}
-  splatSound: {fileID: 9156194220969605484}
+  splatImages: []
+  sizzleSound: {fileID: 0}
+--- !u!114 &2331251499457265882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 129007627674792078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40d1c5cc0df529f49b01d256619e0a48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  darkMitePrefab: {fileID: 790270175422057175, guid: 77f0fccf8b4d670488358235734f550f,
+    type: 3}
+  player: {fileID: 5443115629039691449}
+  dark: {fileID: 5305050087123425412}
+  heartRateScript: {fileID: 0}
+  spawnInterval: 15
+  spawnDistance: 15
+  navMeshSampleDistance: 5
 --- !u!1 &2708353557646452750
 GameObject:
   m_ObjectHideFlags: 0
