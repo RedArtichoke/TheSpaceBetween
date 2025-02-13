@@ -21,7 +21,7 @@ public class SplatEffect : MonoBehaviour
         selectedSplatImage.SetActive(true);
         sizzleSound.Play();
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(8f);
 
         // Fade out the image and audio together
         Image image = selectedSplatImage.GetComponent<Image>();
