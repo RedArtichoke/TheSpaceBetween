@@ -39228,6 +39228,11 @@ PrefabInstance:
       objectReference: {fileID: 652067584}
     - target: {fileID: 6236270798415800849, guid: 98f852bed5c5e4afc99579e1f507d406,
         type: 3}
+      propertyPath: sizzleSound
+      value: 
+      objectReference: {fileID: 1248740758}
+    - target: {fileID: 6236270798415800849, guid: 98f852bed5c5e4afc99579e1f507d406,
+        type: 3}
       propertyPath: splatImages.Array.size
       value: 4
       objectReference: {fileID: 0}
@@ -64505,6 +64510,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1246565733}
   m_Mesh: {fileID: 1689899882157483788, guid: 6b368c9c112161a45b67083539725635, type: 3}
+--- !u!82 &1248740758 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 5494187540032161735, guid: 92d3c161303074aa9828954d7e6984ee,
+    type: 3}
+  m_PrefabInstance: {fileID: 47421988}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1250223385
 GameObject:
   m_ObjectHideFlags: 0

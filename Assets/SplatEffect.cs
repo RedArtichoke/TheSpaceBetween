@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class SplatEffect : MonoBehaviour
 {
-    public List<GameObject> splatImages; 
-    private GameObject lastSplatImage; 
-    public AudioSource splatSound;
+    public List<GameObject> splatImages;
+    private GameObject lastSplatImage;
+    public AudioSource sizzleSound;
 
     public void ShowSplat()
     {
@@ -19,10 +19,11 @@ public class SplatEffect : MonoBehaviour
         GameObject selectedSplatImage = GetRandomSplatImage();
 
         selectedSplatImage.SetActive(true);
-        splatSound.Play();
+        sizzleSound.Play();
 
         yield return new WaitForSeconds(3f);
 
+        // Fade out the image and audio together
         Image image = selectedSplatImage.GetComponent<Image>();
         if (image == null)
         {
@@ -30,22 +31,32 @@ public class SplatEffect : MonoBehaviour
             yield break;
         }
 
-        float fadeDuration = 1f; 
+        float fadeDuration = 1f;
         float elapsedTime = 0f;
         Color originalColor = image.color;
+        float originalVolume = sizzleSound.volume;  
 
         while (elapsedTime < fadeDuration)
         {
             elapsedTime += Time.deltaTime;
+
             float newAlpha = Mathf.Lerp(originalColor.a, 0f, elapsedTime / fadeDuration);
             image.color = new Color(originalColor.r, originalColor.g, originalColor.b, newAlpha);
+
+            float newVolume = Mathf.Lerp(originalVolume, 0f, elapsedTime / fadeDuration);
+            sizzleSound.volume = newVolume;
+
             yield return null;
         }
 
         image.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0f);
+        sizzleSound.volume = 0f;
+
+        // Stop the sound
+        sizzleSound.Stop();
 
         selectedSplatImage.SetActive(false);
-        lastSplatImage = selectedSplatImage; 
+        lastSplatImage = selectedSplatImage;
     }
 
     private GameObject GetRandomSplatImage()
