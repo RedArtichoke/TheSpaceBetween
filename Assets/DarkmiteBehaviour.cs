@@ -44,12 +44,16 @@ public class DarkmiteBehaviour : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.speed = moveSpeed;
 
-        GameObject playerObject = GameObject.FindWithTag("Player");
+        GameObject playerObject = GameObject.Find("Player");
         if (playerObject != null)
         {
             player = playerObject.transform;
         }
-        
+        else
+        {
+            Debug.LogError("Player object not found!");
+        }
+
         StartCoroutine(PlayRandomSound());
     }
 
@@ -144,9 +148,17 @@ public class DarkmiteBehaviour : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Player"))
         {
-            player.GetComponent<SplatEffect>().ShowSplat();
-            Destroy(gameObject);
-            Debug.Log("Darkmite hit player");
+            var splatEffect = player.GetComponent<SplatEffect>();
+            if (splatEffect != null)
+            {
+                splatEffect.ShowSplat();
+                Destroy(gameObject);
+                Debug.Log("Darkmite hit player");
+            }
+            else
+            {
+                Debug.LogError("SplatEffect component is missing on player!");
+            }
         }
     }
 

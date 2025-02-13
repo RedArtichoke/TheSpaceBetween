@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class SplatEffect : MonoBehaviour
 {
-    public GameObject splatImage;
-
+    public List<GameObject> splatImages; 
+    private GameObject lastSplatImage; 
     public AudioSource splatSound;
 
     public void ShowSplat()
@@ -16,12 +16,14 @@ public class SplatEffect : MonoBehaviour
 
     public IEnumerator SplatTimer()
     {
-        splatImage.SetActive(true);
+        GameObject selectedSplatImage = GetRandomSplatImage();
+
+        selectedSplatImage.SetActive(true);
         splatSound.Play();
 
         yield return new WaitForSeconds(3f);
 
-        Image image = splatImage.GetComponent<Image>();
+        Image image = selectedSplatImage.GetComponent<Image>();
         if (image == null)
         {
             Debug.LogError("No Image component found on splatImage!");
@@ -37,11 +39,21 @@ public class SplatEffect : MonoBehaviour
             elapsedTime += Time.deltaTime;
             float newAlpha = Mathf.Lerp(originalColor.a, 0f, elapsedTime / fadeDuration);
             image.color = new Color(originalColor.r, originalColor.g, originalColor.b, newAlpha);
-            yield return null; 
+            yield return null;
         }
 
         image.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0f);
 
-        splatImage.SetActive(false);
+        selectedSplatImage.SetActive(false);
+        lastSplatImage = selectedSplatImage; 
+    }
+
+    private GameObject GetRandomSplatImage()
+    {
+        List<GameObject> availableSplatImages = new List<GameObject>(splatImages);
+        availableSplatImages.Remove(lastSplatImage);
+
+        int randomIndex = Random.Range(0, availableSplatImages.Count);
+        return availableSplatImages[randomIndex];
     }
 }
