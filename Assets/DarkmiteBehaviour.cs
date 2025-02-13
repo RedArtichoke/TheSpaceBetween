@@ -43,6 +43,12 @@ public class DarkmiteBehaviour : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent>();
         agent.speed = moveSpeed;
+
+        GameObject playerObject = GameObject.FindWithTag("Player");
+        if (playerObject != null)
+        {
+            player = playerObject.transform;
+        }
         
         StartCoroutine(PlayRandomSound());
     }

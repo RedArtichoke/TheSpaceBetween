@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2602189809685577192}
   - component: {fileID: 5305050087123425412}
   - component: {fileID: 6236270798415800849}
+  - component: {fileID: 2331251499457265882}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -199,6 +200,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   splatImage: {fileID: 0}
   splatSound: {fileID: 9156194220969605484}
+--- !u!114 &2331251499457265882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 129007627674792078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40d1c5cc0df529f49b01d256619e0a48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  darkMitePrefab: {fileID: 790270175422057175, guid: 77f0fccf8b4d670488358235734f550f,
+    type: 3}
+  player: {fileID: 5443115629039691449}
+  dark: {fileID: 5305050087123425412}
+  heartRateScript: {fileID: 0}
+  spawnInterval: 15
+  spawnDistance: 15
+  navMeshSampleDistance: 5
 --- !u!1 &2708353557646452750
 GameObject:
   m_ObjectHideFlags: 0

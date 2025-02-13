@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.0005785843, g: 0.0005841827, b: 0.0005785843, a: 1}
+  m_IndirectSpecularColor: {r: 0.0005769473, g: 0.00058402633, b: 0.0005769473, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2691,6 +2691,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: HUD
+      objectReference: {fileID: 0}
+    - target: {fileID: 4977719870331500482, guid: 92d3c161303074aa9828954d7e6984ee,
+        type: 3}
+      propertyPath: beatsPerMinute
+      value: 81
       objectReference: {fileID: 0}
     - target: {fileID: 5756253689398983679, guid: 92d3c161303074aa9828954d7e6984ee,
         type: 3}
@@ -38844,6 +38849,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2331251499457265882, guid: 98f852bed5c5e4afc99579e1f507d406,
+        type: 3}
+      propertyPath: heartRateScript
+      value: 
+      objectReference: {fileID: 738952526}
     - target: {fileID: 2602189809685577192, guid: 98f852bed5c5e4afc99579e1f507d406,
         type: 3}
       propertyPath: damageOverlay
