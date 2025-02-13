@@ -22,7 +22,7 @@ public class bgMusicPlayer : MonoBehaviour
     {
         while (true)
         {
-            delayTime = Random.Range(60f, 120f); // Random delay between 1-2 minutes
+            delayTime = Random.Range(30f, 60f); // Random delay between 1-2 minutes
             yield return new WaitForSeconds(delayTime); // Wait for delay
             PlayTrack(); // Play a random track
             yield return new WaitWhile(() => audioSource.isPlaying); // Wait for track to finish

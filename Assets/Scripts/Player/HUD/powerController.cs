@@ -89,6 +89,22 @@ public class PowerController : MonoBehaviour
                 if (arduinoScript) {
                     arduinoScript.sendFlashbang();
                 }
+                
+                // Logic to stun mimics
+                RaycastHit[] hits = Physics.SphereCastAll(transform.position, 10f, Vector3.forward, 0f);
+                foreach (RaycastHit hit in hits)
+                {
+                    Debug.Log(hit.collider.name);
+                    if (hit.collider.CompareTag("Mimic"))
+                    {
+                        MimicBehaviour mimic = hit.collider.GetComponent<MimicBehaviour>();
+                        if (mimic != null)
+                        {
+                            StartCoroutine(mimic.StunMimic());
+                        }
+                    }
+                }
+                
                 StartCoroutine(ResetFlashlight()); // Cool down the supernova
             }
             else if (holdTime < toggleThreshold)
@@ -99,6 +115,7 @@ public class PowerController : MonoBehaviour
                 lerpTime = 0f; // Reset the mind-changing timer
 
                 if (audioSource != null && toggleSounds.Length > 0) {
+                    audioSource.priority = 0; // Set to max priority, so it plays over the background music
                     int randomIndex = Random.Range(0, toggleSounds.Length); // Pick a random clip
                     audioSource.pitch = Random.Range(0.6f, 1.2f); // Random pitch variation
                     audioSource.PlayOneShot(toggleSounds[randomIndex]); // Play the random clip

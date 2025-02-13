@@ -922,12 +922,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9b98c09ea694042e6998841e8381ced1, type: 3}
---- !u!4 &508986006 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 551782598037348635, guid: 98f852bed5c5e4afc99579e1f507d406,
-    type: 3}
-  m_PrefabInstance: {fileID: 749889737}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &681738518
 GameObject:
   m_ObjectHideFlags: 0
@@ -1091,16 +1085,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 129007627674792078, guid: 98f852bed5c5e4afc99579e1f507d406,
+    - target: {fileID: 2602189809685577192, guid: 98f852bed5c5e4afc99579e1f507d406,
         type: 3}
-      propertyPath: m_IsActive
-      value: 1
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2602189809685577192, guid: 98f852bed5c5e4afc99579e1f507d406,
         type: 3}
-      propertyPath: damageOverlay
+      propertyPath: suitVoice
       value: 
-      objectReference: {fileID: 1203945666}
+      objectReference: {fileID: 0}
     - target: {fileID: 3482881951145624219, guid: 98f852bed5c5e4afc99579e1f507d406,
         type: 3}
       propertyPath: powerRing
@@ -1116,11 +1110,6 @@ PrefabInstance:
       propertyPath: chargingRing
       value: 
       objectReference: {fileID: 1523805549}
-    - target: {fileID: 5305050087123425412, guid: 98f852bed5c5e4afc99579e1f507d406,
-        type: 3}
-      propertyPath: hasDevice
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5443115629039691449, guid: 98f852bed5c5e4afc99579e1f507d406,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1173,26 +1162,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6343842895949506335, guid: 98f852bed5c5e4afc99579e1f507d406,
         type: 3}
-      propertyPath: hud
-      value: 
-      objectReference: {fileID: 1336300107}
-    - target: {fileID: 6343842895949506335, guid: 98f852bed5c5e4afc99579e1f507d406,
-        type: 3}
-      propertyPath: hitbox
-      value: 
-      objectReference: {fileID: 508986006}
-    - target: {fileID: 6343842895949506335, guid: 98f852bed5c5e4afc99579e1f507d406,
-        type: 3}
       propertyPath: crosshair
       value: 
       objectReference: {fileID: 14107138}
+    - target: {fileID: 6343842895949506335, guid: 98f852bed5c5e4afc99579e1f507d406,
+        type: 3}
+      propertyPath: suitVoice
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6343842895949506335, guid: 98f852bed5c5e4afc99579e1f507d406,
         type: 3}
       propertyPath: hudElement
       value: 
       objectReference: {fileID: 1336300107}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 3929661033540419313, guid: 98f852bed5c5e4afc99579e1f507d406, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 98f852bed5c5e4afc99579e1f507d406, type: 3}
@@ -1863,18 +1848,6 @@ NavMeshObstacle:
 --- !u!114 &1158020514 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1693208950645693233, guid: 92d3c161303074aa9828954d7e6984ee,
-    type: 3}
-  m_PrefabInstance: {fileID: 47421988}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1203945666 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6984942577483884429, guid: 92d3c161303074aa9828954d7e6984ee,
     type: 3}
   m_PrefabInstance: {fileID: 47421988}
   m_PrefabAsset: {fileID: 0}
