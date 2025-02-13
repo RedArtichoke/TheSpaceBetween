@@ -38,6 +38,11 @@ public class PowerController : MonoBehaviour
 
     private float originalDrainRate; // Store the original drain rate
 
+    public AudioClip stunSound; // Add this line to declare the stun sound
+    public AudioClip preStunSound; // Add this line to declare the pre-stun sound
+    public AudioClip chargeSound; // Add this line to declare the pre-stun sound
+    private bool chargeAudioPlaying = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -73,6 +78,13 @@ public class PowerController : MonoBehaviour
                 {
                     heartRateUI.sprite = chargingHeartRateSprite; // Heart on caffeine
                 }
+                if (!chargeAudioPlaying){
+                    audioSource.PlayOneShot(chargeSound);
+                    chargeAudioPlaying = true;
+                }
+                if (chargeAudioPlaying && holdTime >= chargeDuration){
+                    audioSource.Stop(); 
+                }
             }
         }
 
@@ -86,8 +98,19 @@ public class PowerController : MonoBehaviour
                 flashlight.intensity = 10000f; // Supernova mode
                 flashlight.innerSpotAngle = 179f; // Wide-eyed mode
                 flashlight.spotAngle = 179f; // Wide-eyed mode
+                audioSource.priority = 0;       
                 if (arduinoScript) {
                     arduinoScript.sendFlashbang();
+                }
+
+                // Play pre-stun sound
+                if (audioSource != null && preStunSound != null) {
+                    audioSource.PlayOneShot(preStunSound); // Play the pre-stun sound
+                }
+
+                // Play stun sound
+                if (audioSource != null && stunSound != null) {
+                    audioSource.PlayOneShot(stunSound); // Play the stun sound
                 }
                 
                 // Logic to stun mimics
@@ -121,10 +144,20 @@ public class PowerController : MonoBehaviour
                     audioSource.PlayOneShot(toggleSounds[randomIndex]); // Play the random clip
                 }
             }
+            else if (holdTime < chargeDuration && holdTime > toggleThreshold)
+            {
+                if (audioSource.isPlaying)
+                {
+                    audioSource.Stop(); 
+                    chargeAudioPlaying = false;
+                }
+            }
             holdTime = 0f;
             isCharging = false;
             chargingRing.gameObject.SetActive(false); // Hide the charging circle
             heartRateUI.sprite = originalHeartRateSprite; // Back to normal heart
+
+            chargeAudioPlaying = false; // Reset the flag when charging is completed
         }
 
         // Set power to 100 with the 0 key

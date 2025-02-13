@@ -42,7 +42,7 @@ public class MimicBehaviour : MonoBehaviour
         InvokeRepeating("RoamAround", Random.Range(5f, 10f), Random.Range(10f, 15f)); // Roaming with style
         InvokeRepeating("LeaveFootprint", 0.5f, 0.5f); // Footprint party every 0.5 seconds
 
-        mimicAudioSource = gameObject.AddComponent<AudioSource>();
+        mimicAudioSource = gameObject.GetComponent<AudioSource>();
         mimicAudioSource.spatialBlend = 1.0f; // Make the sound 3D
         mimicAudioSource.maxDistance = 35f; // Set max distance for sound
 
@@ -277,7 +277,7 @@ public class MimicBehaviour : MonoBehaviour
             mimicBody.isVisible = false;
             mimicBody.UpdateVisibility();
         }
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(5f);
 
         navAgent.isStopped = false;
     }
