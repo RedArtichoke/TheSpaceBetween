@@ -8,7 +8,8 @@ public class ShipComponent : MonoBehaviour
     {
         Engine,
         SteeringWheel,
-        Chair
+        Tesseract,
+        Powercell
     }
 
     public ShipComponentIdentity identity;

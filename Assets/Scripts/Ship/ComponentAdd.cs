@@ -11,7 +11,7 @@ public class ComponentAdd : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("ShipComponent"))
+        if (other.CompareTag("KeyItem"))
         {
             ShipComponent shipComponent = other.GetComponent<ShipComponent>();
             if (shipComponent != null && shipComponent.identity == requiredShipComponentIdentity)
