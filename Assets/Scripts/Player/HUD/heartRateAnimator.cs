@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class HeartRateAnimator : MonoBehaviour
 {
@@ -12,6 +14,9 @@ public class HeartRateAnimator : MonoBehaviour
     private float pulseSpeed; // How quickly the heart beats
     private AudioSource heartAudioSource; // The source of the heart's sound
     private float noiseOffset; // A little randomness to keep things interesting
+    private Volume globalVolume; // Reference to the global volume
+    private LensDistortion lensDistortion; // Lens distortion effect
+    private ChromaticAberration chromaticAberration; // Chromatic aberration effect
 
     void Start()
     {
@@ -30,6 +35,18 @@ public class HeartRateAnimator : MonoBehaviour
 
         // Start playing the looped sound with a delay
         StartCoroutine(StartHeartBeatWithDelay(initialDelay));
+
+        // Find the global volume in the scene
+        globalVolume = FindObjectOfType<Volume>();
+        if (globalVolume != null && globalVolume.profile.TryGet(out lensDistortion))
+        {
+            // Successfully found and accessed the lens distortion effect
+        }
+
+        if (globalVolume != null && globalVolume.profile.TryGet(out chromaticAberration))
+        {
+            // Successfully found and accessed the chromatic aberration effect
+        }
     }
 
     IEnumerator StartHeartBeatWithDelay(float delay)
@@ -55,6 +72,18 @@ public class HeartRateAnimator : MonoBehaviour
         // Adjust pitch to match heart rate
         float basePitch = (beatsPerMinute / 60.0f) / 2.0f; // Halve the pitch to slow down the loop
         heartAudioSource.pitch = basePitch;
+
+        // Adjust lens distortion based on heart rate
+        if (lensDistortion != null)
+        {
+            lensDistortion.intensity.value = Mathf.Lerp(-0.1f, 0.3f, Mathf.Clamp((beatsPerMinute - 80) / 30f, 0f, 1f));
+        }
+
+        // Adjust chromatic aberration based on heart rate
+        if (chromaticAberration != null)
+        {
+            chromaticAberration.intensity.value = Mathf.Lerp(0.21f, 1.0f, Mathf.Clamp((beatsPerMinute - 80) / 30f, 0f, 1f));
+        }
     }
 
     void PlayHeartBeatSound()
