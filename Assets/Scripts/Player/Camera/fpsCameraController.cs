@@ -5,7 +5,7 @@ using UnityEngine;
 public class FpsCameraController : MonoBehaviour
 {
     // Sensitivity of the mouse, because we all love a sensitive mouse
-    public float mouseSensitivity = 100f;
+    public float mouseSensitivity = 2.7f;
     public Transform playerBody; // The body of the player, not to be confused with a real body
     public float lerpSpeed = 0.1f; // Speed of the lerp, not to be confused with a slurp
 
@@ -37,24 +37,20 @@ public class FpsCameraController : MonoBehaviour
 
     void Update()
     {
-        // Get the mouse movement, because we need to know where it's going
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+        // Get the mouse movement
+        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
+        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
 
-        // Adjust the xRotation based on mouseY, because up is down and down is up
+        // Adjust the xRotation based on mouseY
         xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f); // Keep the head from spinning too far
+        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-        // Adjust the yRotation based on mouseX, because left is right and right is left
+        // Adjust the yRotation based on mouseX
         yRotation += mouseX;
 
-        // Smoothly transition to the new rotation, like a gentle breeze
-        currentXRotation = Mathf.Lerp(currentXRotation, xRotation, lerpSpeed);
-        currentYRotation = Mathf.Lerp(currentYRotation, yRotation, lerpSpeed);
-
-        // Apply the rotations, because we want to see the world from a new angle
-        transform.localRotation = Quaternion.Euler(currentXRotation, 0f, 0f);
-        playerBody.localRotation = Quaternion.Euler(0f, currentYRotation, 0f);
+        // Apply the rotations directly
+        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        playerBody.localRotation = Quaternion.Euler(0f, yRotation, 0f);
 
         CheckForVisibleEnemies();
     }
