@@ -8,7 +8,6 @@
 
 using UnityEngine;
 using System.Threading;
-using System;
 
 /**
  * This class allows a Unity program to continually check for messages from a
@@ -64,34 +63,9 @@ public class SerialController : MonoBehaviour
     // ------------------------------------------------------------------------
     void OnEnable()
     {
-        try
-        {
-            if (IsPortAvailable(portName))
-            {
-                serialThread = new SerialThreadLines(portName, 
-                                                     baudRate, 
-                                                     reconnectionDelay,
-                                                     maxUnreadMessages);
-                thread = new Thread(new ThreadStart(serialThread.RunForever));
-                thread.Start();
-            }
-            else
-            {
-                Debug.LogWarning("Arduino not detected. Disabling Arduino features.");
-                // Disable Arduino-dependent features here
-            }
-        }
-        catch (Exception e)
-        {
-            Debug.LogError("Failed to start serial thread: " + e.Message);
-        }
-    }
-
-    bool IsPortAvailable(string portName)
-    {
-        // Implement logic to check if the port is available
-        // This could involve checking available serial ports
-        return false; // Placeholder: return true if available, false otherwise
+        serialThread = new SerialThreadLines(portName, baudRate, reconnectionDelay, maxUnreadMessages);
+        thread = new Thread(new ThreadStart(serialThread.RunForever));
+        thread.Start();
     }
 
     // ------------------------------------------------------------------------
