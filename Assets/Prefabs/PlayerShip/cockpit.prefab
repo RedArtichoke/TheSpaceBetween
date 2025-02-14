@@ -101,7 +101,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: b6a60790beb436f42b38b8feaa3b4576,
         type: 3}
       propertyPath: m_Name
-      value: cockpit (1)
+      value: cockpit
       objectReference: {fileID: 0}
     - target: {fileID: 4640378710488306106, guid: b6a60790beb436f42b38b8feaa3b4576,
         type: 3}
@@ -126,5 +126,36 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b6a60790beb436f42b38b8feaa3b4576,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7373302201622410661}
   m_SourcePrefab: {fileID: 100100000, guid: b6a60790beb436f42b38b8feaa3b4576, type: 3}
+--- !u!1 &7621382850479170550 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: b6a60790beb436f42b38b8feaa3b4576,
+    type: 3}
+  m_PrefabInstance: {fileID: 7279504213323652775}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &7373302201622410661
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7621382850479170550}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
