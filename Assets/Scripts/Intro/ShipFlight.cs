@@ -23,7 +23,8 @@ public class ShipFlight : MonoBehaviour
     public GameObject EPrompt;
     public CanvasGroup EGroup;
 
-    public rotatingDoorOpen door;
+    //public rotatingDoorOpen door;
+    public doorOpen door;
 
     public GameObject paAudio;
 
@@ -64,7 +65,7 @@ public class ShipFlight : MonoBehaviour
 
         FPrompt.SetActive(true);
         StartCoroutine(StopFlashlightprompt());
-        door.OpenDoor();
+        door.SetLockState(false);
         
         isMoving = false;
     }
@@ -78,6 +79,7 @@ public class ShipFlight : MonoBehaviour
 
         audioSource1.Stop();
         audioSource2.Stop();
+        door.SetLockState(false);
 
         paAudio.SetActive(true);
 
