@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using System.Linq;
 using Unity.VisualScripting;
+using TMPro; // Import TextMesh Pro namespace
 
 /// <summary>
 /// Controls player movement, object interaction, and camera effects.
@@ -63,6 +64,8 @@ public class PlayerMovementController : MonoBehaviour
     public CanvasGroup QGroup;
 
     public SuitVoice suitVoice;
+
+    public GameObject interactPromptPrefab; // Prefab to instantiate above glowing objects
 
     void Start()
     {
@@ -446,6 +449,7 @@ public class PlayerMovementController : MonoBehaviour
                 if (lastHighlightedRenderer != null && lastHighlightedRenderer != objectRenderer)
                 {
                     RestoreOriginalMaterial(lastHighlightedRenderer);
+                    Destroy(lastHighlightedRenderer.transform.Find("InteractPrompt")?.gameObject);
                 }
 
                 Material[] currentMaterials = objectRenderer.materials;
@@ -462,12 +466,36 @@ public class PlayerMovementController : MonoBehaviour
                     objectRenderer.materials = newMaterials;
                 }
 
+                // Instantiate the prefab above the object
+                if (objectRenderer.transform.Find("InteractPrompt") == null)
+                {
+                    GameObject instance = Instantiate(interactPromptPrefab, objectRenderer.transform);
+                    instance.name = "InteractPrompt";
+                    instance.transform.localPosition = Vector3.zero; // Centre the prefab on the object
+
+                    // Adjust scale to maintain world scale
+                    Vector3 parentScale = objectRenderer.transform.lossyScale;
+                    instance.transform.localScale = new Vector3(1 / parentScale.x, 1 / parentScale.y, 1 / parentScale.z);
+
+                    // Make the canvas face the player
+                    instance.transform.LookAt(playerCamera.transform);
+                    instance.transform.Rotate(0, 180, 0); // Adjust rotation to face the player correctly
+
+                    // Set the text of the "Name" object using TextMesh Pro
+                    TMP_Text nameText = instance.transform.Find("Canvas/Name").GetComponent<TMP_Text>();
+                    if (nameText != null)
+                    {
+                        nameText.text = objectRenderer.transform.name;
+                    }
+                }
+
                 lastHighlightedRenderer = objectRenderer;
             }
         }
         else if (heldObject == null && lastHighlightedRenderer != null)
         {
             RestoreOriginalMaterial(lastHighlightedRenderer);
+            Destroy(lastHighlightedRenderer.transform.Find("InteractPrompt")?.gameObject);
             lastHighlightedRenderer = null;
         }
         else if (heldObject != null)

@@ -2438,7 +2438,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &41740051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2456,6 +2456,7 @@ MonoBehaviour:
   messageListener: {fileID: 41740050}
   reconnectionDelay: 1000
   maxUnreadMessages: 1
+  arduinoConnected: 0
 --- !u!114 &41740052
 MonoBehaviour:
   m_ObjectHideFlags: 0
