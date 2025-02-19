@@ -37,22 +37,26 @@ public class FpsCameraController : MonoBehaviour
 
     void Update()
     {
-        // Get the mouse movement
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
+        // Check if the game is not paused
+        if (Time.timeScale > 0)
+        {
+            // Get the mouse movement
+            float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
+            float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
 
-        // Adjust the xRotation based on mouseY
-        xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+            // Adjust the xRotation based on mouseY
+            xRotation -= mouseY;
+            xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-        // Adjust the yRotation based on mouseX
-        yRotation += mouseX;
+            // Adjust the yRotation based on mouseX
+            yRotation += mouseX;
 
-        // Apply the rotations directly
-        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-        playerBody.localRotation = Quaternion.Euler(0f, yRotation, 0f);
+            // Apply the rotations directly
+            transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+            playerBody.localRotation = Quaternion.Euler(0f, yRotation, 0f);
 
-        CheckForVisibleEnemies();
+            CheckForVisibleEnemies();
+        }
     }
 
     private void CheckForVisibleEnemies()

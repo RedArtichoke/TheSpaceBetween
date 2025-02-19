@@ -14,15 +14,17 @@ Shader "Custom/BlurBehind"
             Name "BlurPass"
             Blend SrcAlpha OneMinusSrcAlpha
             ZWrite Off
+            ZTest Always
             Cull Off
             HLSLPROGRAM
+            #pragma target 3.0
             #pragma vertex vert
             #pragma fragment frag
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
             struct Attributes
             {
-                float4 positionOS : POSITION;
+                float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
             };
 
@@ -32,11 +34,16 @@ Shader "Custom/BlurBehind"
                 float2 uv : TEXCOORD0;
             };
 
+            /// <summary>
+            /// Transforms to clip space then computes screen space UVs (Y flipped).
+            /// </summary>
             Varyings vert(Attributes input)
             {
                 Varyings output;
-                output.positionHCS = TransformObjectToHClip(input.positionOS);
-                output.uv = input.uv;
+                output.positionHCS = TransformObjectToHClip(input.vertex);
+                float4 screenPos = output.positionHCS;
+                screenPos /= screenPos.w; // perspective divide
+                output.uv = float2(screenPos.x, -screenPos.y) * 0.5 + 0.5;
                 return output;
             }
 
@@ -45,24 +52,33 @@ Shader "Custom/BlurBehind"
             float _BlurSize;
             float _DarkenAmount;
 
+            /// <summary>
+            /// Applies a 3x3 box blur and blends with a dark blue tint.
+            /// </summary>
             half4 frag(Varyings input) : SV_Target
             {
                 float2 uv = input.uv;
+                float2 texelSize = _CameraOpaqueTexture_TexelSize.xy;
+                float offset = _BlurSize;
 
-                // Sample neighbouring texels for blur effect
-                half4 color = tex2D(_CameraOpaqueTexture, uv) * 0.36;
-                color += tex2D(_CameraOpaqueTexture, uv + float2(_BlurSize * _CameraOpaqueTexture_TexelSize.x, 0)) * 0.22;
-                color += tex2D(_CameraOpaqueTexture, uv - float2(_BlurSize * _CameraOpaqueTexture_TexelSize.x, 0)) * 0.22;
-                color += tex2D(_CameraOpaqueTexture, uv + float2(0, _BlurSize * _CameraOpaqueTexture_TexelSize.y)) * 0.22;
-                color += tex2D(_CameraOpaqueTexture, uv - float2(0, _BlurSize * _CameraOpaqueTexture_TexelSize.y)) * 0.22;
+                // 3x3 box blur samples
+                half4 colour =
+                      tex2D(_CameraOpaqueTexture, uv + float2(-offset, -offset) * texelSize)
+                    + tex2D(_CameraOpaqueTexture, uv + float2( 0.0,    -offset) * texelSize)
+                    + tex2D(_CameraOpaqueTexture, uv + float2( offset, -offset) * texelSize)
+                    + tex2D(_CameraOpaqueTexture, uv + float2(-offset,  0.0)    * texelSize)
+                    + tex2D(_CameraOpaqueTexture, uv)
+                    + tex2D(_CameraOpaqueTexture, uv + float2( offset,  0.0)    * texelSize)
+                    + tex2D(_CameraOpaqueTexture, uv + float2(-offset,  offset) * texelSize)
+                    + tex2D(_CameraOpaqueTexture, uv + float2( 0.0,     offset) * texelSize)
+                    + tex2D(_CameraOpaqueTexture, uv + float2( offset,  offset) * texelSize);
+                colour /= 9.0;
 
-                // Apply darkening effect
-                color.rgb *= (1.0 - _DarkenAmount);
+                // Blend colour with dark blue to tint it
+                float3 darkBlue = float3(0.0, 0.0, 0.01); // chosen dark blue tint
+                colour.rgb = lerp(colour.rgb, darkBlue, _DarkenAmount);
 
-                // Apply blue tint
-                color.b += 0.01; // Increase blue channel
-
-                return color;
+                return colour;
             }
             ENDHLSL
         }
