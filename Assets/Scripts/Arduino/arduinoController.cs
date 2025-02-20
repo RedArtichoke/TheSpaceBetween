@@ -56,7 +56,49 @@ public class ArduinoHandler : MonoBehaviour
     void OnMessageArrived(string msg)
     {
         Debug.Log("bpm: " + msg);
-        heartRateScript.beatsPerMinute = float.Parse(msg); //this takes the message from arduino and makes it equal to BPM value
+        float currentBPM = float.Parse(msg);
+
+        // During calibration, store BPM readings
+        if (isCalibrating)
+        {
+            bpmReadings.Add(currentBPM);
+        }
+
+        // Update heart rate in the animation script
+        heartRateScript.beatsPerMinute = currentBPM;
+
+        // Map BPM change if calibration is done
+        if (restingHeartRate > 0)
+        {
+            float bpmChange = currentBPM - restingHeartRate;
+            Debug.Log("BPM Change: " + bpmChange);
+            // You can map bpmChange to a value range as needed
+        }
+    }
+
+    public void StartCalibration()
+    {
+        bpmReadings.Clear();
+        isCalibrating = true;
+        calibrationTimer = 0f;
+        Debug.Log("Calibration started: Measuring heart rate...");
+    }
+
+    private void SetRestingHeartRate()
+    {
+        if (bpmReadings.Count > 0)
+        {
+            float sum = 0;
+            foreach (float bpm in bpmReadings)
+            {
+                sum += bpm;
+            }
+            restingHeartRate = sum / bpmReadings.Count; // Get average BPM
+            Debug.Log("Resting Heart Rate set to: " + restingHeartRate);
+        }
+
+        isCalibrating = false;
+        bpmReadings.Clear();
     }
 
     public void sendFlashbang()

@@ -6,6 +6,7 @@ public class arduinoStart : MonoBehaviour
 {
 
     public SerialController serialControllerScript;
+    public ArduinoHandler arduinoControllerScript;
 
     public GameObject connectArduinoUI;
     public GameObject noArduinoUI;
@@ -45,7 +46,7 @@ public class arduinoStart : MonoBehaviour
         connectArduinoUI.SetActive(false);
         callibrationUI.SetActive(true);
 
-
+        arduinoControllerScript.StartCalibration();
     }
 
 
