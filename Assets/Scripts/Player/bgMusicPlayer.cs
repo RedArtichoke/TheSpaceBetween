@@ -6,14 +6,14 @@ public class bgMusicPlayer : MonoBehaviour
 {
     public AudioClip[] audioTracks; // Array to hold audio tracks
     private AudioSource audioSource; // Audio source for playing music
-    private float originalVolume; // Store original volume
+    private float originalVolume = 0.5f; // Store original volume
     private float delayTime; // Time to wait before playing next track
 
     // Start is called before the first frame update
     void Start()
     {
         audioSource = gameObject.AddComponent<AudioSource>(); // Create audio source
-        originalVolume = audioSource.volume; // Store original volume
+        audioSource.volume = originalVolume; // Store original volume
         StartCoroutine(PlayRandomTrack()); // Start playing tracks
     }
 
