@@ -21,6 +21,13 @@ public class ArduinoHandler : MonoBehaviour
     private bool hasSentMessageFor10 = false;
     private bool hasSentMessageFor0 = false;
 
+
+    private List<float> bpmReadings = new List<float>();
+    private float restingHeartRate = 0;
+    private bool isCalibrating = false;
+    private float calibrationDuration = 30f; // 30 seconds
+    private float calibrationTimer = 0f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,6 +39,17 @@ public class ArduinoHandler : MonoBehaviour
     {
 
         sendPowerLevel();
+
+        if (isCalibrating)
+        {
+            calibrationTimer += Time.deltaTime;
+
+            if (calibrationTimer >= calibrationDuration)
+            {
+                SetRestingHeartRate();
+            }
+        }
+
 
     }
 

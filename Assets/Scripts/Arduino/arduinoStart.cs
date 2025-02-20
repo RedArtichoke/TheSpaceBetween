@@ -6,7 +6,12 @@ public class arduinoStart : MonoBehaviour
 {
 
     public SerialController serialControllerScript;
-    public bool connectArduino;
+
+    public GameObject connectArduinoUI;
+    public GameObject noArduinoUI;
+    public GameObject callibrationUI;
+
+    private bool hideArduinoUI = false;
 
 
     // Start is called before the first frame update
@@ -19,10 +24,29 @@ public class arduinoStart : MonoBehaviour
     void Update()
     {
 
-        if (connectArduino && serialControllerScript.arduinoConnected == true)
+        if (serialControllerScript.arduinoConnected == true && hideArduinoUI == false)
         {
-            
+            connectArduinoUI.SetActive(true);
         }
 
     }
+
+    public void noArduino()
+    {
+        hideArduinoUI = true;
+        connectArduinoUI.SetActive(false);
+        noArduinoUI.SetActive(true);
+    }
+
+    public void callibration()
+    {
+
+        hideArduinoUI = true;
+        connectArduinoUI.SetActive(false);
+        callibrationUI.SetActive(true);
+
+
+    }
+
+
 }
