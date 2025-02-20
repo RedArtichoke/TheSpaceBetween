@@ -39967,6 +39967,16 @@ PrefabInstance:
       propertyPath: hudElement
       value: 
       objectReference: {fileID: 1336300107}
+    - target: {fileID: 6343842895949506335, guid: 98f852bed5c5e4afc99579e1f507d406,
+        type: 3}
+      propertyPath: dimensionPromptPrefab
+      value: 
+      objectReference: {fileID: 2009748566}
+    - target: {fileID: 8464997635603633652, guid: 98f852bed5c5e4afc99579e1f507d406,
+        type: 3}
+      propertyPath: UIComponents
+      value: 
+      objectReference: {fileID: 1582979151}
     - target: {fileID: 8586990463066505153, guid: 98f852bed5c5e4afc99579e1f507d406,
         type: 3}
       propertyPath: range
@@ -84684,6 +84694,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1582277442}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1582979151 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3649217555360081998, guid: 57be4ab2bb21a4c11aed22f4632f20ba,
+    type: 3}
+  m_PrefabInstance: {fileID: 1965311187}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1584032077
 GameObject:
   m_ObjectHideFlags: 0
@@ -106241,6 +106257,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2009142885}
   m_Mesh: {fileID: 1431906657963446124, guid: 6b368c9c112161a45b67083539725635, type: 3}
+--- !u!1 &2009748566 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3323472875445808680, guid: 57be4ab2bb21a4c11aed22f4632f20ba,
+    type: 3}
+  m_PrefabInstance: {fileID: 1965311187}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2011633872
 GameObject:
   m_ObjectHideFlags: 0

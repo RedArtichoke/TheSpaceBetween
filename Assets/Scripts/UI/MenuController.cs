@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 public class MenuController : MonoBehaviour
 {
     public GameObject pauseMenuPrefab; // Reference to the pause menu prefab
+    public GameObject UIComponents;
     public GameObject screenQuad; // Reference to the quad
     private bool isPaused = false; // Track the pause state
 
@@ -31,6 +32,7 @@ public class MenuController : MonoBehaviour
         if (isPaused)
         {
             Time.timeScale = 0f; // Freeze time
+            UIComponents.SetActive(false); // Hide the UI components
             pauseMenuPrefab.SetActive(true); // Show the pause menu
             screenQuad.SetActive(true); // Show the quad
             Cursor.visible = true; // Make the cursor visible
@@ -40,6 +42,7 @@ public class MenuController : MonoBehaviour
         else
         {
             Time.timeScale = 1f; // Resume time
+            UIComponents.SetActive(true); // Show the UI components
             pauseMenuPrefab.SetActive(false); // Hide the pause menu
             screenQuad.SetActive(false); // Hide the quad
             Cursor.visible = false; // Hide the cursor

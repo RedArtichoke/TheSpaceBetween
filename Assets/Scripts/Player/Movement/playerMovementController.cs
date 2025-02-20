@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using Unity.VisualScripting;
 using TMPro; // Import TextMesh Pro namespace
+using System.Text.RegularExpressions;
 
 /// <summary>
 /// Controls player movement, object interaction, and camera effects.
@@ -66,6 +67,7 @@ public class PlayerMovementController : MonoBehaviour
     public SuitVoice suitVoice;
 
     public GameObject interactPromptPrefab; // Prefab to instantiate above glowing objects
+    public GameObject dimensionPromptPrefab;
 
     void Start()
     {
@@ -260,6 +262,10 @@ public class PlayerMovementController : MonoBehaviour
                 if (darkController != null)
                 {
                     darkController.hasDevice = true; // Set hasDevice to true
+                    if (dimensionPromptPrefab != null)
+                    {
+                        dimensionPromptPrefab.SetActive(true);
+                    }
                 }
                 suitVoice.PlaySuitInstallAudio();
 
@@ -477,15 +483,11 @@ public class PlayerMovementController : MonoBehaviour
                     Vector3 parentScale = objectRenderer.transform.lossyScale;
                     instance.transform.localScale = new Vector3(1 / parentScale.x, 1 / parentScale.y, 1 / parentScale.z);
 
-                    // Make the canvas face the player
-                    instance.transform.LookAt(playerCamera.transform);
-                    instance.transform.Rotate(0, 180, 0); // Adjust rotation to face the player correctly
-
                     // Set the text of the "Name" object using TextMesh Pro
                     TMP_Text nameText = instance.transform.Find("Canvas/Name").GetComponent<TMP_Text>();
                     if (nameText != null)
                     {
-                        nameText.text = objectRenderer.transform.name;
+                        nameText.text = FormatObjectName(objectRenderer.transform.name);
                     }
                 }
 
@@ -560,5 +562,35 @@ public class PlayerMovementController : MonoBehaviour
         }
     }
 
-    
+    private string FormatObjectName(string originalName)
+    {
+        // Remove unwanted words
+        string[] unwantedWords = { "geo", "geometry", "open", "closed", "clone" };
+        foreach (var word in unwantedWords)
+        {
+            originalName = originalName.Replace(word, "", System.StringComparison.OrdinalIgnoreCase);
+        }
+
+        // Remove numbers and special characters
+        originalName = Regex.Replace(originalName, @"[^a-zA-Z]", "");
+
+        // Insert spaces before capital letters
+        System.Text.StringBuilder formattedName = new System.Text.StringBuilder();
+        foreach (char c in originalName)
+        {
+            if (char.IsUpper(c) && formattedName.Length > 0)
+            {
+                formattedName.Append(' ');
+            }
+            formattedName.Append(c);
+        }
+
+        // Capitalise the first letter
+        if (formattedName.Length > 0)
+        {
+            formattedName[0] = char.ToUpper(formattedName[0]);
+        }
+
+        return formattedName.ToString();
+    }
 }
