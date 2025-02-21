@@ -9383,7 +9383,7 @@ PrefabInstance:
     - target: {fileID: 3615911287922190487, guid: f6e6d2e6600861342a4d565f3bcff8e6,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6490350512150735598, guid: f6e6d2e6600861342a4d565f3bcff8e6,
         type: 3}
@@ -17056,6 +17056,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 281713862}
   m_Mesh: {fileID: 8119842200765942037, guid: 542e41fa2c6487443b356469d0a9b9c6, type: 3}
+--- !u!1 &283053234 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3615911287922190487, guid: f6e6d2e6600861342a4d565f3bcff8e6,
+    type: 3}
+  m_PrefabInstance: {fileID: 1133967430}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &284357283
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19741,12 +19747,12 @@ GameObject:
   m_Component:
   - component: {fileID: 322339678}
   m_Layer: 5
-  m_Name: Callibration
+  m_Name: Calibration
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &322339678
 RectTransform:
   m_ObjectHideFlags: 0
@@ -19759,7 +19765,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1133967431}
+  - {fileID: 2020659943}
+  - {fileID: 1287696807}
   m_Father: {fileID: 768728701}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -42354,8 +42361,8 @@ RectTransform:
   - {fileID: 1016949674}
   - {fileID: 1474021657}
   - {fileID: 484084661}
+  - {fileID: 1133967431}
   - {fileID: 322339678}
-  - {fileID: 2020659943}
   - {fileID: 1764542967}
   - {fileID: 145377805}
   m_Father: {fileID: 0}
@@ -42382,6 +42389,13 @@ MonoBehaviour:
   connectArduinoUI: {fileID: 484084660}
   noArduinoUI: {fileID: 1474021656}
   callibrationUI: {fileID: 322339677}
+  breathingCircle: {fileID: 1287696804}
+  minScale: 0.8
+  maxScale: 2
+  breathingSpeed: 1
+  introText: {fileID: 1240101200}
+  introCalibrationText: {fileID: 283053234}
+  calibrationEnd: {fileID: 1764542966}
 --- !u!1001 &770944776
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -61364,13 +61378,13 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 322339678}
+    m_TransformParent: {fileID: 768728701}
     m_Modifications:
     - target: {fileID: 2614180226644259564, guid: f6e6d2e6600861342a4d565f3bcff8e6,
         type: 3}
       propertyPath: m_text
       value: "Connection established. Synchronizing with your heart rate\u2026 Relax
-        and take a deep breaths."
+        and take deep breaths."
       objectReference: {fileID: 0}
     - target: {fileID: 2614180226644259564, guid: f6e6d2e6600861342a4d565f3bcff8e6,
         type: 3}
@@ -61435,7 +61449,7 @@ PrefabInstance:
     - target: {fileID: 3615911287922190487, guid: f6e6d2e6600861342a4d565f3bcff8e6,
         type: 3}
       propertyPath: m_Name
-      value: 'Intro '
+      value: CalibrationIntro
       objectReference: {fileID: 0}
     - target: {fileID: 3615911287922190487, guid: f6e6d2e6600861342a4d565f3bcff8e6,
         type: 3}
@@ -61525,7 +61539,7 @@ PrefabInstance:
     - target: {fileID: 6490350512150735598, guid: f6e6d2e6600861342a4d565f3bcff8e6,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6490350512150735598, guid: f6e6d2e6600861342a4d565f3bcff8e6,
         type: 3}
@@ -67690,6 +67704,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1240101200 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3615911287922190487, guid: f6e6d2e6600861342a4d565f3bcff8e6,
+    type: 3}
+  m_PrefabInstance: {fileID: 145377804}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1241698919
 GameObject:
   m_ObjectHideFlags: 0
@@ -70661,6 +70681,81 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1285943021}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1287696804
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1287696807}
+  - component: {fileID: 1287696806}
+  - component: {fileID: 1287696805}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1287696805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1287696804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: d8a8e166be39e43c98914e17888db857, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1287696806
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1287696804}
+  m_CullTransparentMesh: 1
+--- !u!224 &1287696807
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1287696804}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 322339678}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -16.6}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!4 &1287782779 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7538486806934416595, guid: 2bc3a4879ca448944a850748aedec109,
@@ -97117,7 +97212,7 @@ GameObject:
   - component: {fileID: 1764542969}
   - component: {fileID: 1764542968}
   m_Layer: 5
-  m_Name: Text (TMP) (2)
+  m_Name: Complete
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -97164,15 +97259,16 @@ MonoBehaviour:
       m_Calls: []
   m_text: Calibration Complete
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a951b4c7c577f4ef984254fc93c7fb43, type: 2}
+  m_sharedMaterial: {fileID: 4863572386124049036, guid: a951b4c7c577f4ef984254fc93c7fb43,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4280463613
+  m_fontColor: {r: 0.99215686, g: 0.6901961, b: 0.13333334, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -102946,7 +103042,7 @@ PrefabInstance:
     - target: {fileID: 1755457670853530107, guid: eed08787ea4426144b6e369751574fe3,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: callibration
+      value: calibrationStart
       objectReference: {fileID: 0}
     - target: {fileID: 1755457670853530107, guid: eed08787ea4426144b6e369751574fe3,
         type: 3}
@@ -110518,12 +110614,12 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 768728701}
+    m_TransformParent: {fileID: 322339678}
     m_Modifications:
     - target: {fileID: 2614180226644259564, guid: f6e6d2e6600861342a4d565f3bcff8e6,
         type: 3}
       propertyPath: m_text
-      value: Callibrating...
+      value: Calibrating...
       objectReference: {fileID: 0}
     - target: {fileID: 2614180226644259564, guid: f6e6d2e6600861342a4d565f3bcff8e6,
         type: 3}
@@ -110695,7 +110791,7 @@ PrefabInstance:
     - target: {fileID: 6490350512150735598, guid: f6e6d2e6600861342a4d565f3bcff8e6,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 41
+      value: 37
       objectReference: {fileID: 0}
     - target: {fileID: 6490350512150735598, guid: f6e6d2e6600861342a4d565f3bcff8e6,
         type: 3}
@@ -120466,11 +120562,11 @@ SceneRoots:
   - {fileID: 1107318465684087463}
   - {fileID: 47421988}
   - {fileID: 9101110790724593306}
+  - {fileID: 873299501}
   - {fileID: 200450746}
   - {fileID: 964130498}
-  - {fileID: 1198744918}
   - {fileID: 1004282293}
+  - {fileID: 1198744918}
   - {fileID: 41740053}
-  - {fileID: 873299501}
   - {fileID: 768728701}
   - {fileID: 888431574}
