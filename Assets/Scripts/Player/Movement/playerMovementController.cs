@@ -430,7 +430,7 @@ public class PlayerMovementController : MonoBehaviour
             }
 
             Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
-            if (Physics.Raycast(ray, out RaycastHit hit, pickupDistance, interactableLayer))
+            if (Physics.Raycast(ray, out RaycastHit hit, pickupDistance, interactableLayer | LayerMask.GetMask("button") | LayerMask.GetMask("Door")))
             {
                 crosshairCanvasGroup.alpha = 0f; // Make crosshair invisible
             }
@@ -445,54 +445,103 @@ public class PlayerMovementController : MonoBehaviour
     {
         // Update the glow effect on objects being looked at
         Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
-        bool isHit = Physics.Raycast(ray, out RaycastHit hit, pickupDistance, interactableLayer);
+        bool isHit = Physics.Raycast(ray, out RaycastHit hit, pickupDistance, 
+                      interactableLayer | LayerMask.GetMask("button") | LayerMask.GetMask("Door"));
 
         if (heldObject == null && isHit)
         {
-            Renderer objectRenderer = hit.transform.GetComponent<Renderer>();
-            if (objectRenderer != null)
+            // Use the collider's gameobject to avoid returning the parent in default cases
+            GameObject targetObject = hit.collider.gameObject;
+            
+            Renderer objectRenderer = targetObject.GetComponent<Renderer>();
+
+            // Look for a child with matching name criteria
+            foreach (Transform child in targetObject.GetComponentsInChildren<Transform>())
             {
-                if (lastHighlightedRenderer != null && lastHighlightedRenderer != objectRenderer)
+                if (child != targetObject.transform && 
+                   (child.name.ToLower().Contains("door") || child.name == "x" ||child.name.Contains("geo")))
                 {
-                    RestoreOriginalMaterial(lastHighlightedRenderer);
-                    Destroy(lastHighlightedRenderer.transform.Find("InteractPrompt")?.gameObject);
+                    objectRenderer = child.GetComponent<Renderer>();
+                    break;
                 }
-
-                Material[] currentMaterials = objectRenderer.materials;
-                if (currentMaterials.Length == 1 || !currentMaterials.Contains(glowMaterial))
-                {
-                    if (originalMaterial == null)
-                    {
-                        originalMaterial = currentMaterials[0];
-                    }
-
-                    Material[] newMaterials = new Material[2];
-                    newMaterials[0] = originalMaterial;
-                    newMaterials[1] = glowMaterial;
-                    objectRenderer.materials = newMaterials;
-                }
-
-                // Instantiate the prefab above the object
-                if (objectRenderer.transform.Find("InteractPrompt") == null)
-                {
-                    GameObject instance = Instantiate(interactPromptPrefab, objectRenderer.transform);
-                    instance.name = "InteractPrompt";
-                    instance.transform.localPosition = Vector3.zero; // Centre the prefab on the object
-
-                    // Adjust scale to maintain world scale
-                    Vector3 parentScale = objectRenderer.transform.lossyScale;
-                    instance.transform.localScale = new Vector3(1 / parentScale.x, 1 / parentScale.y, 1 / parentScale.z);
-
-                    // Set the text of the "Name" object using TextMesh Pro
-                    TMP_Text nameText = instance.transform.Find("Canvas/Name").GetComponent<TMP_Text>();
-                    if (nameText != null)
-                    {
-                        nameText.text = FormatObjectName(objectRenderer.transform.name);
-                    }
-                }
-
-                lastHighlightedRenderer = objectRenderer;
             }
+
+            if (objectRenderer == null)
+            {
+                Debug.LogWarning("No renderer found for the object or its children.");
+                return;
+            }
+
+            if (lastHighlightedRenderer != null && lastHighlightedRenderer != objectRenderer)
+            {
+                RestoreOriginalMaterial(lastHighlightedRenderer);
+                Destroy(lastHighlightedRenderer.transform.Find("InteractPrompt")?.gameObject);
+            }
+
+            Material[] currentMaterials = objectRenderer.materials;
+            if (currentMaterials.Length == 1 || !currentMaterials.Contains(glowMaterial))
+            {
+                if (originalMaterial == null)
+                {
+                    originalMaterial = currentMaterials[0];
+                }
+
+                Material[] newMaterials = new Material[2];
+                newMaterials[0] = originalMaterial;
+                newMaterials[1] = glowMaterial;
+                objectRenderer.materials = newMaterials;
+            }
+
+            // Instantiate the interact prompt prefab above the object
+            if (objectRenderer.transform.Find("InteractPrompt") == null)
+            {
+                GameObject instance = Instantiate(interactPromptPrefab, objectRenderer.transform);
+                instance.name = "InteractPrompt";
+                instance.transform.localPosition = Vector3.zero; // centre the prefab
+
+                // Adjust scale so it isn't affected by the parent's scale
+                Vector3 parentScale = objectRenderer.transform.lossyScale;
+                instance.transform.localScale = new Vector3(1 / parentScale.x, 1 / parentScale.y, 1 / parentScale.z);
+
+                TMP_Text instructionsText = instance.transform.Find("Canvas/Instructions").GetComponent<TMP_Text>();
+                TMP_Text nameText = instance.transform.Find("Canvas/Name").GetComponent<TMP_Text>();
+
+                // Compare using the target object and its name (ignoring parent name if necessary)
+                if (targetObject.name.ToLower().Contains("doors"))
+                {
+                    doorOpen doorOpenComponent = targetObject.GetComponent<doorOpen>();
+                    if (doorOpenComponent != null && doorOpenComponent.IsLocked)
+                    {
+                        if (nameText != null)
+                            nameText.text = "Locked Door";
+
+                        if (instructionsText != null)
+                            instructionsText.text = "Cannot Open";
+                    }
+                    else
+                    {
+                        if (instructionsText != null)
+                            instructionsText.text = "Press E to Open";
+
+                        if (nameText != null)
+                            nameText.text = "Door";
+                    }
+                }
+                else if (targetObject.name == "x")
+                {
+                    if (instructionsText != null)
+                        instructionsText.text = "Initiate Landing Sequence";
+                    if (nameText != null)
+                        nameText.text = "The Intervallum";
+                }
+                else
+                {
+                    if (nameText != null)
+                        nameText.text = FormatObjectName(objectRenderer.transform.name);
+                }
+            }
+
+            lastHighlightedRenderer = objectRenderer;
         }
         else if (heldObject == null && lastHighlightedRenderer != null)
         {
@@ -565,7 +614,7 @@ public class PlayerMovementController : MonoBehaviour
     private string FormatObjectName(string originalName)
     {
         // Remove unwanted words
-        string[] unwantedWords = { "geo", "geometry", "open", "closed", "clone" };
+        string[] unwantedWords = { "geo", "geometry", "open", "closed", "clone", "right", "left" };
         foreach (var word in unwantedWords)
         {
             originalName = originalName.Replace(word, "", System.StringComparison.OrdinalIgnoreCase);
