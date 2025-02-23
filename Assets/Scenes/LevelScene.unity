@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.0005785843, g: 0.0005841827, b: 0.0005785843, a: 1}
+  m_IndirectSpecularColor: {r: 0.0005769473, g: 0.00058402633, b: 0.0005769473, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -80819,6 +80819,100 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1513916046}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1519199548
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 657081379}
+    m_Modifications:
+    - target: {fileID: 1250980947071623839, guid: f285e7c0b0869834c877919819ff92d8,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.1157436
+      objectReference: {fileID: 0}
+    - target: {fileID: 1250980947071623839, guid: f285e7c0b0869834c877919819ff92d8,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.1157436
+      objectReference: {fileID: 0}
+    - target: {fileID: 1250980947071623839, guid: f285e7c0b0869834c877919819ff92d8,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.1157436
+      objectReference: {fileID: 0}
+    - target: {fileID: 1250980947071623839, guid: f285e7c0b0869834c877919819ff92d8,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.87
+      objectReference: {fileID: 0}
+    - target: {fileID: 1250980947071623839, guid: f285e7c0b0869834c877919819ff92d8,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.502
+      objectReference: {fileID: 0}
+    - target: {fileID: 1250980947071623839, guid: f285e7c0b0869834c877919819ff92d8,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 1250980947071623839, guid: f285e7c0b0869834c877919819ff92d8,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.6691225
+      objectReference: {fileID: 0}
+    - target: {fileID: 1250980947071623839, guid: f285e7c0b0869834c877919819ff92d8,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.6691225
+      objectReference: {fileID: 0}
+    - target: {fileID: 1250980947071623839, guid: f285e7c0b0869834c877919819ff92d8,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.22863749
+      objectReference: {fileID: 0}
+    - target: {fileID: 1250980947071623839, guid: f285e7c0b0869834c877919819ff92d8,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.22863749
+      objectReference: {fileID: 0}
+    - target: {fileID: 1250980947071623839, guid: f285e7c0b0869834c877919819ff92d8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1250980947071623839, guid: f285e7c0b0869834c877919819ff92d8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1250980947071623839, guid: f285e7c0b0869834c877919819ff92d8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 37.73
+      objectReference: {fileID: 0}
+    - target: {fileID: 1880165053153163301, guid: f285e7c0b0869834c877919819ff92d8,
+        type: 3}
+      propertyPath: m_Name
+      value: maintenanceScrewdriver (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1880165053153163301, guid: f285e7c0b0869834c877919819ff92d8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f285e7c0b0869834c877919819ff92d8, type: 3}
+--- !u!4 &1519199549 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1250980947071623839, guid: f285e7c0b0869834c877919819ff92d8,
+    type: 3}
+  m_PrefabInstance: {fileID: 1519199548}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1523560329
 GameObject:
   m_ObjectHideFlags: 0
@@ -89131,6 +89225,17 @@ MonoBehaviour:
   cap1: {fileID: 0}
   powerCell: {fileID: 0}
   steeringWheel: {fileID: 0}
+  drawer1: {fileID: 0}
+  drawer2: {fileID: 0}
+  brokenDoor1: {fileID: 0}
+  brokenDoor2: {fileID: 0}
+  trash1: {fileID: 0}
+  trash2: {fileID: 0}
+  screwdriver: {fileID: 0}
+  mug: {fileID: 0}
+  lightsource1: {fileID: 0}
+  DoorOpens: {fileID: 0}
+  DoorDestroyed: {fileID: 0}
 --- !u!1001 &1675675057
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -116405,6 +116510,10 @@ PrefabInstance:
         type: 3}
       insertIndex: 0
       addedObject: {fileID: 2118233855}
+    - targetCorrespondingSourceObject: {fileID: 4762555532018559019, guid: 8778e27f0b231e841b40f1963f23e652,
+        type: 3}
+      insertIndex: 61
+      addedObject: {fileID: 1519199549}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4413854128585770510, guid: 8778e27f0b231e841b40f1963f23e652,
         type: 3}
