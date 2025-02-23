@@ -6,6 +6,7 @@ public class ComponentAdd : MonoBehaviour
 {
     public ShipComponent.ShipComponentIdentity requiredShipComponentIdentity;
     public GameObject objectView;
+    public GameObject transView;
 
     public ShipRepair shipRepair;
 
@@ -16,6 +17,7 @@ public class ComponentAdd : MonoBehaviour
             ShipComponent shipComponent = other.GetComponent<ShipComponent>();
             if (shipComponent != null && shipComponent.identity == requiredShipComponentIdentity)
             {
+                transView.SetActive(false);
                 Destroy(shipComponent.gameObject);
                 objectView.SetActive(true);
                 shipRepair.repairCount++;

@@ -38,6 +38,10 @@ public class ShipRepair : MonoBehaviour
     public GameObject pipeburst1;
     public GameObject pipeburst2;
 
+    [Header("Transparent Ship Objects")]
+    public GameObject transWheel;
+    public GameObject transCell;
+
     void Update()
     {
         if (repairCount == 4)
@@ -80,5 +84,8 @@ public class ShipRepair : MonoBehaviour
 
         pipeburst1.SetActive(true);
         pipeburst2.SetActive(true);
+        
+        transWheel.SetActive(true);
+        transCell.SetActive(true);
     }
 }
