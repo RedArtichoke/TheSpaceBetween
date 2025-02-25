@@ -22,11 +22,18 @@ public class IntroCutscene : MonoBehaviour
     [SerializeField] private GameObject moveControls;
     [SerializeField] private GameObject InteractControls;
     public PlayerMovementController playerMovement;
+    public GameObject UIComponents;
+    
+    // Add a flag to track if the intro has been skipped
+    private bool introSkipped = false;
 
     private void Start()
     {
         //Disable player movement
         playerMovement.enabled = false;
+
+        //Disable UI components
+        UIComponents.SetActive(false);
 
         //Yogurt cup presents...
         text.gameObject.SetActive(false);
@@ -57,14 +64,26 @@ public class IntroCutscene : MonoBehaviour
     }
     void Update()
     {
-        if(Input.GetKey(KeyCode.P))
+        // Only allow skipping if it hasn't been skipped already
+        if(Input.GetKey(KeyCode.P) && !introSkipped)
         {
+            // Set the flag to prevent future skips
+            introSkipped = true;
+            
             Intro = false;
             IntroScene.SetActive(false);
-            StopCoroutine(FadeCutscene());
-
-            //Re enable player movement
+            
+            // Stop all coroutines instead of just one specific coroutine
+            StopAllCoroutines();
+            
+            // Make sure UI elements are properly hidden
+            HideIntroElements();
+            
+            // Re enable player movement
             playerMovement.enabled = true;
+
+            //Re enable UI components
+            UIComponents.SetActive(true);
         }
     }
 
@@ -125,10 +144,11 @@ public class IntroCutscene : MonoBehaviour
 
         //Re enable player movement
         playerMovement.enabled = true;
+        UIComponents.SetActive(true);
 
         yield return new WaitForSeconds(2f);
 
-        moveControls.SetActive(true);
+        // moveControls.SetActive(true);
 
         yield return new WaitForSeconds (8f);
 
@@ -151,7 +171,28 @@ public class IntroCutscene : MonoBehaviour
 
         yield return new WaitForSeconds (3f);
 
-        InteractControls.SetActive(true);
+        // InteractControls.SetActive(true);
+    }
+
+    // Add a new method to hide all UI elements
+    private void HideIntroElements()
+    {
+        // Hide all text elements
+        text.gameObject.SetActive(false);
+        text2.gameObject.SetActive(false);
+        text2Title.gameObject.SetActive(false);
+        text3.gameObject.SetActive(false);
+        text3Title.gameObject.SetActive(false);
+        text4.gameObject.SetActive(false);
+        text5.gameObject.SetActive(false);
+        
+        // Hide controls
+        moveControls.SetActive(false);
+        InteractControls.SetActive(false);
+        
+        // Set canvas groups to invisible
+        canvasGroup.alpha = 0f;
+        moveControlsGroup.alpha = 0f;
     }
 }
 

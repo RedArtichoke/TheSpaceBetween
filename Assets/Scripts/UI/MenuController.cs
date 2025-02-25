@@ -8,7 +8,7 @@ public class MenuController : MonoBehaviour
     public GameObject pauseMenuPrefab; // Reference to the pause menu prefab
     public GameObject UIComponents;
     public GameObject screenQuad; // Reference to the quad
-    private bool isPaused = false; // Track the pause state
+    public bool isPaused = false; // Track the pause state
 
     void Start()
     {
