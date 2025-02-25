@@ -21,9 +21,13 @@ public class IntroCutscene : MonoBehaviour
     [SerializeField] private CanvasGroup moveControlsGroup;
     [SerializeField] private GameObject moveControls;
     [SerializeField] private GameObject InteractControls;
+    public PlayerMovementController playerMovement;
 
     private void Start()
     {
+        //Disable player movement
+        playerMovement.enabled = false;
+
         //Yogurt cup presents...
         text.gameObject.SetActive(false);
 
@@ -49,6 +53,18 @@ public class IntroCutscene : MonoBehaviour
         else 
         {
             IntroScene.SetActive(false);
+        }
+    }
+    void Update()
+    {
+        if(Input.GetKey(KeyCode.P))
+        {
+            Intro = false;
+            IntroScene.SetActive(false);
+            StopCoroutine(FadeCutscene());
+
+            //Re enable player movement
+            playerMovement.enabled = true;
         }
     }
 
@@ -107,6 +123,9 @@ public class IntroCutscene : MonoBehaviour
         
         canvasGroup.alpha = 0f;
 
+        //Re enable player movement
+        playerMovement.enabled = true;
+
         yield return new WaitForSeconds(2f);
 
         moveControls.SetActive(true);
@@ -128,6 +147,7 @@ public class IntroCutscene : MonoBehaviour
         yield return new WaitForSeconds (1f);
 
         moveControls.SetActive(false);
+        
 
         yield return new WaitForSeconds (3f);
 
