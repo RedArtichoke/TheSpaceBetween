@@ -14,7 +14,7 @@ public class Sludge : MonoBehaviour
     public BoxCollider boxCollider;
     void Update()
     {
-        if (heartRate.BPMChange > 2)
+        if (heartRate.BPMChange > 4)
         {
             if(darkController.inDark)
             {
