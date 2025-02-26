@@ -39633,6 +39633,11 @@ PrefabInstance:
       objectReference: {fileID: 1239490008}
     - target: {fileID: 2944421043906995138, guid: 98f852bed5c5e4afc99579e1f507d406,
         type: 3}
+      propertyPath: intro
+      value: 
+      objectReference: {fileID: 1004282292}
+    - target: {fileID: 2944421043906995138, guid: 98f852bed5c5e4afc99579e1f507d406,
+        type: 3}
       propertyPath: steam1
       value: 
       objectReference: {fileID: 1820144331}
@@ -52141,6 +52146,8 @@ MonoBehaviour:
   InteractControls: {fileID: 1281723365}
   playerMovement: {fileID: 2118233859}
   UIComponents: {fileID: 1582979151}
+  speaker: {fileID: 9101110790724593307}
+  voice2: {fileID: 8300000, guid: dcf1535670dd7f84dad4300dc2834cd8, type: 3}
 --- !u!4 &1004282293
 Transform:
   m_ObjectHideFlags: 0
@@ -117371,6 +117378,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 805784588}
   m_SourcePrefab: {fileID: 100100000, guid: 8778e27f0b231e841b40f1963f23e652, type: 3}
+--- !u!82 &9101110790724593307 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 9024136504067653164, guid: 8778e27f0b231e841b40f1963f23e652,
+    type: 3}
+  m_PrefabInstance: {fileID: 9101110790724593306}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

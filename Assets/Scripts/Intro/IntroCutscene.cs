@@ -23,8 +23,9 @@ public class IntroCutscene : MonoBehaviour
     [SerializeField] private GameObject InteractControls;
     public PlayerMovementController playerMovement;
     public GameObject UIComponents;
-    
-    // Add a flag to track if the intro has been skipped
+    public AudioSource speaker;
+    public AudioClip voice2;
+
     private bool introSkipped = false;
 
     private void Start()
@@ -64,19 +65,15 @@ public class IntroCutscene : MonoBehaviour
     }
     void Update()
     {
-        // Only allow skipping if it hasn't been skipped already
         if(Input.GetKey(KeyCode.P) && !introSkipped)
         {
-            // Set the flag to prevent future skips
             introSkipped = true;
             
             Intro = false;
             IntroScene.SetActive(false);
             
-            // Stop all coroutines instead of just one specific coroutine
             StopAllCoroutines();
             
-            // Make sure UI elements are properly hidden
             HideIntroElements();
             
             // Re enable player movement
@@ -150,6 +147,8 @@ public class IntroCutscene : MonoBehaviour
 
         // moveControls.SetActive(true);
 
+        speaker.Play();
+
         yield return new WaitForSeconds (8f);
 
         fadeDuration = 1f;
@@ -193,6 +192,12 @@ public class IntroCutscene : MonoBehaviour
         // Set canvas groups to invisible
         canvasGroup.alpha = 0f;
         moveControlsGroup.alpha = 0f;
+    }
+
+    public void PlayFlashlightAudio()
+    {
+        speaker.clip = voice2;
+        speaker.Play();
     }
 }
 

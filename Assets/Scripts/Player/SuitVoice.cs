@@ -36,6 +36,8 @@ public class SuitVoice : MonoBehaviour
 
     private bgMusicPlayer musicPlayer;
 
+    public IntroCutscene intro;
+
     void Start()
     {
         steam1.SetActive(false);
@@ -148,6 +150,19 @@ public class SuitVoice : MonoBehaviour
     public void PlaySuitEquipAudio()
     {
         PlayAudioWithVolumeControl(suitEquip);
+
+        StartCoroutine(CheckIfAudioFinished());
+    }
+
+    public IEnumerator CheckIfAudioFinished()
+    {
+        while (suitVoice.isPlaying)
+        {
+            yield return null;
+        }
+
+        intro.PlayFlashlightAudio();
+
     }
 
     public void PlaySuitInstallAudio()
