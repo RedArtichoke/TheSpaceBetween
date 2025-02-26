@@ -52133,6 +52133,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Intro: 1
   IntroScene: {fileID: 61640281}
+  HUD: {fileID: 1582979151}
   text: {fileID: 47421992}
   text2: {fileID: 47421991}
   text2Title: {fileID: 1838764802}
@@ -52145,6 +52146,7 @@ MonoBehaviour:
   moveControls: {fileID: 2001997616}
   InteractControls: {fileID: 1281723365}
   playerMovement: {fileID: 2118233859}
+  closetDoor: {fileID: 1257633214}
   UIComponents: {fileID: 1582979151}
   speaker: {fileID: 9101110790724593307}
   voice2: {fileID: 8300000, guid: dcf1535670dd7f84dad4300dc2834cd8, type: 3}
@@ -66122,6 +66124,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1257134045}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1257633214 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7853124129721424076, guid: 8778e27f0b231e841b40f1963f23e652,
+    type: 3}
+  m_PrefabInstance: {fileID: 9101110790724593306}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76a5b601d8493bb42817eef87c68b237, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1257927120
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -103627,6 +103641,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2554098083785649694, guid: 57be4ab2bb21a4c11aed22f4632f20ba,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2966854051629989326, guid: 57be4ab2bb21a4c11aed22f4632f20ba,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -103681,6 +103700,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: UI Components
+      objectReference: {fileID: 0}
+    - target: {fileID: 3649217555360081998, guid: 57be4ab2bb21a4c11aed22f4632f20ba,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -117429,6 +117453,7 @@ SceneRoots:
   - {fileID: 896084416}
   - {fileID: 1056040076}
   - {fileID: 457154693}
+  - {fileID: 1965311187}
   - {fileID: 47421988}
   - {fileID: 1143879443}
   - {fileID: 681738523}
@@ -117641,7 +117666,6 @@ SceneRoots:
   - {fileID: 997814428}
   - {fileID: 1280764397}
   - {fileID: 95766433}
-  - {fileID: 1965311187}
   - {fileID: 1512089308}
   - {fileID: 5548664589943215060}
   - {fileID: 163558423}

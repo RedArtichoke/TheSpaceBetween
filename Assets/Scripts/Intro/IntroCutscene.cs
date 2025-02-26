@@ -9,6 +9,7 @@ public class IntroCutscene : MonoBehaviour
 {
     public bool Intro;
     public GameObject IntroScene;
+    public GameObject HUD;
 
     [SerializeField] private TextMeshProUGUI text;
     [SerializeField] private TextMeshProUGUI text2;
@@ -22,6 +23,7 @@ public class IntroCutscene : MonoBehaviour
     [SerializeField] private GameObject moveControls;
     [SerializeField] private GameObject InteractControls;
     public PlayerMovementController playerMovement;
+    public doorOpen closetDoor;
     public GameObject UIComponents;
     public AudioSource speaker;
     public AudioClip voice2;
@@ -30,6 +32,9 @@ public class IntroCutscene : MonoBehaviour
 
     private void Start()
     {
+        //Disable HUD
+        HUD.SetActive(false);
+
         //Disable player movement
         playerMovement.enabled = false;
 
@@ -81,6 +86,8 @@ public class IntroCutscene : MonoBehaviour
 
             //Re enable UI components
             UIComponents.SetActive(true);
+
+            HUD.SetActive(true);
         }
     }
 
@@ -141,7 +148,6 @@ public class IntroCutscene : MonoBehaviour
 
         //Re enable player movement
         playerMovement.enabled = true;
-        UIComponents.SetActive(true);
 
         yield return new WaitForSeconds(2f);
 
@@ -168,8 +174,8 @@ public class IntroCutscene : MonoBehaviour
         moveControls.SetActive(false);
         
 
-        yield return new WaitForSeconds (3f);
-
+        yield return new WaitForSeconds (15f);
+        closetDoor.OpenDoor();
         // InteractControls.SetActive(true);
     }
 
@@ -198,6 +204,7 @@ public class IntroCutscene : MonoBehaviour
     {
         speaker.clip = voice2;
         speaker.Play();
+        UIComponents.SetActive(true);
     }
 }
 
