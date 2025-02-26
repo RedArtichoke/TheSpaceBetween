@@ -28,9 +28,17 @@ public class IntroCutscene : MonoBehaviour
     public GameObject UIComponents;
     public AudioSource speaker;
     public AudioClip voice2;
+    public AudioClip voice3;
+    public AudioClip voice4;
+    public AudioClip voice5;
+    public AudioClip voice6;
     public GameObject suit;
     public GameObject crosshair;
     public PowerController powerController;
+    public GameObject button1;
+    public GameObject button2;
+
+    public bool flashbang;
 
     private bool introSkipped = false;
 
@@ -223,6 +231,75 @@ public class IntroCutscene : MonoBehaviour
         speaker.clip = voice2;
         speaker.Play();
         UIComponents.SetActive(true);
+
+        StartCoroutine(FlashlightControlPromptOpen());
     }
+
+    public IEnumerator FlashlightControlPromptOpen()
+    {
+        bool flashPrompt = true;
+        while (flashPrompt)
+        {
+            if(Input.GetKey(KeyCode.F))
+            {
+                flashPrompt = false;
+            }
+
+            yield return null;
+        }
+
+        PlayFlashlightAudio2();
+    }
+
+    public void PlayFlashlightAudio2()
+    {
+        speaker.clip = voice4;
+        speaker.Play();
+
+        StartCoroutine(FlashlightControlPromptClose());
+    }
+
+    public IEnumerator FlashlightControlPromptClose()
+    {
+        yield return new WaitForSeconds(1f);
+        flashbang = true;
+
+        while (flashbang)
+        {
+            yield return null;
+        }
+
+        PlayFlashlightAudio3();
+    }
+
+    public void PlayFlashlightAudio3()
+    {
+        speaker.clip = voice5;
+        speaker.Play();
+
+        StartCoroutine(FinalTutorialPrompt());
+    }
+
+    public IEnumerator FinalTutorialPrompt()
+    {
+        bool needPower = true;
+
+        while (needPower)
+        {
+            if(powerController.power == 100)
+            {
+                needPower = false;
+            }
+            yield return null;
+        }
+
+        speaker.clip = voice6;
+        speaker.Play();
+
+        button1.SetActive(false);
+        button2.SetActive(true);
+    }
+
+
 }
 

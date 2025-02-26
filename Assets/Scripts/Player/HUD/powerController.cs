@@ -19,9 +19,9 @@ public class PowerController : MonoBehaviour
     private float lerpDuration = 0.5f; // The time it takes to change its mind
     private float lerpTime = 0f; // The time spent changing its mind
 
-    private float holdTime = 0f; // How long the F key is held
-    private float chargeDuration = 1f; // Time to reach full charge
-    private bool isCharging = false; // Is the flashbang charging?
+    public float holdTime = 0f; // How long the F key is held
+    public float chargeDuration = 1f; // Time to reach full charge
+    public bool isCharging = false; // Is the flashbang charging?
     private float toggleThreshold = 0.2f; // The line between a tap and a hold
 
     private float originalInnerSpotAngle; // The flashlight's inner secret
@@ -42,6 +42,8 @@ public class PowerController : MonoBehaviour
     public AudioClip preStunSound; // Add this line to declare the pre-stun sound
     public AudioClip chargeSound; // Add this line to declare the pre-stun sound
     private bool chargeAudioPlaying = false;
+
+    public IntroCutscene introCutscene;
 
     // Start is called before the first frame update
     void Start()
@@ -101,6 +103,10 @@ public class PowerController : MonoBehaviour
                 audioSource.priority = 0;       
                 if (arduinoScript) {
                     arduinoScript.sendFlashbang();
+                }
+
+                if (introCutscene) {
+                    introCutscene.flashbang = false;
                 }
 
                 // Play pre-stun sound

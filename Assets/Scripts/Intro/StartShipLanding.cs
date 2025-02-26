@@ -16,6 +16,9 @@ public class StartShipLanding : MonoBehaviour
 
     public CanvasGroup interactGroup;
 
+    public AudioSource speaker;
+    public AudioClip ship7;
+
     void Start()
     {
         playerCamera = Camera.main;
@@ -30,6 +33,10 @@ public class StartShipLanding : MonoBehaviour
             {
                 StartTravel();
                 StartCoroutine(StopInteractprompt());
+
+                speaker.PlayOneShot(ship7);
+                gameObject.layer = LayerMask.NameToLayer("Default");
+                interactionRange = 0;
             }
         }
     }

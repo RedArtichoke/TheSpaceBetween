@@ -34730,6 +34730,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 648210783}
   m_Mesh: {fileID: 4440007903207240624, guid: 6b368c9c112161a45b67083539725635, type: 3}
+--- !u!114 &648920757 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3267428614103809821, guid: c360b642aeb472a4291c4a3228887eac,
+    type: 3}
+  m_PrefabInstance: {fileID: 1356888740}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76cdc0b68cf8ba64a848e5df69bba25e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &650707059
 GameObject:
   m_ObjectHideFlags: 0
@@ -39610,6 +39622,16 @@ PrefabInstance:
       propertyPath: chargingRing
       value: 
       objectReference: {fileID: 1523805549}
+    - target: {fileID: 3482881951145624219, guid: 98f852bed5c5e4afc99579e1f507d406,
+        type: 3}
+      propertyPath: arduinoScript
+      value: 
+      objectReference: {fileID: 648920757}
+    - target: {fileID: 3482881951145624219, guid: 98f852bed5c5e4afc99579e1f507d406,
+        type: 3}
+      propertyPath: introCutscene
+      value: 
+      objectReference: {fileID: 1004282292}
     - target: {fileID: 4033284120037939386, guid: 98f852bed5c5e4afc99579e1f507d406,
         type: 3}
       propertyPath: m_IsActive
@@ -52095,9 +52117,16 @@ MonoBehaviour:
   UIComponents: {fileID: 1582979151}
   speaker: {fileID: 9101110790724593307}
   voice2: {fileID: 8300000, guid: dcf1535670dd7f84dad4300dc2834cd8, type: 3}
+  voice3: {fileID: 8300000, guid: 741c9bfdc0b33e747921c477f28673e3, type: 3}
+  voice4: {fileID: 8300000, guid: c3e949719b126b04787c6753694f147c, type: 3}
+  voice5: {fileID: 8300000, guid: 2e89252ec9bd6bf4489762469b4285ab, type: 3}
+  voice6: {fileID: 8300000, guid: 6b375124313c79e4bb5a26bfa1c6243f, type: 3}
   suit: {fileID: 1898306488}
   crosshair: {fileID: 14107138}
   powerController: {fileID: 749889738}
+  button1: {fileID: 9101110790724593308}
+  button2: {fileID: 1263009041}
+  flashbang: 0
 --- !u!4 &1004282293
 Transform:
   m_ObjectHideFlags: 0
@@ -103769,6 +103798,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4481092212038537604, guid: 57be4ab2bb21a4c11aed22f4632f20ba,
+        type: 3}
+      propertyPath: m_text
+      value: 'Calibrate suit '
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -117480,6 +117514,12 @@ PrefabInstance:
 --- !u!82 &9101110790724593307 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 9024136504067653164, guid: 8778e27f0b231e841b40f1963f23e652,
+    type: 3}
+  m_PrefabInstance: {fileID: 9101110790724593306}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &9101110790724593308 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1790218176391245502, guid: 8778e27f0b231e841b40f1963f23e652,
     type: 3}
   m_PrefabInstance: {fileID: 9101110790724593306}
   m_PrefabAsset: {fileID: 0}
