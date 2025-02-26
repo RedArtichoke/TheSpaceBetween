@@ -16034,6 +16034,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: maintenanceBoxClosed
       objectReference: {fileID: 0}
+    - target: {fileID: 7193873012913550953, guid: 2bc3a4879ca448944a850748aedec109,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7538486806934416595, guid: 2bc3a4879ca448944a850748aedec109,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -16657,22 +16662,22 @@ PrefabInstance:
     - target: {fileID: 5708442875261314771, guid: 57e8225faf8234f55b257a35fff383ed,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.456
+      value: -3.199
       objectReference: {fileID: 0}
     - target: {fileID: 5708442875261314771, guid: 57e8225faf8234f55b257a35fff383ed,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.116
+      value: 1.192
       objectReference: {fileID: 0}
     - target: {fileID: 5708442875261314771, guid: 57e8225faf8234f55b257a35fff383ed,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.679
+      value: 1.634
       objectReference: {fileID: 0}
     - target: {fileID: 5708442875261314771, guid: 57e8225faf8234f55b257a35fff383ed,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9716854
       objectReference: {fileID: 0}
     - target: {fileID: 5708442875261314771, guid: 57e8225faf8234f55b257a35fff383ed,
         type: 3}
@@ -16687,7 +16692,7 @@ PrefabInstance:
     - target: {fileID: 5708442875261314771, guid: 57e8225faf8234f55b257a35fff383ed,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0.2362783
       objectReference: {fileID: 0}
     - target: {fileID: 5708442875261314771, guid: 57e8225faf8234f55b257a35fff383ed,
         type: 3}
@@ -16702,12 +16707,22 @@ PrefabInstance:
     - target: {fileID: 5708442875261314771, guid: 57e8225faf8234f55b257a35fff383ed,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: 27.334
       objectReference: {fileID: 0}
     - target: {fileID: 7070195077172100299, guid: 57e8225faf8234f55b257a35fff383ed,
         type: 3}
       propertyPath: m_Name
       value: BatteryPickup
+      objectReference: {fileID: 0}
+    - target: {fileID: 7070195077172100299, guid: 57e8225faf8234f55b257a35fff383ed,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7070195077172100299, guid: 57e8225faf8234f55b257a35fff383ed,
+        type: 3}
+      propertyPath: m_TagString
+      value: Battery
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -17808,6 +17823,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: paper
       objectReference: {fileID: 0}
+    - target: {fileID: 5412762938047663857, guid: 2de2e622ccd4cd34abcfa40737f65e6a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -18186,6 +18206,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: maintenanceBoxOpened (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2369896861688578577, guid: 9137805a60275dc4484bb546bfc25674,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3145834773590743211, guid: 9137805a60275dc4484bb546bfc25674,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -18236,10 +18261,32 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7440813494324880494, guid: 9137805a60275dc4484bb546bfc25674,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 0.009528854
+      objectReference: {fileID: 0}
+    - target: {fileID: 7440813494324880494, guid: 9137805a60275dc4484bb546bfc25674,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0.004764427
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2369896861688578577, guid: 9137805a60275dc4484bb546bfc25674,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6997180905608265711}
+    - targetCorrespondingSourceObject: {fileID: 2369896861688578577, guid: 9137805a60275dc4484bb546bfc25674,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5151747582047006069}
+    - targetCorrespondingSourceObject: {fileID: 2369896861688578577, guid: 9137805a60275dc4484bb546bfc25674,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8307018895535664418}
   m_SourcePrefab: {fileID: 100100000, guid: 9137805a60275dc4484bb546bfc25674, type: 3}
 --- !u!4 &1330194059236510331 stripped
 Transform:
@@ -18247,6 +18294,75 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4169643302117839568}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1818923041016565953 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2369896861688578577, guid: 9137805a60275dc4484bb546bfc25674,
+    type: 3}
+  m_PrefabInstance: {fileID: 4169643302117839568}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &6997180905608265711
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1818923041016565953}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.0043632886, y: 0.13756089, z: 0.1813997}
+  m_Center: {x: -0.104701206, y: 0.068780445, z: 0.0000009587304}
+--- !u!65 &5151747582047006069
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1818923041016565953}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.21373847, y: 0.13756089, z: 0.0047808797}
+  m_Center: {x: 0.003405432, y: 0.068780445, z: 0.08831041}
+--- !u!65 &8307018895535664418
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1818923041016565953}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.00833043, y: 0.13756089, z: 0.1813997}
+  m_Center: {x: 0.10645847, y: 0.068780445, z: 0.0000009587304}
 --- !u!1001 &4261190501075269915
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18568,6 +18684,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: maintenanceScrewdriver
+      objectReference: {fileID: 0}
+    - target: {fileID: 1880165053153163301, guid: f285e7c0b0869834c877919819ff92d8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -19196,6 +19317,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: maintenancePaper
+      objectReference: {fileID: 0}
+    - target: {fileID: 829027921836091893, guid: 961f7f15034fa3c4da512e7c8c72ac1c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -22054,10 +22180,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: maintenanceBoxClosed (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7193873012913550953, guid: 2bc3a4879ca448944a850748aedec109,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7538486806934416595, guid: 2bc3a4879ca448944a850748aedec109,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.8823452
+      value: -3.975
       objectReference: {fileID: 0}
     - target: {fileID: 7538486806934416595, guid: 2bc3a4879ca448944a850748aedec109,
         type: 3}
@@ -22067,7 +22198,7 @@ PrefabInstance:
     - target: {fileID: 7538486806934416595, guid: 2bc3a4879ca448944a850748aedec109,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.6989822
+      value: 1.403
       objectReference: {fileID: 0}
     - target: {fileID: 7538486806934416595, guid: 2bc3a4879ca448944a850748aedec109,
         type: 3}

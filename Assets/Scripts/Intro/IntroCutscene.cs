@@ -38,6 +38,8 @@ public class IntroCutscene : MonoBehaviour
     public GameObject button1;
     public GameObject button2;
 
+    public GameObject battery;
+
     public bool flashbang;
 
     private bool introSkipped = false;
@@ -276,6 +278,7 @@ public class IntroCutscene : MonoBehaviour
     {
         speaker.clip = voice5;
         speaker.Play();
+        battery.layer = LayerMask.NameToLayer("Pickup");
 
         StartCoroutine(FinalTutorialPrompt());
     }
