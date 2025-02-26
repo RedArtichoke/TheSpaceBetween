@@ -296,6 +296,8 @@ public class PlayerMovementController : MonoBehaviour
                 suitVoice.PlaySuitEquipAudio();
 
                 crosshair.SetActive(true);
+
+                powerController.enabled = true;
                 
                 // Play the pickup sound using the audio clip
                 if (pickupClip != null)

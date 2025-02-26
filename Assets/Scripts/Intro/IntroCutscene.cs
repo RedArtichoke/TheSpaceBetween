@@ -29,6 +29,8 @@ public class IntroCutscene : MonoBehaviour
     public AudioSource speaker;
     public AudioClip voice2;
     public GameObject suit;
+    public GameObject crosshair;
+    public PowerController powerController;
 
     private bool introSkipped = false;
 
@@ -66,6 +68,8 @@ public class IntroCutscene : MonoBehaviour
         //Ocupation
         text5.gameObject.SetActive(false);
 
+        powerController.enabled = false;
+
         if(Intro)
         {
             IntroScene.SetActive(true);
@@ -96,6 +100,10 @@ public class IntroCutscene : MonoBehaviour
             UIComponents.SetActive(true);
 
             HUD.SetActive(true);
+
+            crosshair.SetActive(true);
+
+            powerController.enabled = true;
         }
     }
 
