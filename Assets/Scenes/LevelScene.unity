@@ -2421,72 +2421,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2de2e622ccd4cd34abcfa40737f65e6a, type: 3}
---- !u!1 &41740050
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 41740053}
-  - component: {fileID: 41740052}
-  - component: {fileID: 41740051}
-  m_Layer: 0
-  m_Name: ArduinoController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &41740051
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 41740050}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bc5f48af2cffd747a079fe8c632e2c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  portName: COM8
-  baudRate: 9600
-  messageListener: {fileID: 41740050}
-  reconnectionDelay: 1000
-  maxUnreadMessages: 1
-  arduinoConnected: 0
---- !u!114 &41740052
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 41740050}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76cdc0b68cf8ba64a848e5df69bba25e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  heartRateScript: {fileID: 738952526}
-  powerScript: {fileID: 749889738}
-  serialControllerScript: {fileID: 41740051}
---- !u!4 &41740053
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 41740050}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.0556811, y: 0.3479106, z: 11.503711}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &43508189
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -52118,7 +52052,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1004282292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52146,6 +52080,7 @@ MonoBehaviour:
   moveControls: {fileID: 2001997616}
   InteractControls: {fileID: 1281723365}
   playerMovement: {fileID: 2118233859}
+  camera: {fileID: 2101663485}
   closetDoor: {fileID: 1257633214}
   UIComponents: {fileID: 1582979151}
   speaker: {fileID: 9101110790724593307}
@@ -71460,6 +71395,115 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6535678687627346225, guid: a5c4be665938ead4ab60695c87daec61,
     type: 3}
   m_PrefabInstance: {fileID: 1985992042}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1356888740
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3267428614103809821, guid: c360b642aeb472a4291c4a3228887eac,
+        type: 3}
+      propertyPath: powerScript
+      value: 
+      objectReference: {fileID: 749889738}
+    - target: {fileID: 3267428614103809821, guid: c360b642aeb472a4291c4a3228887eac,
+        type: 3}
+      propertyPath: heartRateScript
+      value: 
+      objectReference: {fileID: 738952526}
+    - target: {fileID: 3742112545151286309, guid: c360b642aeb472a4291c4a3228887eac,
+        type: 3}
+      propertyPath: intro
+      value: 
+      objectReference: {fileID: 1004282291}
+    - target: {fileID: 3742112545151286309, guid: c360b642aeb472a4291c4a3228887eac,
+        type: 3}
+      propertyPath: camera
+      value: 
+      objectReference: {fileID: 2101663485}
+    - target: {fileID: 3742112545151286309, guid: c360b642aeb472a4291c4a3228887eac,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 2118233859}
+    - target: {fileID: 3742112545151286309, guid: c360b642aeb472a4291c4a3228887eac,
+        type: 3}
+      propertyPath: arduinoIntroController
+      value: 
+      objectReference: {fileID: 1356888741}
+    - target: {fileID: 6877124237981934783, guid: c360b642aeb472a4291c4a3228887eac,
+        type: 3}
+      propertyPath: m_Name
+      value: ARDUINO
+      objectReference: {fileID: 0}
+    - target: {fileID: 6877124237981934783, guid: c360b642aeb472a4291c4a3228887eac,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7641298987185865253, guid: c360b642aeb472a4291c4a3228887eac,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 651.045
+      objectReference: {fileID: 0}
+    - target: {fileID: 7641298987185865253, guid: c360b642aeb472a4291c4a3228887eac,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 290.08585
+      objectReference: {fileID: 0}
+    - target: {fileID: 7641298987185865253, guid: c360b642aeb472a4291c4a3228887eac,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -6.7819834
+      objectReference: {fileID: 0}
+    - target: {fileID: 7641298987185865253, guid: c360b642aeb472a4291c4a3228887eac,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7641298987185865253, guid: c360b642aeb472a4291c4a3228887eac,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7641298987185865253, guid: c360b642aeb472a4291c4a3228887eac,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7641298987185865253, guid: c360b642aeb472a4291c4a3228887eac,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7641298987185865253, guid: c360b642aeb472a4291c4a3228887eac,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7641298987185865253, guid: c360b642aeb472a4291c4a3228887eac,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7641298987185865253, guid: c360b642aeb472a4291c4a3228887eac,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c360b642aeb472a4291c4a3228887eac, type: 3}
+--- !u!1 &1356888741 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8258329532109181421, guid: c360b642aeb472a4291c4a3228887eac,
+    type: 3}
+  m_PrefabInstance: {fileID: 1356888740}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1356961846
 GameObject:
@@ -111976,6 +112020,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2100308584}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &2101663485 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5455051491816515686, guid: 98f852bed5c5e4afc99579e1f507d406,
+    type: 3}
+  m_PrefabInstance: {fileID: 749889737}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c8975a5b86b3420f849466210c26f44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2102209053
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -117478,7 +117534,6 @@ SceneRoots:
   - {fileID: 4539125}
   - {fileID: 1004282293}
   - {fileID: 862930166}
-  - {fileID: 41740053}
   - {fileID: 963230565}
   - {fileID: 1770436774}
   - {fileID: 789744978}
@@ -117669,4 +117724,5 @@ SceneRoots:
   - {fileID: 1512089308}
   - {fileID: 5548664589943215060}
   - {fileID: 163558423}
+  - {fileID: 1356888740}
   - {fileID: 402235142}

@@ -24,13 +24,22 @@ public class arduinoStart : MonoBehaviour
     public GameObject introText;
     public GameObject introCalibrationText;
     public GameObject calibrationEnd;
+    public GameObject arduinoController;
 
+    public GameObject intro;
+    public GameObject arduinoIntroController;
+
+    public PlayerMovementController player;
+    public FpsCameraController camera;
     
 
     // Start is called before the first frame update
     void Start()
     {
         originalScale = breathingCircle.transform.localScale;
+
+        player.enabled=false;
+        camera.enabled=false;
 
         StartCoroutine(startArduino());
     }
@@ -52,6 +61,11 @@ public class arduinoStart : MonoBehaviour
         hideArduinoUI = true;
         connectArduinoUI.SetActive(false);
         noArduinoUI.SetActive(true);
+        arduinoController.SetActive(false);
+
+        StartCoroutine(introTransition());
+
+
     }
 
     public void callibration()
@@ -120,10 +134,20 @@ public class arduinoStart : MonoBehaviour
         yield return new WaitForSeconds(15);
         StopCalibration();
         calibrationEnd.SetActive(true);
+        StartCoroutine(introTransition());
+
+
 
 
     }
 
+    public IEnumerator introTransition()
+    {
+        yield return new WaitForSeconds(5);
+        intro.SetActive(true);
+        arduinoIntroController.SetActive(false);
 
+
+    }
 
 }

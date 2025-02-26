@@ -23,6 +23,7 @@ public class IntroCutscene : MonoBehaviour
     [SerializeField] private GameObject moveControls;
     [SerializeField] private GameObject InteractControls;
     public PlayerMovementController playerMovement;
+    public FpsCameraController camera;
     public doorOpen closetDoor;
     public GameObject UIComponents;
     public AudioSource speaker;
@@ -32,6 +33,9 @@ public class IntroCutscene : MonoBehaviour
 
     private void Start()
     {
+
+        camera.enabled = true;
+
         //Disable HUD
         HUD.SetActive(false);
 
