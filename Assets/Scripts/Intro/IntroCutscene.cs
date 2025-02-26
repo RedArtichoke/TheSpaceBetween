@@ -23,18 +23,22 @@ public class IntroCutscene : MonoBehaviour
     [SerializeField] private GameObject moveControls;
     [SerializeField] private GameObject InteractControls;
     public PlayerMovementController playerMovement;
-    public FpsCameraController camera;
+    public FpsCameraController playerCamera;
     public doorOpen closetDoor;
     public GameObject UIComponents;
     public AudioSource speaker;
     public AudioClip voice2;
+    public GameObject suit;
 
     private bool introSkipped = false;
 
     private void Start()
     {
 
-        camera.enabled = true;
+        playerCamera.enabled = true;
+
+        //Disable Suit
+        suit.SetActive(false);
 
         //Disable HUD
         HUD.SetActive(false);
@@ -155,7 +159,7 @@ public class IntroCutscene : MonoBehaviour
 
         yield return new WaitForSeconds(2f);
 
-        // moveControls.SetActive(true);
+        moveControls.SetActive(true);
 
         speaker.Play();
 
@@ -177,10 +181,12 @@ public class IntroCutscene : MonoBehaviour
 
         moveControls.SetActive(false);
         
-
-        yield return new WaitForSeconds (15f);
-        closetDoor.OpenDoor();
+        yield return new WaitForSeconds (20f);
         // InteractControls.SetActive(true);
+
+        //Enable suit
+        suit.SetActive(true);
+        closetDoor.OpenDoorCloset();
     }
 
     // Add a new method to hide all UI elements

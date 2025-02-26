@@ -50,6 +50,24 @@ public class doorOpen : MonoBehaviour
         }
     }
 
+    public void OpenDoorCloset()
+    {
+        if (animator != null && !isOpen && !IsLocked)
+        {
+            animator.SetTrigger("Open");
+            isOpen = true;
+            
+            audioSource.Play();
+            audioSource2.Play();
+
+            Instantiate(SmokePrefab, smokepoint1.transform);
+            Instantiate(SmokePrefab, smokepoint2.transform);
+            Instantiate(SmokePrefab, smokepoint3.transform);
+            Instantiate(SmokePrefab2, smokepoint4.transform);
+
+        }
+    }
+
     public void SetLockState(bool locked)
     {
         IsLocked = locked;
