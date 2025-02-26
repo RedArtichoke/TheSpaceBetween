@@ -37,7 +37,6 @@ public class ArduinoHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         sendPowerLevel();
 
         if (isCalibrating)
@@ -71,6 +70,7 @@ public class ArduinoHandler : MonoBehaviour
         if (restingHeartRate > 0)
         {
             float bpmChange = currentBPM - restingHeartRate;
+            bpmChange = heartRateScript.BPMChange;
             Debug.Log("BPM Change: " + bpmChange);
             // You can map bpmChange to a value range as needed
         }

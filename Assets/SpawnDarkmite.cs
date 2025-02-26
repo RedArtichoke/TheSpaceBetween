@@ -25,7 +25,7 @@ public class DarkMiteSpawner : MonoBehaviour
 
     private void Update()
     {
-        if (heartRateScript != null && heartRateScript.beatsPerMinute <= 60)
+        if (heartRateScript != null && heartRateScript.BPMChange > 3)
         {
             ClearSpawnedMites();
         }

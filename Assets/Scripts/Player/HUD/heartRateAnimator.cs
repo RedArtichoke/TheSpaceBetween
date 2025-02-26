@@ -7,6 +7,7 @@ using UnityEngine.Rendering.Universal;
 public class HeartRateAnimator : MonoBehaviour
 {
     public float beatsPerMinute; //150.0f; // How fast is your heart racing?
+    public float BPMChange;
     public float pulseMagnitude = 0.1f; // How much does your heart grow when it beats?
     public AudioClip heartBeatSound; // The sound of your heart going "thump thump"
 
