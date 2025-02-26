@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class ShipRepair : MonoBehaviour
@@ -41,13 +42,30 @@ public class ShipRepair : MonoBehaviour
     [Header("Transparent Ship Objects")]
     public GameObject transWheel;
     public GameObject transCell;
+    public TextMeshProUGUI collectedText;
 
     void Update()
     {
+        if(repairCount == 1)
+        {
+            collectedText.text = "Key Items found: 1/4";
+        }
+        if(repairCount == 2)
+        {
+            collectedText.text = "Key Items found: 2/4";
+        }
+        if(repairCount == 3)
+        {
+            collectedText.text = "Key Items found: 3/4";
+        }
         if (repairCount == 4)
         {
+            collectedText.text = "Key Items found: 4/4";
             Debug.Log("SHIP REPAIRED");
+            // START END CUTSCENE
+            // EndGame();
         }
+        
     }
 
     public void DestroyShip()

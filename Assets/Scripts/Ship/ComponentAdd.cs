@@ -10,6 +10,9 @@ public class ComponentAdd : MonoBehaviour
 
     public ShipRepair shipRepair;
 
+    public AudioSource clickAudio;
+    public ParticleSystem particle;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("KeyItem"))
@@ -21,6 +24,8 @@ public class ComponentAdd : MonoBehaviour
                 Destroy(shipComponent.gameObject);
                 objectView.SetActive(true);
                 shipRepair.repairCount++;
+                clickAudio.Play();
+                particle.Play();
                 Debug.Log("Added component");
             }
             else
