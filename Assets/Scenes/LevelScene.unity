@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.0005769473, g: 0.00058402633, b: 0.0005769473, a: 1}
+  m_IndirectSpecularColor: {r: 0.0005785843, g: 0.0005841827, b: 0.0005785843, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2688,6 +2688,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 759419691892029257, guid: 92d3c161303074aa9828954d7e6984ee,
+        type: 3}
+      propertyPath: decreaseRateKey
+      value: 93
+      objectReference: {fileID: 0}
+    - target: {fileID: 759419691892029257, guid: 92d3c161303074aa9828954d7e6984ee,
+        type: 3}
+      propertyPath: increaseRateKey
+      value: 91
+      objectReference: {fileID: 0}
     - target: {fileID: 2239211560778674251, guid: 92d3c161303074aa9828954d7e6984ee,
         type: 3}
       propertyPath: m_Enabled
@@ -71985,6 +71995,11 @@ PrefabInstance:
       propertyPath: arduinoIntroController
       value: 
       objectReference: {fileID: 1356888741}
+    - target: {fileID: 6181409392969863309, guid: c360b642aeb472a4291c4a3228887eac,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6877124237981934783, guid: c360b642aeb472a4291c4a3228887eac,
         type: 3}
       propertyPath: m_Name
@@ -72044,6 +72059,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8258329532109181421, guid: c360b642aeb472a4291c4a3228887eac,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

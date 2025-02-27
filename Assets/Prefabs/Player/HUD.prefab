@@ -1641,6 +1641,7 @@ RectTransform:
   - {fileID: 5505617145674212418}
   - {fileID: 5181004003962833890}
   - {fileID: 8728773819545216907}
+  - {fileID: 8035573557276546372}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3064,6 +3065,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   beatsPerMinute: 72
+  BPMChange: 0
   pulseMagnitude: 0.5
   heartBeatSound: {fileID: 8300000, guid: 9580a26f457dd40d1b5f40d278f3cd1f, type: 3}
 --- !u!1 &6385493327936933842
@@ -4534,3 +4536,82 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!1001 &7188421355802397396
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 7515507332275965188}
+    m_Modifications:
+    - target: {fileID: 884518279510663056, guid: 725c6373a4f944976b266a255a25cdb6,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 884518279510663056, guid: 725c6373a4f944976b266a255a25cdb6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 884518279510663056, guid: 725c6373a4f944976b266a255a25cdb6,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 884518279510663056, guid: 725c6373a4f944976b266a255a25cdb6,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 884518279510663056, guid: 725c6373a4f944976b266a255a25cdb6,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 884518279510663056, guid: 725c6373a4f944976b266a255a25cdb6,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 884518279510663056, guid: 725c6373a4f944976b266a255a25cdb6,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 884518279510663056, guid: 725c6373a4f944976b266a255a25cdb6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 884518279510663056, guid: 725c6373a4f944976b266a255a25cdb6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 884518279510663056, guid: 725c6373a4f944976b266a255a25cdb6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3972074814487558715, guid: 725c6373a4f944976b266a255a25cdb6,
+        type: 3}
+      propertyPath: m_Name
+      value: HeartRateSimulator
+      objectReference: {fileID: 0}
+    - target: {fileID: 7586426875871116701, guid: 725c6373a4f944976b266a255a25cdb6,
+        type: 3}
+      propertyPath: heartRateAnimator
+      value: 
+      objectReference: {fileID: 4977719870331500482}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 725c6373a4f944976b266a255a25cdb6, type: 3}
+--- !u!4 &8035573557276546372 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 884518279510663056, guid: 725c6373a4f944976b266a255a25cdb6,
+    type: 3}
+  m_PrefabInstance: {fileID: 7188421355802397396}
+  m_PrefabAsset: {fileID: 0}

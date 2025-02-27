@@ -18,6 +18,11 @@ public class HeartRateAnimator : MonoBehaviour
     private Volume globalVolume; // Reference to the global volume
     private LensDistortion lensDistortion; // Lens distortion effect
     private ChromaticAberration chromaticAberration; // Chromatic aberration effect
+    
+    private float currentBPM; // The BPM value currently being used for animation
+    private float targetBPM; // The target BPM to transition to
+    private float lastBeatTime; // When the last beat occurred
+    private float beatInterval; // Time between beats
 
     void Start()
     {
@@ -26,6 +31,12 @@ public class HeartRateAnimator : MonoBehaviour
         heartAudioSource.clip = heartBeatSound; // Assign the heartbeat sound
         heartAudioSource.loop = true; // Enable looping
         noiseOffset = Random.Range(0f, 100f); // Start the randomness at a random place
+        
+        // Initialize BPM tracking variables
+        currentBPM = beatsPerMinute;
+        targetBPM = beatsPerMinute;
+        beatInterval = 60.0f / currentBPM;
+        lastBeatTime = Time.time;
 
         // Add a reverb filter to make the heart sound like it's in a cave (spooky!)
         var reverbFilter = gameObject.AddComponent<AudioReverbFilter>();
@@ -62,43 +73,65 @@ public class HeartRateAnimator : MonoBehaviour
 
     void Update()
     {
-        pulseSpeed = beatsPerMinute / 60.0f * Mathf.PI * 2; // Calculate how fast the heart should beat
-        float time = Time.time * pulseSpeed; // Time to get the heart racing
-        float scaleFactor = 1 + Mathf.Sin(time) * Mathf.Exp(-Mathf.Pow(time % (2 * Mathf.PI) - Mathf.PI, 2)) * pulseMagnitude;
+        // Check if target BPM has changed
+        if (beatsPerMinute != targetBPM)
+        {
+            targetBPM = beatsPerMinute;
+        }
+        
+        // Calculate time since last beat
+        float timeSinceLastBeat = Time.time - lastBeatTime;
+        
+        // Check if it's time for the next beat
+        if (timeSinceLastBeat >= beatInterval)
+        {
+            // Update to the new BPM at the beat boundary
+            currentBPM = targetBPM;
+            lastBeatTime = Time.time;
+            beatInterval = 60.0f / currentBPM;
+            
+            // Trigger heart beat sound
+            PlayHeartBeatSound();
+        }
+        
+        // Use currentBPM for animations instead of directly using beatsPerMinute
+        pulseSpeed = currentBPM / 60.0f * Mathf.PI * 2; // Calculate how fast the heart should beat
+        
+        // Calculate phase to maintain continuity between beats
+        float phase = (timeSinceLastBeat / beatInterval) * 2 * Mathf.PI;
+        float scaleFactor = 1 + Mathf.Sin(phase) * Mathf.Exp(-Mathf.Pow(phase - Mathf.PI, 2)) * pulseMagnitude;
         
         // Add a dash of randomness to the heart's size
         float noiseScale = Mathf.PerlinNoise(Time.time, noiseOffset) * 0.05f; // A sprinkle of noise
         transform.localScale = originalScale * (scaleFactor + noiseScale); // Make the heart grow and shrink
 
         // Adjust pitch to match heart rate
-        float basePitch = (beatsPerMinute / 60.0f) / 2.0f; // Halve the pitch to slow down the loop
+        float basePitch = (currentBPM / 60.0f) / 2.0f; // Halve the pitch to slow down the loop
         heartAudioSource.pitch = basePitch;
 
         // Adjust lens distortion based on heart rate
         if (lensDistortion != null)
         {
-            lensDistortion.intensity.value = Mathf.Lerp(-0.1f, 0.3f, Mathf.Clamp((beatsPerMinute - 80) / 30f, 0f, 1f));
+            lensDistortion.intensity.value = Mathf.Lerp(-0.1f, 0.3f, Mathf.Clamp((currentBPM - 80) / 30f, 0f, 1f));
         }
 
         // Adjust chromatic aberration based on heart rate
         if (chromaticAberration != null)
         {
-            chromaticAberration.intensity.value = Mathf.Lerp(0.21f, 1.0f, Mathf.Clamp((beatsPerMinute - 80) / 30f, 0f, 1f));
+            chromaticAberration.intensity.value = Mathf.Lerp(0.21f, 1.0f, Mathf.Clamp((currentBPM - 80) / 30f, 0f, 1f));
         }
     }
 
     void PlayHeartBeatSound()
     {
-        float basePitch = Mathf.Lerp(0.8f, 1.3f, (beatsPerMinute - 70) / (110 - 70));
+        float basePitch = Mathf.Lerp(0.8f, 1.3f, (currentBPM - 70) / (110 - 70));
         float noisePitch = Mathf.PerlinNoise(Time.time, noiseOffset + 1) * 0.4f - 0.2f;
         heartAudioSource.pitch = basePitch + noisePitch;
 
         float noiseVolume = Mathf.PerlinNoise(Time.time, noiseOffset + 2) * 0.1f;
-        heartAudioSource.volume = (Mathf.Lerp(0.3f, 1.0f, (beatsPerMinute - 70) / (110 - 70)) + noiseVolume) * 1.5f; 
+        heartAudioSource.volume = (Mathf.Lerp(0.3f, 1.0f, (currentBPM - 70) / (110 - 70)) + noiseVolume) * 1.5f; 
 
         // Use PlayOneShot to handle quick successive plays
         heartAudioSource.PlayOneShot(heartBeatSound, heartAudioSource.volume);
     }
-
-
 }
