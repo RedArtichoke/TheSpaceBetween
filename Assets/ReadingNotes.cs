@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class ReadingNotes : MonoBehaviour
+public class Interactions : MonoBehaviour
 {
     [SerializeField] GameObject noteInterface;
-
     [SerializeField] TextMeshProUGUI noteText;
 
     Ray crosshair;
@@ -28,31 +27,49 @@ public class ReadingNotes : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
-
         if (Input.GetKeyDown(KeyCode.E))
         {
             crosshair = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0)); //centre of viewport
 
-            if (Physics.Raycast(crosshair, out RaycastHit hit, range, noteLayer)) //if they hit a button
+            if (Physics.Raycast(crosshair, out RaycastHit hit, range, noteLayer)) //if the ray finds something
             {
                 Debug.Log(hit.transform.name);
 
-                if (noteInterface.activeInHierarchy == true)
+                switch (hit.transform.name)
                 {
-                    Debug.Log("exiting note");
-                    reading = false;
+                    case ("maintenanceComputer_grp"):
+                        if (hit.transform.GetChild(0).gameObject.activeInHierarchy == true)
+                        {
+                            hit.transform.GetChild(0).gameObject.SetActive(false);
+                        }
+                        else
+                        {
+                            hit.transform.GetChild(0).gameObject.SetActive(true);
+                        }
+                        break;
 
-                    noteInterface.SetActive(false);
-                }
-                else
-                {
-                    Debug.Log("reading note");
-                    reading = true;
+                    case ("toilet"):
+                        //play audio
+                        break;
 
-                    noteInterface.SetActive(true);
+                    default:
+                        if (noteInterface.activeInHierarchy == true)
+                        {
+                            Debug.Log("exiting note");
+                            reading = false;
 
-                    noteText.text = findNote(hit.transform.name);
+                            noteInterface.SetActive(false);
+                        }
+                        else
+                        {
+                            Debug.Log("reading note");
+                            reading = true;
+
+                            noteInterface.SetActive(true);
+
+                            noteText.text = findNote(hit.transform.name);
+                        }
+                        break;
                 }
             }
         }
