@@ -124,8 +124,21 @@ public class DarkmiteBehaviour : MonoBehaviour
 
         yield return new WaitForSeconds(timeToTarget); 
 
-        agent.enabled = true;
-        agent.isStopped = false;
+        // Check if the agent can be placed on the NavMesh at the current position
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(transform.position, out hit, 1.0f, NavMesh.AllAreas))
+        {
+            // Move to the closest point on the NavMesh
+            transform.position = hit.position;
+            agent.enabled = true;
+            agent.isStopped = false;
+        }
+        else
+        {
+            // Handle the case where we can't find a valid NavMesh position
+            Debug.LogWarning("Cannot find valid NavMesh position to resume agent");
+            // You might want to teleport the enemy to a valid position or handle this differently
+        }
     
         isAttacking = false;
 
