@@ -23,10 +23,12 @@ public class ElevatorCutscene : MonoBehaviour
 
     [SerializeField] bool inMotion;
 
+    Transform toShake;
     Vector3 origPos;    //where the elevator is before "falling"
 
     //should not be able to see before the cutscene happens
     public GameObject skull;
+    public GameObject doorBlock;
 
     //checking against "heldObject" to see if they picked it up
     [SerializeField] PlayerMovementController player;
@@ -52,9 +54,11 @@ public class ElevatorCutscene : MonoBehaviour
         //skull = transform.parent.GetChild(3).gameObject; //the skull is the 4th child of "Elevator Room";
 
         skull.SetActive(false);
+        doorBlock.SetActive(false);
         keyItem.gameObject.SetActive(false);
 
-        origPos = gameObject.transform.position;
+        toShake = transform.parent;
+        origPos = toShake.position;
 
         range = 5.0f;
 
@@ -121,8 +125,9 @@ public class ElevatorCutscene : MonoBehaviour
 
         skull.SetActive(true);
         keyItem.gameObject.SetActive(true);
+        doorBlock.SetActive(true);
 
-        gameObject.transform.position = origPos; //falling has stopped
+        toShake.position = origPos; //falling has stopped
 
         yield return new WaitForSeconds(1.0f);
 
@@ -153,14 +158,17 @@ public class ElevatorCutscene : MonoBehaviour
         vatorNoise.Play();
 
         skull.SetActive(false);
+        doorBlock.SetActive(false);
         Debug.Log("and now you rise...");
 
         inMotion = true;
         yield return new WaitForSeconds(4.0f);
         inMotion = false;
+        toShake.position = origPos; //rising has stopped
 
         vatorShake.Stop();
         vatorNoise.Stop();
+
 
         //ELEVATOR ARRIVES AT TOP FLOOR
         yield return new WaitForSeconds(1.0f);
@@ -180,7 +188,7 @@ public class ElevatorCutscene : MonoBehaviour
     {
         float magnitude = 0.1f;
 
-        gameObject.transform.position = new Vector3(
+        toShake.position = new Vector3(
             Random.Range(-magnitude, magnitude) + origPos.x,
             Random.Range(-magnitude, magnitude) + origPos.y,
             Random.Range(-magnitude, magnitude) + origPos.z
