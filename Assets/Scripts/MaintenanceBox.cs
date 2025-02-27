@@ -19,8 +19,12 @@ public class MaintenanceBox : MonoBehaviour
     public GameObject box;
     public GameObject brokenBox;
 
+    private HeartRateSimulator heartRateSimulator;
+
     void Start()
     {
+        heartRateSimulator = GameObject.FindWithTag("HeartRateSimulator").GetComponent<HeartRateSimulator>();
+
         burstEffect.SetActive(false);
         brokenBox.SetActive(false);
     }
@@ -55,6 +59,8 @@ public class MaintenanceBox : MonoBehaviour
 
         brokenBox.SetActive(true);
         box.GetComponent<MeshRenderer>().enabled = false;
+
+        heartRateSimulator.BumpUp();
 
         //StartCoroutine(playAudio());
     }

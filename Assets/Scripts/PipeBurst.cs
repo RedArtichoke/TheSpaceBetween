@@ -13,8 +13,12 @@ public class PipeBurst : MonoBehaviour
 
     public GameObject burstMetal;
 
+    private HeartRateSimulator heartRateSimulator;
+
     void Start()
     {
+        heartRateSimulator = GameObject.FindWithTag("HeartRateSimulator").GetComponent<HeartRateSimulator>();
+
         pipeBurst.SetActive(false);
         burstEffect.SetActive(false);
         burstMetal.SetActive(false);
@@ -37,6 +41,7 @@ public class PipeBurst : MonoBehaviour
         burstEffect.SetActive(true);
         burstMetal.SetActive(true);
         StartCoroutine(playAudio());
+        heartRateSimulator.BumpUp();
     }
 
     public IEnumerator playAudio()

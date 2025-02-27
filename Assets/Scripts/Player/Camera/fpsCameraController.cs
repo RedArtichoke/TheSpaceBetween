@@ -21,8 +21,12 @@ public class FpsCameraController : MonoBehaviour
     private AudioSource audioSource;
     public SuitVoice suitVoice;
 
+    private HeartRateSimulator heartRateSimulator;
+
     void Start()
     {
+        heartRateSimulator = GameObject.FindWithTag("HeartRateSimulator").GetComponent<HeartRateSimulator>();
+
         // Lock that cursor like it's a treasure chest
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false; // Make the cursor disappear like magic
@@ -76,6 +80,7 @@ public class FpsCameraController : MonoBehaviour
             if (IsVisible(enemy) && Time.time >= lastAudioPlayTime + audioCooldown)
             {
                 PlayEnemyAudioCue();
+                heartRateSimulator.BumpUp();
                 lastAudioPlayTime = Time.time; // Update last play time
                 break; // Exit loop after playing audio once
             }

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7586426875871116701}
   m_Layer: 0
   m_Name: HeartRateSimulator
-  m_TagString: Untagged
+  m_TagString: HeartRateSimulator
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,3 +44,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00cbd77ae5ea5485cbd99b77e17d4468, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  heartRateAnimator: {fileID: 0}
+  targetHeartRate: 80
+  changeSpeed: 5
+  baseHeartRate: 70
+  recoveryRate: 0.5
+  stressAccumulation: 0
+  maxHeartRate: 130
+  bumpUpCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 60
+      value: 15
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 130
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  stressRecoveryDelay: 5
+  maxStressAccumulation: 30
+  increaseRateKey: 93
+  decreaseRateKey: 91
+  bumpUpKey: 61
+  rateChangeAmount: 5

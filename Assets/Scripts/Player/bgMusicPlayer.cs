@@ -8,10 +8,12 @@ public class bgMusicPlayer : MonoBehaviour
     private AudioSource audioSource; // Audio source for playing music
     private float originalVolume = 0.5f; // Store original volume
     private float delayTime; // Time to wait before playing next track
+    private HeartRateSimulator heartRateSimulator;
 
-    // Start is called before the first frame update
     void Start()
     {
+        heartRateSimulator = GameObject.FindWithTag("HeartRateSimulator").GetComponent<HeartRateSimulator>();
+
         audioSource = gameObject.AddComponent<AudioSource>(); // Create audio source
         audioSource.volume = originalVolume; // Store original volume
         StartCoroutine(PlayRandomTrack()); // Start playing tracks
@@ -24,6 +26,7 @@ public class bgMusicPlayer : MonoBehaviour
         {
             delayTime = Random.Range(50f, 80f); // Random delay between 1-2 minutes
             yield return new WaitForSeconds(delayTime); // Wait for delay
+            heartRateSimulator.BumpUp();
             PlayTrack(); // Play a random track
             yield return new WaitWhile(() => audioSource.isPlaying); // Wait for track to finish
         }

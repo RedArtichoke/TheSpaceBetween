@@ -18,8 +18,12 @@ public class HealthManager : MonoBehaviour
 
     public SuitVoice suitVoice;
 
+    private HeartRateSimulator heartRateSimulator;
+
     void Start()
     {
+        heartRateSimulator = GameObject.FindWithTag("HeartRateSimulator").GetComponent<HeartRateSimulator>();
+
         damageOverlay.color = new Color(1f, 0f, 0f, 0f); // Start transparent
         cameraController = FindObjectOfType<FpsCameraController>();
 
@@ -39,8 +43,6 @@ public class HealthManager : MonoBehaviour
 
     public void DamagePlayer()
     {
-        
-
         if (!isDamaged)
         {
             // Play random damage sound with pitch variation
@@ -61,6 +63,8 @@ public class HealthManager : MonoBehaviour
             StartCoroutine(DamageCooldown());
 
             cameraController.StartScreenShake();
+
+            heartRateSimulator.BumpUp();
 
             if (health < 50)
             {

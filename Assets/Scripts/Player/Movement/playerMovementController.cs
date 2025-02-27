@@ -618,7 +618,7 @@ public class PlayerMovementController : MonoBehaviour
     private string FormatObjectName(string originalName)
     {
         // Remove unwanted words
-        string[] unwantedWords = { "geo", "geometry", "open", "closed", "clone", "right", "left" };
+        string[] unwantedWords = { "geo", "geometry", "open", "closed", "clone", "right", "left", "main" };
         foreach (var word in unwantedWords)
         {
             originalName = originalName.Replace(word, "", System.StringComparison.OrdinalIgnoreCase);

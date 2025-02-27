@@ -38,9 +38,11 @@ public class DarkController : MonoBehaviour
 
     private List<GameObject> keyItemsWithHighlights = new List<GameObject>();
 
-    // Start is called before the first frame update
+    private HeartRateSimulator heartRateSimulator;
+
     void Start()
     {
+        heartRateSimulator = GameObject.FindWithTag("HeartRateSimulator").GetComponent<HeartRateSimulator>();
         // Configure fog
         RenderSettings.fog = false; 
         RenderSettings.fogColor = Color.black; // Set fog color
