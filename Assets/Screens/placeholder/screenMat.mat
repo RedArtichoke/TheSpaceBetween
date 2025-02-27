@@ -1,19 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-1354314539900019744
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 639247ca83abc874e893eb93af2b5e44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 0
---- !u!114 &-846189447352072281
+--- !u!114 &-5962080081050364034
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -33,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Monitor_mat
+  m_Name: screenMat
   m_Shader: {fileID: -6465566751694194690, guid: 53e10a6ebf3b9b5478f2f8ef66a06cd3,
     type: 3}
   m_Parent: {fileID: 0}
@@ -90,10 +77,6 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_6cdca5fa3c0f43be84d3df8b73c35ef5_Texture_1_Texture2D:
-        m_Texture: {fileID: 2800000, guid: 178286258af057241ab2cb11867e52bf, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_a3e860a652864f7b9a9676d090b5664b_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: fb264c3517bc8104893f9b1605e347bc, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -118,8 +101,6 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _AlphaToMask: 0
-    - _BUILTIN_QueueControl: 0
-    - _BUILTIN_QueueOffset: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
