@@ -7,6 +7,7 @@ public class Interactions : MonoBehaviour
 {
     [SerializeField] GameObject noteInterface;
     [SerializeField] TextMeshProUGUI noteText;
+    [SerializeField] TextMeshProUGUI noteTitle;
 
     Ray crosshair;
     float range;
@@ -67,7 +68,7 @@ public class Interactions : MonoBehaviour
 
                             noteInterface.SetActive(true);
 
-                            noteText.text = findNote(hit.transform.name);
+                            editNote(hit.transform.name);
                         }
                         break;
                 }
@@ -75,26 +76,30 @@ public class Interactions : MonoBehaviour
         }
     }
 
-    string findNote(string noteTitle)
+    void editNote(string noteName)
     {
-        Debug.Log("AHHH " + noteTitle[noteTitle.Length - 1]);
-
-        int noteNum = noteTitle[noteTitle.Length - 1];
-
-        //Debug.Log(noteNum);
-
-        switch (noteNum)
+        switch (noteName)
         {
-            case (0):
-                return "idk bro";
-            case (1):
-                return "this is note one";
-            case (2):
-                return "this is note two";
+            case ("note 1"):
+                noteTitle.text = "Research Log - Entry 1";
+                noteText.text = "theres a big scary monster in the other dimension :(";
+                break;
+            case ("note 2"):
+                noteTitle.text = "Captain's Log - Entry 5";
+                noteText.text = "The Thing raided the cafeteria. We cant get near the kitchen and we are running out of food supplies.";
+                break;
+            case ("note 3"):
+                noteTitle.text = "Captain's Log - Entry 5";
+                noteText.text = "this is note three";
+                break;
+            default:
+                noteTitle.text = "You lost buddy?";
+                noteText.text = "I don't think you coded this properly...";
+                break;
         }
 
 
-        return "it broke... what note is this supposed to be?";
+        //noteText.text = "it broke... what note is this supposed to be?";
 /*
         if(noteTitle == "maintenancePaper(1)")
         {
