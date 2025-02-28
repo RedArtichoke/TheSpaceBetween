@@ -92,10 +92,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6798715426874402144, guid: 10c98912745bb4047b1f87243d60068f,
+        type: 3}
+      propertyPath: m_text
+      value: Test Suit Systems
+      objectReference: {fileID: 0}
     - target: {fileID: 6985783229825279259, guid: 10c98912745bb4047b1f87243d60068f,
         type: 3}
       propertyPath: m_Name
       value: KeyItems
+      objectReference: {fileID: 0}
+    - target: {fileID: 9057741438250572417, guid: 10c98912745bb4047b1f87243d60068f,
+        type: 3}
+      propertyPath: m_text
+      value: Use the Flashlight
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -174,7 +184,7 @@ PrefabInstance:
     - target: {fileID: 6985783229825279259, guid: c4555c34f204d45319a57cc3e9f06242,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -245,10 +255,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5486976941490678502, guid: d14ea88568dff4b069c12f4b3280fb6b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6066201763869956646, guid: d14ea88568dff4b069c12f4b3280fb6b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6985783229825279259, guid: d14ea88568dff4b069c12f4b3280fb6b,
         type: 3}
       propertyPath: m_Name
       value: FlashlightPrompt
+      objectReference: {fileID: 0}
+    - target: {fileID: 6985783229825279259, guid: d14ea88568dff4b069c12f4b3280fb6b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804550105351768533, guid: d14ea88568dff4b069c12f4b3280fb6b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -44,6 +44,14 @@ public class IntroCutscene : MonoBehaviour
 
     private bool introSkipped = false;
 
+    public TextMeshProUGUI uiGoalText;
+
+    public TextMeshProUGUI objectiveText;
+
+    public GameObject flashBangText;
+    public GameObject flashBangText2;
+    public GameObject flashBangText3;
+
     private void Start()
     {
 
@@ -114,6 +122,11 @@ public class IntroCutscene : MonoBehaviour
             crosshair.SetActive(true);
 
             powerController.enabled = true;
+
+            uiGoalText.text = "Maintenace Room";
+
+            objectiveText.text = "Fix the Maintenance Issue";
+
         }
     }
 
@@ -251,6 +264,11 @@ public class IntroCutscene : MonoBehaviour
         }
 
         PlayFlashlightAudio2();
+        flashBangText.SetActive(true);
+        flashBangText2.SetActive(true);
+        flashBangText3.SetActive(true);
+
+        uiGoalText.text = "Use your Flashbang";
     }
 
     public void PlayFlashlightAudio2()
@@ -271,6 +289,8 @@ public class IntroCutscene : MonoBehaviour
             yield return null;
         }
 
+        uiGoalText.text = "Pickup the Battery";
+
         PlayFlashlightAudio3();
     }
 
@@ -278,7 +298,6 @@ public class IntroCutscene : MonoBehaviour
     {
         speaker.clip = voice5;
         speaker.Play();
-        battery.layer = LayerMask.NameToLayer("Pickup");
 
         StartCoroutine(FinalTutorialPrompt());
     }
@@ -287,6 +306,8 @@ public class IntroCutscene : MonoBehaviour
     {
         bool needPower = true;
 
+        battery.layer = LayerMask.NameToLayer("Pickup");
+
         while (needPower)
         {
             if(powerController.power == 100)
@@ -294,7 +315,11 @@ public class IntroCutscene : MonoBehaviour
                 needPower = false;
             }
             yield return null;
+
+
         }
+
+        uiGoalText.text = "Press the Landing Button";
 
         speaker.clip = voice6;
         speaker.Play();

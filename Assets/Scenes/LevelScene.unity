@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.0005785843, g: 0.0005841827, b: 0.0005785843, a: 1}
+  m_IndirectSpecularColor: {r: 0.0005769473, g: 0.00058402633, b: 0.0005769473, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -13231,6 +13231,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5008453720652069489, guid: 2b1917daaab0433469fe456d265f1137,
     type: 3}
   m_PrefabInstance: {fileID: 213106481}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &215660891 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3803656577597714608, guid: 57be4ab2bb21a4c11aed22f4632f20ba,
+    type: 3}
+  m_PrefabInstance: {fileID: 1965311187}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &218489577 stripped
 Transform:
@@ -52471,6 +52477,11 @@ MonoBehaviour:
   button2: {fileID: 1263009041}
   battery: {fileID: 99846963}
   flashbang: 0
+  uiGoalText: {fileID: 1739252840}
+  objectiveText: {fileID: 1063913835}
+  flashBangText: {fileID: 1368021504}
+  flashBangText2: {fileID: 2114573842}
+  flashBangText3: {fileID: 215660891}
 --- !u!4 &1004282293
 Transform:
   m_ObjectHideFlags: 0
@@ -56099,6 +56110,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1063600636}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1063913835 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2151143723663126117, guid: 57be4ab2bb21a4c11aed22f4632f20ba,
+    type: 3}
+  m_PrefabInstance: {fileID: 1965311187}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1068383328
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -72501,6 +72524,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 57029659151037263, guid: 961f7f15034fa3c4da512e7c8c72ac1c,
     type: 3}
   m_PrefabInstance: {fileID: 1367984434}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1368021504 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3225597306398343280, guid: 57be4ab2bb21a4c11aed22f4632f20ba,
+    type: 3}
+  m_PrefabInstance: {fileID: 1965311187}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1368314165
 GameObject:
@@ -104269,7 +104298,7 @@ PrefabInstance:
     - target: {fileID: 4481092212038537604, guid: 57be4ab2bb21a4c11aed22f4632f20ba,
         type: 3}
       propertyPath: m_text
-      value: 'Calibrate suit '
+      value: Use the Flashlight
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -113383,6 +113412,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2112797854}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2114573842 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1933799542147638083, guid: 57be4ab2bb21a4c11aed22f4632f20ba,
+    type: 3}
+  m_PrefabInstance: {fileID: 1965311187}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2115310849 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4901247443207401816, guid: 92d3c161303074aa9828954d7e6984ee,
@@ -117554,6 +117589,11 @@ PrefabInstance:
       objectReference: {fileID: 324002447}
     - target: {fileID: 6383165724576180872, guid: 8778e27f0b231e841b40f1963f23e652,
         type: 3}
+      propertyPath: uiGoalText
+      value: 
+      objectReference: {fileID: 1739252840}
+    - target: {fileID: 6383165724576180872, guid: 8778e27f0b231e841b40f1963f23e652,
+        type: 3}
       propertyPath: audioSource1
       value: 
       objectReference: {fileID: 1263009049}
@@ -117567,6 +117607,11 @@ PrefabInstance:
       propertyPath: invisibleWall
       value: 
       objectReference: {fileID: 1006593694}
+    - target: {fileID: 6383165724576180872, guid: 8778e27f0b231e841b40f1963f23e652,
+        type: 3}
+      propertyPath: objectiveText
+      value: 
+      objectReference: {fileID: 1063913835}
     - target: {fileID: 6601111665879738384, guid: 8778e27f0b231e841b40f1963f23e652,
         type: 3}
       propertyPath: m_LocalScale.x

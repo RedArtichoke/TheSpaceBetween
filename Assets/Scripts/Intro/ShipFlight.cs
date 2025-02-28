@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class ShipFlight : MonoBehaviour
 {
@@ -30,6 +31,11 @@ public class ShipFlight : MonoBehaviour
     public doorOpen door;
 
     public GameObject paAudio;
+
+    public TextMeshProUGUI uiGoalText;
+    public TextMeshProUGUI objectiveText;
+
+
 
     public void MoveShip()
     {
@@ -73,6 +79,10 @@ public class ShipFlight : MonoBehaviour
         speaker.PlayOneShot(speaker8);
         
         isMoving = false;
+
+        uiGoalText.text = "Maintenace Room";
+
+        objectiveText.text = "Fix the Maintenance Issue";
     }
 
     public void SkipCutscene()
