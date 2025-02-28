@@ -40,7 +40,7 @@ public class MimicBehaviour : MonoBehaviour
         navAgent = GetComponent<NavMeshAgent>();
         playerLayer = LayerMask.GetMask("Player"); // Set player layer
         InvokeRepeating("RoamAround", Random.Range(5f, 10f), Random.Range(10f, 15f)); // Roaming with style
-        InvokeRepeating("LeaveFootprint", 0.5f, 0.5f); // Footprint party every 0.5 seconds
+        InvokeRepeating("LeaveFootprint", 0.25f, 0.25f); // Footprint party every 0.5 seconds
 
         mimicAudioSource = gameObject.GetComponent<AudioSource>();
         mimicAudioSource.spatialBlend = 1.0f; // Make the sound 3D
@@ -173,7 +173,7 @@ public class MimicBehaviour : MonoBehaviour
             Vector3 position = transform.position + transform.TransformDirection(offset) + new Vector3(0, 0.1f, 0);
 
             // Check for existing footprints within 1 meter
-            Collider[] nearbyFootprints = Physics.OverlapSphere(position, 1f, LayerMask.GetMask("Footprints"));
+            Collider[] nearbyFootprints = Physics.OverlapSphere(position, 0.5f, LayerMask.GetMask("Footprints"));
             if (nearbyFootprints.Length == 0)
             {
                 Quaternion rotation = Quaternion.LookRotation(navAgent.velocity.normalized);
