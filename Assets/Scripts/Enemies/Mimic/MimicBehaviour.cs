@@ -270,8 +270,15 @@ public class MimicBehaviour : MonoBehaviour
             mimicBody.isVisible = true;
             mimicBody.UpdateVisibility();
         }
-        navAgent.isStopped = true;
-        yield return new WaitForSeconds(Random.Range(0.5f, 0.1f));
+        
+        // Check if NavMeshAgent is valid before stopping
+        if (navAgent != null && navAgent.isOnNavMesh)
+        {
+            navAgent.isStopped = true;
+        }
+        
+        yield return new WaitForSeconds(Random.Range(0.1f, 0.5f)); // Fixed inverted min/max values
+        
         if (mimicBody != null)
         {
             mimicBody.isVisible = false;
@@ -279,7 +286,11 @@ public class MimicBehaviour : MonoBehaviour
         }
         yield return new WaitForSeconds(5f);
 
-        navAgent.isStopped = false;
+        // Check if NavMeshAgent is valid before resuming
+        if (navAgent != null && navAgent.isOnNavMesh && navAgent.enabled)
+        {
+            navAgent.isStopped = false;
+        }
     }
 
     IEnumerator PlayRandomSound()

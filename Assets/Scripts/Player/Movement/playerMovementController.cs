@@ -272,6 +272,10 @@ public class PlayerMovementController : MonoBehaviour
         Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
         if (Physics.Raycast(ray, out RaycastHit hit, pickupDistance, interactableLayer))
         {
+            // Reset the original material before handling consumable objects
+            // This prevents material persistence when objects are destroyed
+            originalMaterial = null;
+            
             if (hit.transform.CompareTag("DarkDevice"))
             {
                 // Get the DarkController component
@@ -453,25 +457,26 @@ public class PlayerMovementController : MonoBehaviour
                     float downwardAngle = Vector3.Angle(throwDirection, Vector3.down);
                     
                     // If looking too far downward (less than 45 degrees from straight down)
-                    // adjust the throw direction to prevent throwing through floor
                     if (downwardAngle < 45f)
                     {
-                        // Blend between forward and horizontal based on how far down we're looking
-                        float blendFactor = downwardAngle / 45f; // 0 when looking straight down, 1 when at 45 degrees
-                        
                         // Create a horizontal forward direction (zero Y component)
                         Vector3 horizontalForward = cameraTransform.forward;
                         horizontalForward.y = 0;
+                        
+                        // If the horizontal component is too small, use player's transform.forward instead
+                        if (horizontalForward.magnitude < 0.1f)
+                        {
+                            horizontalForward = transform.forward;
+                            horizontalForward.y = 0;
+                        }
+                        
                         horizontalForward.Normalize();
                         
-                        // Blend between horizontal forward and a slight upward direction
-                        Vector3 safeDirection = Vector3.Lerp(
-                            new Vector3(horizontalForward.x, 0.3f, horizontalForward.z).normalized, 
-                            horizontalForward, 
-                            blendFactor
-                        );
-                        
-                        throwDirection = safeDirection;
+                        // Add a MODEST upward component - enough to clear the floor but not launch into sky
+                        // The more downward the player looks, the less upward force we apply
+                        float upwardForce = Mathf.Lerp(0.1f, 0.3f, downwardAngle / 45f);
+                        throwDirection = horizontalForward + Vector3.up * upwardForce;
+                        throwDirection.Normalize();
                     }
                     else
                     {
@@ -625,10 +630,8 @@ public class PlayerMovementController : MonoBehaviour
             Material[] currentMaterials = objectRenderer.materials;
             if (currentMaterials.Length == 1 || !currentMaterials.Contains(glowMaterial))
             {
-                if (originalMaterial == null)
-                {
-                    originalMaterial = currentMaterials[0];
-                }
+                // Store the original material for THIS specific renderer
+                originalMaterial = currentMaterials[0];
 
                 Material[] newMaterials = new Material[2];
                 newMaterials[0] = originalMaterial;
@@ -692,6 +695,8 @@ public class PlayerMovementController : MonoBehaviour
             RestoreOriginalMaterial(lastHighlightedRenderer);
             Destroy(lastHighlightedRenderer.transform.Find("InteractPrompt")?.gameObject);
             lastHighlightedRenderer = null;
+            // Make sure to reset originalMaterial here too
+            originalMaterial = null;
         }
         else if (heldObject != null)
         {
@@ -701,8 +706,11 @@ public class PlayerMovementController : MonoBehaviour
                 Material[] currentMaterials = objectRenderer.materials;
                 if (currentMaterials.Length == 1 || !currentMaterials.Contains(glowMaterial))
                 {
+                    // Store the original material specifically for the held object
+                    Material heldObjectMaterial = currentMaterials[0];
+                    
                     Material[] newMaterials = new Material[2];
-                    newMaterials[0] = originalMaterial;
+                    newMaterials[0] = heldObjectMaterial;
                     newMaterials[1] = glowMaterial;
                     objectRenderer.materials = newMaterials;
                 }
@@ -736,8 +744,9 @@ public class PlayerMovementController : MonoBehaviour
         if (renderer != null && originalMaterial != null)
         {
             renderer.materials = new Material[] { originalMaterial };
-            originalMaterial = null;
         }
+        // Always reset the originalMaterial to prevent persistence
+        originalMaterial = null;
     }
 
     void FixedUpdate()
