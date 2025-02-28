@@ -52,6 +52,12 @@ public class SerialController : MonoBehaviour
     [Tooltip("Arduino identifier (like 'Arduino' or 'CH340' or 'FTDI')")]
     public string arduinoIdentifier = "Arduino,COM,CH340,FTDI,usbmodem,cu.usb,tty.usb";
 
+    [Tooltip("Whether to disable this GameObject if no Arduino is connected")]
+    public bool disableIfNotConnected = true;
+
+    [Tooltip("How long to wait (in seconds) before checking if Arduino connected successfully")]
+    public float connectionCheckDelay = 2.0f;
+
     // Constants used to mark the start and end of a connection. There is no
     // way you can generate clashing messages from your serial device, as I
     // compare the references of these strings, no their contents. So if you
@@ -63,6 +69,8 @@ public class SerialController : MonoBehaviour
     // Internal reference to the Thread and the object that runs in it.
     protected Thread thread;
     protected SerialThreadLines serialThread;
+    private float connectionTimer = 0f;
+    private bool connectionChecked = false;
 
 
     // ------------------------------------------------------------------------
@@ -160,6 +168,22 @@ public class SerialController : MonoBehaviour
     // ------------------------------------------------------------------------
     void Update()
     {
+        // Check if we need to verify the connection status
+        if (disableIfNotConnected && !connectionChecked)
+        {
+            connectionTimer += Time.deltaTime;
+            if (connectionTimer >= connectionCheckDelay)
+            {
+                connectionChecked = true;
+                if (!arduinoConnected)
+                {
+                    Debug.LogWarning("No Arduino connected after " + connectionCheckDelay + " seconds. Disabling GameObject.");
+                    this.gameObject.SetActive(false);
+                    return;
+                }
+            }
+        }
+
         // If the user prefers to poll the messages instead of receiving them
         // via SendMessage, then the message listener should be null.
         if (messageListener == null || serialThread == null)
@@ -178,10 +202,18 @@ public class SerialController : MonoBehaviour
         {
             messageListener.SendMessage("OnConnectionEvent", true);
             arduinoConnected = true;
+            connectionChecked = true; // We've confirmed connection, no need to check again
         }
         else if (ReferenceEquals(message, SERIAL_DEVICE_DISCONNECTED))
         {
             messageListener.SendMessage("OnConnectionEvent", false);
+            arduinoConnected = false;
+            
+            if (disableIfNotConnected)
+            {
+                Debug.LogWarning("Arduino disconnected. Disabling GameObject.");
+                this.gameObject.SetActive(false);
+            }
         }
         else
         {
