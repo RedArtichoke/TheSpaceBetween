@@ -149,7 +149,7 @@ public class MimicBehaviour : MonoBehaviour
                 // Debug.Log("Chasing player.");
             }
 
-            if (distanceToPlayer <= 1.5f)
+            if (distanceToPlayer <= 2f)
             {
                 StartCoroutine(AttackPlayer());
                 // Debug.Log("Attacking player!");
