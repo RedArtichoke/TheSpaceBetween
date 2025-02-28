@@ -16,6 +16,15 @@ public class WirePuzzle : MonoBehaviour
     public GameObject Particles;
     public AudioSource clickAudio;
 
+    public GameEventManager gameEventManager;
+
+    public TextMeshProUGUI objectiveText;
+    public TextMeshProUGUI instructionsText;
+
+    public doorOpen researchDoor;
+
+    public doorOpen mainDoor;
+
     void Start()
     {
         lightFixture.color = Color.red;
@@ -40,5 +49,11 @@ public class WirePuzzle : MonoBehaviour
         Particles.SetActive(true);
         clickAudio.Play();
         lightFixture.color = Color.green;
+
+        objectiveText.text = "Go back Home";
+        instructionsText.text = "Get back on your ship";
+
+        researchDoor.SetLockState(false);
+        mainDoor.SetLockState(false);
     }
 }

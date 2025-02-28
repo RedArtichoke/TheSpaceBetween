@@ -127,6 +127,10 @@ public class IntroCutscene : MonoBehaviour
 
             objectiveText.text = "Fix the Maintenance Issue";
 
+            flashBangText.SetActive(true);
+            flashBangText2.SetActive(true);
+            flashBangText3.SetActive(true);
+
         }
     }
 

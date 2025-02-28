@@ -80,9 +80,9 @@ public class ShipFlight : MonoBehaviour
         
         isMoving = false;
 
-        uiGoalText.text = "Maintenace Room";
+        uiGoalText.text = "Maintenace";
 
-        objectiveText.text = "Fix the Maintenance Issue";
+        objectiveText.text = "Fix the Maintenace issue";
     }
 
     public void SkipCutscene()

@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class GameEventManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+  //  public bool isBeta;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+  //  public GameObject detectionZone;
+
+   // public doorOpen researchDoor;
+
+  //  private void Update()
+   // {
+     //   if (isBeta)
+     //   {
+      //      researchDoor.SetLockState(true);
+     //       detectionZone.SetActive(true);
+     //   }
+     //   else if (!isBeta)
+    //    {
+    //        detectionZone.SetActive(false);
+    //        researchDoor.SetLockState(false);
+
+    //    }
+ //   }
 }

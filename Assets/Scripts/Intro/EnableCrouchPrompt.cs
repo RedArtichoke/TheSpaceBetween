@@ -1,17 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class EnableCrouchPrompt : MonoBehaviour
 {
     public GameObject CrouchPrompt;
     public CanvasGroup CrouchGroup;
+
+    public TextMeshProUGUI objectiveText;
+    public TextMeshProUGUI instructionsText;
     
     private void OnTriggerEnter(Collider collider)
     {
         if (collider.CompareTag("Player"))
         {
             CrouchPrompt.SetActive(true);
+
+            objectiveText.text = "Repair your Ship";
+            instructionsText.text = "Key Items found 0/4";
 
             StartCoroutine(ShowCrouchPrompt());
 
