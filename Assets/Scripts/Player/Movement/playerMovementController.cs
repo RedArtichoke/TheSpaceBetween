@@ -69,6 +69,27 @@ public class PlayerMovementController : MonoBehaviour
     public GameObject interactPromptPrefab; // Prefab to instantiate above glowing objects
     public GameObject dimensionPromptPrefab;
 
+    // Add these variables at the top of the class with other private variables
+    private Transform heldObjectOriginalParent;
+    private Vector3 heldObjectOriginalPosition;
+    private Quaternion heldObjectOriginalRotation;
+    private float originalDrag;
+    private float originalAngularDrag;
+    private float carryDistance = 1.5f; // Increased from 0.5f to 1.5f - How far in front of the camera to hold objects
+    private float carryHeight = -0.3f;  // Vertical offset for held objects
+    private float carrySmoothing = 10f; // How smoothly to move the held object
+    private float collisionPushback = 0.1f; // How much to push back when colliding
+
+    // Add these variables to the private variables section
+    private float objectCollisionRadius = 0.3f; // Adjustable radius for collision detection
+    private float minFloorDistance = 0.2f; // Minimum distance to keep objects above the floor
+    private float largeObjectThreshold = 1.0f; // Size threshold for considering an object "large"
+    private float largeObjectDistance = 2.5f; // Increased from 1.5f to 2.5f - Hold large objects even further away
+    private bool isLargeObject = false;
+
+    // Add this new variable
+    private LayerMask collisionCheckMask; // Mask for collision checks
+
     void Start()
     {
         // Initialize player components and settings
@@ -100,6 +121,10 @@ public class PlayerMovementController : MonoBehaviour
         {
             audioSource = gameObject.AddComponent<AudioSource>();
         }
+
+        // Initialize the collision check mask to exclude trigger-only layers
+        // This excludes layers that typically only have triggers like UI, effects, etc.
+        collisionCheckMask = ~(LayerMask.GetMask("UI", "Trigger", "Ignore Raycast"));
     }
 
     void Update()
@@ -234,14 +259,6 @@ public class PlayerMovementController : MonoBehaviour
             flashlightTransform.localPosition = new Vector3(horizontalBob, verticalBob, flashlightTransform.localPosition.z);
         }
 
-        // Apply bobbing to the held object with a slight delay
-        if (heldObject != null)
-        {
-            float objectVerticalBob = Mathf.Sin(bobbingTime - 0.1f) * currentBobHeight;
-            float objectHorizontalBob = Mathf.Sin((bobbingTime - 0.1f) * 0.5f) * bobWidth;
-            heldObject.localPosition = new Vector3(objectHorizontalBob, objectVerticalBob, pickupDistance);
-        }
-
         // Apply crouch offset to vertical bob
         verticalBob += currentCrouchOffset;
 
@@ -353,14 +370,47 @@ public class PlayerMovementController : MonoBehaviour
             heldObjectRb = heldObject.GetComponent<Rigidbody>();
             Collider heldObjectCollider = heldObject.GetComponent<Collider>();
 
+            // Determine if this is a large object by checking its bounds
+            if (heldObjectCollider != null)
+            {
+                float objectSize = Mathf.Max(
+                    heldObjectCollider.bounds.size.x,
+                    heldObjectCollider.bounds.size.y,
+                    heldObjectCollider.bounds.size.z
+                );
+                isLargeObject = objectSize > largeObjectThreshold;
+                
+                // Adjust collision radius based on object size
+                objectCollisionRadius = Mathf.Max(0.3f, objectSize * 0.3f);
+            }
+
             if (heldObjectRb != null)
             {
                 // Remove all forces from the object
                 heldObjectRb.velocity = Vector3.zero;
                 heldObjectRb.angularVelocity = Vector3.zero;
 
+                // Configure rigidbody for carrying
                 heldObjectRb.useGravity = false;
-                heldObjectRb.isKinematic = false;
+                heldObjectRb.isKinematic = true; // Make kinematic while held to prevent physics interactions
+                
+                // Store original drag values to restore later
+                originalDrag = heldObjectRb.drag;
+                originalAngularDrag = heldObjectRb.angularDrag;
+                
+                // For large objects, increase the drag to make them feel heavier when thrown
+                if (isLargeObject)
+                {
+                    heldObjectRb.drag = Mathf.Max(heldObjectRb.drag, 1.0f);
+                    heldObjectRb.angularDrag = Mathf.Max(heldObjectRb.angularDrag, 1.0f);
+                }
+                
+                // Play pickup sound
+                if (pickupClip != null)
+                {
+                    audioSource.clip = pickupClip;
+                    audioSource.Play();
+                }
             }
 
             if (heldObjectCollider != null)
@@ -368,8 +418,13 @@ public class PlayerMovementController : MonoBehaviour
                 IgnorePlayerCollisions(heldObjectCollider, true);
             }
 
-            heldObject.SetParent(cameraTransform);
-            heldObject.localPosition = new Vector3(0, 0, pickupDistance);
+            // Don't parent to camera, just track the object
+            heldObjectOriginalParent = heldObject.parent;
+            heldObject.SetParent(null); // Detach from any parent
+            
+            // Store original position and rotation
+            heldObjectOriginalPosition = heldObject.position;
+            heldObjectOriginalRotation = heldObject.rotation;
         }
     }
 
@@ -380,14 +435,63 @@ public class PlayerMovementController : MonoBehaviour
         {
             if (heldObjectRb != null)
             {
+                // Restore original physics properties
                 heldObjectRb.useGravity = true;
                 heldObjectRb.isKinematic = false;
+                heldObjectRb.drag = originalDrag;
+                heldObjectRb.angularDrag = originalAngularDrag;
+
+                heldObjectRb.velocity = Vector3.zero;
+                heldObjectRb.angularVelocity = Vector3.zero;
 
                 if (applyThrowForce)
                 {
                     // Apply a force in the direction of the player's crosshair
                     Vector3 throwDirection = cameraTransform.forward;
-                    heldObjectRb.AddForce(throwDirection * throwForce, ForceMode.Impulse);
+                    
+                    // Calculate the angle between the throw direction and down vector
+                    float downwardAngle = Vector3.Angle(throwDirection, Vector3.down);
+                    
+                    // If looking too far downward (less than 45 degrees from straight down)
+                    // adjust the throw direction to prevent throwing through floor
+                    if (downwardAngle < 45f)
+                    {
+                        // Blend between forward and horizontal based on how far down we're looking
+                        float blendFactor = downwardAngle / 45f; // 0 when looking straight down, 1 when at 45 degrees
+                        
+                        // Create a horizontal forward direction (zero Y component)
+                        Vector3 horizontalForward = cameraTransform.forward;
+                        horizontalForward.y = 0;
+                        horizontalForward.Normalize();
+                        
+                        // Blend between horizontal forward and a slight upward direction
+                        Vector3 safeDirection = Vector3.Lerp(
+                            new Vector3(horizontalForward.x, 0.3f, horizontalForward.z).normalized, 
+                            horizontalForward, 
+                            blendFactor
+                        );
+                        
+                        throwDirection = safeDirection;
+                    }
+                    else
+                    {
+                        // For normal throws, add a slight upward component to prevent objects from going through the floor
+                        throwDirection += Vector3.up * 0.2f;
+                        throwDirection.Normalize();
+                    }
+                    
+                    // Adjust throw force based on object size
+                    float adjustedThrowForce = isLargeObject ? throwForce * 0.7f : throwForce;
+                    
+                    heldObjectRb.AddForce(throwDirection * adjustedThrowForce, ForceMode.Impulse);
+                    
+                    // Add a bit of random torque for more natural throwing
+                    Vector3 randomTorque = new Vector3(
+                        Random.Range(-1f, 1f),
+                        Random.Range(-1f, 1f),
+                        Random.Range(-1f, 1f)
+                    );
+                    heldObjectRb.AddTorque(randomTorque * (isLargeObject ? 0.5f : 1.0f), ForceMode.Impulse);
                 }
             }
 
@@ -397,22 +501,58 @@ public class PlayerMovementController : MonoBehaviour
                 IgnorePlayerCollisions(heldObjectCollider, false);
             }
 
-            heldObject.SetParent(null);
+            // Restore original parent if it had one
+            heldObject.SetParent(heldObjectOriginalParent);
+            
             heldObject = null;
             heldObjectRb = null;
+            heldObjectOriginalParent = null;
+            
+            // Reset large object flag
+            isLargeObject = false;
         }
     }
 
     void IgnorePlayerCollisions(Collider objectCollider, bool ignore)
     {
-        // Ignore or restore collisions between the player and the object
-        Collider[] playerColliders = GameObject.FindGameObjectsWithTag("Player")
-                                              .Select(go => go.GetComponent<Collider>())
-                                              .Where(c => c != null)
-                                              .ToArray();
-        foreach (var playerCollider in playerColliders)
+        // Get all colliders on the player and its children
+        Collider[] playerColliders = GetComponentsInChildren<Collider>();
+        
+        // Also get the player's camera collider if it exists
+        if (cameraTransform != null)
         {
-            Physics.IgnoreCollision(objectCollider, playerCollider, ignore);
+            Collider[] cameraColliders = cameraTransform.GetComponentsInChildren<Collider>();
+            if (cameraColliders.Length > 0)
+            {
+                // Combine the arrays
+                List<Collider> colliderList = new List<Collider>(playerColliders);
+                colliderList.AddRange(cameraColliders);
+                playerColliders = colliderList.ToArray();
+            }
+        }
+        
+        // If the object has multiple colliders, handle all of them
+        Collider[] objectColliders;
+        if (objectCollider.transform.childCount > 0)
+        {
+            objectColliders = objectCollider.transform.GetComponentsInChildren<Collider>();
+        }
+        else
+        {
+            objectColliders = new Collider[] { objectCollider };
+        }
+        
+        // Ignore collisions between all player colliders and all object colliders
+        foreach (var pCollider in playerColliders)
+        {
+            if (pCollider == null || pCollider.isTrigger) continue;
+            
+            foreach (var oCollider in objectColliders)
+            {
+                if (oCollider == null || oCollider.isTrigger) continue;
+                
+                Physics.IgnoreCollision(pCollider, oCollider, ignore);
+            }
         }
     }
 
@@ -602,16 +742,118 @@ public class PlayerMovementController : MonoBehaviour
 
     void FixedUpdate()
     {
-        // Update the position and rotation of the held object in physics updates
         if (heldObject != null && heldObjectRb != null)
         {
-            Vector3 targetPosition = cameraTransform.position + cameraTransform.forward * pickupDistance;
-
-            // Directly set the position to the target position
+            // Adjust pickup distance based on object size
+            float effectivePickupDistance = isLargeObject ? largeObjectDistance : carryDistance;
+            
+            // Calculate target position in front of the camera
+            Vector3 targetPosition = cameraTransform.position + 
+                                    cameraTransform.forward * effectivePickupDistance +
+                                    cameraTransform.up * carryHeight;
+            
+            // Check for floor collision
+            RaycastHit floorHit;
+            if (Physics.Raycast(targetPosition, Vector3.down, out floorHit, 10f, collisionCheckMask))
+            {
+                // Ensure the object stays above the floor
+                float floorY = floorHit.point.y;
+                if (targetPosition.y - objectCollisionRadius < floorY + minFloorDistance)
+                {
+                    targetPosition.y = floorY + minFloorDistance + objectCollisionRadius;
+                }
+            }
+            
+            // Create a ray from the camera to detect obstacles
+            Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
+            float maxCarryDistance = effectivePickupDistance + 0.5f;
+            
+            // Use a larger radius for SphereCast based on object size, but only check against physical colliders
+            if (Physics.SphereCast(ray, objectCollisionRadius, out RaycastHit hit, maxCarryDistance, collisionCheckMask))
+            {
+                // Skip triggers and non-physical colliders
+                if (!hit.collider.isTrigger)
+                {
+                    // If the hit object isn't the held object or its children, adjust the target position
+                    if (hit.transform != heldObject && !hit.transform.IsChildOf(heldObject) && 
+                        !heldObject.IsChildOf(hit.transform))
+                    {
+                        // Place the object just before the obstacle
+                        float adjustedDistance = hit.distance - objectCollisionRadius - 0.1f;
+                        if (adjustedDistance < 0.5f) adjustedDistance = 0.5f;
+                        
+                        targetPosition = cameraTransform.position + 
+                                        cameraTransform.forward * adjustedDistance +
+                                        cameraTransform.up * carryHeight;
+                    }
+                }
+            }
+            
+            // Additional collision check using overlaps for large objects
+            if (isLargeObject)
+            {
+                Collider[] heldColliders = heldObject.GetComponentsInChildren<Collider>();
+                foreach (Collider col in heldColliders)
+                {
+                    if (col.isTrigger) continue;
+                    
+                    // Get the bounds of the collider
+                    Bounds bounds = col.bounds;
+                    Vector3 extents = bounds.extents;
+                    
+                    // Check for overlaps at the target position, only with physical colliders
+                    Collider[] overlaps = Physics.OverlapBox(
+                        targetPosition + (bounds.center - heldObject.position), 
+                        extents, 
+                        Quaternion.identity,
+                        collisionCheckMask
+                    );
+                    
+                    foreach (Collider overlap in overlaps)
+                    {
+                        // Skip triggers and non-physical colliders
+                        if (overlap.isTrigger) continue;
+                        
+                        // Skip if it's part of the held object or the player
+                        if (overlap.transform == heldObject || 
+                            overlap.transform.IsChildOf(heldObject) || 
+                            overlap.transform.CompareTag("Player") ||
+                            heldObject.IsChildOf(overlap.transform))
+                            continue;
+                        
+                        // Move the target position away from the overlap
+                        Vector3 direction = (targetPosition - overlap.bounds.center).normalized;
+                        targetPosition += direction * 0.1f;
+                    }
+                }
+            }
+            
+            // Apply bobbing effect to held object
+            if (isMoving)
+            {
+                float bobScale = isLargeObject ? 0.5f : 1.0f; // Reduce bobbing for large objects
+                float objectVerticalBob = Mathf.Sin(bobbingTime - 0.1f) * currentBobHeight * bobScale;
+                float objectHorizontalBob = Mathf.Sin((bobbingTime - 0.1f) * 0.5f) * bobWidth * bobScale;
+                
+                targetPosition += cameraTransform.right * objectHorizontalBob + 
+                                 cameraTransform.up * objectVerticalBob;
+            }
+            
+            // Smoothly move the object to the target position
+            float smoothingFactor = isLargeObject ? carrySmoothing * 0.7f : carrySmoothing;
+            heldObject.position = Vector3.Lerp(heldObject.position, targetPosition, Time.fixedDeltaTime * smoothingFactor);
+            
+            // Smoothly rotate the object to match camera orientation
+            Quaternion targetRotation = cameraTransform.rotation;
+            heldObject.rotation = Quaternion.Slerp(heldObject.rotation, targetRotation, 
+                                                Time.fixedDeltaTime * smoothingFactor);
+            
+            // Check if object is too far from player
+            float distanceToTarget = Vector3.Distance(heldObject.position, targetPosition);
+            if (distanceToTarget > maxCarryDistance * 2)
+            {
             heldObject.position = targetPosition;
-
-            // Lock the rotation to match the camera's rotation
-            heldObject.rotation = cameraTransform.rotation;
+            }
         }
     }
 
