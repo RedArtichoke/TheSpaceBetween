@@ -278,4 +278,13 @@ public class ArduinoHandler : MonoBehaviour
 
     }
 
+    // Add this method to handle connection events
+    void OnConnectionEvent(bool isConnected)
+    {
+        Debug.Log("Arduino " + (isConnected ? "connected" : "disconnected"));
+        
+        // You can add additional logic here if needed
+        // For example, you might want to disable certain features when disconnected
+    }
+
 }
