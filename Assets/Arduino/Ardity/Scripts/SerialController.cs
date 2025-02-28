@@ -50,7 +50,7 @@ public class SerialController : MonoBehaviour
     public bool autoDetectPort = true;
     
     [Tooltip("Arduino identifier (like 'Arduino' or 'CH340' or 'FTDI')")]
-    public string arduinoIdentifier = "Arduino";
+    public string arduinoIdentifier = "Arduino,COM,CH340,FTDI,usbmodem,cu.usb,tty.usb";
 
     // Constants used to mark the start and end of a connection. There is no
     // way you can generate clashing messages from your serial device, as I
@@ -98,13 +98,17 @@ public class SerialController : MonoBehaviour
     private string AutoDetectArduinoPort()
     {
         string[] ports = SerialPort.GetPortNames();
+        string[] identifiers = arduinoIdentifier.Split(',');
         
-        // First try: look for port names containing the identifier
+        // First try: look for port names containing any of the identifiers
         foreach (string port in ports)
         {
-            if (port.Contains(arduinoIdentifier))
+            foreach (string identifier in identifiers)
             {
-                return port;
+                if (!string.IsNullOrEmpty(identifier) && port.Contains(identifier.Trim()))
+                {
+                    return port;
+                }
             }
         }
         
