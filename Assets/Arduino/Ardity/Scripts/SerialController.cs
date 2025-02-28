@@ -8,6 +8,7 @@
 
 using UnityEngine;
 using System.Threading;
+using System.IO.Ports;
 
 /**
  * This class allows a Unity program to continually check for messages from a
@@ -45,6 +46,12 @@ public class SerialController : MonoBehaviour
 
     public bool arduinoConnected = false;
 
+    [Tooltip("Whether to automatically detect Arduino port")]
+    public bool autoDetectPort = true;
+    
+    [Tooltip("Arduino identifier (like 'Arduino' or 'CH340' or 'FTDI')")]
+    public string arduinoIdentifier = "Arduino";
+
     // Constants used to mark the start and end of a connection. There is no
     // way you can generate clashing messages from your serial device, as I
     // compare the references of these strings, no their contents. So if you
@@ -65,9 +72,52 @@ public class SerialController : MonoBehaviour
     // ------------------------------------------------------------------------
     void OnEnable()
     {
+        if (autoDetectPort)
+        {
+            string detectedPort = AutoDetectArduinoPort();
+            if (!string.IsNullOrEmpty(detectedPort))
+            {
+                portName = detectedPort;
+                Debug.Log("Arduino detected on port: " + portName);
+            }
+            else
+            {
+                Debug.LogWarning("Could not auto-detect Arduino port. Using default: " + portName);
+            }
+        }
+        
         serialThread = new SerialThreadLines(portName, baudRate, reconnectionDelay, maxUnreadMessages);
         thread = new Thread(new ThreadStart(serialThread.RunForever));
         thread.Start();
+    }
+
+    // ------------------------------------------------------------------------
+    // Attempts to automatically detect the port where Arduino is connected
+    // Returns the port name if found, otherwise returns empty string
+    // ------------------------------------------------------------------------
+    private string AutoDetectArduinoPort()
+    {
+        string[] ports = SerialPort.GetPortNames();
+        
+        // First try: look for port names containing the identifier
+        foreach (string port in ports)
+        {
+            if (port.Contains(arduinoIdentifier))
+            {
+                return port;
+            }
+        }
+        
+        // If we have only one port, assume it's the Arduino
+        if (ports.Length == 1)
+        {
+            return ports[0];
+        }
+        
+        // If we have multiple ports but couldn't identify by name,
+        // you could implement additional detection logic here
+        
+        return string.Empty;
     }
 
     // ------------------------------------------------------------------------
