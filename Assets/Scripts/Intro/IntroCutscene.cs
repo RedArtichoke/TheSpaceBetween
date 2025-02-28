@@ -310,7 +310,7 @@ public class IntroCutscene : MonoBehaviour
 
         while (needPower)
         {
-            if(powerController.power == 100)
+            if(powerController.power >= 85)
             {
                 needPower = false;
             }
