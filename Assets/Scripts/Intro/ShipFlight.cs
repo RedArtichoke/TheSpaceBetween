@@ -35,6 +35,7 @@ public class ShipFlight : MonoBehaviour
     public TextMeshProUGUI uiGoalText;
     public TextMeshProUGUI objectiveText;
 
+    public GameObject railingRaise;
 
 
     public void MoveShip()
@@ -76,6 +77,8 @@ public class ShipFlight : MonoBehaviour
         StartCoroutine(StopFlashlightprompt());
         door.SetLockState(false);
 
+        railingRaise.SetActive(true);
+
         speaker.PlayOneShot(speaker8);
         
         isMoving = false;
@@ -97,6 +100,7 @@ public class ShipFlight : MonoBehaviour
         door.SetLockState(false);
 
         paAudio.SetActive(true);
+        railingRaise.SetActive(true);
         speaker.PlayOneShot(speaker8);
 
     }
