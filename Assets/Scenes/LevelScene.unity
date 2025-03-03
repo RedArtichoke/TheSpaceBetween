@@ -12069,7 +12069,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ca32abf6eb18e8e41a68a214d393040b, type: 2}
+  - {fileID: 2100000, guid: c2537e291271dce4bab6f0a94544ab93, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -14581,7 +14581,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 10.8
+  m_Intensity: 6
   m_Range: 17.6
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -31945,7 +31945,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ca32abf6eb18e8e41a68a214d393040b, type: 2}
+  - {fileID: 2100000, guid: c2537e291271dce4bab6f0a94544ab93, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -32133,7 +32133,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ca32abf6eb18e8e41a68a214d393040b, type: 2}
+  - {fileID: 2100000, guid: c2537e291271dce4bab6f0a94544ab93, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -48704,7 +48704,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ca32abf6eb18e8e41a68a214d393040b, type: 2}
+  - {fileID: 2100000, guid: c2537e291271dce4bab6f0a94544ab93, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -71269,7 +71269,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 10.8
+  m_Intensity: 6
   m_Range: 17.6
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -73369,7 +73369,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ca32abf6eb18e8e41a68a214d393040b, type: 2}
+  - {fileID: 2100000, guid: c2537e291271dce4bab6f0a94544ab93, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -81097,7 +81097,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 10.8
+  m_Intensity: 6
   m_Range: 17.6
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -85155,7 +85155,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ca32abf6eb18e8e41a68a214d393040b, type: 2}
+  - {fileID: 2100000, guid: c2537e291271dce4bab6f0a94544ab93, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -113388,7 +113388,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 10.8
+  m_Intensity: 6
   m_Range: 17.6
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -117179,6 +117179,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: HangarDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 2449880919581616521, guid: fc8c8c154dd3a324892367d19fb5dbb4,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c2537e291271dce4bab6f0a94544ab93, type: 2}
     - target: {fileID: 3870937208665065665, guid: fc8c8c154dd3a324892367d19fb5dbb4,
         type: 3}
       propertyPath: m_LocalPosition.x
