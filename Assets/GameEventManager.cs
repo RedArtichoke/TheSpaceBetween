@@ -4,24 +4,25 @@ using UnityEngine;
 
 public class GameEventManager : MonoBehaviour
 {
-  //  public bool isBeta;
+    public bool isBeta;
 
-  //  public GameObject detectionZone;
+    public GameObject detectionZone;
+    //public GameObject detectionZone2;
 
    // public doorOpen researchDoor;
 
-  //  private void Update()
-   // {
-     //   if (isBeta)
-     //   {
-      //      researchDoor.SetLockState(true);
-     //       detectionZone.SetActive(true);
-     //   }
-     //   else if (!isBeta)
-    //    {
-    //        detectionZone.SetActive(false);
-    //        researchDoor.SetLockState(false);
+    void Update()
+    {
+        if (isBeta)
+        {
+            detectionZone.SetActive(true);
+           // detectionZone2.SetActive(true);
+        }
+        else if (!isBeta)
+        {
+            detectionZone.SetActive(false);
+           // detectionZone2.SetActive(false);
 
-    //    }
- //   }
+        }
+    }
 }

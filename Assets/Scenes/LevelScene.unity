@@ -217,7 +217,7 @@ PrefabInstance:
     - target: {fileID: 1216328084398138637, guid: 7f32b35bb9bd3cf428081b85c7344407,
         type: 3}
       propertyPath: IsLocked
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3761353203612514467, guid: 7f32b35bb9bd3cf428081b85c7344407,
         type: 3}
@@ -13478,7 +13478,7 @@ GameObject:
   - component: {fileID: 218555117}
   - component: {fileID: 218555116}
   m_Layer: 0
-  m_Name: BetaSequence
+  m_Name: GameSequence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13496,6 +13496,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83affeb13e25aa64d9d59dafd442badd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isBeta: 0
+  detectionZone: {fileID: 769272213}
 --- !u!4 &218555117
 Transform:
   m_ObjectHideFlags: 0
@@ -40528,6 +40530,31 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4635592743030926515, guid: 98f852bed5c5e4afc99579e1f507d406,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 2118233855}
+    - target: {fileID: 4635592743030926515, guid: 98f852bed5c5e4afc99579e1f507d406,
+        type: 3}
+      propertyPath: spawnPoint
+      value: 
+      objectReference: {fileID: 1549840518}
+    - target: {fileID: 4991228004393221321, guid: 98f852bed5c5e4afc99579e1f507d406,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4991228004393221321, guid: 98f852bed5c5e4afc99579e1f507d406,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4991228004393221321, guid: 98f852bed5c5e4afc99579e1f507d406,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5443115629039691449, guid: 98f852bed5c5e4afc99579e1f507d406,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -57770,7 +57797,7 @@ GameObject:
   - component: {fileID: 1084679889}
   - component: {fileID: 1084679890}
   m_Layer: 0
-  m_Name: DetectionZone
+  m_Name: CTRL\DetectionZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -84218,6 +84245,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6965110584743796482, guid: 6fda5b7ae5626f841a473c4b4a07cfee,
     type: 3}
   m_PrefabInstance: {fileID: 1549386517}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1549840518 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 503726212071324031, guid: 8778e27f0b231e841b40f1963f23e652,
+    type: 3}
+  m_PrefabInstance: {fileID: 9101110790724593306}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1550860189
 GameObject:

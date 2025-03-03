@@ -20,6 +20,8 @@ public class HealthManager : MonoBehaviour
 
     private HeartRateSimulator heartRateSimulator;
 
+    public PowerController powerController;
+
     void Start()
     {
         heartRateSimulator = GameObject.FindWithTag("HeartRateSimulator").GetComponent<HeartRateSimulator>();
@@ -143,5 +145,28 @@ public class HealthManager : MonoBehaviour
 
         // Freeze the game by setting time scale to 0
         Time.timeScale = 0f;
+    }
+
+    public void RespawnPlayer()
+    {
+        StartCoroutine(Respawn());
+    }
+
+    public IEnumerator Respawn()
+    {
+        yield return new WaitForSeconds(1f);
+
+        UIBlur.SetActive(false);
+        gameOverUI.SetActive(false);
+
+        health = 30;
+        StartCoroutine(RegenerateHealth());
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
+        
+
+        powerController.power = 100;
     }
 }

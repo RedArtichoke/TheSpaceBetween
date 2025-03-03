@@ -5,6 +5,8 @@ using TMPro;
 
 public class PlayGameButton : MonoBehaviour, IPointerClickHandler
 {
+    public Transform player;
+    public Transform spawnPoint;
     private TextMeshProUGUI tmpText; // reference to TMP text component
 
     // Called when the script instance is being loaded
@@ -22,6 +24,10 @@ public class PlayGameButton : MonoBehaviour, IPointerClickHandler
     {
         Debug.Log("Loading Game Scene");
         Time.timeScale = 1; // Ensure time is running
-        SceneManager.LoadScene("LevelScene"); 
+        //SceneManager.LoadScene("LevelScene");
+         
+        player.transform.position = spawnPoint.transform.position;
+        player.transform.rotation = spawnPoint.transform.rotation;
+
     }
 }
