@@ -39,6 +39,9 @@ public class ShipRepair : MonoBehaviour
     public GameObject pipeburst1;
     public GameObject pipeburst2;
 
+    public GameObject alarmAudio;
+    public GameObject sparksAudio;
+
     [Header("Transparent Ship Objects")]
     public GameObject transWheel;
     public GameObject transCell;
@@ -73,6 +76,10 @@ public class ShipRepair : MonoBehaviour
         door1.SetActive(false);
         door2.SetActive(false);
         cap1.SetActive(false);
+
+        alarmAudio.SetActive(true);
+
+        sparksAudio.SetActive(true);
 
         powerCell.SetActive(false);
         steeringWheel.SetActive(false);
