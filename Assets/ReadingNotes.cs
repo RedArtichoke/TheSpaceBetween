@@ -87,8 +87,11 @@ public class Interactions : MonoBehaviour
         switch (noteName)
         {
             case ("note 1"):
-                noteTitle.text = "Research Log - Entry 1";
-                noteText.text = "theres a big scary monster in the other dimension :(";
+                noteTitle.text = "Dr. Edwin";
+                noteText.text = "Intervallum - Research Department\r\n\r\n" +
+                    "We were wrong to think The Thing was a physical entity. " +
+                    "It doesn’t just exist here, it exists between. It’s always here but it’s not always here, it’s there too. " +
+                    "It’s forcing its way into our reality and bringing all kinds of dangers with it. We're not safe here.";
                 break;
 
             case ("note 2"):
