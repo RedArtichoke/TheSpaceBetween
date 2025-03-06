@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class endgameGameInfo : MonoBehaviour
 {
+    public int yogurtCollected;
+
     [SerializeField] HeartRateAnimator heartinfo;
 
     [SerializeField] float allBPM;      //used for "averageBPM" calculation
@@ -21,8 +23,10 @@ public class endgameGameInfo : MonoBehaviour
         peakBPM = 0.0f;
 
         between = 0;
-    }
 
+        yogurtCollected = 0;
+    }
+    /*
     // Update is called once per frame
     void Update()
     {
@@ -42,4 +46,5 @@ public class endgameGameInfo : MonoBehaviour
         }
         between += Time.deltaTime;
     }
+    */
 }

@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 6236270798415800849}
   - component: {fileID: 2331251499457265882}
   - component: {fileID: 8651210793457663055}
+  - component: {fileID: 933689128155746293}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -247,9 +248,27 @@ MonoBehaviour:
   noteInterface: {fileID: 0}
   noteText: {fileID: 0}
   noteTitle: {fileID: 0}
-  noteLayer:
+  interactableLayer:
     serializedVersion: 2
-    m_Bits: 32768
+    m_Bits: 8
+--- !u!114 &933689128155746293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 129007627674792078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 723de402d3d971944afaceee5bfa73e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  yogurtCollected: 0
+  heartinfo: {fileID: 0}
+  allBPM: 0
+  averageBPM: 0
+  peakBPM: 0
+  between: 0
 --- !u!1 &2708353557646452750
 GameObject:
   m_ObjectHideFlags: 0

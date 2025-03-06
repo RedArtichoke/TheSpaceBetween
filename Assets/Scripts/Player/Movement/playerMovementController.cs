@@ -56,6 +56,8 @@ public class PlayerMovementController : MonoBehaviour
     private bool footstepPlayed = false;
     private bool isMoving;
     private PowerController powerController;
+    
+    private endgameGameInfo yogurt;//yogurt collectible counter
 
     // Public variables for audio
     public AudioClip pickupClip;
@@ -101,6 +103,7 @@ public class PlayerMovementController : MonoBehaviour
         currentFOV = playerCamera.fieldOfView;
         interactableLayer = LayerMask.GetMask("Pickup");
         powerController = GetComponent<PowerController>();
+        yogurt = GetComponent<endgameGameInfo>();
 
         originalHeight = hitbox.height;
         originalCenter = hitbox.center;
@@ -368,6 +371,12 @@ public class PlayerMovementController : MonoBehaviour
                     Destroy(hit.transform.gameObject);
                 }
                 return;
+            }
+            else if(hit.transform.name == "yogurtCup")
+            {
+                //add 1 to the counter and destroy the cup
+                yogurt.yogurtCollected++;
+                Destroy(hit.transform.gameObject);
             }
 
             heldObject = hit.transform;
