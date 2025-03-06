@@ -30,11 +30,19 @@ public class Interactions : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
+            //if the note is on screen, turn it off
+            if (noteInterface.activeInHierarchy == true)
+            {
+                Debug.Log("exiting note");
+                reading = false;
+
+                noteInterface.SetActive(false);
+            }
+
             crosshair = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0)); //centre of viewport
 
             if (Physics.Raycast(crosshair, out RaycastHit hit, range, noteLayer)) //if the ray finds something
             {
-                Debug.Log(hit.transform.name);
 
                 switch (hit.transform.name)
                 {
@@ -54,14 +62,7 @@ public class Interactions : MonoBehaviour
                         break;
 
                     default:
-                        if (noteInterface.activeInHierarchy == true)
-                        {
-                            Debug.Log("exiting note");
-                            reading = false;
-
-                            noteInterface.SetActive(false);
-                        }
-                        else
+                        if (hit.transform.name.Contains("note"))
                         {
                             Debug.Log("reading note");
                             reading = true;
@@ -71,7 +72,9 @@ public class Interactions : MonoBehaviour
                             editNote(hit.transform.name);
                         }
                         break;
+
                 }
+                
             }
         }
     }
