@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 
 public class ElevatorCutscene : MonoBehaviour
@@ -33,6 +34,7 @@ public class ElevatorCutscene : MonoBehaviour
     //checking against "heldObject" to see if they picked it up
     [SerializeField] PlayerMovementController player;
     [SerializeField] Transform keyItem;
+    public LayerMask itemLayer;
 
     //to open/close during cutscene
     Animator doorAnimator;
@@ -56,6 +58,10 @@ public class ElevatorCutscene : MonoBehaviour
         skull.SetActive(false);
         doorBlock.SetActive(false);
         keyItem.gameObject.SetActive(false);
+
+        Debug.Log("engine: " + keyItem.gameObject.layer);
+        itemLayer = (int)Mathf.Pow(2,keyItem.gameObject.layer); //get the or-ginal object layer
+        keyItem.gameObject.layer = 0; //cant pick it up before it gets thrown into the elevator
 
         toShake = transform.parent;
         origPos = toShake.position;
@@ -139,6 +145,7 @@ public class ElevatorCutscene : MonoBehaviour
         yield return new WaitForSeconds(4.0f);
 
         keyItem.GetComponent<Rigidbody>().velocity = 10 * Vector3.back;
+        keyItem.gameObject.layer = (int)Mathf.Log(itemLayer,2); //let them pick it up
 
         elevatorDone = true; //only trigger scene once because you get the item
 

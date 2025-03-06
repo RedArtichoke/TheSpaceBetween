@@ -11,7 +11,7 @@ public class Interactions : MonoBehaviour
 
     Ray crosshair;
     float range;
-    public LayerMask noteLayer;
+    public LayerMask interactableLayer;
 
     bool reading;
 
@@ -38,43 +38,46 @@ public class Interactions : MonoBehaviour
 
                 noteInterface.SetActive(false);
             }
+            else 
+            { 
+                crosshair = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0)); //centre of viewport
 
-            crosshair = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0)); //centre of viewport
-
-            if (Physics.Raycast(crosshair, out RaycastHit hit, range, noteLayer)) //if the ray finds something
-            {
-
-                switch (hit.transform.name)
+                if (Physics.Raycast(crosshair, out RaycastHit hit, range, interactableLayer)) //if the ray finds something
                 {
-                    case ("maintenanceComputer_grp"):
-                        if (hit.transform.GetChild(0).gameObject.activeInHierarchy == true)
-                        {
-                            hit.transform.GetChild(0).gameObject.SetActive(false);
-                        }
-                        else
-                        {
-                            hit.transform.GetChild(0).gameObject.SetActive(true);
-                        }
-                        break;
+                    switch (hit.transform.name)
+                    {
+                        case ("maintenanceComputer_grp"):
+                            if (hit.transform.GetChild(0).gameObject.activeInHierarchy == true)
+                            {
+                                hit.transform.GetChild(0).gameObject.SetActive(false);
+                            }
+                            else
+                            {
+                                hit.transform.GetChild(0).gameObject.SetActive(true);
+                            }
+                            break;
 
-                    case ("toilet"):
-                        //play audio
-                        break;
+                        case ("toilet"):
+                            //play audio
+                            break;
 
-                    default:
-                        if (hit.transform.name.Contains("note"))
-                        {
-                            Debug.Log("reading note");
-                            reading = true;
+                        default:
+                            if (hit.transform.name.StartsWith('n'))
+                            {
+                                Debug.Log("reading note");
+                                reading = true;
 
-                            noteInterface.SetActive(true);
+                                noteInterface.SetActive(true);
 
-                            editNote(hit.transform.name);
-                        }
-                        break;
-
-                }
-                
+                                editNote(hit.transform.name);
+                            }
+                            else
+                            {
+                                Debug.Log("BROKEN");
+                            }
+                            break;
+                    }
+                }      
             }
         }
     }
@@ -87,14 +90,17 @@ public class Interactions : MonoBehaviour
                 noteTitle.text = "Research Log - Entry 1";
                 noteText.text = "theres a big scary monster in the other dimension :(";
                 break;
+
             case ("note 2"):
                 noteTitle.text = "Captain's Log - Entry 5";
                 noteText.text = "The Thing raided the cafeteria. We cant get near the kitchen and we are running out of food supplies.";
                 break;
+
             case ("note 3"):
                 noteTitle.text = "Captain's Log - Entry 5";
                 noteText.text = "this is note three";
                 break;
+
             default:
                 noteTitle.text = "You lost buddy?";
                 noteText.text = "I don't think you coded this properly...";
