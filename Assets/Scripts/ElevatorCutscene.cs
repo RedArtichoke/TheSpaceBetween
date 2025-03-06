@@ -82,7 +82,8 @@ public class ElevatorCutscene : MonoBehaviour
         {
             crosshair = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0)); //centre of viewport
 
-            if (Physics.Raycast(crosshair, out RaycastHit hit, range, buttonLayer)) //if they hit a button
+            //if they hit an elevator button (are now highlighted)
+            if (Physics.Raycast(crosshair, out RaycastHit hit, range, buttonLayer) && hit.transform.name.Contains("geo_elevator_button")) 
             {
                 //Debug.Log(hit.transform.name); //what was pressed?
 
