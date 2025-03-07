@@ -38,6 +38,7 @@ public class ElevatorCutscene : MonoBehaviour
 
     //to open/close during cutscene
     Animator doorAnimator;
+    [SerializeField] Light buttonLight;
 
     //Raycast button press stuff
     float range;                    //interaction range 
@@ -83,10 +84,10 @@ public class ElevatorCutscene : MonoBehaviour
             crosshair = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0)); //centre of viewport
 
             //if they hit an elevator button (are now highlighted)
-            if (Physics.Raycast(crosshair, out RaycastHit hit, range, buttonLayer) && hit.transform.name.Contains("geo_elevator_button")) 
+            if (Physics.Raycast(crosshair, out RaycastHit hit, range, buttonLayer) && hit.transform.name.Contains("geo_elevator_panel")) 
             {
                 //Debug.Log(hit.transform.name); //what was pressed?
-
+                
                 StartCoroutine(ElevatorSequence());
             }
         }
@@ -102,8 +103,10 @@ public class ElevatorCutscene : MonoBehaviour
         }
     }
 
-    IEnumerator ElevatorSequence()
+    public IEnumerator ElevatorSequence()
     {
+        buttonLight.enabled = false;
+        buttonLight.transform.parent.parent.gameObject.layer = 0; //make panel not clickable bc you cant redo sequence, yeah i know its ugly
         //START SEQUENCE
         vatorClose.Play();
         doorAnimator.SetBool("MotionStart", true);

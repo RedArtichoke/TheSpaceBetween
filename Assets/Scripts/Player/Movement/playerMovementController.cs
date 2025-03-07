@@ -56,8 +56,9 @@ public class PlayerMovementController : MonoBehaviour
     private bool footstepPlayed = false;
     private bool isMoving;
     private PowerController powerController;
-    
+
     private endgameGameInfo yogurt;//yogurt collectible counter
+    [SerializeField] ElevatorCutscene vator;
 
     // Public variables for audio
     public AudioClip pickupClip;
@@ -377,6 +378,12 @@ public class PlayerMovementController : MonoBehaviour
                 //add 1 to the counter and destroy the cup
                 yogurt.yogurtCollected++;
                 Destroy(hit.transform.gameObject);
+                return;
+            }
+            else if(hit.transform.name == "geo_elevator_panel")
+            {
+                StartCoroutine(vator.ElevatorSequence());
+                return;
             }
 
             heldObject = hit.transform;

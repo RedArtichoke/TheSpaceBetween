@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Device;
+using UnityEngine.UIElements;
 
 public class Interactions : MonoBehaviour
 {
@@ -14,6 +16,9 @@ public class Interactions : MonoBehaviour
     public LayerMask interactableLayer;
 
     bool reading;
+
+    [SerializeField]  Material screenOff;
+    [SerializeField]  Material screenOn;
 
     // Start is called before the first frame update
     void Start()
@@ -46,14 +51,14 @@ public class Interactions : MonoBehaviour
                 {
                     switch (hit.transform.name)
                     {
-                        case ("maintenanceComputer_grp"):
-                            if (hit.transform.GetChild(0).gameObject.activeInHierarchy == true)
+                        case ("Quad"):
+                            if (hit.transform.gameObject.GetComponent<MeshRenderer>().material == screenOff)
                             {
-                                hit.transform.GetChild(0).gameObject.SetActive(false);
+                                hit.transform.gameObject.GetComponent<MeshRenderer>().material = screenOn;
                             }
                             else
                             {
-                                hit.transform.GetChild(0).gameObject.SetActive(true);
+                                hit.transform.gameObject.GetComponent<MeshRenderer>().material = screenOff;
                             }
                             break;
 
