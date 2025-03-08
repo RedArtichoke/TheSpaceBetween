@@ -47,13 +47,16 @@ public class arduinoStart : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-       
         if (isBreathing && breathingCircle != null)
         {
             BreathingEffect();
         }
-
+        
+        // Check for P key press to skip intro sequence
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            SkipIntroSequence();
+        }
     }
 
     public void noArduino()
@@ -148,6 +151,39 @@ public class arduinoStart : MonoBehaviour
         arduinoIntroController.SetActive(false);
 
 
+    }
+
+    /// <summary>
+    /// Skips all intro sequences and transitions directly to gameplay
+    /// </summary>
+    public void SkipIntroSequence()
+    {
+        // Stop all running coroutines
+        StopAllCoroutines();
+        
+        // Hide all UI elements
+        if (introText != null) introText.SetActive(false);
+        if (connectArduinoUI != null) connectArduinoUI.SetActive(false);
+        if (noArduinoUI != null) noArduinoUI.SetActive(false);
+        if (callibrationUI != null) callibrationUI.SetActive(false);
+        if (introCalibrationText != null) introCalibrationText.SetActive(false);
+        if (calibrationEnd != null) calibrationEnd.SetActive(false);
+        if (arduinoController != null) arduinoController.SetActive(false);
+        if (arduinoIntroController != null) arduinoIntroController.SetActive(false);
+        
+        // Stop breathing effect if active
+        isBreathing = false;
+        if (breathingCircle != null)
+        {
+            breathingCircle.transform.localScale = originalScale;
+        }
+        
+        // Enable player controls
+        if (player != null) player.enabled = true;
+        if (camera != null) camera.enabled = true;
+        
+        // Show main game UI
+        if (intro != null) intro.SetActive(true);
     }
 
 }

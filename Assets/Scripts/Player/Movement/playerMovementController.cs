@@ -26,7 +26,7 @@ public class PlayerMovementController : MonoBehaviour
     public float movingFOV = 75.0f;
     public float neutralFOV = 70.0f;
     public float pickupDistance = 2.0f;
-    public float throwForce = 4.0f; // Force applied when throwing an object
+    public float throwForce = 8.0f; // Force applied when throwing an object
 
     // Private variables for internal state management
     private Transform heldObject = null;
@@ -445,6 +445,21 @@ public class PlayerMovementController : MonoBehaviour
             // Store original position and rotation
             heldObjectOriginalPosition = heldObject.position;
             heldObjectOriginalRotation = heldObject.rotation;
+
+            // Update the instruction text on the object's prompt if it exists
+            Renderer objectRenderer = heldObject.GetComponent<Renderer>();
+            if (objectRenderer != null)
+            {
+                Transform promptTransform = objectRenderer.transform.Find("InteractPrompt");
+                if (promptTransform != null)
+                {
+                    TMP_Text instructionsText = promptTransform.Find("Canvas/Instructions").GetComponent<TMP_Text>();
+                    if (instructionsText != null)
+                    {
+                        instructionsText.text = "Press E to Drop";
+                    }
+                }
+            }
         }
     }
 
@@ -453,6 +468,10 @@ public class PlayerMovementController : MonoBehaviour
         // Drop the currently held object, optionally applying a throw force
         if (heldObject != null)
         {
+            // Store a reference to the object before clearing heldObject
+            Transform droppedObject = heldObject;
+            Renderer objectRenderer = droppedObject.GetComponent<Renderer>();
+            
             if (heldObjectRb != null)
             {
                 // Restore original physics properties
@@ -525,12 +544,27 @@ public class PlayerMovementController : MonoBehaviour
             // Restore original parent if it had one
             heldObject.SetParent(heldObjectOriginalParent);
             
+            // Clear references
             heldObject = null;
             heldObjectRb = null;
             heldObjectOriginalParent = null;
             
             // Reset large object flag
             isLargeObject = false;
+            
+            // Update the instruction text on the object's prompt if it exists
+            if (objectRenderer != null)
+            {
+                Transform promptTransform = objectRenderer.transform.Find("InteractPrompt");
+                if (promptTransform != null)
+                {
+                    TMP_Text instructionsText = promptTransform.Find("Canvas/Instructions").GetComponent<TMP_Text>();
+                    if (instructionsText != null)
+                    {
+                        instructionsText.text = "Press E to Pickup";
+                    }
+                }
+            }
         }
     }
 
@@ -701,6 +735,10 @@ public class PlayerMovementController : MonoBehaviour
                 {
                     if (nameText != null)
                         nameText.text = FormatObjectName(objectRenderer.transform.name);
+                    
+                    // Check if we're holding an object and update instructions accordingly
+                    if (instructionsText != null)
+                        instructionsText.text = heldObject != null ? "Press E to Drop" : "Press E to Pickup";
                 }
             }
 
@@ -885,7 +923,7 @@ public class PlayerMovementController : MonoBehaviour
     private string FormatObjectName(string originalName)
     {
         // Remove unwanted words
-        string[] unwantedWords = { "geo", "geometry", "open", "closed", "clone", "right", "left", "main" };
+        string[] unwantedWords = { "geo", "geometry", "open", "closed", "clone", "right", "left", "main", "tenance" };
         foreach (var word in unwantedWords)
         {
             originalName = originalName.Replace(word, "", System.StringComparison.OrdinalIgnoreCase);
