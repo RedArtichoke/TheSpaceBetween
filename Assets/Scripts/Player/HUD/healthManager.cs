@@ -11,6 +11,15 @@ public class HealthManager : MonoBehaviour
     private Coroutine regenCoroutine;
     private FpsCameraController cameraController;
     public GameObject gameOverUI;
+
+    public GameObject UIComponents;
+
+    public GameObject gameOverUIButton1;
+    public GameObject gameOverUIButton2;
+    public GameObject gameOverUIButton3;
+    public GameObject gameOverUIButton4;
+    public GameObject gameOverUIButton5;
+
     public GameObject UIBlur;
 
     public AudioClip[] damageSounds; // Array of audio clips for damage
@@ -21,6 +30,10 @@ public class HealthManager : MonoBehaviour
     private HeartRateSimulator heartRateSimulator;
 
     public PowerController powerController;
+
+    public CanvasGroup bg;
+
+    public AudioSource reviveSound;
 
     void Start()
     {
@@ -154,19 +167,54 @@ public class HealthManager : MonoBehaviour
 
     public IEnumerator Respawn()
     {
-        yield return new WaitForSeconds(1f);
-
         UIBlur.SetActive(false);
-        gameOverUI.SetActive(false);
 
         health = 30;
-        StartCoroutine(RegenerateHealth());
+
+        reviveSound.Play();
+
+        UIComponents.SetActive(false);
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
+        gameOverUIButton1.SetActive(false);
+        gameOverUIButton2.SetActive(false);
+        gameOverUIButton3.SetActive(false);
+        gameOverUIButton4.SetActive(false);
+        gameOverUIButton5.SetActive(false);
+
+        yield return new WaitForSeconds(6f);
+
+        float fadeDuration = 1f;
+        float elapsedTime = 0f;
+        
+        bg.alpha = 1f; 
+
+        while (elapsedTime < fadeDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float alpha = Mathf.Lerp(1f, 0f, elapsedTime / fadeDuration);
+            bg.alpha = alpha;
+            yield return null;  
+        }
+        
+        bg.alpha = 0f;
+
+        gameOverUI.SetActive(false);
+
+        UIComponents.SetActive(true);
+
+        gameOverUIButton1.SetActive(true);
+        gameOverUIButton2.SetActive(true);
+        gameOverUIButton3.SetActive(true);
+        gameOverUIButton4.SetActive(true);
+        gameOverUIButton5.SetActive(true);
+
+        StartCoroutine(RegenerateHealth());
+        
         
 
-        powerController.power = 100;
+        powerController.power = 90;
     }
 }
