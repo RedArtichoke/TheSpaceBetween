@@ -98,6 +98,9 @@ public class HealthManager : MonoBehaviour
             if (health <= 0)
             {
                 RevealGameOverUI();
+
+                UIComponents.SetActive(false);
+
             }
         }
     }
