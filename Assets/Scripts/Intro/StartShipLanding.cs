@@ -19,6 +19,8 @@ public class StartShipLanding : MonoBehaviour
     public AudioSource speaker;
     public AudioClip ship7;
 
+    public GameObject buttonLight;
+
     void Start()
     {
         playerCamera = Camera.main;
@@ -33,6 +35,9 @@ public class StartShipLanding : MonoBehaviour
             {
                 StartTravel();
                 StartCoroutine(StopInteractprompt());
+
+                speaker.Stop();
+                buttonLight.SetActive(false);
 
                 speaker.PlayOneShot(ship7);
                 gameObject.layer = LayerMask.NameToLayer("Default");
