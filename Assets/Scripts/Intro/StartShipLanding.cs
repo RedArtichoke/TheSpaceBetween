@@ -37,7 +37,8 @@ public class StartShipLanding : MonoBehaviour
                 StartCoroutine(StopInteractprompt());
 
                 speaker.Stop();
-                buttonLight.SetActive(false);
+
+                buttonLight.GetComponent<Light>().enabled = false;
 
                 speaker.PlayOneShot(ship7);
                 gameObject.layer = LayerMask.NameToLayer("Default");
