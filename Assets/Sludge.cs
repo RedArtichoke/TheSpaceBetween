@@ -14,21 +14,22 @@ public class Sludge : MonoBehaviour
     public BoxCollider boxCollider;
     void Update()
     {
-        if (heartRate.BPMChange > 4)
+        
+        if(darkController.inDark)
         {
-            if(darkController.inDark)
+            if (heartRate.BPMChange > 4)
             {
                 particles.SetActive(true);
                 meshRenderer.enabled = true;
                 boxCollider.enabled = true;
             }
-            else
-            {
-                particles.SetActive(false);
-                meshRenderer.enabled = false;
-                boxCollider.enabled = false;
-            }
+            
         }
-        
+        else
+        {
+            particles.SetActive(false);
+            meshRenderer.enabled = false;
+            boxCollider.enabled = false;
+        }
     }
 }
