@@ -29,6 +29,8 @@ public class WirePuzzle : MonoBehaviour
     public GameObject light2;
     public GameObject light3;
 
+    public GameObject trigger;
+
     void Start()
     {
         lightFixture.color = Color.red;
@@ -63,5 +65,7 @@ public class WirePuzzle : MonoBehaviour
         light1.SetActive(true);
         light2.SetActive(true);
         light3.SetActive(true);
+
+        trigger.SetActive(true);
     }
 }
