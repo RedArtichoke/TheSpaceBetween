@@ -52,6 +52,11 @@ public class IntroCutscene : MonoBehaviour
     public GameObject flashBangText2;
     public GameObject flashBangText3;
 
+    public AudioSource computerSound;
+    public AudioSource staticSound;
+    public AudioClip computerclip2;
+    public AudioClip bedClip;
+
     private void Start()
     {
 
@@ -123,13 +128,14 @@ public class IntroCutscene : MonoBehaviour
 
             powerController.enabled = true;
 
-            uiGoalText.text = "Maintenace Room";
+            uiGoalText.text = "Fix the Maintenance Issue";
 
-            objectiveText.text = "Fix the Maintenance Issue";
+            objectiveText.text = "Go To the Maintenance Room";
 
             flashBangText.SetActive(true);
             flashBangText2.SetActive(true);
             flashBangText3.SetActive(true);
+            staticSound.Stop();
 
         }
     }
@@ -139,6 +145,7 @@ public class IntroCutscene : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         text.gameObject.SetActive(true);
+        computerSound.Play();
         
         yield return new WaitForSeconds(3f);
         text.gameObject.GetComponent<TextFadeIn>().DisableText();
@@ -146,6 +153,8 @@ public class IntroCutscene : MonoBehaviour
         yield return new WaitForSeconds(1f);
         text2.gameObject.SetActive(true);
         text2Title.gameObject.SetActive(true);
+        computerSound.clip = computerclip2;
+        computerSound.Play();
 
         yield return new WaitForSeconds(4f);
         text2.gameObject.GetComponent<TextFadeIn>().DisableText();
@@ -154,6 +163,7 @@ public class IntroCutscene : MonoBehaviour
         yield return new WaitForSeconds(1f);
         text3.gameObject.SetActive(true);
         text3Title.gameObject.SetActive(true);
+        
 
         yield return new WaitForSeconds(4f);
         text3.gameObject.GetComponent<TextFadeIn>().DisableText();
@@ -161,18 +171,25 @@ public class IntroCutscene : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
         text4.gameObject.SetActive(true);
+        
 
         yield return new WaitForSeconds(4f);
         text4.gameObject.GetComponent<TextFadeIn>().DisableText();
 
         yield return new WaitForSeconds(1f);
         text5.gameObject.SetActive(true);
+        
 
         yield return new WaitForSeconds(4f);
         text5.gameObject.GetComponent<TextFadeIn>().DisableText();
 
+        staticSound.Stop();
+        
         yield return new WaitForSeconds(1f);
+        
 
+        computerSound.clip = bedClip;
+        computerSound.Play();
 
         float fadeDuration = 1f;
         float elapsedTime = 0f;
