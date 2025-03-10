@@ -82,6 +82,7 @@ public class PlayerMovementController : MonoBehaviour
     private float carryHeight = -0.3f;  // Vertical offset for held objects
     private float carrySmoothing = 10f; // How smoothly to move the held object
     private float collisionPushback = 0.1f; // How much to push back when colliding
+    public GameObject suitUIAnim;
 
     // Add these variables to the private variables section
     private float objectCollisionRadius = 0.3f; // Adjustable radius for collision detection
@@ -323,6 +324,8 @@ public class PlayerMovementController : MonoBehaviour
                 crosshair.SetActive(true);
 
                 powerController.enabled = true;
+
+                suitUIAnim.SetActive(true);
                 
                 // Play the pickup sound using the audio clip
                 if (pickupClip != null)

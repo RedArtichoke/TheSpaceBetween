@@ -29,6 +29,7 @@ public class SuitVoice : MonoBehaviour
     private bool hasPlayed50 = false;
     private bool hasPlayed25 = false;
     private bool hasPlayed10 = false;
+    public GameObject uiSuitSystem;
 
     [Header("Effects")]
     public GameObject steam1;
@@ -162,6 +163,8 @@ public class SuitVoice : MonoBehaviour
         }
 
         intro.PlayFlashlightAudio();
+
+        uiSuitSystem.SetActive(false);
 
     }
 
