@@ -8,6 +8,7 @@ public class MenuController : MonoBehaviour
     public GameObject pauseMenuPrefab; // Reference to the pause menu prefab
     public GameObject UIComponents;
     public GameObject screenQuad; // Reference to the quad
+    public GameObject crosshair; // Reference to the crosshair
     public bool isPaused = false; // Track the pause state
 
     void Start()
@@ -33,6 +34,7 @@ public class MenuController : MonoBehaviour
         {
             Time.timeScale = 0f; // Freeze time
             UIComponents.SetActive(false); // Hide the UI components
+            crosshair.SetActive(false); // Hide the crosshair
             pauseMenuPrefab.SetActive(true); // Show the pause menu
             screenQuad.SetActive(true); // Show the quad
             Cursor.visible = true; // Make the cursor visible
@@ -43,6 +45,7 @@ public class MenuController : MonoBehaviour
         {
             Time.timeScale = 1f; // Resume time
             UIComponents.SetActive(true); // Show the UI components
+            crosshair.SetActive(true); // Show the crosshair
             pauseMenuPrefab.SetActive(false); // Hide the pause menu
             screenQuad.SetActive(false); // Hide the quad
             Cursor.visible = false; // Hide the cursor
