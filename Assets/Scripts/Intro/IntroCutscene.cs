@@ -56,10 +56,11 @@ public class IntroCutscene : MonoBehaviour
     public AudioSource staticSound;
     public AudioClip computerclip2;
     public AudioClip bedClip;
+    private KeyBindManager keyBindManager;
 
     private void Start()
     {
-
+        KeyBindManager keyBindManager = FindObjectOfType<KeyBindManager>();
         playerCamera.enabled = true;
 
         //Disable Suit
@@ -276,7 +277,7 @@ public class IntroCutscene : MonoBehaviour
         bool flashPrompt = true;
         while (flashPrompt)
         {
-            if(Input.GetKey(KeyCode.F))
+            if(Input.GetKey(keyBindManager.flashlightKey))
             {
                 flashPrompt = false;
             }

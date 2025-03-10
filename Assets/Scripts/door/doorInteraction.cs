@@ -13,14 +13,17 @@ public class DoorInteraction : MonoBehaviour
     public AudioClip openDoor;
     public AudioClip closeDoor;
 
+    private KeyBindManager keyBindManager;
+
     void Start()
     {
+        keyBindManager = FindObjectOfType<KeyBindManager>();
         playerCamera = Camera.main;
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(keyBindManager.interactKey))
         {
             RaycastHit hit;
             if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, interactionRange, doorLayer))
