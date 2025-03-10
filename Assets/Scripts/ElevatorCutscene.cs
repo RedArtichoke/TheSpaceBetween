@@ -51,8 +51,11 @@ public class ElevatorCutscene : MonoBehaviour
     [SerializeField] AudioSource vatorShake;
     [SerializeField] AudioSource vatorArrival;
 
-    private void Start()
+    private KeyBindManager keyBindManager;
+
+    void Start()
     {
+        keyBindManager = FindObjectOfType<KeyBindManager>();
         doorAnimator = transform.parent.GetComponent<Animator>();
         //skull = transform.parent.GetChild(3).gameObject; //the skull is the 4th child of "Elevator Room";
 
@@ -79,7 +82,7 @@ public class ElevatorCutscene : MonoBehaviour
     private void Update()
     {
         //if the cutscene has not happened yet
-        if (Input.GetKeyDown(KeyCode.E) && !elevatorDone)
+        if (Input.GetKeyDown(keyBindManager.interactKey) && !elevatorDone)
         {
             crosshair = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0)); //centre of viewport
 

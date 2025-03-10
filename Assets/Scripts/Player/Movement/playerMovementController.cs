@@ -94,8 +94,12 @@ public class PlayerMovementController : MonoBehaviour
     // Add this new variable
     private LayerMask collisionCheckMask; // Mask for collision checks
 
+    private KeyBindManager keyBindManager;
+
     void Start()
     {
+        keyBindManager = FindObjectOfType<KeyBindManager>();
+
         // Initialize player components and settings
         playerRb = GetComponent<Rigidbody>();
         playerRb.useGravity = true;
@@ -135,7 +139,7 @@ public class PlayerMovementController : MonoBehaviour
     void Update()
     {
         // Update crouch state based on input
-        isCrouching = Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl);
+        isCrouching = Input.GetKey(keyBindManager.crouchKey) || Input.GetKey(KeyCode.RightControl);
 
         // Adjust bob frequency and movement speed based on crouch state
         bobFrequency = isCrouching ? 10.0f : 15.0f;
@@ -161,7 +165,7 @@ public class PlayerMovementController : MonoBehaviour
         HandleCameraEffects();
 
         // Handle object interaction
-        if (Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(1))
+        if (Input.GetKeyDown(keyBindManager.interactKey) || Input.GetMouseButtonDown(1))
         {
             if (heldObject == null)
             {
@@ -174,7 +178,7 @@ public class PlayerMovementController : MonoBehaviour
         }
 
         // Handle throwing the held object
-        if (Input.GetMouseButtonDown(0) && heldObject != null)
+        if (Input.GetKeyDown(keyBindManager.throwKey)&& heldObject != null)
         {
             DropObject(true);
         }

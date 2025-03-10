@@ -52,9 +52,11 @@ public class IntroCutscene : MonoBehaviour
     public GameObject flashBangText2;
     public GameObject flashBangText3;
 
+    private KeyBindManager keyBindManager;
+
     private void Start()
     {
-
+        KeyBindManager keyBindManager = FindObjectOfType<KeyBindManager>();
         playerCamera.enabled = true;
 
         //Disable Suit
@@ -259,7 +261,7 @@ public class IntroCutscene : MonoBehaviour
         bool flashPrompt = true;
         while (flashPrompt)
         {
-            if(Input.GetKey(KeyCode.F))
+            if(Input.GetKey(keyBindManager.flashlightKey))
             {
                 flashPrompt = false;
             }

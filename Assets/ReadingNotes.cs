@@ -20,9 +20,11 @@ public class Interactions : MonoBehaviour
     [SerializeField]  Material screenOff;
     [SerializeField]  Material screenOn;
 
-    // Start is called before the first frame update
+    private KeyBindManager keyBindManager;
+
     void Start()
     {
+        keyBindManager = FindObjectOfType<KeyBindManager>();
         reading = false;
 
         range = 5.0f;
@@ -33,7 +35,7 @@ public class Interactions : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(keyBindManager.interactKey))
         {
             //if the note is on screen, turn it off
             if (noteInterface.activeInHierarchy == true)
@@ -95,8 +97,8 @@ public class Interactions : MonoBehaviour
                 noteTitle.text = "Dr. Edwin";
                 noteText.text = "Intervallum - Research Department\r\n\r\n" +
                     "We were wrong to think The Thing was a physical entity. " +
-                    "It doesn’t just exist here, it exists between. It’s always here but it’s not always here, it’s there too. " +
-                    "It’s forcing its way into our reality and bringing all kinds of dangers with it. We're not safe here.";
+                    "It doesnï¿½t just exist here, it exists between. Itï¿½s always here but itï¿½s not always here, itï¿½s there too. " +
+                    "Itï¿½s forcing its way into our reality and bringing all kinds of dangers with it. We're not safe here.";
                 break;
 
             case ("note 2"):

@@ -40,8 +40,11 @@ public class DarkController : MonoBehaviour
 
     private HeartRateSimulator heartRateSimulator;
 
+    private KeyBindManager keyBindManager;
+
     void Start()
     {
+        keyBindManager = FindObjectOfType<KeyBindManager>();
         heartRateSimulator = GameObject.FindWithTag("HeartRateSimulator").GetComponent<HeartRateSimulator>();
         // Configure fog
         RenderSettings.fog = false; 
@@ -99,7 +102,7 @@ public class DarkController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q) && hasDevice)
+        if (Input.GetKeyDown(keyBindManager.dimensionShiftKey) && hasDevice)
         {
             if (inDark)
             {

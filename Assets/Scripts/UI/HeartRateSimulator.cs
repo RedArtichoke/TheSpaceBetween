@@ -28,9 +28,11 @@ public class HeartRateSimulator : MonoBehaviour
     public KeyCode bumpUpKey = KeyCode.Equals; // "=" key to trigger BumpUp
     public float rateChangeAmount = 5f; // How much to change per key press
 
-    // Start is called before the first frame update
+    private KeyBindManager keyBindManager;
+
     void Start()
     {
+        keyBindManager = FindObjectOfType<KeyBindManager>();
         // Verify that we have a reference to the heart rate animator
         if (heartRateAnimator == null)
         {

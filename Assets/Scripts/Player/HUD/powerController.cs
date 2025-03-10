@@ -46,8 +46,11 @@ public class PowerController : MonoBehaviour
     public IntroCutscene introCutscene;
 
     // Start is called before the first frame update
+    private KeyBindManager keyBindManager;
+
     void Start()
     {
+        keyBindManager = FindObjectOfType<KeyBindManager>();
         if (chargingRing != null) { 
             chargingRing.gameObject.SetActive(false); // Hide the charging circle
         }
@@ -68,7 +71,7 @@ public class PowerController : MonoBehaviour
     void Update()
     {
         // Handle charging logic
-        if (Input.GetKey(KeyCode.F) && power > 10)
+        if (Input.GetKey(keyBindManager.flashlightKey) && power > 10)
         {
             holdTime += Time.deltaTime;
             isCharging = holdTime >= toggleThreshold; // Start charging if held long enough
@@ -90,7 +93,7 @@ public class PowerController : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyUp(KeyCode.F))
+        if (Input.GetKeyUp(keyBindManager.flashlightKey))
         {
             if (isCharging && holdTime >= chargeDuration)
             {
