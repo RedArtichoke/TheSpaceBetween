@@ -232,5 +232,9 @@ public class DarkmiteBehaviour : MonoBehaviour
         squishAudio.Play();
     }
 
-
+    public void Disintegrate()
+    {
+        //Instantiate splat effect
+        Destroy(gameObject);
+    }
 }

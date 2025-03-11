@@ -135,6 +135,14 @@ public class PowerController : MonoBehaviour
                             StartCoroutine(mimic.StunMimic());
                         }
                     }
+                    if (hit.collider.CompareTag("Mite"))
+                    {
+                        DarkmiteBehaviour darkmite = hit.collider.GetComponent<DarkmiteBehaviour>();
+                        if (darkmite != null)
+                        {
+                            darkmite.Disintegrate();
+                        }
+                    }
                 }
                 
                 StartCoroutine(ResetFlashlight()); // Cool down the supernova
