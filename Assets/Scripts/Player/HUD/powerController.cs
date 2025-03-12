@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using TMPro;
 public class PowerController : MonoBehaviour
 {
     public Image powerRing; // The circle of power
@@ -47,6 +47,7 @@ public class PowerController : MonoBehaviour
 
     // Start is called before the first frame update
     private KeyBindManager keyBindManager;
+    public TextMeshProUGUI flashBangBinding;
 
     void Start()
     {
@@ -89,12 +90,14 @@ public class PowerController : MonoBehaviour
                 }
                 if (chargeAudioPlaying && holdTime >= chargeDuration){
                     audioSource.Stop(); 
+                    flashBangBinding.text = "Release";
                 }
             }
         }
 
         if (Input.GetKeyUp(keyBindManager.flashlightKey))
         {
+            flashBangBinding.text = "Hold " + keyBindManager.flashlightKey;
             if (isCharging && holdTime >= chargeDuration)
             {
                 // Execute flashbang effect
