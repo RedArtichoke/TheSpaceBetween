@@ -463,7 +463,7 @@ public class PlayerMovementController : MonoBehaviour
                     TMP_Text instructionsText = promptTransform.Find("Canvas/Instructions").GetComponent<TMP_Text>();
                     if (instructionsText != null)
                     {
-                        instructionsText.text = "Press E to Drop";
+                        instructionsText.text = "Press " + keyBindManager.interactKey + " to Drop";
                     }
                 }
             }
@@ -568,7 +568,7 @@ public class PlayerMovementController : MonoBehaviour
                     TMP_Text instructionsText = promptTransform.Find("Canvas/Instructions").GetComponent<TMP_Text>();
                     if (instructionsText != null)
                     {
-                        instructionsText.text = "Press E to Pickup";
+                        instructionsText.text = "Press " + keyBindManager.interactKey + " to Pickup";
                     }
                 }
             }
@@ -725,7 +725,7 @@ public class PlayerMovementController : MonoBehaviour
                     else
                     {
                         if (instructionsText != null)
-                            instructionsText.text = "Press E to Open";
+                            instructionsText.text = "Press " + keyBindManager.interactKey + " to Open";
 
                         if (nameText != null)
                             nameText.text = "Door";
@@ -745,7 +745,7 @@ public class PlayerMovementController : MonoBehaviour
                     
                     // Check if we're holding an object and update instructions accordingly
                     if (instructionsText != null)
-                        instructionsText.text = heldObject != null ? "Press E to Drop" : "Press E to Pickup";
+                        instructionsText.text = heldObject != null ? "Press " + keyBindManager.interactKey + " to Drop" : "Press " + keyBindManager.interactKey + " to Pickup";
                 }
             }
 

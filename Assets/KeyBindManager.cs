@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class KeyBindManager : MonoBehaviour
 {
@@ -15,11 +16,13 @@ public class KeyBindManager : MonoBehaviour
     [Header("Interaction Controls")]
     public KeyCode flashlightKey = KeyCode.F;
     public KeyCode interactKey = KeyCode.E;
+    public KeyCode crouchKey = KeyCode.LeftControl;
     public KeyCode throwKey = KeyCode.Mouse0; // Left mouse button
     public KeyCode dimensionShiftKey = KeyCode.Q;
-    
-    [Header("Movement Controls")]
-    public KeyCode crouchKey = KeyCode.LeftControl;
+
+    public TextMeshProUGUI flashBangBinding;
+    public TextMeshProUGUI flashLightBinding;
+    public TextMeshProUGUI dimensionShiftBinding;
     
     // Awake is called when the script instance is being loaded
     private void Awake()
@@ -30,6 +33,20 @@ public class KeyBindManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject); // Makes this object persist across scenes
             LoadKeybinds(); // Load saved keybinds when the game starts
+
+            if (!resetOnStart) 
+            {
+                // Create a temporary KeyBindButton instance
+                KeyBindButton tempButton = new KeyBindButton();
+
+                // Use the instance to get display names for key codes
+                flashBangBinding.text = "Hold " + tempButton.GetKeyCodeDisplayName(flashlightKey);
+                flashLightBinding.text = tempButton.GetKeyCodeDisplayName(flashlightKey);
+                dimensionShiftBinding.text = tempButton.GetKeyCodeDisplayName(dimensionShiftKey);
+
+                // Destroy the temporary instance
+                Destroy(tempButton);
+            }
         }
         else
         {
@@ -101,9 +118,9 @@ public class KeyBindManager : MonoBehaviour
         // Reset to default values
         flashlightKey = KeyCode.F;
         interactKey = KeyCode.E;
+        crouchKey = KeyCode.LeftControl;
         throwKey = KeyCode.Mouse0;
         dimensionShiftKey = KeyCode.Q;
-        crouchKey = KeyCode.LeftControl;
         
         // Save the default values to PlayerPrefs
         SaveKeybinds();
