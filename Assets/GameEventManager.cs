@@ -7,22 +7,12 @@ public class GameEventManager : MonoBehaviour
     public bool isBeta;
 
     public GameObject detectionZone;
-    //public GameObject detectionZone2;
-
-   // public doorOpen researchDoor;
 
     void Update()
     {
-        if (isBeta)
+        if (detectionZone != null) 
         {
-            detectionZone.SetActive(true);
-           // detectionZone2.SetActive(true);
-        }
-        else if (!isBeta)
-        {
-            detectionZone.SetActive(false);
-           // detectionZone2.SetActive(false);
-
+            detectionZone.SetActive(isBeta);
         }
     }
 }
