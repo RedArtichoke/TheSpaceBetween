@@ -102,13 +102,58 @@ public class Interactions : MonoBehaviour
                 break;
 
             case ("note 2"):
-                noteTitle.text = "Captain's Log - Entry 5";
-                noteText.text = "The Thing raided the cafeteria. We cant get near the kitchen and we are running out of food supplies.";
+                noteTitle.text = "HE'S ALWAYS WATCHING";
+                noteText.text = "";
+                //picture goes here
                 break;
 
             case ("note 3"):
-                noteTitle.text = "Captain's Log - Entry 5";
-                noteText.text = "this is note three";
+                noteTitle.text = "";
+                noteText.text = "Intervallum - Maintenance Department\r\n\r\n" +
+                    "Somebody or.. Something unplugged the maintenance adaptor, cutting power to the research sector.\r\n\r\n" +
+                    "Please help me.. I'm pinned and can't move, somebody needs to repair the relay before THE THING finds us.";
+                break;
+
+            case ("note 4"):
+                noteTitle.text = "";
+                noteText.text = "Intervallum - Department\r\n\r\n" +
+                    "note 4 content";
+                break;
+
+            case ("note 5"):
+                noteTitle.text = "";
+                noteText.text = "Intervallum - Department\r\n\r\n" +
+                    "note 5 content";
+                break;
+
+            case ("note 6"):
+                noteTitle.text = "";
+                noteText.text = "Intervallum - Department\r\n\r\n" +
+                    "note 6 content";
+                break;
+
+            case ("note 7"):
+                noteTitle.text = "";
+                noteText.text = "Intervallum - Department\r\n\r\n" +
+                    "note 7 content";
+                break;
+
+            case ("note 8"):
+                noteTitle.text = "";
+                noteText.text = "Intervallum - Department\r\n\r\n" +
+                    "note 8 content";
+                break;
+
+            case ("note 9"):
+                noteTitle.text = "";
+                noteText.text = "Intervallum - Department\r\n\r\n" +
+                    "note 9 content";
+                break;
+
+            case ("note 10"):
+                noteTitle.text = "";
+                noteText.text = "Intervallum - Department\r\n\r\n" +
+                    "note 10 content";
                 break;
 
             default:
