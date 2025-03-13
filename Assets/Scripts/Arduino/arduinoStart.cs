@@ -31,11 +31,14 @@ public class arduinoStart : MonoBehaviour
 
     public PlayerMovementController player;
     public FpsCameraController camera;
+
+    public ShipFlight shipFlight;
     
 
     // Start is called before the first frame update
     void Start()
     {
+        shipFlight.enabled = false;
         originalScale = breathingCircle.transform.localScale;
 
         player.enabled=false;
@@ -56,6 +59,7 @@ public class arduinoStart : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P))
         {
             SkipIntroSequence();
+            shipFlight.enabled = true;
         }
     }
 
@@ -148,6 +152,7 @@ public class arduinoStart : MonoBehaviour
     {
         yield return new WaitForSeconds(5);
         intro.SetActive(true);
+        shipFlight.enabled = true;
         arduinoIntroController.SetActive(false);
 
 
