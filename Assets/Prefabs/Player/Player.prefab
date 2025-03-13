@@ -152,6 +152,7 @@ MonoBehaviour:
   preStunSound: {fileID: 8300000, guid: 429ca7308d0164e6fa58374292188395, type: 3}
   chargeSound: {fileID: 8300000, guid: 8c230b93a2946414e84c2c3eb1761bfa, type: 3}
   introCutscene: {fileID: 0}
+  flashBangBinding: {fileID: 0}
 --- !u!114 &2602189809685577192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,6 +183,7 @@ MonoBehaviour:
   powerController: {fileID: 3482881951145624219}
   bg: {fileID: 8076156410899565923}
   reviveSound: {fileID: 2346873872953407511}
+  playButton: {fileID: 4635592743030926515}
 --- !u!114 &5305050087123425412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18122,6 +18124,18 @@ AudioSource:
     type: 3}
   m_PrefabInstance: {fileID: 6976867641589327184}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4635592743030926515 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2343630121793341923, guid: 8a0979225807a43349505da97a088d48,
+    type: 3}
+  m_PrefabInstance: {fileID: 6976867641589327184}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5310729121309909780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 600a55034512440e1918a4a5c1f48f15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5080217704961873410 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2761374187875365714, guid: 8a0979225807a43349505da97a088d48,

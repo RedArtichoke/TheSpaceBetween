@@ -34,6 +34,7 @@ public class HealthManager : MonoBehaviour
     public CanvasGroup bg;
 
     public AudioSource reviveSound;
+    public PlayGameButton playButton;
 
     void Start()
     {
@@ -53,6 +54,15 @@ public class HealthManager : MonoBehaviour
         {
             health = 100;
             Debug.Log("Health reset to 100.");
+        }
+
+        if(health > 0)
+        {
+            playButton.isDead = false;
+        }
+        else
+        {
+            playButton.isDead = true;
         }
     }
 
