@@ -76,7 +76,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e3dbbe5e65002e14eaac1594781de8e2,
         type: 3}
       propertyPath: m_Name
-      value: FBX_Model_MABacklog_Stanchion_Belt
+      value: stanchionBelt
       objectReference: {fileID: 0}
     - target: {fileID: 2286353507938551654, guid: e3dbbe5e65002e14eaac1594781de8e2,
         type: 3}
@@ -86,5 +86,36 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e3dbbe5e65002e14eaac1594781de8e2,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 841384519712211492}
   m_SourcePrefab: {fileID: 100100000, guid: e3dbbe5e65002e14eaac1594781de8e2, type: 3}
+--- !u!1 &6726305229639952437 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e3dbbe5e65002e14eaac1594781de8e2,
+    type: 3}
+  m_PrefabInstance: {fileID: 5879954169280304484}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &841384519712211492
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6726305229639952437}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.16031304, y: 0.014887079, z: 0.0028782794}
+  m_Center: {x: 0.09523745, y: 0.10985916, z: 0.00014772569}
