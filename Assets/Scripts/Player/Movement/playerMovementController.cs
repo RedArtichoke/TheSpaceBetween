@@ -392,7 +392,7 @@ public class PlayerMovementController : MonoBehaviour
                 }
                 return;
             }
-            else if(hit.transform.name == "yogurtCup")
+            else if(hit.transform.name.Contains("yogurtCup"))
             {
                 //add 1 to the counter and destroy the cup
                 yogurt.yogurtCollected++;

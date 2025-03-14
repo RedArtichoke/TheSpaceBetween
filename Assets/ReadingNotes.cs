@@ -78,10 +78,6 @@ public class Interactions : MonoBehaviour
 
                                 editNote(hit.transform.name);
                             }
-                            else
-                            {
-                                Debug.Log("BROKEN");
-                            }
                             break;
                     }
                 }      

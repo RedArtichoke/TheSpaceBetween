@@ -7,22 +7,22 @@ public class endgameGameInfo : MonoBehaviour
 {
     public int yogurtCollected;
 
-    [SerializeField] HeartRateAnimator heartinfo;
+    //[SerializeField] HeartRateAnimator heartinfo;
 
-    [SerializeField] float allBPM;      //used for "averageBPM" calculation
-    [SerializeField] float averageBPM;  //Average heart rate throughout the playthrough
-    [SerializeField] float peakBPM;     //highest heart rate throughout the playthrough
+    //[SerializeField] float allBPM;      //used for "averageBPM" calculation
+    //[SerializeField] float averageBPM;  //Average heart rate throughout the playthrough
+    //[SerializeField] float peakBPM;     //highest heart rate throughout the playthrough
 
-    public float between;
+    //public float between;
 
     // Start is called before the first frame update
     void Start()
     {
-        allBPM = 0.0f;
-        averageBPM = 0.0f;
-        peakBPM = 0.0f;
+        //allBPM = 0.0f;
+        //averageBPM = 0.0f;
+        //peakBPM = 0.0f;
 
-        between = 0;
+       //between = 0;
 
         yogurtCollected = 0;
     }
