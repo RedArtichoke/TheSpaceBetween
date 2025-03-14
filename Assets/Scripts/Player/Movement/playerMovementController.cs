@@ -42,6 +42,7 @@ public class PlayerMovementController : MonoBehaviour
     private Material originalMaterial = null;
     private float currentCrouchOffset = 0f;
     public bool isCrouching = false;
+    public bool canStand = true;
     public CapsuleCollider hitbox;
     private float originalHeight;
     private Vector3 originalCenter;
@@ -138,8 +139,18 @@ public class PlayerMovementController : MonoBehaviour
 
     void Update()
     {
-        // Update crouch state based on input
-        isCrouching = Input.GetKey(keyBindManager.crouchKey) || Input.GetKey(KeyCode.RightControl);
+        // Update crouch state based on input and canStand
+        if (Input.GetKey(keyBindManager.crouchKey) || Input.GetKey(KeyCode.RightControl))
+        {
+            // Player wants to crouch
+            isCrouching = true;
+        }
+        else if (canStand)
+        {
+            // Player wants to stand and can stand
+            isCrouching = false;
+        }
+        // If canStand is false, isCrouching remains true even if the key is released
 
         // Adjust bob frequency and movement speed based on crouch state
         bobFrequency = isCrouching ? 10.0f : 15.0f;
@@ -147,6 +158,7 @@ public class PlayerMovementController : MonoBehaviour
         // Dictate player move speed
         currentMovementSpeed = (isCrouching ? crouchingSpeed : walkingSpeed) + speedModifier;
 
+        // Apply the appropriate hitbox size based on crouch state
         if (isCrouching)
         {
             // Set crouched height
@@ -155,7 +167,7 @@ public class PlayerMovementController : MonoBehaviour
         }
         else
         {
-            // Restore original height
+            // Restore original height (we already checked canStand when setting isCrouching)
             hitbox.height = originalHeight;
             hitbox.center = originalCenter;
         }
