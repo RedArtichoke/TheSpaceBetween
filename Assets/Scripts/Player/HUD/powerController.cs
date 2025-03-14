@@ -7,6 +7,9 @@ public class PowerController : MonoBehaviour
 {
     public Image powerRing; // The circle of power
     public Image chargingRing; // The circle of charging
+    public Image powerBar; // The vertical power bar
+    public TextMeshProUGUI powerText; // The power percentage text
+    private Color lowPowerColor = new Color(0.94f, 0.27f, 0.22f); // #F04438 in RGB
     public Light flashlight; // The mighty beam of light
     public Image heartRateUI; // The heartbeat of the game
     public Sprite originalHeartRateSprite; // The heart's true form
@@ -278,6 +281,24 @@ public class PowerController : MonoBehaviour
     {
         // Update the fill amount of the power ring
         powerRing.fillAmount = power / 100f; // Show the juice level
+        
+        // Update the vertical power bar
+        if (powerBar != null)
+        {
+            powerBar.fillAmount = power / 100f; // Set fill amount based on power
+            
+            // Tint the bar colour based on power level
+            // Lower power = more red tint, higher power = more white
+            float tintAmount = 1 - (power / 100f);
+            powerBar.color = Color.Lerp(Color.white, lowPowerColor, tintAmount);
+        }
+        
+        // Update the power percentage text
+        if (powerText != null)
+        {
+            int powerPercentage = Mathf.RoundToInt(power);
+            powerText.text = powerPercentage + "%";
+        }
     }
 
     public void AddPower(float amount) {
