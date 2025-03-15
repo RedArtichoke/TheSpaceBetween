@@ -132,6 +132,23 @@ public class HealthManager : MonoBehaviour
         }
     }
 
+    private IEnumerator DamageCooldownRespawn()
+    {
+        isDamaged = false;
+
+        yield return new WaitForSeconds(1f);
+
+        if (health < 100)
+        {
+            if (regenCoroutine != null)
+            {
+                StopCoroutine(regenCoroutine);
+            }
+            suitVoice.playRestoreAudio();
+            regenCoroutine = StartCoroutine(RegenerateHealth());
+        }
+    }
+
     private IEnumerator RegenerateHealth()
     {
         while (health < 100)
@@ -226,7 +243,7 @@ public class HealthManager : MonoBehaviour
         gameOverUIButton4.SetActive(true);
         gameOverUIButton5.SetActive(true);
 
-        StartCoroutine(RegenerateHealth());
+        //StartCoroutine(DamageCooldownRespawn());
 
         powerController.power = 90;
     }

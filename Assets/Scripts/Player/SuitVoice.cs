@@ -138,6 +138,11 @@ public class SuitVoice : MonoBehaviour
         EnableSuitSteamEffect();
     }
 
+    public void playRestoreAudioNoSteam()
+    {
+        PlayAudioWithVolumeControl(medicalRestore);
+    }
+
     public void PlayPowerRestoreAudio()
     {
         PlayAudioWithVolumeControl(powerRestored);
