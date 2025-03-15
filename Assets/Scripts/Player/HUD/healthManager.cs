@@ -216,6 +216,8 @@ public class HealthManager : MonoBehaviour
 
         gameOverUI.SetActive(false);
 
+        bg.alpha = 1f;
+
         UIComponents.SetActive(true);
 
         gameOverUIButton1.SetActive(true);
@@ -225,8 +227,6 @@ public class HealthManager : MonoBehaviour
         gameOverUIButton5.SetActive(true);
 
         StartCoroutine(RegenerateHealth());
-        
-        
 
         powerController.power = 90;
     }
