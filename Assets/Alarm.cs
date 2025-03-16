@@ -12,6 +12,8 @@ public class Alarm : MonoBehaviour
 
     public GameObject alarmAudio;
 
+    public bool isShipAlarm;
+
     void Start()
     {
         light1.SetActive(false);
@@ -24,7 +26,16 @@ public class Alarm : MonoBehaviour
         {
             light1.SetActive(true);
             light2.SetActive(true);
-            transform.Rotate(Vector3.forward, rotationSpeed * Time.deltaTime);
+
+            if (!isShipAlarm)
+            {
+                transform.Rotate(Vector3.forward, rotationSpeed * Time.deltaTime);
+            }
+            else
+            {
+                transform.Rotate(Vector3.forward, rotationSpeed * Time.deltaTime);
+            }
+            
             alarmAudio.SetActive(true);
         }
         
