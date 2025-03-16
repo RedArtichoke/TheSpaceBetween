@@ -85,7 +85,6 @@ public class HealthManager : MonoBehaviour
                 health = 0;
             }
             isDamaged = true;
-            StartCoroutine(DamageCooldown());
 
             cameraController.StartScreenShake();
 
@@ -103,12 +102,13 @@ public class HealthManager : MonoBehaviour
             if(health > 0)
             {
                 suitVoice.playDamageAudio();
+                StartCoroutine(DamageCooldown());
             }
 
             if (health <= 0)
             {
                 RevealGameOverUI();
-
+                StopCoroutine(DamageCooldown());
                 UIComponents.SetActive(false);
 
             }
@@ -244,7 +244,7 @@ public class HealthManager : MonoBehaviour
         gameOverUIButton5.SetActive(true);
 
         //StartCoroutine(DamageCooldownRespawn());
-
+        isDamaged = false;
         powerController.power = 90;
     }
 }
