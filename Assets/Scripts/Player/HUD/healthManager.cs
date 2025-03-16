@@ -199,7 +199,7 @@ public class HealthManager : MonoBehaviour
     {
         UIBlur.SetActive(false);
 
-        health = 30;
+        //health = 30;
 
         reviveSound.Play();
 
