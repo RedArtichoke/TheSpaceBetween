@@ -226,6 +226,7 @@ public class PlayerMovementController : MonoBehaviour
 
         //Debug.Log(isMoving);
     }
+    
 
     void HandleCameraEffects()
     {
@@ -357,39 +358,7 @@ public class PlayerMovementController : MonoBehaviour
             }
             else if (hit.transform.CompareTag("Mimic"))
             {
-                // Handle picking up a disguised mimic
-                DisguisedMimic disguisedMimic = hit.transform.GetComponent<DisguisedMimic>();
-                if (disguisedMimic != null)
-                {
-                    DarkController darkController = GetComponent<DarkController>();
-                    // If player in the dark, mimics will not exit disguise
-                    if (darkController.inDark)
-                    {
-                        return;
-                    }
-
-                    GameObject originalMimic = disguisedMimic.originalMimic;
-                    if (originalMimic != null)
-                    {
-                        MimicBehaviour mimicBehaviour = originalMimic.GetComponent<MimicBehaviour>();
-
-                        // Enable the original mimic
-                        originalMimic.SetActive(true);
-
-                        // Raise the mimic 2 units above its current position
-                        originalMimic.transform.position += Vector3.up * 2;
-
-                        // Deparent the mimic from the disguised object
-                        originalMimic.transform.SetParent(null);
-
-                        // Make mimic attack the player
-                        mimicBehaviour.foundNeighbours.Clear();
-                        mimicBehaviour.isAttacking = true;
-                    }
-
-                    // Destroy the disguised mimic object
-                    Destroy(hit.transform.gameObject);
-                }
+                StartCoroutine(HandleMimicPickupWithDelay(hit.transform));
                 return;
             }
             else if(hit.transform.name.Contains("yogurtCup"))
@@ -481,6 +450,69 @@ public class PlayerMovementController : MonoBehaviour
             }
         }
     }
+
+    private IEnumerator HandleMimicPickupWithDelay(Transform mimicTransform)
+    {
+        float shakeDuration = 3f; 
+        float shakeIntensity = 0.05f; 
+
+        float elapsedTime = 0f;
+        Vector3 originalLocalPosition = mimicTransform.localPosition;
+        Quaternion originalLocalRotation = mimicTransform.localRotation;
+
+        while (elapsedTime < shakeDuration)
+        {
+            if (mimicTransform == null) yield break; 
+
+            mimicTransform.localPosition = originalLocalPosition + new Vector3(
+                Random.Range(-shakeIntensity, shakeIntensity),
+                Random.Range(-shakeIntensity, shakeIntensity),
+                Random.Range(-shakeIntensity, shakeIntensity)
+            );
+
+            mimicTransform.localRotation = originalLocalRotation * Quaternion.Euler(
+                Random.Range(-shakeIntensity * 10, shakeIntensity * 10),
+                Random.Range(-shakeIntensity * 10, shakeIntensity * 10),
+                Random.Range(-shakeIntensity * 10, shakeIntensity * 10)
+            );
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        if (mimicTransform != null)
+        {
+            mimicTransform.localPosition = originalLocalPosition;
+            mimicTransform.localRotation = originalLocalRotation;
+
+            DisguisedMimic disguisedMimic = mimicTransform.GetComponent<DisguisedMimic>();
+            if (disguisedMimic != null)
+            {
+                DarkController darkController = GetComponent<DarkController>();
+                if (darkController.inDark)
+                {
+                    yield break; 
+                }
+
+                GameObject originalMimic = disguisedMimic.originalMimic;
+                if (originalMimic != null)
+                {
+                    MimicBehaviour mimicBehaviour = originalMimic.GetComponent<MimicBehaviour>();
+
+                    originalMimic.SetActive(true);
+                    originalMimic.transform.position += Vector3.up * 2;
+                    originalMimic.transform.SetParent(null);
+
+                    mimicBehaviour.foundNeighbours.Clear();
+                    mimicBehaviour.isAttacking = true;
+                }
+
+                Destroy(mimicTransform.gameObject);
+            }
+        }
+    }
+
+
 
     void DropObject(bool applyThrowForce)
     {
