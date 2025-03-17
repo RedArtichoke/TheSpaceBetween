@@ -14,10 +14,9 @@ public class NoteInventory : MonoBehaviour
     [SerializeField] GameObject inventoryCanvas;
     [SerializeField] GameObject inventoryPaper;
 
-    [SerializeField] PlayerMovementController walking;
-    [SerializeField] FpsCameraController camTurn;
+    [SerializeField] AudioSource click;
 
-    float sensKeeper;
+    private KeyBindManager keyBindManager;
 
     // Start is called before the first frame update
     void Start()
@@ -33,14 +32,16 @@ public class NoteInventory : MonoBehaviour
 
         inventoryCanvas = transform.GetChild(0).gameObject;
         //inventoryCanvas.SetActive(false);
-
-        sensKeeper = camTurn.mouseSensitivity;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown( /*Blake Key Binds*/ KeyCode.Tab))
+        if(Input.GetKeyDown(KeyCode.Tab))
+        {
+            toggleNoteUI();
+        }
+        if(Input.GetKeyDown(KeyCode.Escape) && inventoryCanvas.activeInHierarchy)
         {
             toggleNoteUI();
         }
@@ -61,15 +62,12 @@ public class NoteInventory : MonoBehaviour
 
     void toggleNoteUI()
     {
-
         if (!Cursor.visible)
         {
             Time.timeScale = 0f;
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             inventoryCanvas.SetActive(true);
-
-            //camTurn.mouseSensitivity = 0;
         }
         else
         {
@@ -77,8 +75,6 @@ public class NoteInventory : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             inventoryCanvas.SetActive(false);
-
-            //camTurn.mouseSensitivity = sensKeeper;
         }
     }
 }

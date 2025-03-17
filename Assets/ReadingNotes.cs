@@ -22,6 +22,8 @@ public class ReadingNotes : MonoBehaviour
     [SerializeField] GameObject foundNotes;
     [SerializeField] List<Transform> noteButtons = new(10);
 
+    [SerializeField] AudioSource pageTurn;
+
     [SerializeField]  Material screenOff;
     [SerializeField]  Material screenOn;
 
@@ -36,8 +38,8 @@ public class ReadingNotes : MonoBehaviour
 
         noteInterface.SetActive(false);
 
-        for(int i = 0; i < 10; i++)
-        {
+        for (int i = 0; i < 10; i++)
+        { 
             noteButtons.Add(foundNotes.transform.GetChild(i));
         }
     }
@@ -86,25 +88,25 @@ public class ReadingNotes : MonoBehaviour
 
                                 noteInterface.SetActive(true);
 
-                                Debug.Log(noteIndex[noteIndex.Length - 1]);
-                                Debug.Log(noteButtons[1]);
+                                //Debug.Log(noteIndex[noteIndex.Length - 1]);
 
-                                if (noteButtons[noteIndex[noteIndex.Length - 1] - '0'] != null)
+                                //index is last number of note
+                                if (noteButtons[noteIndex[noteIndex.Length - 1] - '0' - 1] != null)
                                 {
-                                    if(noteIndex[noteIndex.Length - 1] - '0' < 0)
+                                    if (noteIndex[noteIndex.Length - 1] - '0' < 0)
                                     {
                                         noteButtons[9].GetComponent<Button>().interactable = true; //for note 10
                                     }
-
-                                    Debug.Log("a");
-                                    noteButtons[noteIndex[noteIndex.Length - 1] - '0'].GetComponent<Button>().interactable = true;
-                                    
+                                    else
+                                    {
+                                        //Debug.Log("reached here");
+                                        noteButtons[noteIndex[noteIndex.Length - 1] - '0' - 1].GetComponent<Button>().interactable = true;
+                                    }
                                 }
                                 else
                                 {
-                                    Debug.Log("w");
+                                    Debug.Log("broken...");
                                 }
-                                
 
                                 editNote(hit.transform.name, noteTitle, noteText);
                             }
@@ -117,6 +119,8 @@ public class ReadingNotes : MonoBehaviour
 
     public void editNote(string noteName, TextMeshProUGUI title, TextMeshProUGUI body)
     {
+        pageTurn.Play();
+
         switch (noteName)
         {
             case ("note 1"):
