@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -34,6 +35,8 @@ public class MimicBehaviour : MonoBehaviour
     public AudioClip stepSound; // Add this line to declare the step sound
 
     public AudioClip[] stunSounds; // Array to store stun sounds
+
+    public AudioClip shakingSound;
 
     void Start()
     {
@@ -349,6 +352,14 @@ public class MimicBehaviour : MonoBehaviour
         // Add the DisguisedMimic component and store reference to the original mimic
         DisguisedMimic disguisedMimic = duplicate.AddComponent<DisguisedMimic>();
         disguisedMimic.originalMimic = this.gameObject;
+
+        //Add audio component
+        AudioSource audioSource = duplicate.AddComponent<AudioSource>();
+
+        audioSource.playOnAwake = false; 
+        audioSource.spatialBlend = 1.0f; 
+        audioSource.volume = 0.5f; 
+        audioSource.clip = shakingSound;
 
         // Make the mimic a child of the duplicated object
         transform.SetParent(duplicate.transform);

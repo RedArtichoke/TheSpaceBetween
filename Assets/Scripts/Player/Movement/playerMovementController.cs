@@ -456,6 +456,16 @@ public class PlayerMovementController : MonoBehaviour
         float shakeDuration = 3f; 
         float shakeIntensity = 0.05f; 
 
+        AudioSource audioSource = mimicTransform.GetComponent<AudioSource>();
+        if (audioSource != null)
+        {
+            audioSource.Play();
+        }
+        else
+        {
+            Debug.LogWarning("AudioSource not found on mimicTransform!");
+        }
+
         float elapsedTime = 0f;
         Vector3 originalLocalPosition = mimicTransform.localPosition;
         Quaternion originalLocalRotation = mimicTransform.localRotation;
