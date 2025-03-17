@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Device;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
-public class Interactions : MonoBehaviour
+public class ReadingNotes : MonoBehaviour
 {
     [SerializeField] GameObject noteInterface;
+    
     [SerializeField] TextMeshProUGUI noteText;
     [SerializeField] TextMeshProUGUI noteTitle;
 
@@ -16,6 +18,9 @@ public class Interactions : MonoBehaviour
     public LayerMask interactableLayer;
 
     bool reading;
+
+    [SerializeField] GameObject foundNotes;
+    [SerializeField] List<Transform> noteButtons = new(10);
 
     [SerializeField]  Material screenOff;
     [SerializeField]  Material screenOn;
@@ -30,6 +35,11 @@ public class Interactions : MonoBehaviour
         range = 5.0f;
 
         noteInterface.SetActive(false);
+
+        for(int i = 0; i < 10; i++)
+        {
+            noteButtons.Add(foundNotes.transform.GetChild(i));
+        }
     }
 
     // Update is called once per frame
@@ -71,12 +81,32 @@ public class Interactions : MonoBehaviour
                         default:
                             if (hit.transform.name.StartsWith('n'))
                             {
-                                Debug.Log("reading note");
+                                string noteIndex = hit.transform.name;
                                 reading = true;
 
                                 noteInterface.SetActive(true);
 
-                                editNote(hit.transform.name);
+                                Debug.Log(noteIndex[noteIndex.Length - 1]);
+                                Debug.Log(noteButtons[1]);
+
+                                if (noteButtons[noteIndex[noteIndex.Length - 1] - '0'] != null)
+                                {
+                                    if(noteIndex[noteIndex.Length - 1] - '0' < 0)
+                                    {
+                                        noteButtons[9].GetComponent<Button>().interactable = true; //for note 10
+                                    }
+
+                                    Debug.Log("a");
+                                    noteButtons[noteIndex[noteIndex.Length - 1] - '0'].GetComponent<Button>().interactable = true;
+                                    
+                                }
+                                else
+                                {
+                                    Debug.Log("w");
+                                }
+                                
+
+                                editNote(hit.transform.name, noteTitle, noteText);
                             }
                             break;
                     }
@@ -85,76 +115,76 @@ public class Interactions : MonoBehaviour
         }
     }
 
-    void editNote(string noteName)
+    public void editNote(string noteName, TextMeshProUGUI title, TextMeshProUGUI body)
     {
         switch (noteName)
         {
             case ("note 1"):
-                noteTitle.text = "Dr. Edwin";
-                noteText.text = "Intervallum - Research Department\r\n\r\n" +
+                title.text = "Dr. Edwin";
+                body.text = "Intervallum - Research Department\r\n\r\n" +
                     "We were wrong to think The Thing was a physical entity. " +
                     "It doesn�t just exist here, it exists between. It�s always here but it�s not always here, it�s there too. " +
-                    "It�s forcing its way into our reality and bringing all kinds of dangers with it. We're not safe here.";
+                    "It's forcing its way into our reality and bringing all kinds of dangers with it. We're not safe here.";
                 break;
 
             case ("note 2"):
-                noteTitle.text = "HE'S ALWAYS WATCHING";
-                noteText.text = "";
+                title.text = "HE'S ALWAYS WATCHING";
+                body.text = "";
                 //picture goes here
                 break;
 
             case ("note 3"):
-                noteTitle.text = "";
-                noteText.text = "Intervallum - Maintenance Department\r\n\r\n" +
+                title.text = "";
+                body.text = "Intervallum - Maintenance Department\r\n\r\n" +
                     "Somebody or.. Something unplugged the maintenance adaptor, cutting power to the research sector.\r\n\r\n" +
                     "Please help me.. I'm pinned and can't move, somebody needs to repair the relay before THE THING finds us.";
                 break;
 
             case ("note 4"):
-                noteTitle.text = "";
-                noteText.text = "Intervallum - Department\r\n\r\n" +
+                title.text = "";
+                body.text = "Intervallum - Department\r\n\r\n" +
                     "note 4 content";
                 break;
 
             case ("note 5"):
-                noteTitle.text = "";
-                noteText.text = "Intervallum - Department\r\n\r\n" +
+                title.text = "";
+                body.text = "Intervallum - Department\r\n\r\n" +
                     "note 5 content";
                 break;
 
             case ("note 6"):
-                noteTitle.text = "";
-                noteText.text = "Intervallum - Department\r\n\r\n" +
+                title.text = "";
+                body.text = "Intervallum - Department\r\n\r\n" +
                     "note 6 content";
                 break;
 
             case ("note 7"):
-                noteTitle.text = "";
-                noteText.text = "Intervallum - Department\r\n\r\n" +
+                title.text = "";
+                body.text = "Intervallum - Department\r\n\r\n" +
                     "note 7 content";
                 break;
 
             case ("note 8"):
-                noteTitle.text = "";
-                noteText.text = "Intervallum - Department\r\n\r\n" +
+                title.text = "";
+                body.text = "Intervallum - Department\r\n\r\n" +
                     "note 8 content";
                 break;
 
             case ("note 9"):
-                noteTitle.text = "";
-                noteText.text = "Intervallum - Department\r\n\r\n" +
+                title.text = "";
+                body.text = "Intervallum - Department\r\n\r\n" +
                     "note 9 content";
                 break;
 
             case ("note 10"):
-                noteTitle.text = "";
-                noteText.text = "Intervallum - Department\r\n\r\n" +
+                title.text = "";
+                body.text = "Intervallum - Department\r\n\r\n" +
                     "note 10 content";
                 break;
 
             default:
-                noteTitle.text = "You lost buddy?";
-                noteText.text = "I don't think you coded this properly...";
+                title.text = "You lost buddy?";
+                body.text = "I don't think you coded this properly...";
                 break;
         }
 
@@ -171,5 +201,15 @@ public class Interactions : MonoBehaviour
         }
         return "broke";
 */
+    }
+
+    void addToInventory(int noteNum)
+    {
+        TextMeshProUGUI noteInfo = foundNotes.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        if(foundNotes.transform.GetChild(0))
+        {
+            noteInfo.text = noteTitle.text;
+        }
+        
     }
 }
