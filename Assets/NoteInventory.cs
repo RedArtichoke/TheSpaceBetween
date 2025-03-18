@@ -14,7 +14,8 @@ public class NoteInventory : MonoBehaviour
 
     [SerializeField] GameObject inventoryCanvas;
     [SerializeField] GameObject inventoryPaper;
-    [SerializeField] GameObject UI;
+    [SerializeField] GameObject UIComponents;
+    [SerializeField] GameObject UIBlur;
     [SerializeField] GameObject crosshair;
     [SerializeField] GameObject noteInterface;
 
@@ -73,7 +74,8 @@ public class NoteInventory : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             inventoryCanvas.SetActive(true);
-            UI.SetActive(false);
+            UIComponents.SetActive(false);
+            UIBlur.SetActive(true);
             noteInterface.SetActive(false);
             crosshair.SetActive(false);
         }
@@ -83,7 +85,8 @@ public class NoteInventory : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             inventoryCanvas.SetActive(false);
-            UI.SetActive(true);
+            UIComponents.SetActive(true);
+            UIBlur.SetActive(false);
             crosshair.SetActive(true);
         }
     }

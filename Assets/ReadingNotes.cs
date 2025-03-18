@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 public class ReadingNotes : MonoBehaviour
 {
+    [SerializeField] GameObject UIBlur;
     [SerializeField] GameObject noteInterface;
     [SerializeField] MenuController menu;
     
@@ -64,6 +65,7 @@ public class ReadingNotes : MonoBehaviour
                 Time.timeScale = 1f;
                 Debug.Log("exiting note");
                 
+                UIBlur.SetActive(false);
                 noteInterface.SetActive(false);
             }
             else 
@@ -104,6 +106,7 @@ public class ReadingNotes : MonoBehaviour
                                 reading = true;
 
                                 noteInterface.SetActive(true);
+                                UIBlur.SetActive(true);
 
                                 //index is last number of note
                                 if (noteButtons[noteIndex[noteIndex.Length - 1] - '0' - 1] != null)
