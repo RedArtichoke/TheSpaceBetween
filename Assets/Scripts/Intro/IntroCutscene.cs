@@ -58,6 +58,10 @@ public class IntroCutscene : MonoBehaviour
     public AudioClip bedClip;
     private KeyBindManager keyBindManager;
 
+    public GameObject tutBatteryMarker; 
+    public GameObject tutSuitMarker;
+    public GameObject tutLandingMarker;
+
     private void Start()
     {
         KeyBindManager keyBindManager = FindObjectOfType<KeyBindManager>();
@@ -239,6 +243,7 @@ public class IntroCutscene : MonoBehaviour
 
         //Enable suit
         suit.SetActive(true);
+        tutSuitMarker.SetActive(true);
         closetDoor.OpenDoorCloset();
     }
 
@@ -312,6 +317,7 @@ public class IntroCutscene : MonoBehaviour
         }
 
         uiGoalText.text = "Pickup the Battery";
+        tutBatteryMarker.SetActive(true);
 
         PlayFlashlightAudio3();
     }
@@ -342,6 +348,7 @@ public class IntroCutscene : MonoBehaviour
         }
 
         uiGoalText.text = "Press the Landing Button";
+        tutLandingMarker.SetActive(true);
 
         speaker.clip = voice6;
         speaker.Play();
