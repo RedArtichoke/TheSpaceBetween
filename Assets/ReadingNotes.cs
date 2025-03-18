@@ -127,7 +127,7 @@ public class ReadingNotes : MonoBehaviour
                 title.text = "Dr. Edwin";
                 body.text = "Intervallum - Research Department\r\n\r\n" +
                     "We were wrong to think The Thing was a physical entity. " +
-                    "It doesn�t just exist here, it exists between. It�s always here but it�s not always here, it�s there too. " +
+                    "It doesn't just exist here, it exists between. It's always here but it's not always here, it's there too. " +
                     "It's forcing its way into our reality and bringing all kinds of dangers with it. We're not safe here.";
                 break;
 
