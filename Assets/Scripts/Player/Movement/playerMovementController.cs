@@ -798,10 +798,6 @@ public class PlayerMovementController : MonoBehaviour
                     if (nameText != null)
                         nameText.text = "The Intervallum";
                 }
-                else if (targetObject.name.StartsWith("note"))
-                {
-                    notes.interactPrompt = instance;
-                }
                 else
                 {
                     if (nameText != null)

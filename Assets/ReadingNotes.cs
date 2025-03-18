@@ -30,7 +30,7 @@ public class ReadingNotes : MonoBehaviour
 
     private KeyBindManager keyBindManager;
 
-    public GameObject interactPrompt;
+    public GameObject interactCanvas;
 
     void Start()
     {
@@ -92,16 +92,19 @@ public class ReadingNotes : MonoBehaviour
                         default:
                             if (hit.transform.name.StartsWith('n'))
                             {
+                                
+                                interactCanvas = hit.transform.GetChild(0).GetChild(1).gameObject; // object: "note/InteractPrompt"
+                                if (interactCanvas != null)
+                                {
+                                    Debug.Log(interactCanvas.name);
+                                    Destroy(interactCanvas);
+                                }
+
                                 Time.timeScale = 0f;
                                 string noteIndex = hit.transform.name;
                                 reading = true;
 
                                 noteInterface.SetActive(true);
-
-                                if(interactPrompt != null)
-                                {
-                                    Destroy(interactPrompt);
-                                }
 
                                 //index is last number of note
                                 if (noteButtons[noteIndex[noteIndex.Length - 1] - '0' - 1] != null)
@@ -165,8 +168,8 @@ public class ReadingNotes : MonoBehaviour
 
             case ("note 5"):
                 title.text = "";
-                body.text = "Intervallum - Department\r\n\r\n" +
-                    "note 5 content";
+                body.text = "Intervallum - Maintenance Washroom\r\n\r\n" +
+                    "They are above us now...";
                 break;
 
             case ("note 6"):
