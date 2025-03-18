@@ -539,6 +539,17 @@ public class PlayerMovementController : MonoBehaviour
             Transform droppedObject = heldObject;
             Renderer objectRenderer = droppedObject.GetComponent<Renderer>();
             
+            // Remove glow material from the held object before dropping it
+            if (objectRenderer != null)
+            {
+                Material[] currentMaterials = objectRenderer.materials;
+                // Always restore to just the first material (original material)
+                if (currentMaterials.Length > 0)
+                {
+                    objectRenderer.materials = new Material[] { currentMaterials[0] };
+                }
+            }
+            
             if (heldObjectRb != null)
             {
                 // Restore original physics properties
@@ -747,7 +758,7 @@ public class PlayerMovementController : MonoBehaviour
             Material[] currentMaterials = objectRenderer.materials;
             if (currentMaterials.Length == 1 || !currentMaterials.Contains(glowMaterial))
             {
-                // Store the original material for THIS specific renderer
+                // Always store the original material for this renderer
                 originalMaterial = currentMaterials[0];
 
                 Material[] newMaterials = new Material[2];
@@ -827,7 +838,7 @@ public class PlayerMovementController : MonoBehaviour
                 Material[] currentMaterials = objectRenderer.materials;
                 if (currentMaterials.Length == 1 || !currentMaterials.Contains(glowMaterial))
                 {
-                    // Store the original material specifically for the held object
+                    // Always store the original material for the held object
                     Material heldObjectMaterial = currentMaterials[0];
                     
                     Material[] newMaterials = new Material[2];
@@ -862,9 +873,24 @@ public class PlayerMovementController : MonoBehaviour
     void RestoreOriginalMaterial(Renderer renderer)
     {
         // Restore the original material of a renderer
-        if (renderer != null && originalMaterial != null)
+        if (renderer != null)
         {
-            renderer.materials = new Material[] { originalMaterial };
+            Material[] currentMaterials = renderer.materials;
+            
+            // Always attempt to remove the glow material if we have more than one material
+            if (currentMaterials.Length > 1)
+            {
+                // If we have the original material reference, use it
+                if (originalMaterial != null)
+                {
+                    renderer.materials = new Material[] { originalMaterial };
+                }
+                // Otherwise just use the first material (which should be the original)
+                else if (currentMaterials.Length > 0)
+                {
+                    renderer.materials = new Material[] { currentMaterials[0] };
+                }
+            }
         }
         // Always reset the originalMaterial to prevent persistence
         originalMaterial = null;
