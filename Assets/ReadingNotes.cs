@@ -108,25 +108,28 @@ public class ReadingNotes : MonoBehaviour
                                 noteInterface.SetActive(true);
                                 UIBlur.SetActive(true);
 
+                                editNote(hit.transform.name, noteTitle, noteText);
+
+                                Transform selectedNote = noteButtons[noteIndex[noteIndex.Length - 1] - '0' - 1];
+
                                 //index is last number of note
-                                if (noteButtons[noteIndex[noteIndex.Length - 1] - '0' - 1] != null)
+                                if (selectedNote != null)
                                 {
                                     if (noteIndex[noteIndex.Length - 1] - '0' < 0)
                                     {
                                         noteButtons[9].GetComponent<Button>().interactable = true; //for note 10
                                     }
-                                    else
+                                    else if(!selectedNote.GetComponent<Button>().interactable)
                                     {
                                         //Debug.Log("reached here");
-                                        noteButtons[noteIndex[noteIndex.Length - 1] - '0' - 1].GetComponent<Button>().interactable = true;
+                                        selectedNote.GetComponent<Button>().interactable = true;
+                                        selectedNote.GetChild(0).GetComponent<TextMeshProUGUI>().text = noteTitle.text;
                                     }
                                 }
                                 else
                                 {
                                     Debug.Log("broken...");
-                                }
-
-                                editNote(hit.transform.name, noteTitle, noteText);
+                                }   
                             }
                             break;
                     }
