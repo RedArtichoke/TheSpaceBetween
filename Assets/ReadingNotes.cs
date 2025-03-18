@@ -145,7 +145,7 @@ public class ReadingNotes : MonoBehaviour
         switch (noteName)
         {
             case ("note 1"):
-                title.text = "Dr. Edwin";
+                title.text = "Dr. James";
                 body.text = "Intervallum - Research Department\r\n\r\n" +
                     "We were wrong to think The Thing was a physical entity. " +
                     "It doesn't just exist here, it exists between. It's always here but it's not always here, it's there too. " +
