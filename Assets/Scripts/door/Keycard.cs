@@ -7,7 +7,8 @@ public class Keycard : MonoBehaviour
     public enum KeycardIdentity
     {
         ResearchRoom,
-        MaintenanceRoom
+        MaintenanceRoom,
+        MainDoor
     }
 
     public KeycardIdentity identity;  

@@ -31,6 +31,9 @@ public class WirePuzzle : MonoBehaviour
 
     public GameObject trigger;
 
+    public GameObject BrokenDoor;
+    public GameObject FixedDoor;
+
     void Start()
     {
         lightFixture.color = Color.red;
@@ -67,5 +70,9 @@ public class WirePuzzle : MonoBehaviour
         light3.SetActive(true);
 
         trigger.SetActive(true);
+
+        BrokenDoor.SetActive(false);
+
+        FixedDoor.SetActive(true);
     }
 }
