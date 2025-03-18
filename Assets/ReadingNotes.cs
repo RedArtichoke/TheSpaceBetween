@@ -30,6 +30,8 @@ public class ReadingNotes : MonoBehaviour
 
     private KeyBindManager keyBindManager;
 
+    public GameObject interactPrompt;
+
     void Start()
     {
         keyBindManager = FindObjectOfType<KeyBindManager>();
@@ -58,9 +60,10 @@ public class ReadingNotes : MonoBehaviour
             //if the note is on screen, turn it off
             if (noteInterface.activeInHierarchy == true)
             {
-                Debug.Log("exiting note");
                 reading = false;
-
+                Time.timeScale = 1f;
+                Debug.Log("exiting note");
+                
                 noteInterface.SetActive(false);
             }
             else 
@@ -89,12 +92,16 @@ public class ReadingNotes : MonoBehaviour
                         default:
                             if (hit.transform.name.StartsWith('n'))
                             {
+                                Time.timeScale = 0f;
                                 string noteIndex = hit.transform.name;
                                 reading = true;
 
                                 noteInterface.SetActive(true);
 
-                                //Debug.Log(noteIndex[noteIndex.Length - 1]);
+                                if(interactPrompt != null)
+                                {
+                                    Destroy(interactPrompt);
+                                }
 
                                 //index is last number of note
                                 if (noteButtons[noteIndex[noteIndex.Length - 1] - '0' - 1] != null)
