@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class ReadingNotes : MonoBehaviour
 {
     [SerializeField] GameObject noteInterface;
+    [SerializeField] MenuController menu;
     
     [SerializeField] TextMeshProUGUI noteText;
     [SerializeField] TextMeshProUGUI noteTitle;
@@ -17,7 +18,7 @@ public class ReadingNotes : MonoBehaviour
     float range;
     public LayerMask interactableLayer;
 
-    bool reading;
+    public bool reading;
 
     [SerializeField] GameObject foundNotes;
     [SerializeField] List<Transform> noteButtons = new(10);
@@ -47,7 +48,12 @@ public class ReadingNotes : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(keyBindManager.interactKey))
+        if (Input.GetKeyDown(KeyCode.Escape) && noteInterface.activeInHierarchy)
+        {
+            reading = false;
+            noteInterface.SetActive(false); //turn off canvas if game is paused
+        }
+        if (Input.GetKeyDown(keyBindManager.interactKey) && !menu.isPaused)
         {
             //if the note is on screen, turn it off
             if (noteInterface.activeInHierarchy == true)

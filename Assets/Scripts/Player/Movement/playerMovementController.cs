@@ -60,6 +60,7 @@ public class PlayerMovementController : MonoBehaviour
 
     private endgameGameInfo yogurt;//yogurt collectible counter
     [SerializeField] ElevatorCutscene vator;
+    [SerializeField] ReadingNotes notes;
 
     // Public variables for audio
     public AudioClip pickupClip;
@@ -373,6 +374,11 @@ public class PlayerMovementController : MonoBehaviour
                 StartCoroutine(vator.ElevatorSequence());
                 return;
             }
+            else if (hit.transform.name.StartsWith("note"))
+            {
+                notes.reading = true;
+                return;
+            }
 
             heldObject = hit.transform;
             heldObjectRb = heldObject.GetComponent<Rigidbody>();
@@ -438,14 +444,14 @@ public class PlayerMovementController : MonoBehaviour
             Renderer objectRenderer = heldObject.GetComponent<Renderer>();
             if (objectRenderer != null)
             {
-                Transform promptTransform = objectRenderer.transform.Find("InteractPrompt");
+                Transform promptTransform = objectRenderer.transform.Find("InteractPrompt");   
                 if (promptTransform != null)
                 {
                     TMP_Text instructionsText = promptTransform.Find("Canvas/Instructions").GetComponent<TMP_Text>();
                     if (instructionsText != null)
                     {
-                        instructionsText.text = "Press " + keyBindManager.interactKey + " to Drop";
-                    }
+                            instructionsText.text = "Press " + keyBindManager.interactKey + " to Drop";
+                    } 
                 }
             }
         }
@@ -792,14 +798,21 @@ public class PlayerMovementController : MonoBehaviour
                     if (nameText != null)
                         nameText.text = "The Intervallum";
                 }
+                else if (targetObject.name.StartsWith("note") && notes.reading)
+                {
+                    if (instructionsText != null)
+                        instructionsText.text = " ";
+                    if (nameText != null)
+                        nameText.text = " ";
+                }
                 else
                 {
                     if (nameText != null)
                         nameText.text = FormatObjectName(objectRenderer.transform.name);
-                    
+
                     // Check if we're holding an object and update instructions accordingly
                     if (instructionsText != null)
-                        instructionsText.text = heldObject != null ? "Press " + keyBindManager.interactKey + " to Drop" : "Press " + keyBindManager.interactKey + " to Pickup";
+                        instructionsText.text = heldObject != null ? "Press " + keyBindManager.interactKey + " to Drop" : "Press " + keyBindManager.interactKey + " to Pickup"; 
                 }
             }
 

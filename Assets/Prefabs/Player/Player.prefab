@@ -111,6 +111,7 @@ MonoBehaviour:
   glowMaterial: {fileID: 2100000, guid: b0f5e6da047e347cc8ff13af5d2b3ce0, type: 2}
   footstepAudio: {fileID: 8586990463066505153}
   vator: {fileID: 0}
+  notes: {fileID: 0}
   pickupClip: {fileID: 8300000, guid: c2a084258ca834cdaac7db1e35daf7b1, type: 3}
   QPrompt: {fileID: 0}
   QGroup: {fileID: 0}
@@ -263,11 +264,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noteInterface: {fileID: 0}
+  menu: {fileID: 8464997635603633652}
   noteText: {fileID: 0}
   noteTitle: {fileID: 0}
   interactableLayer:
     serializedVersion: 2
     m_Bits: 8
+  reading: 0
+  foundNotes: {fileID: 0}
+  noteButtons: []
+  pageTurn: {fileID: 0}
   screenOff: {fileID: 2100000, guid: b62fc20b7d3133740b62ad97a674714d, type: 2}
   screenOn: {fileID: 2100000, guid: be8f04f5ce4c38d439ca4670d4203203, type: 2}
 --- !u!114 &933689128155746293

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class NoteInventory : MonoBehaviour
 {
+    [SerializeField] MenuController menu;
     [SerializeField] Transform noteHolder;
     List<Transform> notes; //list of notes
 
@@ -31,19 +32,19 @@ public class NoteInventory : MonoBehaviour
         }
 
         inventoryCanvas = transform.GetChild(0).gameObject;
-        //inventoryCanvas.SetActive(false);
+        inventoryCanvas.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Tab))
+        if(Input.GetKeyDown(KeyCode.Tab) && !menu.isPaused)
         {
-            toggleNoteUI();
+            toggleNoteUI(); //if game is not paused, open notes
         }
         if(Input.GetKeyDown(KeyCode.Escape) && inventoryCanvas.activeInHierarchy)
         {
-            toggleNoteUI();
+            inventoryCanvas.SetActive(false); //turn off canvas if game is paused
         }
     }
 
