@@ -9,6 +9,12 @@ public class ArduinoHandler : MonoBehaviour
     public PowerController powerScript;
     public SerialController serialControllerScript;
 
+    public float minBPMChange = -5f; 
+    public float maxBPMChange = 5f;  
+    public float minMappedValue = 0f; 
+    public float maxMappedValue = 3f;
+    public float sensitivity = 2.0f;
+
     private bool hasSentMessageFor100 = false;
     private bool hasSentMessageFor90 = false;
     private bool hasSentMessageFor80 = false;
@@ -27,6 +33,8 @@ public class ArduinoHandler : MonoBehaviour
     private bool isCalibrating = false;
     private float calibrationDuration = 30f; // 30 seconds
     private float calibrationTimer = 0f;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -66,14 +74,23 @@ public class ArduinoHandler : MonoBehaviour
         // Update heart rate in the animation script
         heartRateScript.beatsPerMinute = currentBPM;
 
-        // Map BPM change if calibration is done
-        if (restingHeartRate > 0)
-        {
-            float bpmChange = currentBPM - restingHeartRate;
-            bpmChange = heartRateScript.BPMChange;
-            Debug.Log("BPM Change: " + bpmChange);
-            // You can map bpmChange to a value range as needed
-        }
+        float bpmChange = currentBPM - restingHeartRate;
+
+        // Apply sensitivity factor to make the change more responsive
+        bpmChange *= sensitivity;
+
+        // Map bpmChange to a value between 0 and 5
+        float mappedBPMChange = Map(bpmChange, minBPMChange, maxBPMChange, minMappedValue, maxMappedValue);
+
+        heartRateScript.BPMChange = mappedBPMChange;
+
+        Debug.Log("Mapped BPM Change: " + mappedBPMChange);
+
+    }
+
+    float Map(float value, float minInput, float maxInput, float minOutput, float maxOutput)
+    {
+        return (value - minInput) / (maxInput - minInput) * (maxOutput - minOutput) + minOutput;
     }
 
     public void StartCalibration()
