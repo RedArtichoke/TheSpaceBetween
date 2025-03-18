@@ -92,7 +92,6 @@ public class ReadingNotes : MonoBehaviour
                         default:
                             if (hit.transform.name.StartsWith('n'))
                             {
-                                
                                 interactCanvas = hit.transform.GetChild(0).GetChild(1).gameObject; // object: "note/InteractPrompt"
                                 if (interactCanvas != null)
                                 {

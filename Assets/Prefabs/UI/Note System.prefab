@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.44248754, g: 0.3494126, b: 0.49056602, a: 0.392}
+  m_Color: {r: 0.26723626, g: 0.19793521, b: 0.3018868, a: 0.30588236}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -162,10 +162,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65b48e472dd299f479ace22745b14e5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  menu: {fileID: 0}
   noteHolder: {fileID: 7012643009333568836}
   noteInfo: {fileID: 0}
   inventoryCanvas: {fileID: 7308269199233701633}
   inventoryPaper: {fileID: 7559998338677930968}
+  UI: {fileID: 0}
+  crosshair: {fileID: 0}
+  noteInterface: {fileID: 0}
   click: {fileID: 4545764721873467088}
 --- !u!82 &4545764721873467088
 AudioSource:
@@ -281,7 +285,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &9221049658444785075
 RectTransform:
   m_ObjectHideFlags: 0

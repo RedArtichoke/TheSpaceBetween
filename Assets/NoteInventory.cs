@@ -14,6 +14,9 @@ public class NoteInventory : MonoBehaviour
 
     [SerializeField] GameObject inventoryCanvas;
     [SerializeField] GameObject inventoryPaper;
+    [SerializeField] GameObject UI;
+    [SerializeField] GameObject crosshair;
+    [SerializeField] GameObject noteInterface;
 
     [SerializeField] AudioSource click;
 
@@ -42,6 +45,7 @@ public class NoteInventory : MonoBehaviour
         {
             toggleNoteUI(); //if game is not paused, open notes
         }
+
         if(Input.GetKeyDown(KeyCode.Escape) && inventoryCanvas.activeInHierarchy)
         {
             inventoryCanvas.SetActive(false); //turn off canvas if game is paused
@@ -69,6 +73,9 @@ public class NoteInventory : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             inventoryCanvas.SetActive(true);
+            UI.SetActive(false);
+            noteInterface.SetActive(false);
+            crosshair.SetActive(false);
         }
         else
         {
@@ -76,6 +83,8 @@ public class NoteInventory : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             inventoryCanvas.SetActive(false);
+            UI.SetActive(true);
+            crosshair.SetActive(true);
         }
     }
 }
