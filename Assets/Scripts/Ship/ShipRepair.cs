@@ -51,19 +51,19 @@ public class ShipRepair : MonoBehaviour
     {
         if(repairCount == 1)
         {
-            collectedText.text = "Key Items found: 1/4";
+            collectedText.text = "Ship Parts repaired: 1/4";
         }
         if(repairCount == 2)
         {
-            collectedText.text = "Key Items found: 2/4";
+            collectedText.text = "Ship Parts repaired: 2/4";
         }
         if(repairCount == 3)
         {
-            collectedText.text = "Key Items found: 3/4";
+            collectedText.text = "Ship Parts repaired: 3/4";
         }
         if (repairCount == 4)
         {
-            collectedText.text = "Key Items found: 4/4";
+            collectedText.text = "Ship Parts repaired: 4/4";
             Debug.Log("SHIP REPAIRED");
             // START END CUTSCENE
             // EndGame();

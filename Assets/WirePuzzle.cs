@@ -24,6 +24,7 @@ public class WirePuzzle : MonoBehaviour
     public doorOpen researchDoor;
 
     public doorOpen mainDoor;
+    public doorOpen keyCardDoor;
 
     public GameObject light1;
     public GameObject light2;
@@ -33,10 +34,12 @@ public class WirePuzzle : MonoBehaviour
 
     public GameObject BrokenDoor;
     public GameObject FixedDoor;
+    private MarkerSequencing markerSequencing;
 
     void Start()
     {
         lightFixture.color = Color.red;
+        markerSequencing = FindObjectOfType<MarkerSequencing>();
     }
 
 
@@ -62,8 +65,11 @@ public class WirePuzzle : MonoBehaviour
         objectiveText.text = "Go back Home";
         instructionsText.text = "Get back on your ship";
 
+        markerSequencing.EnableShipSequence();
+
         researchDoor.SetLockState(false);
         mainDoor.SetLockState(false);
+        keyCardDoor.SetLockState(false);
 
         light1.SetActive(true);
         light2.SetActive(true);
