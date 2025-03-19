@@ -36,10 +36,12 @@ public class ShipFlight : MonoBehaviour
     public TextMeshProUGUI objectiveText;
 
     public GameObject railingRaise;
+    public GameObject tutLandingMarker;
 
 
     public void MoveShip()
     {
+        tutLandingMarker.SetActive(false);
         StartCoroutine(MoveToTarget());
     }
 

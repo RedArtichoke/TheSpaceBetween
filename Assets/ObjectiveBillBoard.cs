@@ -4,14 +4,22 @@ public class ObjectiveMarker : MonoBehaviour
 {
     private Camera mainCamera;
     [SerializeField] private float worldScale = 1.0f; // Desired world scale
+    [SerializeField] private Transform designatedParent; // Optional parent to follow
     private Vector3 originalLocalScale;
-    private Transform parentTransform;
+    private bool hasBeenParented = false;
 
     void Start()
     {
+        // Store initial values
         mainCamera = Camera.main;
         originalLocalScale = transform.localScale;
-        parentTransform = transform.parent;
+        
+        // Apply optional parenting after initial values are recorded
+        if (designatedParent != null && !hasBeenParented)
+        {
+            transform.SetParent(designatedParent, true); // Keep world position
+            hasBeenParented = true;
+        }
     }
 
     void Update()
@@ -22,20 +30,7 @@ public class ObjectiveMarker : MonoBehaviour
             transform.LookAt(transform.position + mainCamera.transform.forward);
         }
 
-        // Adjust scale to maintain consistent world scale
-        if (parentTransform != null)
-        {
-            Vector3 parentWorldScale = new Vector3(
-                parentTransform.lossyScale.x,
-                parentTransform.lossyScale.y,
-                parentTransform.lossyScale.z
-            );
-
-            transform.localScale = new Vector3(
-                originalLocalScale.x * worldScale / parentWorldScale.x,
-                originalLocalScale.y * worldScale / parentWorldScale.y,
-                originalLocalScale.z * worldScale / parentWorldScale.z
-            );
-        }
+        // Apply consistent world scale directly, ignoring parent's scale
+        transform.localScale = originalLocalScale * worldScale;
     }
 }

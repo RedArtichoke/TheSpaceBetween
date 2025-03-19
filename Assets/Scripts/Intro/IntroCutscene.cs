@@ -64,7 +64,7 @@ public class IntroCutscene : MonoBehaviour
 
     private void Start()
     {
-        KeyBindManager keyBindManager = FindObjectOfType<KeyBindManager>();
+        keyBindManager = FindObjectOfType<KeyBindManager>();
         playerCamera.enabled = true;
 
         //Disable Suit
