@@ -9,11 +9,7 @@ public class ArduinoHandler : MonoBehaviour
     public PowerController powerScript;
     public SerialController serialControllerScript;
 
-    public float minBPMChange = -5f; 
-    public float maxBPMChange = 5f;  
-    public float minMappedValue = 0f; 
-    public float maxMappedValue = 3f;
-    public float sensitivity = 2.0f;
+    public int amplifyHeartrate = 10;
 
     private bool hasSentMessageFor100 = false;
     private bool hasSentMessageFor90 = false;
@@ -62,6 +58,30 @@ public class ArduinoHandler : MonoBehaviour
 
     void OnMessageArrived(string msg)
     {
+        //Debug.Log("bpm: " + msg);
+        //float currentBPM = float.Parse(msg);
+
+        //// During calibration, store BPM readings
+        //if (isCalibrating)
+        //{
+        //    bpmReadings.Add(currentBPM);
+        //}
+
+        //// Update heart rate in the animation script
+        //heartRateScript.beatsPerMinute = currentBPM;
+
+        //float bpmChange = currentBPM - restingHeartRate;
+
+        //// Apply sensitivity factor to make the change more responsive
+        //bpmChange *= sensitivity;
+
+        //// Map bpmChange to a value between 0 and 5
+        //float mappedBPMChange = Map(bpmChange, minBPMChange, maxBPMChange, minMappedValue, maxMappedValue);
+
+        //heartRateScript.BPMChange = mappedBPMChange;
+
+        //Debug.Log("Mapped BPM Change: " + mappedBPMChange);
+
         Debug.Log("bpm: " + msg);
         float currentBPM = float.Parse(msg);
 
@@ -71,20 +91,19 @@ public class ArduinoHandler : MonoBehaviour
             bpmReadings.Add(currentBPM);
         }
 
+        // Apply transformation to BPM
+        float bpmChange = (currentBPM - restingHeartRate) * amplifyHeartrate; // Amplify the difference by 10
+
+        // Calculate new BPM based on amplification
+        float newBPM = 80 + bpmChange;
+
+        // Ensure BPM doesn't go below a reasonable threshold (e.g., 30 BPM)
+        newBPM = Mathf.Max(newBPM, 30);
+
         // Update heart rate in the animation script
-        heartRateScript.beatsPerMinute = currentBPM;
+        heartRateScript.beatsPerMinute = newBPM;
 
-        float bpmChange = currentBPM - restingHeartRate;
-
-        // Apply sensitivity factor to make the change more responsive
-        bpmChange *= sensitivity;
-
-        // Map bpmChange to a value between 0 and 5
-        float mappedBPMChange = Map(bpmChange, minBPMChange, maxBPMChange, minMappedValue, maxMappedValue);
-
-        heartRateScript.BPMChange = mappedBPMChange;
-
-        Debug.Log("Mapped BPM Change: " + mappedBPMChange);
+        Debug.Log($"Original BPM: {currentBPM}, Mapped BPM: {newBPM}");
 
     }
 
@@ -103,19 +122,26 @@ public class ArduinoHandler : MonoBehaviour
 
     private void SetRestingHeartRate()
     {
-        if (bpmReadings.Count > 0)
-        {
-            float sum = 0;
-            foreach (float bpm in bpmReadings)
-            {
-                sum += bpm;
-            }
-            restingHeartRate = sum / bpmReadings.Count; // Get average BPM
-            Debug.Log("Resting Heart Rate set to: " + restingHeartRate);
-        }
+        //if (bpmReadings.Count > 0)
+        //{
+        //    float sum = 0;
+        //    foreach (float bpm in bpmReadings)
+        //    {
+        //        sum += bpm;
+        //    }
+        //    restingHeartRate = sum / bpmReadings.Count; // Get average BPM
+        //    Debug.Log("Resting Heart Rate set to: " + restingHeartRate);
+        //}
 
+        //isCalibrating = false;
+        //bpmReadings.Clear();
+
+        // Always set resting BPM to 80 after calibration
+        restingHeartRate = 80;
         isCalibrating = false;
         bpmReadings.Clear();
+
+        Debug.Log("Resting Heart Rate set to: " + restingHeartRate);
     }
 
     public void sendFlashbang()
