@@ -37,7 +37,15 @@ public class ShipFlight : MonoBehaviour
 
     public GameObject railingRaise;
     public GameObject tutLandingMarker;
+    public GameObject tutBatteryMarker; 
+    public GameObject tutSuitMarker;
 
+    private MarkerSequencing markerSequencing;
+
+    void Start()
+    {
+        markerSequencing = FindObjectOfType<MarkerSequencing>();
+    }
 
     public void MoveShip()
     {
@@ -82,6 +90,16 @@ public class ShipFlight : MonoBehaviour
         railingRaise.SetActive(true);
 
         speaker.PlayOneShot(speaker8);
+
+        // Start the Plug sequence
+        if (markerSequencing != null)
+        {
+            markerSequencing.enableMarkerSystem();
+        }
+        else
+        {
+            Debug.LogWarning("MarkerSequencing component not found!");
+        }
         
         isMoving = false;
 
@@ -105,6 +123,30 @@ public class ShipFlight : MonoBehaviour
         railingRaise.SetActive(true);
         speaker.PlayOneShot(speaker8);
 
+        
+
+        if (tutBatteryMarker != null)
+        {
+            tutBatteryMarker.SetActive(false);
+        }
+        if (tutSuitMarker != null)
+        {
+            tutSuitMarker.SetActive(false);
+        }
+        if (tutLandingMarker != null)
+        {
+            tutLandingMarker.SetActive(false);
+        }
+
+        // Start the Plug sequence
+        if (markerSequencing != null)
+        {
+            markerSequencing.enableMarkerSystem();
+        }
+        else
+        {
+            Debug.LogWarning("MarkerSequencing component not found!");
+        }
     }
 
     public IEnumerator StopFlashlightprompt()
