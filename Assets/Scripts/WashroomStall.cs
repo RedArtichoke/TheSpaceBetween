@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class WashroomStall : MonoBehaviour
 {
+    public bool isClosed = true;
     public void useDoor(Transform stallDoor)
     {
         Animator hinge = stallDoor.parent.GetComponent<Animator>();
@@ -17,11 +18,13 @@ public class WashroomStall : MonoBehaviour
         {
             Debug.Log("stall 3");
             hinge.SetBool("closed", false);
+            isClosed = false;
         }
         else
         {
             Debug.Log("stall 4");
             hinge.SetBool("closed", true);
+            isClosed = true;
         }
         
     }

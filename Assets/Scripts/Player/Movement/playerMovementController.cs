@@ -832,6 +832,14 @@ public class PlayerMovementController : MonoBehaviour
                     if (nameText != null)
                         nameText.text = "The Intervallum";
                 }
+                else if(targetObject.name.StartsWith("stall"))
+                {
+                    if (nameText != null)
+                        nameText.text = FormatObjectName(objectRenderer.transform.name);
+
+                    if (instructionsText != null)
+                        instructionsText.text = stall.isClosed ? "Press " + keyBindManager.interactKey + " to Open" : "Press " + keyBindManager.interactKey + " to Close";
+                }
                 else
                 {
                     if (nameText != null)
