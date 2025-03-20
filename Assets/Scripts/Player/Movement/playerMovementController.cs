@@ -61,6 +61,7 @@ public class PlayerMovementController : MonoBehaviour
     private endgameGameInfo yogurt;//yogurt collectible counter
     [SerializeField] ElevatorCutscene vator;
     [SerializeField] ReadingNotes notes;
+    [SerializeField] WashroomStall stall;
 
     // Public variables for audio
     public AudioClip pickupClip;
@@ -387,6 +388,12 @@ public class PlayerMovementController : MonoBehaviour
             else if (hit.transform.name.StartsWith("note"))
             {
                 notes.reading = true;
+                return;
+            }
+            else if (hit.transform.name.StartsWith("stallDoor"))
+            {
+                Debug.Log("stall 1");
+                stall.useDoor(hit.transform);
                 return;
             }
 

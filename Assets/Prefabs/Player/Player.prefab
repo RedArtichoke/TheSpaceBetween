@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 2331251499457265882}
   - component: {fileID: 8651210793457663055}
   - component: {fileID: 933689128155746293}
+  - component: {fileID: 8657202286349119676}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -112,7 +113,8 @@ MonoBehaviour:
   glowMaterial: {fileID: 2100000, guid: b0f5e6da047e347cc8ff13af5d2b3ce0, type: 2}
   footstepAudio: {fileID: 8586990463066505153}
   vator: {fileID: 0}
-  notes: {fileID: 0}
+  notes: {fileID: 8651210793457663055}
+  stall: {fileID: 0}
   pickupClip: {fileID: 8300000, guid: c2a084258ca834cdaac7db1e35daf7b1, type: 3}
   QPrompt: {fileID: 0}
   QGroup: {fileID: 0}
@@ -273,6 +275,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   reading: 0
+  notesCollected: 0
   foundNotes: {fileID: 0}
   noteButtons: []
   pageTurn: {fileID: 0}
@@ -292,6 +295,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   yogurtCollected: 0
+--- !u!114 &8657202286349119676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 129007627674792078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed58f36bff08fd14cafff903bbc0d93c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &929663126441450363
 GameObject:
   m_ObjectHideFlags: 0
