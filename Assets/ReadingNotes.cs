@@ -129,6 +129,7 @@ public class ReadingNotes : MonoBehaviour
                                         selectedNote.GetChild(0).GetComponent<TextMeshProUGUI>().text = noteTitle.text;
                                     }
 
+                                    pageTurn.Play();
                                     notesCollected++;
                                     Destroy(hit.transform.parent.gameObject);
                                 }
@@ -146,7 +147,7 @@ public class ReadingNotes : MonoBehaviour
 
     public void editNote(string noteName, TextMeshProUGUI title, TextMeshProUGUI body)
     {
-        pageTurn.Play();
+        
 
         switch (noteName)
         {

@@ -20,6 +20,7 @@ public class NoteInventory : MonoBehaviour
     [SerializeField] GameObject noteInterface;
 
     [SerializeField] AudioSource click;
+    [SerializeField] AudioSource page;
 
     private KeyBindManager keyBindManager;
 
@@ -63,15 +64,12 @@ public class NoteInventory : MonoBehaviour
         invPaper.Add(inventoryPaper.transform.GetChild(0).GetComponent<TextMeshProUGUI>());
         invPaper.Add(inventoryPaper.transform.GetChild(1).GetComponent<TextMeshProUGUI>());
 
+        page.Play();
         noteInfo.editNote(noteName, invPaper[1], invPaper[0]);
     }
 
     void toggleNoteUI()
     {
-        if (noteInfo.notesCollected <= 0) //if no notes have been collected
-        {
-            inventoryPaper.SetActive(false);
-        }
         if (!Cursor.visible)
         {
             Time.timeScale = 0f;
@@ -92,6 +90,14 @@ public class NoteInventory : MonoBehaviour
             UIComponents.SetActive(true);
             UIBlur.SetActive(false);
             crosshair.SetActive(true);
+        }
+        if (noteInfo.notesCollected <= 0) //if no notes have been collected
+        {
+            inventoryPaper.SetActive(false);
+        }
+        else if (!inventoryPaper.activeInHierarchy)
+        {
+            inventoryPaper.SetActive(true);
         }
     }
 }
