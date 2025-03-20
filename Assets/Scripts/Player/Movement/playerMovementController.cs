@@ -93,6 +93,9 @@ public class PlayerMovementController : MonoBehaviour
     private float largeObjectDistance = 2.5f; // Increased from 1.5f to 2.5f - Hold large objects even further away
     private bool isLargeObject = false;
 
+    public doorOpen door1;
+    public doorOpen door2;
+
     // Add this new variable
     private LayerMask collisionCheckMask; // Mask for collision checks
 
@@ -313,6 +316,9 @@ public class PlayerMovementController : MonoBehaviour
                 }
                 suitVoice.PlaySuitInstallAudio();
 
+                door1.SetLockState(false);
+                door2.SetLockState(false);
+                
                 QPrompt.SetActive(true);
                 StartCoroutine(DimensionPrompt());
 
