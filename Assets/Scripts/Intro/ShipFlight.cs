@@ -83,7 +83,7 @@ public class ShipFlight : MonoBehaviour
 
         paAudio.SetActive(true);
 
-        FPrompt.SetActive(true);
+        //FPrompt.SetActive(true);
         StartCoroutine(StopFlashlightprompt());
         door.SetLockState(false);
 
