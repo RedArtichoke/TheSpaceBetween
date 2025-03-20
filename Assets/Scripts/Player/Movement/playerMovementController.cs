@@ -362,6 +362,16 @@ public class PlayerMovementController : MonoBehaviour
                 StartCoroutine(HandleMimicPickupWithDelay(hit.transform));
                 return;
             }
+            else if (hit.transform.CompareTag("FireExtinguisher"))
+            {
+                Rigidbody rb = hit.transform.gameObject.GetComponent<Rigidbody>();
+
+                if (rb != null)
+                {
+                    rb.isKinematic = false;  
+                    rb.useGravity = true;    
+                }
+            }
             else if(hit.transform.name.Contains("yogurtCup"))
             {
                 //add 1 to the counter and destroy the cup
