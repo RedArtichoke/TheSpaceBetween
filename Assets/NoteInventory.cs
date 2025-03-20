@@ -35,7 +35,7 @@ public class NoteInventory : MonoBehaviour
             notes[i].GetComponent<Button>().interactable = false;
         }
 
-        inventoryCanvas = transform.GetChild(0).gameObject;
+        //inventoryCanvas = transform.GetChild(0).gameObject;
         inventoryCanvas.SetActive(false);
     }
 
@@ -68,6 +68,10 @@ public class NoteInventory : MonoBehaviour
 
     void toggleNoteUI()
     {
+        if (noteInfo.notesCollected <= 0) //if no notes have been collected
+        {
+            inventoryPaper.SetActive(false);
+        }
         if (!Cursor.visible)
         {
             Time.timeScale = 0f;

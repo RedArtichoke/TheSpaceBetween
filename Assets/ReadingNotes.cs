@@ -20,6 +20,7 @@ public class ReadingNotes : MonoBehaviour
     public LayerMask interactableLayer;
 
     public bool reading;
+    public int notesCollected;
 
     [SerializeField] GameObject foundNotes;
     [SerializeField] List<Transform> noteButtons = new(10);
@@ -46,6 +47,7 @@ public class ReadingNotes : MonoBehaviour
         { 
             noteButtons.Add(foundNotes.transform.GetChild(i));
         }
+        notesCollected = 0;
     }
 
     // Update is called once per frame
@@ -125,6 +127,8 @@ public class ReadingNotes : MonoBehaviour
                                         selectedNote.GetComponent<Button>().interactable = true;
                                         selectedNote.GetChild(0).GetComponent<TextMeshProUGUI>().text = noteTitle.text;
                                     }
+
+                                    notesCollected++;
                                 }
                                 else
                                 {
