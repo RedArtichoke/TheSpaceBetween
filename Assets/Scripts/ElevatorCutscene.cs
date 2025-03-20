@@ -51,6 +51,9 @@ public class ElevatorCutscene : MonoBehaviour
     [SerializeField] AudioSource vatorShake;
     [SerializeField] AudioSource vatorArrival;
 
+    public GameObject door;
+    public GameObject veil;
+
     private KeyBindManager keyBindManager;
 
     void Start()
@@ -194,6 +197,9 @@ public class ElevatorCutscene : MonoBehaviour
 
         doorAnimator.SetBool("MotionStart", false);
         doorAnimator.SetBool("Arrived", true);
+
+        door.SetActive(true);
+        veil.SetActive(false);
 
         RenderSettings.fog = false; //consider adding reference to if in the Dark
     }
