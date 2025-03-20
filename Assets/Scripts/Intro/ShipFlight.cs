@@ -42,6 +42,10 @@ public class ShipFlight : MonoBehaviour
 
     private MarkerSequencing markerSequencing;
 
+    public GameObject smoke1;
+    public GameObject smoke2;
+    public GameObject smoke3;
+
     void Start()
     {
         markerSequencing = FindObjectOfType<MarkerSequencing>();
@@ -147,6 +151,17 @@ public class ShipFlight : MonoBehaviour
         {
             Debug.LogWarning("MarkerSequencing component not found!");
         }
+    }
+
+    public void SmokeBlast1()
+    {
+        smoke1.SetActive(true);
+        smoke2.SetActive(true);
+    }
+
+    public void SmokeBlast2()
+    {
+        smoke3.SetActive(true);
     }
 
     public IEnumerator StopFlashlightprompt()

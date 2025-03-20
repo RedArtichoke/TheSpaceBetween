@@ -36,6 +36,8 @@ public class WirePuzzle : MonoBehaviour
     public GameObject FixedDoor;
     private MarkerSequencing markerSequencing;
 
+    public GameObject enableEntryZone;
+
     void Start()
     {
         lightFixture.color = Color.red;
@@ -67,9 +69,9 @@ public class WirePuzzle : MonoBehaviour
 
         markerSequencing.EnableShipSequence();
 
-        researchDoor.SetLockState(false);
+        //researchDoor.SetLockState(false);
         mainDoor.SetLockState(false);
-        keyCardDoor.SetLockState(false);
+        //keyCardDoor.SetLockState(false);
 
         light1.SetActive(true);
         light2.SetActive(true);
@@ -80,5 +82,7 @@ public class WirePuzzle : MonoBehaviour
         BrokenDoor.SetActive(false);
 
         FixedDoor.SetActive(true);
+
+        enableEntryZone.SetActive(true);
     }
 }
