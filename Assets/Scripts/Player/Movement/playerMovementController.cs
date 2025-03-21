@@ -225,11 +225,27 @@ public class PlayerMovementController : MonoBehaviour
             isMoving = true;
         }
 
+        // Create movement vector from input
         Vector3 movement = (transform.forward * verticalInput + transform.right * horizontalInput) * currentMovementSpeed;
-        movement.y = playerRb.velocity.y;
-        playerRb.velocity = movement;
-
-        //Debug.Log(isMoving);
+        
+        // Lock Y position to 0.55 when moving
+        if (isMoving)
+        {
+            // Set position with corrected Y value (0.55)
+            transform.position = new Vector3(transform.position.x, 1.25f, transform.position.z);
+            
+            // Force the rigidbody position too, as it may be overriding the transform position
+            playerRb.position = new Vector3(playerRb.position.x, 1.25f, playerRb.position.z);
+            
+            // Zero out vertical velocity to prevent gravity affecting the locked height
+            playerRb.velocity = new Vector3(movement.x, 0, movement.z);
+        }
+        else
+        {
+            // Keep gravity effect when not moving
+            movement.y = playerRb.velocity.y;
+            playerRb.velocity = movement;
+        }
     }
     
 
