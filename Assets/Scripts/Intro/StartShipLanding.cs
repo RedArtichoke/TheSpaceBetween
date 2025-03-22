@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class StartShipLanding : MonoBehaviour
 {
@@ -21,6 +23,11 @@ public class StartShipLanding : MonoBehaviour
 
     public GameObject buttonLight;
 
+    public bool isTakeOff;
+    public GameObject gameEndCanvas;
+    public CanvasGroup blackScreen;
+
+    public GameObject UIComponents;
     private KeyBindManager keyBindManager;
 
     void Start()
@@ -36,16 +43,27 @@ public class StartShipLanding : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, interactionRange, button))
             {
-                StartTravel();
-                StartCoroutine(StopInteractprompt());
+                if(isTakeOff)
+                {
+                    StartCoroutine(EndGame());
+                    buttonLight.GetComponent<Light>().enabled = false;
+                    gameObject.layer = LayerMask.NameToLayer("Default");
+                    interactionRange = 0;
+                }
+                else
+                {
+                    StartTravel();
+                    StartCoroutine(StopInteractprompt());
 
-                speaker.Stop();
+                    speaker.Stop();
 
-                buttonLight.GetComponent<Light>().enabled = false;
+                    buttonLight.GetComponent<Light>().enabled = false;
 
-                speaker.PlayOneShot(ship7);
-                gameObject.layer = LayerMask.NameToLayer("Default");
-                interactionRange = 0;
+                    speaker.PlayOneShot(ship7);
+                    gameObject.layer = LayerMask.NameToLayer("Default");
+                    interactionRange = 0;
+                }
+                
             }
         }
     }
@@ -73,5 +91,31 @@ public class StartShipLanding : MonoBehaviour
         }
         
         interactGroup.alpha = 0f;
+    }
+
+    public IEnumerator EndGame()
+    {
+        gameEndCanvas.SetActive(true);
+
+        yield return new WaitForSeconds (1f);
+
+        UIComponents.SetActive(false);
+
+        float fadeDuration = 1f;
+        float elapsedTime = 0f;
+        
+        blackScreen.alpha = 0f; 
+
+        while (elapsedTime < fadeDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float alpha = Mathf.Lerp(0f, 1f, elapsedTime / fadeDuration);
+            blackScreen.alpha = alpha;
+            yield return null;  
+        }
+
+        yield return new WaitForSeconds (1f);
+
+        SceneManager.LoadScene("EndGame");
     }
 }
