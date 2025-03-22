@@ -24,6 +24,10 @@ public class HeartRateAnimator : MonoBehaviour
     private float lastBeatTime; // When the last beat occurred
     private float beatInterval; // Time between beats
 
+    public float highestHeartRate = 0; 
+    public float lowestHeartRate = 0;
+
+
     void Start()
     {
         originalScale = transform.localScale; // Remember the heart's original size
@@ -59,6 +63,8 @@ public class HeartRateAnimator : MonoBehaviour
         {
             // Successfully found and accessed the chromatic aberration effect
         }
+
+        lowestHeartRate = currentBPM;
     }
 
     IEnumerator StartHeartBeatWithDelay(float delay)
@@ -119,6 +125,16 @@ public class HeartRateAnimator : MonoBehaviour
         if (chromaticAberration != null)
         {
             chromaticAberration.intensity.value = Mathf.Lerp(0.21f, 1.0f, Mathf.Clamp((currentBPM - 80) / 30f, 0f, 1f));
+        }
+
+        if (currentBPM > highestHeartRate)
+        {
+            highestHeartRate = currentBPM;
+        }
+
+        if (currentBPM < lowestHeartRate)
+        {
+            lowestHeartRate = currentBPM;
         }
     }
 
