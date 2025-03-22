@@ -167,7 +167,7 @@ public class PlayerMovementController : MonoBehaviour
         if (isCrouching)
         {
             // Set crouched height
-            hitbox.height = 1.5f;
+            hitbox.height = 1.2f;
             hitbox.center = new Vector3(originalCenter.x, originalCenter.y - 0.20f, originalCenter.z);
         }
         else
