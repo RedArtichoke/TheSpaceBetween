@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
+
 
 public class arduinoStart : MonoBehaviour
 {
@@ -35,7 +37,8 @@ public class arduinoStart : MonoBehaviour
 
     public ShipFlight shipFlight;
 
-
+    public TextMeshProUGUI calibrationText;
+    public Image calibrationCircle;
 
     public TextMeshProUGUI textComponent;
     public TextMeshProUGUI textComponent2;
@@ -109,6 +112,9 @@ public class arduinoStart : MonoBehaviour
     {
         StartCoroutine(calibrationStop());
         callibrationUI.SetActive(true);
+        StartCoroutine(FadeInText(calibrationText, 1.5f));
+        StartCoroutine(FadeInImage(calibrationCircle, 1.5f));
+
 
         arduinoControllerScript.StartCalibration();
 
@@ -163,6 +169,8 @@ public class arduinoStart : MonoBehaviour
     {
         yield return new WaitForSeconds(12);
         introCalibrationText.SetActive(false);
+
+
         
         callibration();
 
@@ -434,4 +442,39 @@ public class arduinoStart : MonoBehaviour
 
         textComponent.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0f); // Ensure it's fully transparent
     }
+
+    IEnumerator FadeInText(TextMeshProUGUI textComponent, float fadeDuration)
+    {
+        Color originalColor = textComponent.color;
+        textComponent.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0f); // Start fully transparent
+
+        float elapsedTime = 0f;
+        while (elapsedTime < fadeDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float alpha = Mathf.Lerp(0f, 1f, elapsedTime / fadeDuration);
+            textComponent.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
+            yield return null;
+        }
+
+        textComponent.color = new Color(originalColor.r, originalColor.g, originalColor.b, 1f); // Ensure fully visible
+    }
+
+    IEnumerator FadeInImage(Image image, float duration)
+    {
+        Color originalColor = image.color;
+        image.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0f); // Start fully transparent
+
+        float elapsedTime = 0f;
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            float alpha = Mathf.Lerp(0f, 1f, elapsedTime / duration);
+            image.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
+            yield return null;
+        }
+
+        image.color = new Color(originalColor.r, originalColor.g, originalColor.b, 1f); // Ensure fully visible
+    }
+
 }

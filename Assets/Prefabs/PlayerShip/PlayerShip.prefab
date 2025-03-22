@@ -2034,6 +2034,8 @@ MonoBehaviour:
   sparksAudio: {fileID: 734211868718152115}
   transWheel: {fileID: 4657664633379968502}
   transCell: {fileID: 6012081276847696624}
+  deadButton: {fileID: 0}
+  buttonTakeOff: {fileID: 0}
   collectedText: {fileID: 0}
 --- !u!114 &6383165724576180872
 MonoBehaviour:
@@ -6956,7 +6958,9 @@ MonoBehaviour:
   ship7: {fileID: 8300000, guid: 83bfae6cbf142d74387b7fb142e23112, type: 3}
   buttonLight: {fileID: 5064098721412837163}
   isTakeOff: 0
+  gameEndCanvas: {fileID: 0}
   blackScreen: {fileID: 0}
+  UIComponents: {fileID: 0}
 --- !u!135 &7197863031776127313
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -13389,7 +13393,9 @@ MonoBehaviour:
   ship7: {fileID: 8300000, guid: 83bfae6cbf142d74387b7fb142e23112, type: 3}
   buttonLight: {fileID: 8954283989254516866}
   isTakeOff: 1
+  gameEndCanvas: {fileID: 0}
   blackScreen: {fileID: 0}
+  UIComponents: {fileID: 0}
 --- !u!135 &828620779840749698
 SphereCollider:
   m_ObjectHideFlags: 0
