@@ -370,6 +370,7 @@ MonoBehaviour:
   heartRateScript: {fileID: 0}
   powerScript: {fileID: 0}
   serialControllerScript: {fileID: 9021466814492175370}
+  amplifyHeartrate: 10
 --- !u!114 &9021466814492175370
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -388,6 +389,10 @@ MonoBehaviour:
   reconnectionDelay: 1000
   maxUnreadMessages: 1
   arduinoConnected: 0
+  autoDetectPort: 1
+  arduinoIdentifier: Arduino,COM,CH340,FTDI,usbmodem,cu.usb,tty.usb
+  disableIfNotConnected: 1
+  connectionCheckDelay: 2
 --- !u!1 &6768329598856956792
 GameObject:
   m_ObjectHideFlags: 0
@@ -597,6 +602,7 @@ MonoBehaviour:
   arduinoIntroController: {fileID: 0}
   player: {fileID: 0}
   camera: {fileID: 0}
+  shipFlight: {fileID: 0}
 --- !u!1 &9077727143082411813
 GameObject:
   m_ObjectHideFlags: 0
