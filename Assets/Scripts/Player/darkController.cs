@@ -270,6 +270,7 @@ public class DarkController : MonoBehaviour
             continuousAudioSource.Stop(); // Stop continuous sound
 
             inDark = false; // Exit dark
+            RemoveKeyItemHighlights(); // Remove child prefab from key items
             StartCoroutine(AdjustExposure());
         }
     }
@@ -349,13 +350,13 @@ public class DarkController : MonoBehaviour
             inDark = true; // Set inDark to true
             StartCoroutine(AdjustExposure()); // Adjust exposure for entering dark
 
-            AddKeyItemHighlights(); // Add child prefab to key items
-
             if (exitDarkCoroutine != null)
             {
                 StopCoroutine(exitDarkCoroutine); // Stop if already running
             }
             exitDarkCoroutine = StartCoroutine(ExitDarkAfterDelay(60f)); // Start new timer
+
+            AddKeyItemHighlights(); // Add child prefab to key items
         }
     }
 
