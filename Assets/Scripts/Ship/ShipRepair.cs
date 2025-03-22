@@ -45,6 +45,8 @@ public class ShipRepair : MonoBehaviour
     [Header("Transparent Ship Objects")]
     public GameObject transWheel;
     public GameObject transCell;
+    public GameObject deadButton;
+    public GameObject buttonTakeOff;
     public TextMeshProUGUI collectedText;
 
     void Update()
@@ -65,8 +67,9 @@ public class ShipRepair : MonoBehaviour
         {
             collectedText.text = "Ship Parts repaired: 4/4";
             Debug.Log("SHIP REPAIRED");
+
             // START END CUTSCENE
-            // EndGame();
+             EndGame();
         }
         
     }
@@ -113,4 +116,11 @@ public class ShipRepair : MonoBehaviour
         transWheel.SetActive(true);
         transCell.SetActive(true);
     }
+
+    public void EndGame()
+    {
+        deadButton.SetActive(false);
+        buttonTakeOff.SetActive(true);
+    }
+
 }

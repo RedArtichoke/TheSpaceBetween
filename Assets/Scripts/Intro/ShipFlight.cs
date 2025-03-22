@@ -10,7 +10,7 @@ public class ShipFlight : MonoBehaviour
     public Transform target;
 
     [Tooltip("How fast you want the object to move.")]
-    public float speed = 5f;
+    public float speed = 7f;
 
     private bool isMoving = false;
 
@@ -107,7 +107,7 @@ public class ShipFlight : MonoBehaviour
         
         isMoving = false;
 
-        uiGoalText.text = "Maintenace";
+        uiGoalText.text = "Go To The Mainenance Room";
 
         objectiveText.text = "Fix the Maintenace issue";
     }
