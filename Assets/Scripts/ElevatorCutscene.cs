@@ -112,7 +112,7 @@ public class ElevatorCutscene : MonoBehaviour
     public IEnumerator ElevatorSequence()
     {
         buttonLight.enabled = false;
-        buttonLight.transform.parent.parent.gameObject.layer = 0; //make panel not clickable bc you cant redo sequence, yeah i know its ugly
+        buttonLight.transform.parent.parent.gameObject.layer = 0;
         //START SEQUENCE
         vatorClose.Play();
         doorAnimator.SetBool("MotionStart", true);
@@ -154,12 +154,21 @@ public class ElevatorCutscene : MonoBehaviour
 
         yield return new WaitForSeconds(4.0f);
 
+        skull.GetComponent<Rigidbody>().velocity = Vector3.back;
+        keyItem.GetComponent<Rigidbody>().velocity = Vector3.back;
+
+        yield return new WaitForSeconds(3.0f);
+
         keyItem.GetComponent<Rigidbody>().velocity = 10 * Vector3.back;
         keyItem.gameObject.layer = (int)Mathf.Log(itemLayer,2); //let them pick it up
 
+        yield return new WaitForSeconds(2.0f);
+
+        skull.GetComponent<Rigidbody>().velocity = Vector3.forward;
+
         elevatorDone = true; //only trigger scene once because you get the item
 
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(4.0f);
 
 
         //ITEM IN ELEVATOR
@@ -174,14 +183,15 @@ public class ElevatorCutscene : MonoBehaviour
         vatorShake.Play();
         vatorNoise.Play();
 
-        skull.SetActive(false);
-        doorBlock.SetActive(false);
         Debug.Log("and now you rise...");
 
         inMotion = true;
         yield return new WaitForSeconds(4.0f);
         inMotion = false;
         toShake.position = origPos; //rising has stopped
+
+        skull.SetActive(false);
+        doorBlock.SetActive(false);
 
         vatorShake.Stop();
         vatorNoise.Stop();

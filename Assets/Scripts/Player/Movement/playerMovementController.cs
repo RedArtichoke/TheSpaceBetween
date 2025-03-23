@@ -856,6 +856,14 @@ public class PlayerMovementController : MonoBehaviour
                     if (instructionsText != null)
                         instructionsText.text = stall.isClosed ? "Press " + keyBindManager.interactKey + " to Open" : "Press " + keyBindManager.interactKey + " to Close";
                 }
+                else if (targetObject.name.Contains("elevator_panel"))
+                {
+                    if (nameText != null)
+                        nameText.text = "elevator button";
+
+                    if (instructionsText != null)
+                        instructionsText.text = "Press " + keyBindManager.interactKey + " to Push";
+                }
                 else
                 {
                     if (nameText != null)
