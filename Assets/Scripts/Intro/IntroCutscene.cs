@@ -12,8 +12,9 @@ public class IntroCutscene : MonoBehaviour
     public GameObject HUD;
 
     [SerializeField] private TextMeshProUGUI text;
-    [SerializeField] private TextMeshProUGUI text2;
-    [SerializeField] private TextMeshProUGUI text2Title;
+    //[SerializeField] private TextMeshProUGUI text2;
+    //[SerializeField] private TextMeshProUGUI text2Title;
+    [SerializeField] private Image GameTitle;
     [SerializeField] private TextMeshProUGUI text3;
     [SerializeField] private TextMeshProUGUI text3Title;
     [SerializeField] private TextMeshProUGUI text4;
@@ -63,6 +64,12 @@ public class IntroCutscene : MonoBehaviour
     public GameObject tutSuitMarker;
     public GameObject tutLandingMarker;
 
+    //public TextMeshProUGUI sillyYogurt; // Reference to the TextMeshProUGUI component
+    //public AudioSource typingSound; // Optional typing sound
+    public float baseTypingSpeed = 0.1f; // Base typing speed (seconds per character)
+    public float randomSpeedFactor = 0.05f; // Variation in typing speed
+    public bool useGlitchEffect = false; // Toggle glitch effect
+
     private void Start()
     {
         keyBindManager = FindObjectOfType<KeyBindManager>();
@@ -84,8 +91,10 @@ public class IntroCutscene : MonoBehaviour
         text.gameObject.SetActive(false);
 
         //The space between
-        text2.gameObject.SetActive(false);
-        text2Title.gameObject.SetActive(false);
+        //text2.gameObject.SetActive(false);
+        //text2Title.gameObject.SetActive(false);
+
+        GameTitle.gameObject.SetActive(false);
 
         //Heartbeat
         text3.gameObject.SetActive(false);
@@ -149,24 +158,29 @@ public class IntroCutscene : MonoBehaviour
     private IEnumerator FadeCutscene()
     {
         yield return new WaitForSeconds(2f);
-
+        
         text.gameObject.SetActive(true);
+        StartCoroutine(TypeText(text, "Silly Yogurt Cup Presents...", 0.1f, 0.05f, true));
         computerSound.Play();
         
-        yield return new WaitForSeconds(3f);
-        text.gameObject.GetComponent<TextFadeIn>().DisableText();
+        yield return new WaitForSeconds(5f);
+        //text.gameObject.GetComponent<TextFadeIn>().DisableText();
+        StartCoroutine(FadeOutText(text, 3f));
 
-        yield return new WaitForSeconds(1f);
-        text2.gameObject.SetActive(true);
-        text2Title.gameObject.SetActive(true);
+        yield return new WaitForSeconds(5f);
+        //text2.gameObject.SetActive(true);
+        //text2Title.gameObject.SetActive(true);
+        GameTitle.gameObject.SetActive(true);
+        StartCoroutine(FadeInImage(GameTitle, 3f));
         computerSound.clip = computerclip2;
         computerSound.Play();
 
         yield return new WaitForSeconds(4f);
-        text2.gameObject.GetComponent<TextFadeIn>().DisableText();
-        text2Title.gameObject.GetComponent<TextFadeIn>().DisableText();
+        StartCoroutine(FadeOutImage(GameTitle, 3f));
+        //text2.gameObject.GetComponent<TextFadeIn>().DisableText();
+        //text2Title.gameObject.GetComponent<TextFadeIn>().DisableText();
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(4f);
         text3.gameObject.SetActive(true);
         text3Title.gameObject.SetActive(true);
         
@@ -177,21 +191,26 @@ public class IntroCutscene : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
         text4.gameObject.SetActive(true);
-        
+        StartCoroutine(TypeText(text4, "LOCATION\nOuter Space, Orbiting Planet Saturn", 0.1f, 0.05f, true));
 
-        yield return new WaitForSeconds(4f);
-        text4.gameObject.GetComponent<TextFadeIn>().DisableText();
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(7f);
+        StartCoroutine(FadeOutText(text4, 3f));
+        //text4.gameObject.GetComponent<TextFadeIn>().DisableText();
+
+        yield return new WaitForSeconds(5f);
         text5.gameObject.SetActive(true);
-        
+        StartCoroutine(TypeText(text5, "OCCUPATION\nIndependent Maintenance Contractor", 0.1f, 0.05f, true));
 
         yield return new WaitForSeconds(4f);
-        text5.gameObject.GetComponent<TextFadeIn>().DisableText();
+        //ext5.gameObject.GetComponent<TextFadeIn>().DisableText();
+        StartCoroutine(FadeOutText(text5, 3f));
+
+        yield return new WaitForSeconds(3f);
 
         staticSound.Stop();
         
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
         
 
         computerSound.clip = bedClip;
@@ -254,8 +273,9 @@ public class IntroCutscene : MonoBehaviour
     {
         // Hide all text elements
         text.gameObject.SetActive(false);
-        text2.gameObject.SetActive(false);
-        text2Title.gameObject.SetActive(false);
+        //text2.gameObject.SetActive(false);
+        //text2Title.gameObject.SetActive(false);
+        GameTitle.gameObject.SetActive(false);
         text3.gameObject.SetActive(false);
         text3Title.gameObject.SetActive(false);
         text4.gameObject.SetActive(false);
@@ -357,6 +377,116 @@ public class IntroCutscene : MonoBehaviour
 
         button1.SetActive(false);
         button2.SetActive(true);
+    }
+
+
+    IEnumerator TypeText(TextMeshProUGUI textComponent, string text, float typingSpeed, float speedVariation, bool glitchEffect)
+    {
+        textComponent.text = ""; // Reset text before typing
+
+        // Typing animation
+        foreach (char letter in text)
+        {
+            // Random typing speed for variation
+            float delay = typingSpeed + Random.Range(-speedVariation, speedVariation);
+
+            // Apply a glitch effect (random letter flicker)
+            if (glitchEffect && Random.value > 0.8f)
+            {
+                textComponent.text += RandomLetter();
+                yield return new WaitForSeconds(0.02f);
+                textComponent.text = textComponent.text.Substring(0, textComponent.text.Length - 1);
+            }
+
+            // Append correct letter
+            textComponent.text += letter;
+
+            //// Play typing sound (optional)
+            //if (typingSound != null)
+            //{
+            //    typingSound.Play();
+            //}
+
+            yield return new WaitForSeconds(delay);
+        }
+
+        // Add a blinking cursor effect
+        StartCoroutine(BlinkingCursor(textComponent));
+        // Add fading out effect
+         // Fades out over 3 seconds
+    }
+
+    // Random letter for glitch effect
+    private char RandomLetter()
+    {
+        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        return chars[Random.Range(0, chars.Length)];
+    }
+
+    // Coroutine to handle cursor blinking effect
+    private IEnumerator BlinkingCursor(TextMeshProUGUI textComponent)
+    {
+        while (true)
+        {
+            textComponent.text = textComponent.text + "|";
+            yield return new WaitForSeconds(0.5f);
+            textComponent.text = textComponent.text.Substring(0, textComponent.text.Length - 1);
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
+
+    // Coroutine to fade out text
+    private IEnumerator FadeOutText(TextMeshProUGUI text, float fadeDuration)
+    {
+        float startAlpha = text.color.a;
+        float time = 0;
+
+        while (time < fadeDuration)
+        {
+            float alpha = Mathf.Lerp(startAlpha, 0, time / fadeDuration);
+            text.color = new Color(text.color.r, text.color.g, text.color.b, alpha);
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        text.color = new Color(text.color.r, text.color.g, text.color.b, 0); // Ensure fully faded
+    }
+
+
+
+
+    IEnumerator FadeInImage(Image image, float duration)
+    {
+        Color originalColor = image.color;
+        image.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0f); // Start fully transparent
+
+        float elapsedTime = 0f;
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            float alpha = Mathf.Lerp(0f, 1f, elapsedTime / duration);
+            image.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
+            yield return null;
+        }
+
+        image.color = new Color(originalColor.r, originalColor.g, originalColor.b, 1f); // Ensure fully visible
+    }
+
+    IEnumerator FadeOutImage(Image image, float duration)
+    {
+        Color originalColor = image.color;
+        image.color = new Color(originalColor.r, originalColor.g, originalColor.b, 1f); // Start fully visible
+
+        float elapsedTime = 0f;
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            float alpha = Mathf.Lerp(1f, 0f, elapsedTime / duration);
+            image.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
+            yield return null;
+        }
+
+        image.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0f); // Ensure fully transparent
     }
 
 

@@ -43,6 +43,7 @@ public class arduinoStart : MonoBehaviour
     public TextMeshProUGUI textComponent;
     public TextMeshProUGUI textComponent2;
     public TextMeshProUGUI textComponent3;
+    public TextMeshProUGUI textComponent4;
     public float baseTypingSpeed = 0.05f;  // Base delay between letters
     public float deletingSpeed = 0.01f;  // Base delay between letters
     public float randomSpeedFactor = 0.02f; // Random variance
@@ -52,9 +53,11 @@ public class arduinoStart : MonoBehaviour
     private string fullText;
     private string fullText2;
     private string fullText3;
+    private string fullText4;
     private Coroutine typingCoroutine;
     private Coroutine typingCoroutine2;
     private Coroutine typingCoroutine3;
+    private Coroutine typingCoroutine4;
 
     // Start is called before the first frame update
     void Start()
@@ -68,10 +71,12 @@ public class arduinoStart : MonoBehaviour
         fullText = textComponent.text;
         fullText2 = textComponent2.text;
         fullText3 = textComponent3.text;
+        fullText4 = textComponent4.text;
 
         textComponent.text = "";  // Start with empty text
         textComponent2.text = "";  // Start with empty text
         textComponent3.text = "";  // Start with empty text
+        textComponent4.text = "";  // Start with empty text
 
         StartTyping();
 
@@ -181,6 +186,10 @@ public class arduinoStart : MonoBehaviour
         yield return new WaitForSeconds(15);
         StopCalibration();
         calibrationEnd.SetActive(true);
+
+        StartTyping4();
+
+
         StartCoroutine(introTransition());
 
 
@@ -190,10 +199,12 @@ public class arduinoStart : MonoBehaviour
 
     public IEnumerator introTransition()
     {
+        
         yield return new WaitForSeconds(12);
         intro.SetActive(true);
         shipFlight.enabled = true;
         arduinoIntroController.SetActive(false);
+        
 
 
     }
@@ -255,6 +266,18 @@ public class arduinoStart : MonoBehaviour
         typingCoroutine3 = StartCoroutine(TypeText3());
     }
 
+    public void StartTyping4()
+    {
+        if (typingCoroutine4 != null)
+            StopCoroutine(typingCoroutine4);
+
+        typingCoroutine4 = StartCoroutine(TypeText4());
+
+        //delay
+        StartCoroutine(delay()); // Fades out over 2 seconds
+        
+    }
+
     IEnumerator TypeText()
     {
         textComponent.text = "";
@@ -283,7 +306,8 @@ public class arduinoStart : MonoBehaviour
 
         // Add a blinking cursor effect
         StartCoroutine(BlinkingCursor());
-        StartCoroutine(DeleteText());
+        //StartCoroutine(DeleteText());
+        StartCoroutine(FadeOutText(textComponent, 3f)); // Fades out over 2 seconds
     }
 
     IEnumerator TypeText2()
@@ -314,7 +338,8 @@ public class arduinoStart : MonoBehaviour
 
         // Add a blinking cursor effect
         StartCoroutine(BlinkingCursor2());
-        StartCoroutine(DeleteText2());
+        //StartCoroutine(DeleteText2());
+        StartCoroutine(FadeOutText(textComponent2, 3f)); // Fades out over 2 seconds
     }
 
     IEnumerator TypeText3()
@@ -347,6 +372,39 @@ public class arduinoStart : MonoBehaviour
         StartCoroutine(BlinkingCursor3());
         //StartCoroutine(DeleteText3());
         StartCoroutine(FadeOutText(textComponent3, 2f)); // Fades out over 2 seconds
+    }
+
+    IEnumerator TypeText4()
+    {
+        textComponent4.text = "";
+        foreach (char letter in fullText4)
+        {
+            // Random typing speed for variation
+            float delay = baseTypingSpeed + Random.Range(-randomSpeedFactor, randomSpeedFactor);
+
+            // Apply a glitch effect (random letter flicker)
+            if (useGlitchEffect && Random.value > 0.8f)
+            {
+                textComponent4.text += RandomLetter();
+                yield return new WaitForSeconds(0.02f);
+                textComponent4.text = textComponent4.text.Substring(0, textComponent4.text.Length - 1);
+            }
+
+            // Append correct letter
+            textComponent4.text += letter;
+
+            // Play typing sound
+            //if (typingSound != null)
+            //  typingSound.Play();
+
+            yield return new WaitForSeconds(delay);
+        }
+
+        // Add a blinking cursor effect
+        StartCoroutine(BlinkingCursor4());
+
+        //StartCoroutine(DeleteText3());
+        
     }
 
     char RandomLetter()
@@ -384,6 +442,17 @@ public class arduinoStart : MonoBehaviour
             textComponent3.text += "|"; // Cursor on
             yield return new WaitForSeconds(0.5f);
             textComponent3.text = textComponent3.text.TrimEnd('|'); // Cursor off
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
+
+    IEnumerator BlinkingCursor4()
+    {
+        while (true)
+        {
+            textComponent4.text += "|"; // Cursor on
+            yield return new WaitForSeconds(0.5f);
+            textComponent4.text = textComponent4.text.TrimEnd('|'); // Cursor off
             yield return new WaitForSeconds(0.5f);
         }
     }
@@ -475,6 +544,13 @@ public class arduinoStart : MonoBehaviour
         }
 
         image.color = new Color(originalColor.r, originalColor.g, originalColor.b, 1f); // Ensure fully visible
+    }
+
+    IEnumerator delay()
+    {
+        yield return new WaitForSeconds(4f); // Wait before deleting
+
+        StartCoroutine(FadeOutText(textComponent4, 2f)); // Fades out over 2 seconds
     }
 
 }
