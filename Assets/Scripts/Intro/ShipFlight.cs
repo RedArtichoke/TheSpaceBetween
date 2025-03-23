@@ -46,6 +46,8 @@ public class ShipFlight : MonoBehaviour
     public GameObject smoke2;
     public GameObject smoke3;
 
+    [SerializeField] endgameGameInfo gameInfo;
+
     void Start()
     {
         markerSequencing = FindObjectOfType<MarkerSequencing>();
@@ -91,6 +93,8 @@ public class ShipFlight : MonoBehaviour
         StartCoroutine(StopFlashlightprompt());
         door.SetLockState(false);
 
+        gameInfo.startTimer(); //play timer starts now
+
         railingRaise.SetActive(true);
 
         speaker.PlayOneShot(speaker8);
@@ -122,6 +126,8 @@ public class ShipFlight : MonoBehaviour
         audioSource1.Stop();
         audioSource2.Stop();
         door.SetLockState(false);
+
+        gameInfo.startTimer();//play timer starts now
 
         paAudio.SetActive(true);
         railingRaise.SetActive(true);
