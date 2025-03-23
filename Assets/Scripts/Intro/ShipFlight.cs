@@ -93,7 +93,7 @@ public class ShipFlight : MonoBehaviour
         StartCoroutine(StopFlashlightprompt());
         door.SetLockState(false);
 
-        gameInfo.startTimer(); //play timer starts now
+        //gameInfo.startTimer(); //play timer starts now
 
         railingRaise.SetActive(true);
 
@@ -127,7 +127,7 @@ public class ShipFlight : MonoBehaviour
         audioSource2.Stop();
         door.SetLockState(false);
 
-        gameInfo.startTimer();//play timer starts now
+        //gameInfo.startTimer();//play timer starts now
 
         paAudio.SetActive(true);
         railingRaise.SetActive(true);

@@ -33,7 +33,7 @@ public class ReadingNotes : MonoBehaviour
 
     private KeyBindManager keyBindManager;
 
-    public GameObject interactCanvas;
+    private GameObject interactCanvas;
 
     void Start()
     {

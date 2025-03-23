@@ -167,7 +167,7 @@ public class ElevatorCutscene : MonoBehaviour
         keyItem.gameObject.layer = (int)Mathf.Log(itemLayer,2); //let them pick it up
 
         yield return new WaitForSeconds(2.0f);
-        cough.Play();
+        //cough.Play();
         yield return new WaitForSeconds(1.0f);
 
         elevatorDone = true; //only trigger scene once because you get the item

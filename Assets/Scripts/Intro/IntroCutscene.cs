@@ -22,6 +22,7 @@ public class IntroCutscene : MonoBehaviour
     [SerializeField] private CanvasGroup moveControlsGroup;
     [SerializeField] private GameObject moveControls;
     [SerializeField] private GameObject InteractControls;
+    [SerializeField] private GameObject noteInventory;
     public PlayerMovementController playerMovement;
     public FpsCameraController playerCamera;
     public doorOpen closetDoor;
@@ -217,6 +218,7 @@ public class IntroCutscene : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         moveControls.SetActive(true);
+        //noteInventory.SetActive(true);
 
         speaker.Play();
 
