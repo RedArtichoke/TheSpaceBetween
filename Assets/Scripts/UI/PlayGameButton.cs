@@ -25,7 +25,7 @@ public class PlayGameButton : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {   
         Time.timeScale = 1; // Ensure time is running
-        
+
         if (isDead)
         {
             player.transform.position = spawnPoint.transform.position;
