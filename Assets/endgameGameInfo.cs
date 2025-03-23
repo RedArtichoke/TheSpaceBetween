@@ -8,6 +8,7 @@ using UnityEngine.Rendering;
 public class endgameGameInfo : MonoBehaviour
 {
     public int yogurtCollected;
+    public AudioSource collectSound;
 
     bool alreadyCalled;
     [SerializeField] float startTime; //when the player is able to leave the ship
@@ -43,6 +44,10 @@ public class endgameGameInfo : MonoBehaviour
             //The time from the intro to when the player can actually start playing the game
             startTime = Time.timeSinceLevelLoad;
             alreadyCalled = true;
+        }
+        else
+        {
+            Debug.Log("Timer has already been started");
         }
         
     }

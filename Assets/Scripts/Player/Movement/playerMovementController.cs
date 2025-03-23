@@ -399,6 +399,7 @@ public class PlayerMovementController : MonoBehaviour
             {
                 //add 1 to the counter and destroy the cup
                 yogurt.yogurtCollected++;
+                yogurt.collectSound.Play();
                 Destroy(hit.transform.gameObject);
                 return;
             }
