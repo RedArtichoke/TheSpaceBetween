@@ -51,6 +51,9 @@ public class ElevatorCutscene : MonoBehaviour
     [SerializeField] AudioSource vatorShake;
     [SerializeField] AudioSource vatorArrival;
 
+    [SerializeField] AudioSource approach;
+    [SerializeField] AudioSource cough;
+
     public GameObject door;
     public GameObject veil;
 
@@ -144,7 +147,6 @@ public class ElevatorCutscene : MonoBehaviour
         doorBlock.SetActive(true);
 
         toShake.position = origPos; //falling has stopped
-
         yield return new WaitForSeconds(1.0f);
 
         //DOORS OPENING
@@ -153,9 +155,11 @@ public class ElevatorCutscene : MonoBehaviour
         doorAnimator.SetBool("Arrived", true);
 
         yield return new WaitForSeconds(4.0f);
+        Debug.Log("The skull moves forward with the engine");
 
-        skull.GetComponent<Rigidbody>().velocity = Vector3.back;
-        keyItem.GetComponent<Rigidbody>().velocity = Vector3.back;
+        //skull.GetComponent<Rigidbody>().velocity = Vector3.back;
+        //keyItem.GetComponent<Rigidbody>().velocity = Vector3.back;
+        //approach.Play();
 
         yield return new WaitForSeconds(3.0f);
 
@@ -163,27 +167,24 @@ public class ElevatorCutscene : MonoBehaviour
         keyItem.gameObject.layer = (int)Mathf.Log(itemLayer,2); //let them pick it up
 
         yield return new WaitForSeconds(2.0f);
-
-        skull.GetComponent<Rigidbody>().velocity = Vector3.forward;
+        cough.Play();
+        yield return new WaitForSeconds(1.0f);
 
         elevatorDone = true; //only trigger scene once because you get the item
-
+        skull.GetComponent<Rigidbody>().velocity = Vector3.forward;
         yield return new WaitForSeconds(4.0f);
-
 
         //ITEM IN ELEVATOR
         vatorClose.Play();
 
         doorAnimator.SetBool("Arrived", false);
         doorAnimator.SetBool("MotionStart", true);
-
         yield return new WaitForSeconds(1.0f);
 
         //ELEVATOR ASCENDING SEQUENCE
         vatorShake.Play();
         vatorNoise.Play();
-
-        Debug.Log("and now you rise...");
+        //Debug.Log("and now you rise...");
 
         inMotion = true;
         yield return new WaitForSeconds(4.0f);
@@ -211,7 +212,7 @@ public class ElevatorCutscene : MonoBehaviour
         door.SetActive(true);
         veil.SetActive(false);
 
-        RenderSettings.fog = false; //consider adding reference to if in the Dark
+        RenderSettings.fog = false;
     }
 
     void rumble()
