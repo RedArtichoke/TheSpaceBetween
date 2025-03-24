@@ -58,7 +58,7 @@ public class PlayerMovementController : MonoBehaviour
     private bool isMoving;
     private PowerController powerController;
 
-    private endgameGameInfo yogurt;//yogurt collectible counter
+    [SerializeField] endgameGameInfo yogurt;//yogurt collectible counter
     [SerializeField] ElevatorCutscene vator;
     [SerializeField] ReadingNotes notes;
     [SerializeField] WashroomStall stall;
@@ -115,7 +115,6 @@ public class PlayerMovementController : MonoBehaviour
         currentFOV = playerCamera.fieldOfView;
         interactableLayer = LayerMask.GetMask("Pickup");
         powerController = GetComponent<PowerController>();
-        yogurt = GetComponent<endgameGameInfo>();
 
         originalHeight = hitbox.height;
         originalCenter = hitbox.center;
@@ -399,7 +398,7 @@ public class PlayerMovementController : MonoBehaviour
             {
                 //add 1 to the counter and destroy the cup
                 yogurt.yogurtCollected++;
-                //yogurt.collectSound.Play();
+                yogurt.collectSound.Play();
                 Destroy(hit.transform.gameObject);
                 return;
             }

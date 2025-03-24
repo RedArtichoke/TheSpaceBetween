@@ -17,7 +17,7 @@ public class endgameGameInfo : MonoBehaviour
     [SerializeField] HeartRateAnimator heartinfo;
 
     [SerializeField] GameObject endgameCanvas;
-    [SerializeField] TextMeshProUGUI endgameScript;
+    [SerializeField] TextMeshProUGUI endgameText;
 
     // Start is called before the first frame update
     void Start()
@@ -31,7 +31,7 @@ public class endgameGameInfo : MonoBehaviour
     
     void displayData()
     {
-        endgameScript.text =    "Time Played: " + playTime +
+        endgameText.text =    "Time Played: " + playTime +
                                 "\nHighest Heart Rate: " + heartinfo.highestHeartRate +
                                 "\nLowest Heart Rate: " + heartinfo.lowestHeartRate +
                                 "\nYogurt Cups Collected: " + yogurtCollected;
