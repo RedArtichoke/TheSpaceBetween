@@ -157,22 +157,22 @@ public class ElevatorCutscene : MonoBehaviour
         yield return new WaitForSeconds(4.0f);
         Debug.Log("The skull moves forward with the engine");
 
-        //skull.GetComponent<Rigidbody>().velocity = Vector3.back;
-        //keyItem.GetComponent<Rigidbody>().velocity = Vector3.back;
-        //approach.Play();
+        skull.GetComponent<Rigidbody>().velocity = Vector3.back * 2;
+        keyItem.GetComponent<Rigidbody>().velocity = Vector3.back;
+        approach.Play();
 
         yield return new WaitForSeconds(3.0f);
 
+        skull.GetComponent<Rigidbody>().velocity = Vector3.zero;
         keyItem.GetComponent<Rigidbody>().velocity = 10 * Vector3.back;
         keyItem.gameObject.layer = (int)Mathf.Log(itemLayer,2); //let them pick it up
+        cough.Play();
 
-        yield return new WaitForSeconds(2.0f);
-        //cough.Play();
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(3.0f);
 
         elevatorDone = true; //only trigger scene once because you get the item
+        skull.GetComponent<Rigidbody>().velocity = Vector3.forward;
 
-        //skull.GetComponent<Rigidbody>().velocity = Vector3.forward;
         yield return new WaitForSeconds(4.0f);
 
         //ITEM IN ELEVATOR
