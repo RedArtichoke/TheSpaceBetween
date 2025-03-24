@@ -139,6 +139,8 @@ public class IntroCutscene : MonoBehaviour
 
             crosshair.SetActive(true);
 
+            noteInventory.SetActive(true);
+
             powerController.enabled = true;
 
             uiGoalText.text = "Fix the Maintenance Issue";
@@ -235,7 +237,7 @@ public class IntroCutscene : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         moveControls.SetActive(true);
-        //noteInventory.SetActive(true);
+        noteInventory.SetActive(true);
 
         speaker.Play();
 
