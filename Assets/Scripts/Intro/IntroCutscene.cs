@@ -91,8 +91,6 @@ public class IntroCutscene : MonoBehaviour
         text.gameObject.SetActive(false);
 
         //The space between
-        //text2.gameObject.SetActive(false);
-        //text2Title.gameObject.SetActive(false);
 
         GameTitle.gameObject.SetActive(false);
 
