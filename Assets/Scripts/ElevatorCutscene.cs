@@ -171,7 +171,8 @@ public class ElevatorCutscene : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
 
         elevatorDone = true; //only trigger scene once because you get the item
-        skull.GetComponent<Rigidbody>().velocity = Vector3.forward;
+
+        //skull.GetComponent<Rigidbody>().velocity = Vector3.forward;
         yield return new WaitForSeconds(4.0f);
 
         //ITEM IN ELEVATOR
