@@ -12,6 +12,7 @@ public class MimicBehaviour : MonoBehaviour
     public float cohesionDistance = 7f; // How close is too close?
     public float detectionRange = 10f; // Can you see me now?
     public GameObject footprintPrefab; // Footprint factory!
+    public bool isTutorialMimic;
 
     // Private variables for internal mimic shenanigans
     private NavMeshAgent navAgent;
@@ -114,10 +115,14 @@ public class MimicBehaviour : MonoBehaviour
         Collider[] players = Physics.OverlapSphere(transform.position, detectionRange, playerLayer);
         foreach (var player in players)
         {
-            if (player.CompareTag("Player"))
+            if(!isTutorialMimic)
             {
-                return true; // Player spotted! Engage!
+                if (player.CompareTag("Player"))
+                {
+                    return true; // Player spotted! Engage!
+                }
             }
+            
         }
         return false; // No players here, just us mimics.
     }

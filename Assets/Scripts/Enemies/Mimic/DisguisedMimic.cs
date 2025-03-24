@@ -9,23 +9,22 @@ public class DisguisedMimic : MonoBehaviour
 
     private void OnEnable()
     {
-        StartCoroutine(ShakeOrBounceEffect());
+        StartCoroutine(ShakeEffect());
     }
 
-    private IEnumerator ShakeOrBounceEffect()
+    private IEnumerator ShakeEffect()
     {
         while (true)
         {
-            // Randomly choose between shaking or bouncing
             bool isBouncing = Random.value > 0.5f;
 
             if (isBouncing)
             {
                 // Bounce effect
                 Vector3 originalPosition = transform.position;
-                float initialBounceHeight = 0.2f; // Start with a higher bounce
+                float initialBounceHeight = 0.2f; 
                 float gravity = -9.8f; // Simulate gravity
-                int bounces = 3; // Number of bounces
+                int bounces = 3; 
 
                 for (int i = 0; i < bounces; i++)
                 {
