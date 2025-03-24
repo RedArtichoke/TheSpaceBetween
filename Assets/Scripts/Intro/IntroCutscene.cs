@@ -11,6 +11,8 @@ public class IntroCutscene : MonoBehaviour
     public GameObject IntroScene;
     public GameObject HUD;
 
+    public bool introPlaying = true;
+
     [SerializeField] private TextMeshProUGUI text;
     //[SerializeField] private TextMeshProUGUI text2;
     //[SerializeField] private TextMeshProUGUI text2Title;

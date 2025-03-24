@@ -30,14 +30,13 @@ public class SuitVoice : MonoBehaviour
     private bool hasPlayed25 = false;
     private bool hasPlayed10 = false;
     public GameObject uiSuitSystem;
+    public IntroCutscene intro;
 
     [Header("Effects")]
     public GameObject steam1;
     public GameObject steam2;
 
     private bgMusicPlayer musicPlayer;
-
-    public IntroCutscene intro;
 
     void Start()
     {
@@ -168,6 +167,7 @@ public class SuitVoice : MonoBehaviour
         }
 
         intro.PlayFlashlightAudio();
+        intro.introPlaying = false;
 
         uiSuitSystem.SetActive(false);
 
