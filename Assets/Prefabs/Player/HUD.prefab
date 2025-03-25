@@ -1877,6 +1877,7 @@ GameObject:
   - component: {fileID: 6730631128153926362}
   - component: {fileID: 5231586280405614394}
   - component: {fileID: 7069960124016424485}
+  - component: {fileID: 5854670348935797789}
   m_Layer: 5
   m_Name: HUD
   m_TagString: Untagged
@@ -1983,6 +1984,28 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &5854670348935797789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3520768420689916725}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b2e66107fb4a405bb1930748b9a927a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  markerSprite: {fileID: 21300000, guid: 3b36517a755ad4183bd85dfe6b3fe2b0, type: 3}
+  markerColor: {r: 1, g: 1, b: 1, a: 1}
+  markerScale: 3
+  offScreenMarkerScale: 4
+  screenEdgeOffset: 100
+  precisePositioning: 1
+  adjustmentOffsetX: 0
+  adjustmentOffsetY: 0
+  distanceCorrectionFactor: 0
+  mainCamera: {fileID: 0}
 --- !u!1 &3799907840484970314
 GameObject:
   m_ObjectHideFlags: 0
@@ -3432,6 +3455,8 @@ MonoBehaviour:
   BPMChange: 0
   pulseMagnitude: 0.5
   heartBeatSound: {fileID: 8300000, guid: 9580a26f457dd40d1b5f40d278f3cd1f, type: 3}
+  highestHeartRate: 0
+  lowestHeartRate: 0
 --- !u!1 &6385493327936933842
 GameObject:
   m_ObjectHideFlags: 0
