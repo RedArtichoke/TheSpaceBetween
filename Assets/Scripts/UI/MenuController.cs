@@ -10,12 +10,24 @@ public class MenuController : MonoBehaviour
     public GameObject screenQuad; // Reference to the quad
     public GameObject crosshair; // Reference to the crosshair
     public IntroCutscene intro;
+    public ObjectiveMarkerUI objectiveMarkers; // Reference to the objective markers UI
     public bool isPaused = false; // Track the pause state
+    
+    private PlayerMovementController playerMovement; // Reference to player movement controller
 
     void Start()
     {
         pauseMenuPrefab.SetActive(false); // Ensure the pause menu is hidden at the start
         screenQuad.SetActive(false); // Ensure the quad is hidden at the start
+        
+        // Find objective markers if not assigned
+        if (objectiveMarkers == null)
+        {
+            objectiveMarkers = FindObjectOfType<ObjectiveMarkerUI>();
+        }
+        
+        // Find player movement controller
+        playerMovement = FindObjectOfType<PlayerMovementController>();
     }
 
     void Update()
@@ -41,6 +53,18 @@ public class MenuController : MonoBehaviour
             Cursor.visible = true; // Make the cursor visible
             Cursor.lockState = CursorLockMode.None; // Unlock the cursor
             AudioListener.pause = true;
+            
+            // Hide objective markers
+            if (objectiveMarkers != null)
+            {
+                objectiveMarkers.SetMarkersVisibility(false);
+            }
+            
+            // Hide interaction prompts
+            if (playerMovement != null)
+            {
+                playerMovement.SetInteractPromptsVisibility(false);
+            }
         }
         else
         {
@@ -49,6 +73,18 @@ public class MenuController : MonoBehaviour
             {
                 UIComponents.SetActive(true); // Show the UI components
                 crosshair.SetActive(true); // Show the crosshair
+                
+                // Show objective markers
+                if (objectiveMarkers != null)
+                {
+                    objectiveMarkers.SetMarkersVisibility(true);
+                }
+                
+                // Show interaction prompts
+                if (playerMovement != null)
+                {
+                    playerMovement.SetInteractPromptsVisibility(true);
+                }
             }
             pauseMenuPrefab.SetActive(false); // Hide the pause menu
             screenQuad.SetActive(false); // Hide the quad

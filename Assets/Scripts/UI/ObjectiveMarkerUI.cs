@@ -56,6 +56,9 @@ public class ObjectiveMarkerUI : MonoBehaviour
     // Whether initialization has completed
     private bool isInitialized = false;
     
+    // Whether markers are currently visible
+    private bool markersVisible = true;
+    
     private void Start()
     {
         InitializeSystem();
@@ -144,6 +147,9 @@ public class ObjectiveMarkerUI : MonoBehaviour
                 image.sprite = builtInSprite;
             }
         }
+        
+        // Set visibility based on current state
+        uiElement.SetActive(markersVisible);
         
         // Add to tracking dictionary
         markerToUIElements.Add(marker, uiElement);
@@ -393,5 +399,32 @@ public class ObjectiveMarkerUI : MonoBehaviour
                 }
             }
         }
+    }
+    
+    /// <summary>
+    /// Set visibility of all marker UI elements
+    /// </summary>
+    /// <param name="visible">Whether markers should be visible</param>
+    public void SetMarkersVisibility(bool visible)
+    {
+        markersVisible = visible;
+        
+        foreach (var kvp in markerToUIElements)
+        {
+            GameObject uiElement = kvp.Value;
+            
+            if (uiElement != null)
+            {
+                uiElement.SetActive(visible);
+            }
+        }
+    }
+    
+    /// <summary>
+    /// Toggle visibility of all marker UI elements
+    /// </summary>
+    public void ToggleMarkersVisibility()
+    {
+        SetMarkersVisibility(!markersVisible);
     }
 } 

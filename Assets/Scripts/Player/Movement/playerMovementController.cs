@@ -101,10 +101,17 @@ public class PlayerMovementController : MonoBehaviour
     private LayerMask collisionCheckMask; // Mask for collision checks
 
     private KeyBindManager keyBindManager;
+    
+    // Reference to MenuController to check pause state
+    private MenuController menuController;
+    
+    // List to track all active interact prompts
+    private List<GameObject> activeInteractPrompts = new List<GameObject>();
 
     void Start()
     {
         keyBindManager = FindObjectOfType<KeyBindManager>();
+        menuController = FindObjectOfType<MenuController>();
 
         // Initialize player components and settings
         playerRb = GetComponent<Rigidbody>();
@@ -143,6 +150,19 @@ public class PlayerMovementController : MonoBehaviour
 
     void Update()
     {
+        // Skip interaction and movement handling if game is paused
+        if (menuController != null && menuController.isPaused)
+        {
+            // Hide all interact prompts when paused
+            SetInteractPromptsVisibility(false);
+            return;
+        }
+        else
+        {
+            // Show all interact prompts when not paused
+            SetInteractPromptsVisibility(true);
+        }
+        
         // Update crouch state based on input and canStand
         if (Input.GetKey(keyBindManager.crouchKey) || Input.GetKey(KeyCode.RightControl))
         {
@@ -202,6 +222,25 @@ public class PlayerMovementController : MonoBehaviour
         // Update UI and object glow effects
         UpdateCrosshairVisibility();
         UpdateObjectGlow();
+    }
+
+    /// <summary>
+    /// Sets the visibility of all active interact prompts
+    /// </summary>
+    /// <param name="visible">Whether prompts should be visible</param>
+    public void SetInteractPromptsVisibility(bool visible)
+    {
+        // First, clean up any null references in the list
+        activeInteractPrompts.RemoveAll(item => item == null);
+        
+        // Set visibility for all remaining prompts
+        foreach (GameObject prompt in activeInteractPrompts)
+        {
+            if (prompt != null)
+            {
+                prompt.SetActive(visible);
+            }
+        }
     }
 
     public Transform GetHeldObject()
@@ -791,7 +830,15 @@ public class PlayerMovementController : MonoBehaviour
             if (lastHighlightedRenderer != null && lastHighlightedRenderer != objectRenderer)
             {
                 RestoreOriginalMaterial(lastHighlightedRenderer);
-                Destroy(lastHighlightedRenderer.transform.Find("InteractPrompt")?.gameObject);
+                
+                // Find and remove prompt from active list before destroying
+                Transform promptTransform = lastHighlightedRenderer.transform.Find("InteractPrompt");
+                if (promptTransform != null)
+                {
+                    GameObject promptObj = promptTransform.gameObject;
+                    activeInteractPrompts.Remove(promptObj);
+                    Destroy(promptObj);
+                }
             }
 
             Material[] currentMaterials = objectRenderer.materials;
@@ -812,6 +859,15 @@ public class PlayerMovementController : MonoBehaviour
                 GameObject instance = Instantiate(interactPromptPrefab, objectRenderer.transform);
                 instance.name = "InteractPrompt";
                 instance.transform.localPosition = Vector3.zero; // centre the prefab
+
+                // Add prompt to active list for tracking
+                activeInteractPrompts.Add(instance);
+                
+                // Hide the prompt if game is paused
+                if (menuController != null && menuController.isPaused)
+                {
+                    instance.SetActive(false);
+                }
 
                 // Adjust scale so it isn't affected by the parent's scale
                 Vector3 parentScale = objectRenderer.transform.lossyScale;
@@ -880,7 +936,16 @@ public class PlayerMovementController : MonoBehaviour
         else if (heldObject == null && lastHighlightedRenderer != null)
         {
             RestoreOriginalMaterial(lastHighlightedRenderer);
-            Destroy(lastHighlightedRenderer.transform.Find("InteractPrompt")?.gameObject);
+            
+            // Find and remove prompt from active list before destroying
+            Transform promptTransform = lastHighlightedRenderer.transform.Find("InteractPrompt");
+            if (promptTransform != null)
+            {
+                GameObject promptObj = promptTransform.gameObject;
+                activeInteractPrompts.Remove(promptObj);
+                Destroy(promptObj);
+            }
+            
             lastHighlightedRenderer = null;
             // Make sure to reset originalMaterial here too
             originalMaterial = null;
