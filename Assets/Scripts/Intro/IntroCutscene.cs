@@ -161,66 +161,56 @@ public class IntroCutscene : MonoBehaviour
 
     private IEnumerator FadeCutscene()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         
         text.gameObject.SetActive(true);
-        StartCoroutine(TypeText(text, "Silly Yogurt Cup Presents...", 0.1f, 0.05f, true));
+        StartCoroutine(TypeText(text, "Silly Yogurt Cup Presents...", 0.05f, 0.02f, true));
         computerSound.Play();
         
-        yield return new WaitForSeconds(5f);
-        //text.gameObject.GetComponent<TextFadeIn>().DisableText();
-        StartCoroutine(FadeOutText(text, 3f));
+        yield return new WaitForSeconds(3f);
+        StartCoroutine(FadeOutText(text, 2f));
 
-        yield return new WaitForSeconds(5f);
-        //text2.gameObject.SetActive(true);
-        //text2Title.gameObject.SetActive(true);
+        yield return new WaitForSeconds(3f);
         GameTitle.gameObject.SetActive(true);
-        StartCoroutine(FadeInImage(GameTitle, 3f));
+        StartCoroutine(FadeInImage(GameTitle, 2f));
         computerSound.clip = computerclip2;
         computerSound.Play();
 
-        yield return new WaitForSeconds(4f);
-        StartCoroutine(FadeOutImage(GameTitle, 3f));
-        //text2.gameObject.GetComponent<TextFadeIn>().DisableText();
-        //text2Title.gameObject.GetComponent<TextFadeIn>().DisableText();
+        yield return new WaitForSeconds(2.5f);
+        StartCoroutine(FadeOutImage(GameTitle, 2f));
 
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(2.5f);
         text3.gameObject.SetActive(true);
         text3Title.gameObject.SetActive(true);
         
-
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(2.5f);
         text3.gameObject.GetComponent<TextFadeIn>().DisableText();
         text3Title.gameObject.GetComponent<TextFadeIn>().DisableText();
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         text4.gameObject.SetActive(true);
-        StartCoroutine(TypeText(text4, "LOCATION\nOuter Space, Orbiting Planet Saturn", 0.1f, 0.05f, true));
-
-
-        yield return new WaitForSeconds(7f);
-        StartCoroutine(FadeOutText(text4, 3f));
-        //text4.gameObject.GetComponent<TextFadeIn>().DisableText();
-
-        yield return new WaitForSeconds(5f);
-        text5.gameObject.SetActive(true);
-        StartCoroutine(TypeText(text5, "OCCUPATION\nIndependent Maintenance Contractor", 0.1f, 0.05f, true));
+        StartCoroutine(TypeText(text4, "LOCATION\nOuter Space, Orbiting Planet Saturn", 0.05f, 0.02f, true));
 
         yield return new WaitForSeconds(4f);
-        //ext5.gameObject.GetComponent<TextFadeIn>().DisableText();
-        StartCoroutine(FadeOutText(text5, 3f));
+        StartCoroutine(FadeOutText(text4, 2f));
 
         yield return new WaitForSeconds(3f);
+        text5.gameObject.SetActive(true);
+        StartCoroutine(TypeText(text5, "OCCUPATION\nIndependent Maintenance Contractor", 0.05f, 0.02f, true));
+
+        yield return new WaitForSeconds(2.5f);
+        StartCoroutine(FadeOutText(text5, 2f));
+
+        yield return new WaitForSeconds(2f);
 
         staticSound.Stop();
         
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
         
-
         computerSound.clip = bedClip;
         computerSound.Play();
 
-        float fadeDuration = 1f;
+        float fadeDuration = 0.7f;
         float elapsedTime = 0f;
         
         canvasGroup.alpha = 1f; 
@@ -238,14 +228,14 @@ public class IntroCutscene : MonoBehaviour
         //Re enable player movement
         playerMovement.enabled = true;
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
 
         moveControls.SetActive(true);
         noteInventory.SetActive(true);
 
         speaker.Play();
 
-        yield return new WaitForSeconds (8f);
+        yield return new WaitForSeconds(5f);
 
         fadeDuration = 1f;
         elapsedTime = 0f;
@@ -259,11 +249,11 @@ public class IntroCutscene : MonoBehaviour
             moveControlsGroup.alpha = alpha;
             yield return null;  
         }
-        yield return new WaitForSeconds (1f);
+        yield return new WaitForSeconds(0.5f);
 
         moveControls.SetActive(false);
         
-        yield return new WaitForSeconds (20f);
+        yield return new WaitForSeconds(12f);
         // InteractControls.SetActive(true);
 
         //Enable suit

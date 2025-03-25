@@ -157,7 +157,7 @@ public class arduinoStart : MonoBehaviour
 
     private IEnumerator startArduino()
     {
-        yield return new WaitForSeconds(12);
+        yield return new WaitForSeconds(6);  // Reduced from 12 seconds
         introText.SetActive(false);
         if (serialControllerScript.arduinoConnected == true && hideArduinoUI == false)
         {
@@ -172,24 +172,18 @@ public class arduinoStart : MonoBehaviour
 
     private IEnumerator callibrationIntro()
     {
-        yield return new WaitForSeconds(12);
+        yield return new WaitForSeconds(6);  // Reduced from 12 seconds
         introCalibrationText.SetActive(false);
-
-
-        
         callibration();
 
     }
 
     private IEnumerator calibrationStop()
     {
-        yield return new WaitForSeconds(15);
+        yield return new WaitForSeconds(8);  // Reduced from 15 seconds
         StopCalibration();
         calibrationEnd.SetActive(true);
-
         StartTyping4();
-
-
         StartCoroutine(introTransition());
 
 
@@ -199,8 +193,7 @@ public class arduinoStart : MonoBehaviour
 
     public IEnumerator introTransition()
     {
-        
-        yield return new WaitForSeconds(12);
+        yield return new WaitForSeconds(6);  // Reduced from 12 seconds
         intro.SetActive(true);
         shipFlight.enabled = true;
         arduinoIntroController.SetActive(false);
@@ -247,6 +240,7 @@ public class arduinoStart : MonoBehaviour
         if (typingCoroutine != null)
             StopCoroutine(typingCoroutine);
 
+        baseTypingSpeed = 0.03f;  // Faster typing (from 0.05f)
         typingCoroutine = StartCoroutine(TypeText());
     }
 
@@ -548,9 +542,8 @@ public class arduinoStart : MonoBehaviour
 
     IEnumerator delay()
     {
-        yield return new WaitForSeconds(4f); // Wait before deleting
-
-        StartCoroutine(FadeOutText(textComponent4, 2f)); // Fades out over 2 seconds
+        yield return new WaitForSeconds(2f);  // Reduced from 4 seconds
+        StartCoroutine(FadeOutText(textComponent4, 1f));  // Reduced from 2 seconds
     }
 
 }
