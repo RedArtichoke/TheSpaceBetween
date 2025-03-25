@@ -47,7 +47,7 @@ public class arduinoStart : MonoBehaviour
     public float baseTypingSpeed = 0.05f;  // Base delay between letters
     public float deletingSpeed = 0.01f;  // Base delay between letters
     public float randomSpeedFactor = 0.02f; // Random variance
-    //public AudioSource typingSound; // Optional: Add a sci-fi beep sound
+    public AudioSource typingSound; // Optional: Add a sci-fi beep sound
     public bool useGlitchEffect = true;
 
     private string fullText;
@@ -80,6 +80,7 @@ public class arduinoStart : MonoBehaviour
 
         StartTyping();
 
+
         StartCoroutine(startArduino());
     }
 
@@ -107,7 +108,7 @@ public class arduinoStart : MonoBehaviour
         arduinoController.SetActive(false);
 
         StartTyping2();
-
+        
         StartCoroutine(introTransition());
 
 
@@ -157,7 +158,7 @@ public class arduinoStart : MonoBehaviour
 
     private IEnumerator startArduino()
     {
-        yield return new WaitForSeconds(6);  // Reduced from 12 seconds
+        yield return new WaitForSeconds(10);  // Reduced from 12 seconds
         introText.SetActive(false);
         if (serialControllerScript.arduinoConnected == true && hideArduinoUI == false)
         {
@@ -172,7 +173,7 @@ public class arduinoStart : MonoBehaviour
 
     private IEnumerator callibrationIntro()
     {
-        yield return new WaitForSeconds(6);  // Reduced from 12 seconds
+        yield return new WaitForSeconds(8);  // Reduced from 12 seconds
         introCalibrationText.SetActive(false);
         callibration();
 
@@ -193,7 +194,7 @@ public class arduinoStart : MonoBehaviour
 
     public IEnumerator introTransition()
     {
-        yield return new WaitForSeconds(6);  // Reduced from 12 seconds
+        yield return new WaitForSeconds(7);  // Reduced from 12 seconds
         intro.SetActive(true);
         shipFlight.enabled = true;
         arduinoIntroController.SetActive(false);
@@ -274,6 +275,7 @@ public class arduinoStart : MonoBehaviour
 
     IEnumerator TypeText()
     {
+        typingSound.Play();
         textComponent.text = "";
         foreach (char letter in fullText)
         {
@@ -295,18 +297,21 @@ public class arduinoStart : MonoBehaviour
             //if (typingSound != null)
             //  typingSound.Play();
 
+
             yield return new WaitForSeconds(delay);
         }
-
+        typingSound.Stop();
         // Add a blinking cursor effect
         StartCoroutine(BlinkingCursor());
         //StartCoroutine(DeleteText());
         StartCoroutine(FadeOutText(textComponent, 3f)); // Fades out over 2 seconds
+        yield return new WaitForSeconds(6);
     }
 
     IEnumerator TypeText2()
     {
         textComponent2.text = "";
+        typingSound.Play();
         foreach (char letter in fullText2)
         {
             // Random typing speed for variation
@@ -329,16 +334,18 @@ public class arduinoStart : MonoBehaviour
 
             yield return new WaitForSeconds(delay);
         }
-
+        typingSound.Stop();
         // Add a blinking cursor effect
         StartCoroutine(BlinkingCursor2());
         //StartCoroutine(DeleteText2());
         StartCoroutine(FadeOutText(textComponent2, 3f)); // Fades out over 2 seconds
+        yield return new WaitForSeconds(6);
     }
 
     IEnumerator TypeText3()
     {
         textComponent3.text = "";
+        typingSound.Play();
         foreach (char letter in fullText3)
         {
             // Random typing speed for variation
@@ -361,16 +368,18 @@ public class arduinoStart : MonoBehaviour
 
             yield return new WaitForSeconds(delay);
         }
-
+        typingSound.Stop();
         // Add a blinking cursor effect
         StartCoroutine(BlinkingCursor3());
         //StartCoroutine(DeleteText3());
         StartCoroutine(FadeOutText(textComponent3, 2f)); // Fades out over 2 seconds
+        yield return new WaitForSeconds(6);
     }
 
     IEnumerator TypeText4()
     {
         textComponent4.text = "";
+        typingSound.Play();
         foreach (char letter in fullText4)
         {
             // Random typing speed for variation
@@ -393,12 +402,12 @@ public class arduinoStart : MonoBehaviour
 
             yield return new WaitForSeconds(delay);
         }
-
+        typingSound.Stop();
         // Add a blinking cursor effect
         StartCoroutine(BlinkingCursor4());
-
+        yield return new WaitForSeconds(5);
         //StartCoroutine(DeleteText3());
-        
+
     }
 
     char RandomLetter()

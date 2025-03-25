@@ -58,6 +58,7 @@ public class IntroCutscene : MonoBehaviour
 
     public AudioSource computerSound;
     public AudioSource staticSound;
+    public AudioSource logoIntro;
     public AudioClip computerclip2;
     public AudioClip bedClip;
     private KeyBindManager keyBindManager;
@@ -164,8 +165,9 @@ public class IntroCutscene : MonoBehaviour
         yield return new WaitForSeconds(1f);
         
         text.gameObject.SetActive(true);
+        
         StartCoroutine(TypeText(text, "Silly Yogurt Cup Presents...", 0.05f, 0.02f, true));
-        computerSound.Play();
+        
         
         yield return new WaitForSeconds(3f);
         StartCoroutine(FadeOutText(text, 2f));
@@ -173,21 +175,13 @@ public class IntroCutscene : MonoBehaviour
         yield return new WaitForSeconds(3f);
         GameTitle.gameObject.SetActive(true);
         StartCoroutine(FadeInImage(GameTitle, 2f));
-        computerSound.clip = computerclip2;
-        computerSound.Play();
+        //computerSound.clip = computerclip2;
+        logoIntro.Play();
 
         yield return new WaitForSeconds(2.5f);
         StartCoroutine(FadeOutImage(GameTitle, 2f));
 
-        yield return new WaitForSeconds(2.5f);
-        text3.gameObject.SetActive(true);
-        text3Title.gameObject.SetActive(true);
-        
-        yield return new WaitForSeconds(2.5f);
-        text3.gameObject.GetComponent<TextFadeIn>().DisableText();
-        text3Title.gameObject.GetComponent<TextFadeIn>().DisableText();
-
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(5f);
         text4.gameObject.SetActive(true);
         StartCoroutine(TypeText(text4, "LOCATION\nOuter Space, Orbiting Planet Saturn", 0.05f, 0.02f, true));
 
@@ -198,10 +192,10 @@ public class IntroCutscene : MonoBehaviour
         text5.gameObject.SetActive(true);
         StartCoroutine(TypeText(text5, "OCCUPATION\nIndependent Maintenance Contractor", 0.05f, 0.02f, true));
 
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(4f);
         StartCoroutine(FadeOutText(text5, 2f));
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(5f);
 
         staticSound.Stop();
         
@@ -377,7 +371,7 @@ public class IntroCutscene : MonoBehaviour
     IEnumerator TypeText(TextMeshProUGUI textComponent, string text, float typingSpeed, float speedVariation, bool glitchEffect)
     {
         textComponent.text = ""; // Reset text before typing
-
+        computerSound.Play();
         // Typing animation
         foreach (char letter in text)
         {
@@ -403,7 +397,7 @@ public class IntroCutscene : MonoBehaviour
 
             yield return new WaitForSeconds(delay);
         }
-
+        computerSound.Stop();
         // Add a blinking cursor effect
         StartCoroutine(BlinkingCursor(textComponent));
         // Add fading out effect
