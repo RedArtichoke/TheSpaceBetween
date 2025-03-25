@@ -149,6 +149,8 @@ public class IntroCutscene : MonoBehaviour
 
             objectiveText.text = "Go To the Maintenance Room";
 
+            introPlaying = false;
+
             flashBangText.SetActive(true);
             flashBangText2.SetActive(true);
             flashBangText3.SetActive(true);
