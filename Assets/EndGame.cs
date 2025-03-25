@@ -5,9 +5,16 @@ using UnityEngine;
 public class EndGame : MonoBehaviour
 {
     public CanvasGroup blackScreen;
+    [SerializeField] endgameGameInfo playerInfo;
 
     void Start()
     {
+        playerInfo = GameObject.Find("EndGame Script Holder").GetComponent<endgameGameInfo>();
+        if(playerInfo != null) 
+        { 
+            playerInfo.displayData(); 
+        }
+        
         StartCoroutine(FadeIn());
     }
 
