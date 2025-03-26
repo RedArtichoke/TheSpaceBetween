@@ -108,6 +108,8 @@ public class PlayerMovementController : MonoBehaviour
     // List to track all active interact prompts
     private List<GameObject> activeInteractPrompts = new List<GameObject>();
 
+    public ControlPromptAnimator dimensionPrompt; 
+
     void Start()
     {
         keyBindManager = FindObjectOfType<KeyBindManager>();
@@ -366,7 +368,7 @@ public class PlayerMovementController : MonoBehaviour
                     darkController.hasDevice = true; // Set hasDevice to true
                     if (dimensionPromptPrefab != null)
                     {
-                        dimensionPromptPrefab.SetActive(true);
+                        dimensionPrompt.RevealWithAnimation();
                     }
                 }
                 suitVoice.PlaySuitInstallAudio();

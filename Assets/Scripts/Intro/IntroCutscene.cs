@@ -52,10 +52,6 @@ public class IntroCutscene : MonoBehaviour
 
     public TextMeshProUGUI objectiveText;
 
-    public GameObject flashBangText;
-    public GameObject flashBangText2;
-    public GameObject flashBangText3;
-
     public AudioSource computerSound;
     public AudioSource staticSound;
     public AudioSource logoIntro;
@@ -72,6 +68,10 @@ public class IntroCutscene : MonoBehaviour
     public float baseTypingSpeed = 0.1f; // Base typing speed (seconds per character)
     public float randomSpeedFactor = 0.05f; // Variation in typing speed
     public bool useGlitchEffect = false; // Toggle glitch effect
+
+    public ControlPromptAnimator flashbangPrompt; 
+    public ControlPromptAnimator flashLightPrompt; 
+    public ControlPromptAnimator powerDisplay; 
 
     private void Start()
     {
@@ -152,9 +152,9 @@ public class IntroCutscene : MonoBehaviour
 
             introPlaying = false;
 
-            flashBangText.SetActive(true);
-            flashBangText2.SetActive(true);
-            flashBangText3.SetActive(true);
+            flashbangPrompt.ShowInstantly();
+            flashLightPrompt.ShowInstantly();
+            powerDisplay.ShowInstantly();
             staticSound.Stop();
 
         }
@@ -283,6 +283,8 @@ public class IntroCutscene : MonoBehaviour
         speaker.clip = voice2;
         speaker.Play();
         UIComponents.SetActive(true);
+        flashLightPrompt.RevealWithAnimation();
+        powerDisplay.ShowInstantly();
 
         StartCoroutine(FlashlightControlPromptOpen());
     }
@@ -301,9 +303,7 @@ public class IntroCutscene : MonoBehaviour
         }
 
         PlayFlashlightAudio2();
-        flashBangText.SetActive(true);
-        flashBangText2.SetActive(true);
-        flashBangText3.SetActive(true);
+        flashbangPrompt.RevealWithAnimation();
 
         uiGoalText.text = "Use your Flashbang";
     }
