@@ -38,10 +38,19 @@ public class WirePuzzle : MonoBehaviour
 
     public GameObject enableEntryZone;
 
+    public GameObject screen;
+    public Material fixedScreen; 
+
+    private Material brokenScreen;
+    private Renderer screenMat;
+
     void Start()
     {
         lightFixture.color = Color.red;
         markerSequencing = FindObjectOfType<MarkerSequencing>();
+
+        screenMat = screen.GetComponent<Renderer>();
+        brokenScreen = screenMat.material;
     }
 
 
@@ -73,6 +82,8 @@ public class WirePuzzle : MonoBehaviour
         mainDoor.SetLockState(false);
         //keyCardDoor.SetLockState(false);
 
+        screenMat.material = fixedScreen;
+
         light1.SetActive(true);
         light2.SetActive(true);
         light3.SetActive(true);
@@ -85,4 +96,6 @@ public class WirePuzzle : MonoBehaviour
 
         enableEntryZone.SetActive(true);
     }
+
+  
 }
