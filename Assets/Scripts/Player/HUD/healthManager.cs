@@ -7,6 +7,13 @@ public class HealthManager : MonoBehaviour
     public int health = 100;
     public bool isDamaged = false;
     public Image damageOverlay;
+    
+    // Remove default overlay, keep only damage level overlays
+    public Sprite damageOverlaySprite1; // First hit
+    public Sprite damageOverlaySprite2; // Second hit
+    public Sprite damageOverlaySprite3; // Third hit
+    // Fourth hit is death
+    
     private Coroutine strobeCoroutine;
     private Coroutine regenCoroutine;
     private FpsCameraController cameraController;
@@ -36,11 +43,21 @@ public class HealthManager : MonoBehaviour
     public AudioSource reviveSound;
     public PlayGameButton playButton;
 
+    // Current active overlay reference
+    private Image currentOverlay;
+
+    // Add healing variables
+    public int healAmount = 25; // Amount to heal per healing action
+    public AudioClip healSound; // Sound to play when healing
+
     void Start()
     {
         heartRateSimulator = GameObject.FindWithTag("HeartRateSimulator").GetComponent<HeartRateSimulator>();
 
-        damageOverlay.color = new Color(1f, 0f, 0f, 0f); // Start transparent
+        // Start with transparent overlay and no sprite
+        damageOverlay.color = new Color(1f, 0f, 0f, 0f);
+        damageOverlay.sprite = null; // No sprite by default at full health
+        
         cameraController = FindObjectOfType<FpsCameraController>();
 
         // Create and configure the AudioSource
@@ -54,6 +71,11 @@ public class HealthManager : MonoBehaviour
         {
             health = 100;
             Debug.Log("Health reset to 100.");
+            
+            // Reset damage overlay when health is reset to full
+            damageOverlay.sprite = null;
+            damageOverlay.color = new Color(1f, 0f, 0f, 0f); // Fully transparent
+            isDamaged = false;
         }
 
         if(health > 0)
@@ -79,7 +101,7 @@ public class HealthManager : MonoBehaviour
                 audioSource.Play();
             }
 
-            health -= 70;
+            health -= 30;
             if (health < 0)
             {
                 health = 0;
@@ -90,14 +112,10 @@ public class HealthManager : MonoBehaviour
 
             heartRateSimulator.BumpUp();
 
-            if (health < 50)
-            {
-                if (strobeCoroutine != null)
-                {
-                    StopCoroutine(strobeCoroutine);
-                }
-                strobeCoroutine = StartCoroutine(StrobeEffect());
-            }
+            // Removed strobe effect code
+            // Instead, just update the overlay
+            UpdateCurrentOverlay();
+            UpdateOverlayAlpha();
 
             if(health > 0)
             {
@@ -110,7 +128,6 @@ public class HealthManager : MonoBehaviour
                 RevealGameOverUI();
                 StopCoroutine(DamageCooldown());
                 UIComponents.SetActive(false);
-
             }
         }
     }
@@ -119,58 +136,53 @@ public class HealthManager : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
         isDamaged = false;
-        yield return new WaitForSeconds(15f);
-
-        if (health < 100)
-        {
-            if (regenCoroutine != null)
-            {
-                StopCoroutine(regenCoroutine);
-            }
-            suitVoice.playRestoreAudio();
-            regenCoroutine = StartCoroutine(RegenerateHealth());
-        }
+        
+        // Removed health regeneration code here
+        // Just update the overlay based on current health
+        UpdateCurrentOverlay();
+        UpdateOverlayAlpha();
     }
 
     private IEnumerator DamageCooldownRespawn()
     {
         isDamaged = false;
+        
+        // Removed health regeneration code here
+        // Just update the overlay based on current health
+        UpdateCurrentOverlay();
+        UpdateOverlayAlpha();
+        
+        yield return null;
+    }
 
-        yield return new WaitForSeconds(1f);
-
-        if (health < 100)
+    // Replaced RegenerateHealth with this simpler method
+    private void UpdateOverlayAlpha()
+    {
+        // Only update alpha if there's a sprite assigned
+        if (damageOverlay.sprite != null)
         {
-            if (regenCoroutine != null)
+            // Calculate alpha based on health thresholds
+            float alpha;
+            
+            if (health <= 25)
             {
-                StopCoroutine(regenCoroutine);
+                alpha = 0.5f; // Strong overlay for critical health
+            } 
+            else if (health <= 50)
+            {
+                alpha = 0.35f; // Medium overlay 
             }
-            suitVoice.playRestoreAudio();
-            regenCoroutine = StartCoroutine(RegenerateHealth());
-        }
-    }
-
-    private IEnumerator RegenerateHealth()
-    {
-        while (health < 100)
-        {
-            health += 1;
-            float alpha = Mathf.Lerp(0.5f, 0f, health / 100f);
+            else if (health < 75)
+            {
+                alpha = 0.25f; // Light overlay
+            }
+            else
+            {
+                alpha = 0f; // No overlay at full health
+            }
+            
+            // Apply alpha to the damage overlay
             damageOverlay.color = new Color(1f, 0f, 0f, alpha);
-            yield return new WaitForSeconds(0.1f);
-        }
-
-        suitVoice.PlayConditionStabilizedAudio();
-    }
-
-    private IEnumerator StrobeEffect()
-    {
-        while (health < 50)
-        {
-            float speed = Mathf.Lerp(0.5f, 1.5f, (50f - health) / 50f); // Slower strobe across the board
-            float alpha = Mathf.PingPong(Time.time * speed, 0.5f) * ((50f - health) / 50f);
-            damageOverlay.color = new Color(1f, 0f, 0f, alpha);
-
-            yield return null; // Update every frame for smooth strobing
         }
     }
 
@@ -246,5 +258,67 @@ public class HealthManager : MonoBehaviour
         //StartCoroutine(DamageCooldownRespawn());
         isDamaged = false;
         powerController.power = 90;
+    }
+
+    // Selects the appropriate overlay sprite based on health
+    private void UpdateCurrentOverlay()
+    {
+        // No overlay at full health (75-100)
+        if (health <= 25 && damageOverlaySprite3 != null)
+        {
+            damageOverlay.sprite = damageOverlaySprite3; // Most severe overlay (3rd hit)
+        }
+        else if (health <= 50 && damageOverlaySprite2 != null)
+        {
+            damageOverlay.sprite = damageOverlaySprite2; // Medium severity overlay (2nd hit)
+        }
+        else if (health < 75 && damageOverlaySprite1 != null)
+        {
+            damageOverlay.sprite = damageOverlaySprite1; // Light severity overlay (1st hit)
+        }
+        else
+        {
+            damageOverlay.sprite = null; // No overlay at full health
+            damageOverlay.color = new Color(1f, 0f, 0f, 0f); // Make fully transparent
+        }
+    }
+
+    // New method to heal the player
+    public void HealPlayer(int amount = 0)
+    {
+        // Use the default heal amount if no specific amount is provided
+        int actualHealAmount = (amount > 0) ? amount : healAmount;
+        
+        // Only heal if not at full health
+        if (health < 100)
+        {
+            // Play heal sound if available
+            if (healSound != null)
+            {
+                audioSource.clip = healSound;
+                audioSource.pitch = 1.0f;
+                audioSource.Play();
+            }
+            
+            // Increase health and clamp to max
+            health += actualHealAmount;
+            if (health > 100)
+            {
+                health = 100;
+            }
+            
+            // Notify the player with suit voice
+            suitVoice.playRestoreAudio();
+            
+            // Update the overlay to match new health state
+            UpdateCurrentOverlay();
+            UpdateOverlayAlpha();
+            
+            Debug.Log("Player healed for " + actualHealAmount + ". Current health: " + health);
+        }
+        else
+        {
+            Debug.Log("Player already at full health!");
+        }
     }
 }

@@ -57,6 +57,7 @@ public class PlayerMovementController : MonoBehaviour
     private bool footstepPlayed = false;
     private bool isMoving;
     private PowerController powerController;
+    private HealthManager healthManager;
 
     [SerializeField] endgameGameInfo yogurt;//yogurt collectible counter
     [SerializeField] ElevatorCutscene vator;
@@ -127,6 +128,8 @@ public class PlayerMovementController : MonoBehaviour
 
         originalHeight = hitbox.height;
         originalCenter = hitbox.center;
+
+        healthManager = GetComponent<HealthManager>();
 
         // Initialize HUD elements
         if (hudElement != null)
@@ -386,6 +389,20 @@ public class PlayerMovementController : MonoBehaviour
             {
                 powerController.AddPower(100);
                 suitVoice.PlayPowerRestoreAudio();
+                
+                // Play the pickup sound using the audio clip
+                if (pickupClip != null)
+                {
+                    audioSource.clip = pickupClip;
+                    audioSource.Play();
+                }
+
+                Destroy(hit.transform.gameObject); // Delete the object
+                return; // Exit the method
+            }
+            else if (hit.transform.CompareTag("Medkit"))
+            {
+                healthManager.HealPlayer(25);
                 
                 // Play the pickup sound using the audio clip
                 if (pickupClip != null)

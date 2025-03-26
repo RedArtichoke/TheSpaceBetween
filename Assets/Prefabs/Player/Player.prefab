@@ -112,6 +112,7 @@ MonoBehaviour:
   crosshair: {fileID: 0}
   glowMaterial: {fileID: 2100000, guid: b0f5e6da047e347cc8ff13af5d2b3ce0, type: 2}
   footstepAudio: {fileID: 8586990463066505153}
+  yogurt: {fileID: 0}
   vator: {fileID: 0}
   notes: {fileID: 8651210793457663055}
   stall: {fileID: 8657202286349119676}
@@ -125,6 +126,7 @@ MonoBehaviour:
   suitUIAnim: {fileID: 0}
   door1: {fileID: 0}
   door2: {fileID: 0}
+  dimensionPrompt: {fileID: 0}
 --- !u!114 &3482881951145624219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,6 +180,12 @@ MonoBehaviour:
   health: 100
   isDamaged: 0
   damageOverlay: {fileID: 0}
+  damageOverlaySprite1: {fileID: 21300000, guid: 21ab577b90a8c4114ab9bd4a62385549,
+    type: 3}
+  damageOverlaySprite2: {fileID: 21300000, guid: cfc5a6f22a28744af8baee7a069fe682,
+    type: 3}
+  damageOverlaySprite3: {fileID: 21300000, guid: 911e90f480a444f03a949dce5d080005,
+    type: 3}
   gameOverUI: {fileID: 6615726323835050706}
   UIComponents: {fileID: 0}
   gameOverUIButton1: {fileID: 5080217704961873410}
@@ -194,6 +202,8 @@ MonoBehaviour:
   bg: {fileID: 8076156410899565923}
   reviveSound: {fileID: 2346873872953407511}
   playButton: {fileID: 4635592743030926515}
+  healAmount: 25
+  healSound: {fileID: 8300000, guid: 16c1dfa77b2834a40a485e95a21288e8, type: 3}
 --- !u!114 &5305050087123425412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -283,7 +293,6 @@ MonoBehaviour:
   pageTurn: {fileID: 0}
   screenOff: {fileID: 2100000, guid: b62fc20b7d3133740b62ad97a674714d, type: 2}
   screenOn: {fileID: 2100000, guid: be8f04f5ce4c38d439ca4670d4203203, type: 2}
-  interactCanvas: {fileID: 0}
 --- !u!114 &933689128155746293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,6 +306,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   yogurtCollected: 0
+  collectSound: {fileID: 0}
+  startTime: 0
+  playTime: 0
+  highRate: 0
+  lowRate: 0
+  heartinfo: {fileID: 0}
+  endgameCanvas: {fileID: 0}
+  endgameText: {fileID: 0}
 --- !u!114 &8657202286349119676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -309,6 +326,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed58f36bff08fd14cafff903bbc0d93c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isClosed: 1
 --- !u!1 &929663126441450363
 GameObject:
   m_ObjectHideFlags: 0
@@ -6185,9 +6203,9 @@ MonoBehaviour:
   suitInstall: {fileID: 8300000, guid: 2793103025c3ba841b2e9f6476203e25, type: 3}
   hostile: {fileID: 8300000, guid: b831cde69e02b1244a9bc78a40d486af, type: 3}
   uiSuitSystem: {fileID: 0}
+  intro: {fileID: 0}
   steam1: {fileID: 5918334738435922191}
   steam2: {fileID: 5253883465676364779}
-  intro: {fileID: 0}
 --- !u!1 &3979727799474700649
 GameObject:
   m_ObjectHideFlags: 0
@@ -6429,6 +6447,8 @@ MonoBehaviour:
   UIComponents: {fileID: 0}
   screenQuad: {fileID: 7847846447635641258}
   crosshair: {fileID: 0}
+  intro: {fileID: 0}
+  objectiveMarkers: {fileID: 0}
   isPaused: 0
 --- !u!114 &3314867519783491035
 MonoBehaviour:
