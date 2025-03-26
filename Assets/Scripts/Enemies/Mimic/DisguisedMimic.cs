@@ -6,6 +6,7 @@ public class DisguisedMimic : MonoBehaviour
 {
     // Reference to the original mimic
     public GameObject originalMimic;
+    //public bool isTutorialMimic;
 
     private void OnEnable()
     {
