@@ -27,6 +27,8 @@ public class HeartRateAnimator : MonoBehaviour
     public float highestHeartRate = 0; 
     public float lowestHeartRate = 0;
 
+   // public ArduinoHandler arduinoHandlerScript;
+    //public SerialController serialControllerScript;
 
     void Start()
     {
@@ -79,6 +81,8 @@ public class HeartRateAnimator : MonoBehaviour
 
     void Update()
     {
+
+        //if (serialControllerScript.arduinoConnected)
         // Check if target BPM has changed
         if (beatsPerMinute != targetBPM)
         {

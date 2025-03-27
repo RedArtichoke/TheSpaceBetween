@@ -10,6 +10,8 @@ public class ArduinoHandler : MonoBehaviour
     public SerialController serialControllerScript;
 
     public int amplifyHeartrate = 10;
+    public float minBPM = 40f; // Minimum allowed BPM
+    public float maxBPM = 160f; // Maximum allowed BPM
 
     private bool hasSentMessageFor100 = false;
     private bool hasSentMessageFor90 = false;
@@ -25,12 +27,12 @@ public class ArduinoHandler : MonoBehaviour
 
 
     private List<float> bpmReadings = new List<float>();
-    private float restingHeartRate = 0;
+    private float restingHeartRate = 80;
     private bool isCalibrating = false;
-    private float calibrationDuration = 30f; // 30 seconds
+    private float calibrationDuration = 10f; // 30 seconds
     private float calibrationTimer = 0f;
 
-
+    private float lastBPM = 80f;
 
     // Start is called before the first frame update
     void Start()
@@ -82,26 +84,46 @@ public class ArduinoHandler : MonoBehaviour
 
         //Debug.Log("Mapped BPM Change: " + mappedBPMChange);
 
-        Debug.Log("bpm: " + msg);
+        Debug.Log("Original bpm: " + msg);
+        //float currentBPM = float.Parse(msg);
+
+        //// During calibration, store BPM readings
+        //if (isCalibrating)
+        //{
+        //    bpmReadings.Add(currentBPM);
+        //}
+
+        //// Apply transformation to BPM
+        //float bpmChange = (currentBPM - restingHeartRate) * amplifyHeartrate; // Amplify the difference by 10
+
+        //// Calculate new BPM based on amplification
+        //float newBPM = 80 + bpmChange;
+
+        //// Ensure BPM doesn't go below a reasonable threshold (e.g., 30 BPM)
+        //newBPM = Mathf.Max(newBPM, 30);
+
+        //// Update heart rate in the animation script
+        //heartRateScript.beatsPerMinute = newBPM;
+
+        //Debug.Log($"Original BPM: {currentBPM}, Mapped BPM: {newBPM}");
+
         float currentBPM = float.Parse(msg);
 
-        // During calibration, store BPM readings
         if (isCalibrating)
         {
             bpmReadings.Add(currentBPM);
+            return;
         }
 
-        // Apply transformation to BPM
-        float bpmChange = (currentBPM - restingHeartRate) * amplifyHeartrate; // Amplify the difference by 10
-
-        // Calculate new BPM based on amplification
-        float newBPM = 80 + bpmChange;
-
-        // Ensure BPM doesn't go below a reasonable threshold (e.g., 30 BPM)
-        newBPM = Mathf.Max(newBPM, 30);
+        // Amplify the change from the last BPM reading
+        float bpmChange = (currentBPM - lastBPM) * amplifyHeartrate;
+        float newBPM = Mathf.Clamp(lastBPM + bpmChange, minBPM, maxBPM);
 
         // Update heart rate in the animation script
         heartRateScript.beatsPerMinute = newBPM;
+
+        // Store the new BPM as the last BPM for the next frame
+        lastBPM = newBPM;
 
         Debug.Log($"Original BPM: {currentBPM}, Mapped BPM: {newBPM}");
 
@@ -131,17 +153,35 @@ public class ArduinoHandler : MonoBehaviour
         //    }
         //    restingHeartRate = sum / bpmReadings.Count; // Get average BPM
         //    Debug.Log("Resting Heart Rate set to: " + restingHeartRate);
-        //}
+        //}  
 
         //isCalibrating = false;
         //bpmReadings.Clear();
 
         // Always set resting BPM to 80 after calibration
-        restingHeartRate = 80;
+        //restingHeartRate = 80;
+        //isCalibrating = false;
+        //bpmReadings.Clear();
+
+        //Debug.Log("Resting Heart Rate set to: " + restingHeartRate);
+
+        if (bpmReadings.Count > 0)
+        {
+            float sum = 0;
+            foreach (float bpm in bpmReadings)
+            {
+                sum += bpm;
+            }
+            restingHeartRate = sum / bpmReadings.Count; // Calculate average
+        }
+
+        restingHeartRate = Mathf.Clamp(restingHeartRate, 40, 120); // Ensure reasonable calibration range
+        lastBPM = 80f; // Reset last BPM tracking
+        Debug.Log("Actual Resting Heart Rate: " + restingHeartRate);
+
         isCalibrating = false;
         bpmReadings.Clear();
-
-        Debug.Log("Resting Heart Rate set to: " + restingHeartRate);
+        Debug.Log("Calibration complete. Baseline set to: 80 BPM");
     }
 
     public void sendFlashbang()
