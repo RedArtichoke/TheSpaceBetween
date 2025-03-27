@@ -18,16 +18,28 @@ public class DestroyTheMaintenanceDoor : MonoBehaviour
 
     IEnumerator FootstepSequence()
     {
-        foreach (GameObject footprint in footprintPrefabs)
+        int activeCount = 0;
+
+        for (int i = 0; i < footprintPrefabs.Count; i++)
         {
-            if (footprint != null)
+            if (footprintPrefabs[i] != null)
             {
-                footprint.SetActive(true);
+                footprintPrefabs[i].SetActive(true);
+                activeCount++;
+
+                if (activeCount > 2 && i - 2 >= 0 && footprintPrefabs[i - 2] != null)
+                {
+                    footprintPrefabs[i - 2].SetActive(false);
+                }
+
                 yield return new WaitForSeconds(stepInterval);
             }
         }
 
-        yield return new WaitForSeconds(1f);
+        foreach (var footprint in footprintPrefabs)
+        {
+            if (footprint != null) footprint.SetActive(false);
+        }
 
         DestroyDoor();
     }
