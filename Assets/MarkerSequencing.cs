@@ -245,6 +245,13 @@ public class MarkerSequencing : MonoBehaviour
                     // We completed the sequence
                     hideAllMarkers();
                     Debug.Log(activeSequence.ToString() + " sequence completed!");
+                    
+                    // If we just completed the Ship sequence, start the Device sequence
+                    if (activeSequence == SequenceType.Ship)
+                    {
+                        Debug.Log("Ship sequence completed! Starting Device sequence...");
+                        EnableDeviceSequence();
+                    }
                 }
             }
             // Handle backtracking - but only if player has gone past a previous marker
@@ -261,6 +268,10 @@ public class MarkerSequencing : MonoBehaviour
                     
                     // Skip if either marker is null
                     if (prevMarker == null || nextMarker == null)
+                        continue;
+                    
+                    // Add additional safety check before accessing transform
+                    if (!prevMarker || !nextMarker) 
                         continue;
                     
                     // Calculate vector from this marker to the next marker (the intended path direction)
@@ -289,16 +300,20 @@ public class MarkerSequencing : MonoBehaviour
                     GameObject prevMarker = currentSequenceMarkers[i];
                     GameObject nextMarker = currentSequenceMarkers[currentMarkerIndex];
                     
-                    Vector3 pathDirection = (nextMarker.transform.position - prevMarker.transform.position).normalized;
-                    Vector3 playerDirection = (player.transform.position - prevMarker.transform.position).normalized;
-                    
-                    float dotProduct = Vector3.Dot(pathDirection, playerDirection);
-                    float distance = Vector3.Distance(player.transform.position, prevMarker.transform.position);
-                    
-                    if (dotProduct < backtrackingThreshold && distance <= detectorRange * backtrackingRangeMultiplier)
+                    // Check if markers are valid before proceeding
+                    if (prevMarker != null && nextMarker != null && prevMarker && nextMarker)
                     {
-                        newIndex = i;
-                        shouldSwitch = true;
+                        Vector3 pathDirection = (nextMarker.transform.position - prevMarker.transform.position).normalized;
+                        Vector3 playerDirection = (player.transform.position - prevMarker.transform.position).normalized;
+                        
+                        float dotProduct = Vector3.Dot(pathDirection, playerDirection);
+                        float distance = Vector3.Distance(player.transform.position, prevMarker.transform.position);
+                        
+                        if (dotProduct < backtrackingThreshold && distance <= detectorRange * backtrackingRangeMultiplier)
+                        {
+                            newIndex = i;
+                            shouldSwitch = true;
+                        }
                     }
                 }
                 
