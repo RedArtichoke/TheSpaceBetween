@@ -37,16 +37,6 @@ public class endgameGameInfo : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    private void Update()
-    {
-        // ** TESTING FEATURE, TO BE REMOVED **
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            stopTimer();
-            SceneManager.LoadScene(2);
-        }
-    }
-
     public void displayData()
     {
         endgameCanvas = GameObject.Find("Stats");
