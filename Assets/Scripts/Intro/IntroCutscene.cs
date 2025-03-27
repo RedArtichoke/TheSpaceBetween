@@ -377,7 +377,7 @@ public class IntroCutscene : MonoBehaviour
     }
 
 
-    IEnumerator TypeText(TextMeshProUGUI textComponent, string text, float typingSpeed, float speedVariation, bool glitchEffect)
+    public IEnumerator TypeText(TextMeshProUGUI textComponent, string text, float typingSpeed, float speedVariation, bool glitchEffect)
     {
         textComponent.text = ""; // Reset text before typing
         computerSound.Play();

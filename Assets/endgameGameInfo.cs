@@ -25,6 +25,8 @@ public class endgameGameInfo : MonoBehaviour
     [SerializeField] GameObject endgameCanvas;
     [SerializeField] TextMeshProUGUI endgameText;
 
+    [SerializeField] IntroCutscene introFunction;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -46,6 +48,13 @@ public class endgameGameInfo : MonoBehaviour
                             "\n\nHighest Heart Rate - " + highRate + " BPM" +
                             "\n\nLowest Heart Rate - " + lowRate + " BPM" +
                             "\n\nYogurt Cups Collected - " + yogurtCollected + "/10";
+
+        StartCoroutine(introFunction.TypeText(endgameText, 
+                                                            "Time Played - " + playTime +
+                                                            "\n\nHighest Heart Rate - " + highRate + " BPM" +
+                                                            "\n\nLowest Heart Rate - " + lowRate + " BPM" +
+                                                            "\n\nYogurt Cups Collected - " + yogurtCollected + "/10", 
+            0.05f, 0.02f, true));
     }
 
     public void startTimer()
