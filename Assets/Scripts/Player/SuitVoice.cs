@@ -33,16 +33,16 @@ public class SuitVoice : MonoBehaviour
     public IntroCutscene intro;
 
     [Header("Effects")]
-    public GameObject steam1;
-    public GameObject steam2;
+    //public GameObject steam1;
+    //public GameObject steam2;
 
     private bgMusicPlayer musicPlayer;
     public SubtitleText subtitleText;
 
     void Start()
     {
-        steam1.SetActive(false);
-        steam2.SetActive(false);
+       // steam1.SetActive(false);
+       // steam2.SetActive(false);
 
         // Find the GameObject with the bgMusicPlayer component
         GameObject musicPlayerObject = GameObject.Find("Main Camera");
@@ -140,14 +140,14 @@ public class SuitVoice : MonoBehaviour
     public void playRestoreAudio()
     {
         PlayAudioWithVolumeControl(medicalRestore);
-        EnableSuitSteamEffect();
+        //EnableSuitSteamEffect();
     }
 
-    public void playRestoreAudioNoSteam()
-    {
-        PlayAudioWithVolumeControl(medicalRestore);
-    }
-
+   // public void playRestoreAudioNoSteam()
+  //  {
+//        PlayAudioWithVolumeControl(medicalRestore);
+ //   }
+//
     public void PlayPowerRestoreAudio()
     {
         PlayAudioWithVolumeControl(powerRestored);
@@ -191,21 +191,21 @@ public class SuitVoice : MonoBehaviour
         subtitleText.PlaySuitEnemy();
     }
 
-    public void EnableSuitSteamEffect()
-    {
-        StartCoroutine(SteamEffect());
-    }
+   // public void EnableSuitSteamEffect()
+  //  {
+  //      StartCoroutine(SteamEffect());
+  //  }
 
-    public IEnumerator SteamEffect()
-    {
-        yield return new WaitForSeconds(3f);
+   // public IEnumerator SteamEffect()
+   // {
+  //      yield return new WaitForSeconds(3f);
+//
+  //      steam1.SetActive(true);
+   //     steam2.SetActive(true);
 
-        steam1.SetActive(true);
-        steam2.SetActive(true);
+  //      yield return new WaitForSeconds(4f);
 
-        yield return new WaitForSeconds(4f);
-
-        steam1.SetActive(false);
-        steam2.SetActive(false);
-    }
+  //      steam1.SetActive(false);
+  //      steam2.SetActive(false);
+  //  }
 }
