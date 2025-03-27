@@ -17,7 +17,7 @@ public class Sludge : MonoBehaviour
         
         if(darkController.inDark)
         {
-            if (heartRate.BPMChange > 4)
+            if (heartRate.beatsPerMinute >= 100)
             {
                 particles.SetActive(true);
                 meshRenderer.enabled = true;

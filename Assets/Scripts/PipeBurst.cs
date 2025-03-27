@@ -26,9 +26,9 @@ public class PipeBurst : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && heartRateScript.BPMChange > 3)
+        if (other.CompareTag("Player") && heartRateScript.beatsPerMinute >= 100)
         {
-            if (Random.value < 0.3f) // 30% chance
+            if (Random.value < 0.5f) // 50%
             {
                 burstPipe();
             }
