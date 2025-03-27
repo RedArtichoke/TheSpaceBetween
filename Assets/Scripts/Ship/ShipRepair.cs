@@ -51,6 +51,11 @@ public class ShipRepair : MonoBehaviour
 
     void Update()
     {
+        if(Input.GetKey(KeyCode.M))
+        {
+            repairCount = 4;
+        }
+
         if(repairCount == 1)
         {
             collectedText.text = "Ship Parts repaired: 1/4";
