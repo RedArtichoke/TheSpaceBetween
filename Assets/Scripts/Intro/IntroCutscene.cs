@@ -72,6 +72,7 @@ public class IntroCutscene : MonoBehaviour
     public ControlPromptAnimator flashbangPrompt; 
     public ControlPromptAnimator flashLightPrompt; 
     public ControlPromptAnimator powerDisplay; 
+    public ControlPromptAnimator damageDisplay; 
 
     private void Start()
     {
@@ -155,6 +156,7 @@ public class IntroCutscene : MonoBehaviour
             flashbangPrompt.ShowInstantly();
             flashLightPrompt.ShowInstantly();
             powerDisplay.ShowInstantly();
+            damageDisplay.ShowInstantly();
             staticSound.Stop();
 
         }
@@ -285,7 +287,7 @@ public class IntroCutscene : MonoBehaviour
         UIComponents.SetActive(true);
         flashLightPrompt.RevealWithAnimation();
         powerDisplay.ShowInstantly();
-
+        damageDisplay.ShowInstantly();
         StartCoroutine(FlashlightControlPromptOpen());
     }
 

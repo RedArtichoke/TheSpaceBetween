@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class HealthManager : MonoBehaviour
 {
@@ -50,6 +51,10 @@ public class HealthManager : MonoBehaviour
     public int healAmount = 25; // Amount to heal per healing action
     public AudioClip healSound; // Sound to play when healing
 
+    // UI damage indicators
+    public Image[] damageIndicators = new Image[6];
+    private bool[] damageIndicatorsActive = new bool[6];
+
     void Start()
     {
         heartRateSimulator = GameObject.FindWithTag("HeartRateSimulator").GetComponent<HeartRateSimulator>();
@@ -62,6 +67,16 @@ public class HealthManager : MonoBehaviour
 
         // Create and configure the AudioSource
         audioSource = gameObject.AddComponent<AudioSource>();
+        
+        // Initialize all damage indicators to be hidden
+        for (int i = 0; i < damageIndicators.Length; i++)
+        {
+            if (damageIndicators[i] != null)
+            {
+                damageIndicators[i].gameObject.SetActive(false);
+                damageIndicatorsActive[i] = false;
+            }
+        }
     }
 
     void Update()
@@ -76,6 +91,9 @@ public class HealthManager : MonoBehaviour
             damageOverlay.sprite = null;
             damageOverlay.color = new Color(1f, 0f, 0f, 0f); // Fully transparent
             isDamaged = false;
+            
+            // Disable all damage indicators
+            DisableAllDamageIndicators();
         }
 
         if(health > 0)
@@ -129,6 +147,9 @@ public class HealthManager : MonoBehaviour
                 StopCoroutine(DamageCooldown());
                 UIComponents.SetActive(false);
             }
+
+            // Enable a random damage indicator
+            EnableRandomDamageIndicator();
         }
     }
 
@@ -258,6 +279,16 @@ public class HealthManager : MonoBehaviour
         //StartCoroutine(DamageCooldownRespawn());
         isDamaged = false;
         powerController.power = 90;
+
+        health = 100;
+            
+        // Reset damage overlay when health is reset to full
+        damageOverlay.sprite = null;
+        damageOverlay.color = new Color(1f, 0f, 0f, 0f); // Fully transparent
+        isDamaged = false;
+            
+        // Disable all damage indicators
+        DisableAllDamageIndicators();
     }
 
     // Selects the appropriate overlay sprite based on health
@@ -315,10 +346,89 @@ public class HealthManager : MonoBehaviour
             UpdateOverlayAlpha();
             
             Debug.Log("Player healed for " + actualHealAmount + ". Current health: " + health);
+            
+            // Disable a random damage indicator if any are active
+            DisableRandomDamageIndicator();
+            
+            // If we've reached full health, disable all indicators
+            if (health == 100)
+            {
+                DisableAllDamageIndicators();
+            }
         }
         else
         {
             Debug.Log("Player already at full health!");
         }
+    }
+
+    // Enable a random damage indicator that isn't already enabled
+    private void EnableRandomDamageIndicator()
+    {
+        // Count how many indicators are already active
+        int activeCount = 0;
+        for (int i = 0; i < damageIndicatorsActive.Length; i++)
+        {
+            if (damageIndicatorsActive[i])
+                activeCount++;
+        }
+        
+        // If all indicators are already active, we can't enable more
+        if (activeCount >= damageIndicatorsActive.Length)
+            return;
+        
+        // Find a random inactive indicator to enable
+        int randomIndex;
+        do
+        {
+            randomIndex = Random.Range(0, damageIndicators.Length);
+        } while (damageIndicatorsActive[randomIndex] || damageIndicators[randomIndex] == null);
+        
+        // Enable the chosen indicator
+        damageIndicators[randomIndex].gameObject.SetActive(true);
+        damageIndicatorsActive[randomIndex] = true;
+        
+        Debug.Log("Enabled damage indicator " + randomIndex);
+    }
+    
+    // Disable a random damage indicator that is currently enabled
+    private void DisableRandomDamageIndicator()
+    {
+        // Create a list of indices of active indicators
+        List<int> activeIndices = new List<int>();
+        for (int i = 0; i < damageIndicatorsActive.Length; i++)
+        {
+            if (damageIndicatorsActive[i] && damageIndicators[i] != null)
+                activeIndices.Add(i);
+        }
+        
+        // If no indicators are active, we can't disable any
+        if (activeIndices.Count == 0)
+            return;
+        
+        // Choose a random active indicator to disable
+        int randomActiveIndex = Random.Range(0, activeIndices.Count);
+        int indexToDisable = activeIndices[randomActiveIndex];
+        
+        // Disable the chosen indicator
+        damageIndicators[indexToDisable].gameObject.SetActive(false);
+        damageIndicatorsActive[indexToDisable] = false;
+        
+        Debug.Log("Disabled damage indicator " + indexToDisable);
+    }
+    
+    // Disable all damage indicators
+    private void DisableAllDamageIndicators()
+    {
+        for (int i = 0; i < damageIndicators.Length; i++)
+        {
+            if (damageIndicators[i] != null)
+            {
+                damageIndicators[i].gameObject.SetActive(false);
+                damageIndicatorsActive[i] = false;
+            }
+        }
+        
+        Debug.Log("Disabled all damage indicators");
     }
 }
