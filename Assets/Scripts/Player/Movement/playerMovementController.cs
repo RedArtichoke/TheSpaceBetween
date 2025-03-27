@@ -110,7 +110,7 @@ public class PlayerMovementController : MonoBehaviour
     private List<GameObject> activeInteractPrompts = new List<GameObject>();
 
     public ControlPromptAnimator dimensionPrompt; 
-
+    public SubtitleText subtitleText;
     void Start()
     {
         keyBindManager = FindObjectOfType<KeyBindManager>();
@@ -375,6 +375,7 @@ public class PlayerMovementController : MonoBehaviour
                     }
                 }
                 suitVoice.PlaySuitInstallAudio();
+                subtitleText.PlaySuitShifter();
 
                 door1.SetLockState(false);
                 door2.SetLockState(false);

@@ -73,6 +73,7 @@ public class IntroCutscene : MonoBehaviour
     public ControlPromptAnimator flashLightPrompt; 
     public ControlPromptAnimator powerDisplay; 
     public ControlPromptAnimator damageDisplay; 
+    public SubtitleText subtitleText;
 
     private void Start()
     {
@@ -158,6 +159,7 @@ public class IntroCutscene : MonoBehaviour
             powerDisplay.ShowInstantly();
             damageDisplay.ShowInstantly();
             staticSound.Stop();
+            subtitleText.ClearSubtitles();
 
         }
     }
@@ -230,6 +232,9 @@ public class IntroCutscene : MonoBehaviour
         noteInventory.SetActive(true);
 
         speaker.Play();
+        UIComponents.SetActive(true);
+        subtitleText.gameObject.SetActive(true);
+        subtitleText.PlayIntroSequence();
 
         yield return new WaitForSeconds(5f);
 
@@ -283,6 +288,7 @@ public class IntroCutscene : MonoBehaviour
     public void PlayFlashlightAudio()
     {
         speaker.clip = voice2;
+        subtitleText.PlayRampSuitSequence();
         speaker.Play();
         UIComponents.SetActive(true);
         flashLightPrompt.RevealWithAnimation();
@@ -314,6 +320,7 @@ public class IntroCutscene : MonoBehaviour
     {
         speaker.clip = voice4;
         speaker.Play();
+        subtitleText.PlayFlashbangSequence();
 
         StartCoroutine(FlashlightControlPromptClose());
     }
@@ -338,7 +345,7 @@ public class IntroCutscene : MonoBehaviour
     {
         speaker.clip = voice5;
         speaker.Play();
-
+        subtitleText.PlayPowerDrainSequence();
         StartCoroutine(FinalTutorialPrompt());
     }
 
@@ -364,7 +371,7 @@ public class IntroCutscene : MonoBehaviour
 
         speaker.clip = voice6;
         speaker.Play();
-
+        subtitleText.PlayLandingSequence();
         button1.SetActive(false);
         button2.SetActive(true);
     }

@@ -37,6 +37,7 @@ public class SuitVoice : MonoBehaviour
     public GameObject steam2;
 
     private bgMusicPlayer musicPlayer;
+    public SubtitleText subtitleText;
 
     void Start()
     {
@@ -58,6 +59,7 @@ public class SuitVoice : MonoBehaviour
         {
             suitVoice.clip = power75;
             suitVoice.Play();
+            subtitleText.PlaySuit75();
             hasPlayed75 = true;
         }   
         // Reset the flag when the power is no longer 75 so it can be played again later if needed
@@ -71,6 +73,7 @@ public class SuitVoice : MonoBehaviour
         {
             suitVoice.clip = power50;
             suitVoice.Play();
+            subtitleText.PlaySuit50();
             hasPlayed50 = true;
         }   
         else if (Mathf.FloorToInt(powerController.power) != 50)
@@ -83,6 +86,7 @@ public class SuitVoice : MonoBehaviour
         {
             suitVoice.clip = power25;
             suitVoice.Play();
+            subtitleText.PlaySuit25();
             hasPlayed25 = true;
         }   
         else if (Mathf.FloorToInt(powerController.power) != 25)
@@ -95,6 +99,7 @@ public class SuitVoice : MonoBehaviour
         {
             suitVoice.clip = power10;
             suitVoice.Play();
+            subtitleText.PlaySuit10();
             hasPlayed10 = true;
         }   
         else if (Mathf.FloorToInt(powerController.power) != 10)
@@ -129,6 +134,7 @@ public class SuitVoice : MonoBehaviour
     public void playDamageAudio()
     {
         PlayAudioWithVolumeControl(criticalDamageTaken);
+        subtitleText.PlaySuitDamaged();
     }
 
     public void playRestoreAudio()
@@ -145,6 +151,7 @@ public class SuitVoice : MonoBehaviour
     public void PlayPowerRestoreAudio()
     {
         PlayAudioWithVolumeControl(powerRestored);
+        subtitleText.PlaySuit100();
     }
 
     public void PlayConditionStabilizedAudio()
@@ -181,6 +188,7 @@ public class SuitVoice : MonoBehaviour
     public void PlayHostileDetected()
     {
         PlayAudioWithVolumeControl(hostile);
+        subtitleText.PlaySuitEnemy();
     }
 
     public void EnableSuitSteamEffect()
