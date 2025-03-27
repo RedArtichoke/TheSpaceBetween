@@ -13,6 +13,8 @@ public class ArduinoHandler : MonoBehaviour
     public float minBPM = 40f; // Minimum allowed BPM
     public float maxBPM = 160f; // Maximum allowed BPM
 
+    public float newBPM;
+
     private bool hasSentMessageFor100 = false;
     private bool hasSentMessageFor90 = false;
     private bool hasSentMessageFor80 = false;
@@ -117,7 +119,7 @@ public class ArduinoHandler : MonoBehaviour
 
         // Amplify the change from the last BPM reading
         float bpmChange = (currentBPM - lastBPM) * amplifyHeartrate;
-        float newBPM = Mathf.Clamp(lastBPM + bpmChange, minBPM, maxBPM);
+        newBPM = Mathf.Clamp(lastBPM + bpmChange, minBPM, maxBPM);
 
         // Update heart rate in the animation script
         heartRateScript.beatsPerMinute = newBPM;
