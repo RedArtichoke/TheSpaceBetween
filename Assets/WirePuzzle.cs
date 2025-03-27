@@ -44,6 +44,8 @@ public class WirePuzzle : MonoBehaviour
     private Material brokenScreen;
     private Renderer screenMat;
 
+    public GameObject keycardmimic;
+
     void Start()
     {
         lightFixture.color = Color.red;
@@ -95,6 +97,8 @@ public class WirePuzzle : MonoBehaviour
         FixedDoor.SetActive(true);
 
         enableEntryZone.SetActive(true);
+
+        keycardmimic.SetActive(true);
     }
 
   
