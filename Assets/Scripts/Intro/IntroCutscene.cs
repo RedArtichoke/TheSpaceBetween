@@ -74,6 +74,7 @@ public class IntroCutscene : MonoBehaviour
     public ControlPromptAnimator powerDisplay; 
     public ControlPromptAnimator damageDisplay; 
     public SubtitleText subtitleText;
+    private GameObject instructionCanvas;
 
     private void Start()
     {
@@ -233,6 +234,8 @@ public class IntroCutscene : MonoBehaviour
 
         speaker.Play();
         UIComponents.SetActive(true);
+        instructionCanvas = uiGoalText.gameObject.transform.parent.gameObject;
+        instructionCanvas.SetActive(false);
         subtitleText.gameObject.SetActive(true);
         subtitleText.PlayIntroSequence();
 
@@ -291,6 +294,7 @@ public class IntroCutscene : MonoBehaviour
         subtitleText.PlayRampSuitSequence();
         speaker.Play();
         UIComponents.SetActive(true);
+        instructionCanvas.SetActive(true);
         flashLightPrompt.RevealWithAnimation();
         powerDisplay.ShowInstantly();
         damageDisplay.ShowInstantly();

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
-
+using TMPro;
 public class DarkController : MonoBehaviour
 {
     public bool hasDevice = false;
@@ -41,6 +41,13 @@ public class DarkController : MonoBehaviour
     private HeartRateSimulator heartRateSimulator;
 
     private KeyBindManager keyBindManager;
+
+    public TextMeshProUGUI instructionSubtitling;
+
+    public TextMeshProUGUI instructionTitling;
+
+    private string originalSubtitleText;
+    private string originalTitleText;
 
     void Start()
     {
@@ -347,6 +354,14 @@ public class DarkController : MonoBehaviour
     {
         if (!inDark)
         {
+            // Save original text
+            originalSubtitleText = instructionSubtitling.text;
+            originalTitleText = instructionTitling.text;
+            
+            // Set new text for dark mode
+            instructionSubtitling.text = "While in the dark, you are safe from mimics";
+            instructionTitling.text = "The thing is hunting you";
+            
             inDark = true; // Set inDark to true
             StartCoroutine(AdjustExposure()); // Adjust exposure for entering dark
 
@@ -376,6 +391,10 @@ public class DarkController : MonoBehaviour
     {
         if (inDark)
         {
+            // Restore original text
+            instructionSubtitling.text = originalSubtitleText;
+            instructionTitling.text = originalTitleText;
+            
             inDark = false; // Set inDark to false
             StopCoroutine(AdjustExposure());
             StartCoroutine(AdjustExposure()); // Adjust exposure for exiting dark
