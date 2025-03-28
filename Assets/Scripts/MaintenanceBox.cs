@@ -33,7 +33,7 @@ public class MaintenanceBox : MonoBehaviour
     {
         if (other.CompareTag("Player") && heartRateScript.beatsPerMinute >= 100)
         {
-            if (Random.value < 0.5f) // 50%
+            if (Random.value < 0.1f) // 10%
             {
                 burstBox();
             }
