@@ -360,7 +360,7 @@ public class DarkController : MonoBehaviour
             
             // Set new text for dark mode
             instructionSubtitling.text = "While in the dark, you are safe from mimics";
-            instructionTitling.text = "The Thing is Hhunting You";
+            instructionTitling.text = "The Thing is Hunting You";
             
             inDark = true; // Set inDark to true
             StartCoroutine(AdjustExposure()); // Adjust exposure for entering dark
