@@ -143,10 +143,10 @@ public class HeartRateAnimator : MonoBehaviour
         }
 
 
-        //if (serialControllerScript.arduinoConnected = true)
-        //{
-        //    beatsPerMinute = arduinoHandlerScript.newBPM;
-        //}
+        if (serialControllerScript.arduinoConnected)
+        {
+            beatsPerMinute = arduinoHandlerScript.newBPM;
+        }
 
     }
 
