@@ -53,6 +53,7 @@ Transform:
   - {fileID: 186886257269903909}
   - {fileID: 4923318420001857582}
   - {fileID: 5288351360322313738}
+  - {fileID: 7946583566214726611}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &3985313636700696708
@@ -127,6 +128,7 @@ MonoBehaviour:
   door1: {fileID: 0}
   door2: {fileID: 0}
   dimensionPrompt: {fileID: 0}
+  subtitleText: {fileID: 0}
 --- !u!114 &3482881951145624219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -315,12 +317,15 @@ MonoBehaviour:
   yogurtCollected: 0
   collectSound: {fileID: 0}
   startTime: 0
+  playSec: 0
+  playMin: 0
   playTime: 0
   highRate: 0
   lowRate: 0
   heartinfo: {fileID: 0}
   endgameCanvas: {fileID: 0}
   endgameText: {fileID: 0}
+  introFunction: {fileID: 0}
 --- !u!114 &8657202286349119676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6211,8 +6216,7 @@ MonoBehaviour:
   hostile: {fileID: 8300000, guid: b831cde69e02b1244a9bc78a40d486af, type: 3}
   uiSuitSystem: {fileID: 0}
   intro: {fileID: 0}
-  steam1: {fileID: 5918334738435922191}
-  steam2: {fileID: 5253883465676364779}
+  subtitleText: {fileID: 0}
 --- !u!1 &3979727799474700649
 GameObject:
   m_ObjectHideFlags: 0
@@ -11710,6 +11714,56 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!1 &5369679508009795065
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7946583566214726611}
+  - component: {fileID: 2560434915896632546}
+  m_Layer: 6
+  m_Name: MimicSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7946583566214726611
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5369679508009795065}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5443115629039691449}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2560434915896632546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5369679508009795065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba53d7e133b914fae950236f0ef7781b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mimicPrefab: {fileID: 4510365256109511908, guid: 9b98c09ea694042e6998841e8381ced1,
+    type: 3}
+  spawnInterval: 30
+  spawnRandomVariation: 20
+  spawnRadius: 35
+  maxSpawnAttempts: 30
 --- !u!1 &5440702229477528707
 GameObject:
   m_ObjectHideFlags: 0
