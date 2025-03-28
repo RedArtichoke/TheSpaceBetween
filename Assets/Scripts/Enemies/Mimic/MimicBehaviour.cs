@@ -42,7 +42,10 @@ public class MimicBehaviour : MonoBehaviour
     void Start()
     {
         navAgent = GetComponent<NavMeshAgent>();
-        playerLayer = LayerMask.GetMask("Player"); // Set player layer
+        
+        // Use multiple layers to ensure we catch all possible player objects
+        playerLayer = LayerMask.GetMask("Player", "Default");
+        
         InvokeRepeating("RoamAround", Random.Range(5f, 10f), Random.Range(10f, 15f)); // Roaming with style
         InvokeRepeating("LeaveFootprint", 0.25f, 0.25f); // Footprint party every 0.5 seconds
 
@@ -56,7 +59,36 @@ public class MimicBehaviour : MonoBehaviour
             reverbFilter.reverbPreset = AudioReverbPreset.Cave; // Choose a haunting reverb preset
         }
 
+        // CRITICAL FIX: Make sure we find the hitbox initially, but also store a reference to the actual player object
         player = GameObject.FindGameObjectWithTag("Player");
+        
+        // If we're finding the hitbox, also store a reference to its parent (the actual player)
+        if (player != null && player.name == "hitbox")
+        {
+            Debug.Log("Found hitbox as player reference in Start()");
+        }
+        
+        // If we still can't find the player by tag, try by name
+        if (player == null)
+        {
+            Debug.LogWarning("Could not find player by tag, trying by name...");
+            player = GameObject.Find("hitbox");
+            
+            if (player == null)
+            {
+                Debug.LogWarning("Still couldn't find hitbox, looking for Player object directly...");
+                player = GameObject.Find("Player");
+            }
+        }
+
+        if (player == null)
+        {
+            Debug.LogError("CRITICAL: Could not find any player reference by tag or name!");
+        }
+        else
+        {
+            Debug.Log("Successfully found player reference: " + player.name);
+        }
 
         StartCoroutine(PlayRandomSound());
     }
@@ -157,10 +189,11 @@ public class MimicBehaviour : MonoBehaviour
                 // Debug.Log("Chasing player.");
             }
 
+            // Use a non-physics approach to determine attack distance
             if (distanceToPlayer <= 2f)
             {
-                StartCoroutine(AttackPlayer());
-                // Debug.Log("Attacking player!");
+                // Use direct damage instead of coroutine for better cross-platform consistency
+                TryDamagePlayer();
             }
         }
         else
@@ -171,6 +204,148 @@ public class MimicBehaviour : MonoBehaviour
                 StartCoroutine(DelayedDisguise());
             }
         }
+    }
+
+    // Separate the damage logic from physics/coroutines
+    private void TryDamagePlayer()
+    {
+        if (player == null) return;
+        
+        // First try to get HealthManager using the static method
+        HealthManager healthManager = HealthManager.GetInstance();
+        
+        // If that still fails, try the original hierarchy approach
+        if (healthManager == null)
+        {
+            Debug.LogWarning("Could not find HealthManager using static method, trying hierarchy traversal...");
+            
+            // CRITICAL FIX: The hitbox object is what's being detected, but HealthManager is on Player
+            // We must navigate up to find the correct HealthManager
+            
+            // First get the root player GameObject
+            GameObject rootPlayer = null;
+            
+            // If the detected object is the hitbox, go up to its parent
+            if (player.name == "hitbox")
+            {
+                rootPlayer = player.transform.parent?.gameObject;
+                Debug.Log("Found hitbox, parent is: " + (rootPlayer != null ? rootPlayer.name : "null"));
+            }
+            else
+            {
+                // Either we already have the player or we need to search for it
+                rootPlayer = player;
+            }
+            
+            if (rootPlayer == null)
+            {
+                Debug.LogError("Cannot find root player object from hitbox reference!");
+                return;
+            }
+            
+            // Now try to get the HealthManager directly from the root player object
+            healthManager = rootPlayer.GetComponent<HealthManager>();
+            
+            // If still null, try one level up in case of nested structure
+            if (healthManager == null && rootPlayer.transform.parent != null)
+            {
+                healthManager = rootPlayer.transform.parent.gameObject.GetComponent<HealthManager>();
+            }
+            
+            // Final fallback - try to find it anywhere in the hierarchy
+            if (healthManager == null)
+            {
+                healthManager = FindObjectOfType<HealthManager>();
+                Debug.Log("Had to use FindObjectOfType to locate HealthManager");
+            }
+        }
+        
+        if (healthManager == null)
+        {
+            Debug.LogError("HealthManager not found anywhere in the hierarchy!");
+            return;
+        }
+        
+        // Only damage if not already damaged
+        if (!healthManager.isDamaged)
+        {
+            Debug.Log("Mimic attempting to damage player. Player health before: " + healthManager.health);
+            
+            // Stop navigation before damaging
+            if (navAgent != null && navAgent.isOnNavMesh && navAgent.enabled)
+            {
+                navAgent.velocity = Vector3.zero;
+                navAgent.isStopped = true;
+            }
+            
+            // Force physics movement to ensure we're in touch with player
+            if (player != null)
+            {
+                // Get closer to ensure detection works
+                transform.position = Vector3.MoveTowards(transform.position, player.transform.position, 0.5f);
+            }
+            
+            // Damage the player with a very slight delay to allow physics to settle
+            StartCoroutine(DelayedDamage(healthManager));
+        }
+    }
+    
+    private IEnumerator DelayedDamage(HealthManager healthManager)
+    {
+        // Wait a tiny fraction of time to let physics settle
+        yield return new WaitForFixedUpdate();
+        
+        // Apply damage
+        healthManager.DamagePlayer();
+        Debug.Log("Player damaged. Health after: " + healthManager.health);
+        
+        // Handle mimic appearance
+        StartCoroutine(HandleMimicAppearance());
+    }
+
+    // Handle mimic appearance and movement after damage
+    private IEnumerator HandleMimicAppearance()
+    {
+        // Make mimic visible
+        MimicBody mimicBody = GetComponentInChildren<MimicBody>();
+        if (mimicBody != null)
+        {
+            mimicBody.isVisible = true;
+            mimicBody.UpdateVisibility();
+        }
+        
+        yield return new WaitForSeconds(Random.Range(0.1f, 0.3f));
+        
+        if (mimicBody != null)
+        {
+            mimicBody.isVisible = false;
+            mimicBody.UpdateVisibility();
+        }
+        
+        // Force move the mimic away to avoid physics pushing
+        yield return new WaitForSeconds(0.2f);
+        
+        if (player != null)
+        {
+            Vector3 moveDirection = (transform.position - player.transform.position).normalized;
+            transform.position += moveDirection * 2f;
+        }
+        
+        yield return new WaitForSeconds(1.8f);
+        
+        // Resume navigation
+        if (navAgent != null && navAgent.isOnNavMesh && navAgent.enabled)
+        {
+            navAgent.isStopped = false;
+        }
+    }
+
+    // Keep this method for backward compatibility but redirect to new system
+    IEnumerator AttackPlayer()
+    {
+        // Just call our new direct damage method
+        TryDamagePlayer();
+        yield return null;
     }
 
     void LeaveFootprint()
@@ -201,63 +376,6 @@ public class MimicBehaviour : MonoBehaviour
                     mimicAudioSource.PlayOneShot(stepSound);
                 }
             }
-        }
-    }
-
-    // Handles visibility and movement control
-    IEnumerator AttackPlayer()
-    {        
-        // Damage the player
-        if (player != null)
-        {
-            // Get the parent of the player object
-            GameObject actualPlayer = player.transform.parent?.gameObject;
-
-            if (actualPlayer != null)
-            {
-
-                HealthManager healthManager = actualPlayer.GetComponent<HealthManager>();
-                if (healthManager != null)
-                {
-                    if (!healthManager.isDamaged)
-                    {
-
-                        healthManager.DamagePlayer();
-                        MimicBody mimicBody = GetComponentInChildren<MimicBody>();
-                        if (mimicBody != null)
-                        {
-                            mimicBody.isVisible = true;
-                            mimicBody.UpdateVisibility();
-                        }
-                        navAgent.isStopped = true;
-                        yield return new WaitForSeconds(Random.Range(0.1f, 0.3f));
-                        if (mimicBody != null)
-                        {
-                            mimicBody.isVisible = false;
-                            mimicBody.UpdateVisibility();
-                        }
-                        yield return new WaitForSeconds(2f);
-
-                        navAgent.isStopped = false;
-                    }
-                    else
-                    {
-                        Debug.Log("Player is already damaged.");
-                    }
-                }
-                else
-                {
-                    Debug.Log("HealthManager not found on actual player: " + actualPlayer.name);
-                }
-            }
-            else
-            {
-                Debug.Log("Actual player is null.");
-            }
-        }
-        else
-        {
-            Debug.Log("Player is null.");
         }
     }
 

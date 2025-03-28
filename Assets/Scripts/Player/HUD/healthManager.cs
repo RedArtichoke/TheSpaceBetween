@@ -77,6 +77,44 @@ public class HealthManager : MonoBehaviour
                 damageIndicatorsActive[i] = false;
             }
         }
+        
+        // Mark this object as DontDestroyOnLoad to ensure it persists
+        // This helps with reference finding in builds
+        GameObject hitbox = transform.Find("hitbox")?.gameObject;
+        if (hitbox != null)
+        {
+            // Make sure the hitbox has the Player tag
+            if (hitbox.tag != "Player")
+            {
+                Debug.LogWarning("Setting hitbox tag to Player for proper detection");
+                hitbox.tag = "Player";
+            }
+            
+            // Make sure the hitbox has a collider
+            if (hitbox.GetComponent<Collider>() == null)
+            {
+                Debug.LogError("Hitbox has no collider! Adding a box collider");
+                hitbox.AddComponent<BoxCollider>();
+            }
+        }
+        else
+        {
+            Debug.LogWarning("No hitbox found as child of Player. This may cause detection issues.");
+        }
+        
+        // Log this object to make debugging easier
+        Debug.Log("HealthManager initialized on object: " + gameObject.name);
+    }
+
+    // Add a public static reference to make it easier to find this component
+    public static HealthManager GetInstance()
+    {
+        HealthManager instance = FindObjectOfType<HealthManager>();
+        if (instance == null)
+        {
+            Debug.LogError("No HealthManager found in scene!");
+        }
+        return instance;
     }
 
     void Update()
@@ -108,10 +146,17 @@ public class HealthManager : MonoBehaviour
 
     public void DamagePlayer()
     {
+        // Add debug logging to track build issues
+        Debug.Log("DamagePlayer called on HealthManager. Current health: " + health);
+        
+        // Force this to run on the main thread for Windows compatibility
         if (!isDamaged)
         {
+            // Lock this flag immediately to prevent double damage
+            isDamaged = true;
+            
             // Play random damage sound with pitch variation
-            if (damageSounds.Length > 0)
+            if (damageSounds.Length > 0 && audioSource != null)
             {
                 int randomIndex = Random.Range(0, damageSounds.Length);
                 audioSource.clip = damageSounds[randomIndex];
@@ -119,47 +164,75 @@ public class HealthManager : MonoBehaviour
                 audioSource.Play();
             }
 
-            health -= 30;
-            if (health < 0)
+            // Apply damage and ensure it's capped properly - ensure this happens BEFORE any coroutines
+            health = Mathf.Max(0, health - 30);
+            
+            // Apply camera effects synchronously
+            if (cameraController != null)
             {
-                health = 0;
+                cameraController.StartScreenShake();
             }
-            isDamaged = true;
 
-            cameraController.StartScreenShake();
+            if (heartRateSimulator != null)
+            {
+                heartRateSimulator.BumpUp();
+            }
 
-            heartRateSimulator.BumpUp();
-
-            // Removed strobe effect code
-            // Instead, just update the overlay
+            // Update visual effects immediately
             UpdateCurrentOverlay();
             UpdateOverlayAlpha();
 
-            if(health > 0)
-            {
-                suitVoice.playDamageAudio();
-                StartCoroutine(DamageCooldown());
-            }
+            // This needs to be called before any coroutines to ensure it happens
+            EnableRandomDamageIndicator();
 
             if (health <= 0)
             {
-                RevealGameOverUI();
-                StopCoroutine(DamageCooldown());
-                UIComponents.SetActive(false);
+                // Handle death immediately
+                health = 0;
+                
+                // Use invoke to ensure this happens in the correct order
+                Invoke("HandlePlayerDeath", 0.05f);
             }
+            else
+            {
+                // Only handle voice and cooldown if still alive
+                if (suitVoice != null)
+                {
+                    suitVoice.playDamageAudio();
+                }
+                
+                // Use invoke to ensure this starts in the next frame
+                Invoke("StartDamageCooldown", 0.05f);
+            }
+        }
+    }
 
-            // Enable a random damage indicator
-            EnableRandomDamageIndicator();
+    // New method to handle starting the damage cooldown
+    private void StartDamageCooldown()
+    {
+        StartCoroutine(DamageCooldown());
+    }
+
+    // New method to handle player death
+    private void HandlePlayerDeath()
+    {
+        RevealGameOverUI();
+        StopAllCoroutines();
+        if (UIComponents != null)
+        {
+            UIComponents.SetActive(false);
         }
     }
 
     private IEnumerator DamageCooldown()
     {
+        // Wait for damage cooldown period
         yield return new WaitForSeconds(2f);
+        
+        // Reset damage flag
         isDamaged = false;
         
-        // Removed health regeneration code here
-        // Just update the overlay based on current health
+        // Update visuals after cooldown
         UpdateCurrentOverlay();
         UpdateOverlayAlpha();
     }
