@@ -53,12 +53,12 @@ public class endgameGameInfo : MonoBehaviour
                             "\n\nLowest Heart Rate - " + lowRate + " BPM" +
                             "\n\nYogurt Cups Collected - " + yogurtCollected + "/10";
 
-        StartCoroutine(introFunction.TypeText(endgameText, 
-                                                            "Time Played - " + playTime +
-                                                            "\n\nHighest Heart Rate - " + highRate + " BPM" +
-                                                            "\n\nLowest Heart Rate - " + lowRate + " BPM" +
-                                                            "\n\nYogurt Cups Collected - " + yogurtCollected + "/10", 
-            0.05f, 0.02f, true));
+       // StartCoroutine(introFunction.TypeText(endgameText, 
+       //                                                     "Time Played - " + playTime +
+        //                                                    "\n\nHighest Heart Rate - " + highRate + " BPM" +
+        //                                                    "\n\nLowest Heart Rate - " + lowRate + " BPM" +
+        //                                                    "\n\nYogurt Cups Collected - " + yogurtCollected + "/10", 
+        //    0.05f, 0.02f, true));
     }
 
     public void startTimer()
