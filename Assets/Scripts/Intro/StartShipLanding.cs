@@ -30,6 +30,8 @@ public class StartShipLanding : MonoBehaviour
     public GameObject UIComponents;
     private KeyBindManager keyBindManager;
 
+    public endgameGameInfo gameInfo;
+
     void Start()
     {
         keyBindManager = FindObjectOfType<KeyBindManager>();
@@ -113,6 +115,8 @@ public class StartShipLanding : MonoBehaviour
             blackScreen.alpha = alpha;
             yield return null;  
         }
+
+        gameInfo.stopTimer();
 
         yield return new WaitForSeconds (1f);
 

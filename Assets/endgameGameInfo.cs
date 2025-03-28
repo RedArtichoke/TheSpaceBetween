@@ -14,7 +14,9 @@ public class endgameGameInfo : MonoBehaviour
     bool inGame;
 
     [SerializeField] float startTime; //when the player is able to leave the ship
-    [SerializeField] float playTime; //time in seconds?
+    [SerializeField] int playSec; //time in seconds?
+    [SerializeField] int playMin; //time in seconds?
+    [SerializeField] string playTime; //time in seconds?
 
     //heartrate animator is not in endscene
     [SerializeField] int highRate;
@@ -25,26 +27,20 @@ public class endgameGameInfo : MonoBehaviour
     [SerializeField] GameObject endgameCanvas;
     [SerializeField] TextMeshProUGUI endgameText;
 
+    [SerializeField] IntroCutscene introFunction;
+
     // Start is called before the first frame update
     void Start()
     {
         inGame = false;
 
         startTime = 0;
-        playTime = 0;
+        playSec = 0;
+        playMin = 0;
+        playTime = "";
         yogurtCollected = 0;
 
         DontDestroyOnLoad(gameObject);
-    }
-
-    private void Update()
-    {
-        // ** TESTING FEATURE, TO BE REMOVED **
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            stopTimer();
-            SceneManager.LoadScene(2);
-        }
     }
 
     public void displayData()
@@ -56,6 +52,13 @@ public class endgameGameInfo : MonoBehaviour
                             "\n\nHighest Heart Rate - " + highRate + " BPM" +
                             "\n\nLowest Heart Rate - " + lowRate + " BPM" +
                             "\n\nYogurt Cups Collected - " + yogurtCollected + "/10";
+
+        StartCoroutine(introFunction.TypeText(endgameText, 
+                                                            "Time Played - " + playTime +
+                                                            "\n\nHighest Heart Rate - " + highRate + " BPM" +
+                                                            "\n\nLowest Heart Rate - " + lowRate + " BPM" +
+                                                            "\n\nYogurt Cups Collected - " + yogurtCollected + "/10", 
+            0.05f, 0.02f, true));
     }
 
     public void startTimer()
@@ -78,7 +81,10 @@ public class endgameGameInfo : MonoBehaviour
         if (inGame)
         {
             //the time from starting to play to beating the game
-            playTime = Time.timeSinceLevelLoad - startTime;
+            playSec = (int)(Time.timeSinceLevelLoad - startTime); //example: 125 second playthrough = 125 playSec
+
+            playMin = playSec / 60; // 125/60 seconds = 2 playMin and 5 playSec
+            playTime = playMin + ":" + (playSec%60); // 125 seconds should read as 2:05
 
             highRate = (int)heartinfo.highestHeartRate;
             lowRate = (int)heartinfo.lowestHeartRate;
