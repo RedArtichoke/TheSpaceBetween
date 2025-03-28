@@ -14,7 +14,9 @@ public class endgameGameInfo : MonoBehaviour
     bool inGame;
 
     [SerializeField] float startTime; //when the player is able to leave the ship
-    [SerializeField] float playTime; //time in seconds?
+    [SerializeField] int playSec; //time in seconds?
+    [SerializeField] int playMin; //time in seconds?
+    [SerializeField] string playTime; //time in seconds?
 
     //heartrate animator is not in endscene
     [SerializeField] int highRate;
@@ -33,7 +35,9 @@ public class endgameGameInfo : MonoBehaviour
         inGame = false;
 
         startTime = 0;
-        playTime = 0;
+        playSec = 0;
+        playMin = 0;
+        playTime = "";
         yogurtCollected = 0;
 
         DontDestroyOnLoad(gameObject);
@@ -77,7 +81,10 @@ public class endgameGameInfo : MonoBehaviour
         if (inGame)
         {
             //the time from starting to play to beating the game
-            playTime = Time.timeSinceLevelLoad - startTime;
+            playSec = (int)(Time.timeSinceLevelLoad - startTime); //example: 125 second playthrough = 125 playSec
+
+            playMin = playSec / 60; // 125/60 seconds = 2 playMin and 5 playSec
+            playTime = playMin + ":" + (playSec%60); // 125 seconds should read as 2:05
 
             highRate = (int)heartinfo.highestHeartRate;
             lowRate = (int)heartinfo.lowestHeartRate;
