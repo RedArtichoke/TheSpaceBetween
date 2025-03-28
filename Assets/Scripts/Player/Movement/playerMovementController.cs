@@ -380,8 +380,8 @@ public class PlayerMovementController : MonoBehaviour
                 door1.SetLockState(false);
                 door2.SetLockState(false);
                 
-                QPrompt.SetActive(true);
-                StartCoroutine(DimensionPrompt());
+                //QPrompt.SetActive(true);
+                //StartCoroutine(DimensionPrompt());
 
                 Destroy(hit.transform.gameObject); // Delete the object
                 return; // Exit the method
