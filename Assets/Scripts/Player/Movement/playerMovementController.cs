@@ -903,7 +903,10 @@ public class PlayerMovementController : MonoBehaviour
                     if (doorOpenComponent != null && doorOpenComponent.IsLocked)
                     {
                         if (nameText != null)
+                        {
                             nameText.text = "Locked Door";
+                            nameText.color = new Color(0.99f, 0.69f, 0.13f, 1f); // Reset to default color
+                        }
 
                         if (instructionsText != null)
                             instructionsText.text = "Cannot Open";
@@ -914,7 +917,10 @@ public class PlayerMovementController : MonoBehaviour
                             instructionsText.text = "Press " + keyBindManager.interactKey + " to Open";
 
                         if (nameText != null)
+                        {
                             nameText.text = "Door";
+                            nameText.color = new Color(0.99f, 0.69f, 0.13f, 1f); // Reset to default color
+                        }
                     }
                 }
                 else if (targetObject.name == "x")
@@ -922,12 +928,18 @@ public class PlayerMovementController : MonoBehaviour
                     if (instructionsText != null)
                         instructionsText.text = "Initiate Landing Sequence";
                     if (nameText != null)
+                    {
                         nameText.text = "The Intervallum";
+                        nameText.color = new Color(0.99f, 0.69f, 0.13f, 1f); // Reset to default color
+                    }
                 }
                 else if(targetObject.name.StartsWith("stall"))
                 {
                     if (nameText != null)
+                    {
                         nameText.text = FormatObjectName(objectRenderer.transform.name);
+                        nameText.color = new Color(0.99f, 0.69f, 0.13f, 1f); // Reset to default color
+                    }
 
                     if (instructionsText != null)
                         instructionsText.text = stall.isClosed ? "Press " + keyBindManager.interactKey + " to Open" : "Press " + keyBindManager.interactKey + " to Close";
@@ -935,15 +947,31 @@ public class PlayerMovementController : MonoBehaviour
                 else if (targetObject.name.Contains("elevator_panel"))
                 {
                     if (nameText != null)
+                    {
                         nameText.text = "elevator button";
+                        nameText.color = new Color(0.99f, 0.69f, 0.13f, 1f); // Reset to default color
+                    }
 
                     if (instructionsText != null)
                         instructionsText.text = "Press " + keyBindManager.interactKey + " to Push";
                 }
                 else
                 {
+                    string formattedName = FormatObjectName(objectRenderer.transform.name);
                     if (nameText != null)
-                        nameText.text = FormatObjectName(objectRenderer.transform.name);
+                    {
+                        nameText.text = formattedName;
+                        // Check if this is a special object that should be blue
+                        string[] specialObjects = { "Powercell Core", "Steering Wheel", "Tesseract", "Engine" };
+                        if (specialObjects.Contains(formattedName))
+                        {
+                            nameText.color = new Color(0.41f, 0.8f, 1f, 1f); // Bright blue color
+                        }
+                        else
+                        {
+                            nameText.color = new Color(0.99f, 0.69f, 0.13f, 1f); // Reset to default color
+                        }
+                    }
 
                     // Check if we're holding an object and update instructions accordingly
                     if (instructionsText != null)
