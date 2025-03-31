@@ -1183,6 +1183,12 @@ public class PlayerMovementController : MonoBehaviour
 
     private string FormatObjectName(string originalName)
     {
+        // Special case for tesseract
+        if (originalName.Contains("tesseract"))
+        {
+            return "Tesseract";
+        }
+
         // Remove unwanted words
         string[] unwantedWords = { "geo", "geometry", "open", "closed", "clone", "right", "left", "main", "tenance", "handle" };
         foreach (var word in unwantedWords)
