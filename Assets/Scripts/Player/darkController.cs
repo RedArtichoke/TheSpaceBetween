@@ -35,6 +35,7 @@ public class DarkController : MonoBehaviour
     private AudioSource darkAmbientAudioSource; // Separate AudioSource for ambient sound
     public GameObject keyItemReplacementPrefab; // Assign in inspector
     public GameObject keyItemChildPrefab; // Assign in inspector
+    public GameObject batteryMarkerPrefab; // Assign in inspector - separate marker for batteries
 
     private List<GameObject> keyItemsWithHighlights = new List<GameObject>();
 
@@ -392,12 +393,21 @@ public class DarkController : MonoBehaviour
 
     private void AddKeyItemHighlights()
     {
-        // Find all objects on the "KeyItems" layer
+        // Find all objects with "KeyItem" and "Battery" tags
         GameObject[] keyItems = GameObject.FindGameObjectsWithTag("KeyItem");
+        GameObject[] batteries = GameObject.FindGameObjectsWithTag("Battery");
+        
+        // Process key items
         foreach (GameObject keyItem in keyItems)
         {
-            // Instantiate the child prefab and set it as a child of the key item
             GameObject child = Instantiate(keyItemChildPrefab, keyItem.transform);
+            keyItemsWithHighlights.Add(child);
+        }
+        
+        // Process batteries
+        foreach (GameObject battery in batteries)
+        {
+            GameObject child = Instantiate(batteryMarkerPrefab, battery.transform);
             keyItemsWithHighlights.Add(child);
         }
     }
