@@ -49,6 +49,8 @@ public class DarkController : MonoBehaviour
     private string originalSubtitleText;
     private string originalTitleText;
 
+    private float darkEntryCooldown = 0f; // Tracks cooldown period after entering dark
+
     void Start()
     {
         keyBindManager = FindObjectOfType<KeyBindManager>();
@@ -113,12 +115,22 @@ public class DarkController : MonoBehaviour
         {
             if (inDark)
             {
-                ExitDark();
+                // Only allow manual exit if cooldown is finished
+                if (darkEntryCooldown <= 0f)
+                {
+                    ExitDark();
+                }
             }
             else
             {
                 EnterDark();
             }
+        }
+
+        // Update cooldown timer
+        if (darkEntryCooldown > 0f)
+        {
+            darkEntryCooldown -= Time.deltaTime;
         }
     }
 
@@ -354,6 +366,9 @@ public class DarkController : MonoBehaviour
     {
         if (!inDark)
         {
+            // Set cooldown timer
+            darkEntryCooldown = 10f;
+            
             // Save original text
             originalSubtitleText = instructionSubtitling.text;
             originalTitleText = instructionTitling.text;

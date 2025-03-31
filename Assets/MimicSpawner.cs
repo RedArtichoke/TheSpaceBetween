@@ -41,7 +41,7 @@ public class MimicSpawner : MonoBehaviour
     void Update()
     {
         // Only spawn mimics if player has the device
-        if (playerController.hasDevice && Time.time >= nextSpawnTime)
+        if (playerController.hasDevice && Time.time >= nextSpawnTime && !playerController.inDark)
         {
             SpawnMimic();
             SetNextSpawnTime();
