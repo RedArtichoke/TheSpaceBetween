@@ -55,10 +55,12 @@ public class endgameGameInfo : MonoBehaviour
         endgameCanvas = GameObject.Find("Stats");
         endgameText = endgameCanvas.GetComponent<TextMeshProUGUI>();
 
-        /*endgameText.text =  "Time Played - " + playTime +
-                            "\n\nHighest Heart Rate - " + highRate + " BPM" +
-                            "\n\nLowest Heart Rate - " + lowRate + " BPM" +
-                            "\n\nYogurt Cups Collected - " + yogurtCollected + "/10";*/
+        /*endgameText.text =    "Time Played - " + playTime +
+                                "\r\nDeath Count - " + deaths +
+                                "\r\nDimension Shifter Used " + shifterUse + " Times" +
+                                "\r\nHighest Heart Rate - " + highRate + " BPM" +
+                                "\r\nLowest Heart Rate - " + lowRate + " BPM" +
+                                "\r\nYogurt Cups Collected - " + yogurtCollected + "/10\n" */
 
         StartCoroutine(introFunction.TypeText(endgameText, 
                                                             "Time Played - " + playTime +
