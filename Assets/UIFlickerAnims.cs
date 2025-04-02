@@ -6,7 +6,13 @@ public class UIFlickerAnims : MonoBehaviour
 {
     public Animator anim;
     public AudioSource audioLoad;
-    void OnEnable()
+    //void OnEnable()
+    //{
+        //anim.SetTrigger("Flicker");
+        //audioLoad.Play();
+    //}
+
+    public void FlickerUI() 
     {
         anim.SetTrigger("Flicker");
         audioLoad.Play();

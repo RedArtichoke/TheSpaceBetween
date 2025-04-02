@@ -29,7 +29,7 @@ public class IntroCutscene : MonoBehaviour
     public PlayerMovementController playerMovement;
     public FpsCameraController playerCamera;
     public doorOpen closetDoor;
-    public GameObject UIComponents;
+    public UIFlickerAnims UIComponents;
     public AudioSource speaker;
     public AudioClip voice2;
     public AudioClip voice3;
@@ -91,7 +91,7 @@ public class IntroCutscene : MonoBehaviour
         playerMovement.enabled = false;
 
         //Disable UI components
-        UIComponents.SetActive(false);
+        UIComponents.gameObject.SetActive(false);
 
         //Yogurt cup presents...
         text.gameObject.SetActive(false);
@@ -141,7 +141,7 @@ public class IntroCutscene : MonoBehaviour
             playerMovement.enabled = true;
 
             //Re enable UI components
-            UIComponents.SetActive(true);
+            UIComponents.gameObject.SetActive(true);
 
             HUD.SetActive(true);
 
@@ -235,7 +235,7 @@ public class IntroCutscene : MonoBehaviour
         noteInventory.SetActive(true);
 
         speaker.Play();
-        UIComponents.SetActive(true);
+        UIComponents.gameObject.SetActive(true);
         instructionCanvas = uiGoalText.gameObject.transform.parent.gameObject;
         instructionCanvas.SetActive(false);
         subtitleText.gameObject.SetActive(true);
@@ -295,7 +295,8 @@ public class IntroCutscene : MonoBehaviour
         speaker.clip = voice2;
         subtitleText.PlayRampSuitSequence();
         speaker.Play();
-        UIComponents.SetActive(true);
+        UIComponents.gameObject.SetActive(true);
+        UIComponents.FlickerUI();
         instructionCanvas.SetActive(true);
         flashLightPrompt.RevealWithAnimation();
         powerDisplay.ShowInstantly();
