@@ -13,10 +13,14 @@ public class endgameGameInfo : MonoBehaviour
 
     bool inGame;
 
+    public int deaths;
+    public int shifterUse;
+
     [SerializeField] float startTime; //when the player is able to leave the ship
     [SerializeField] int playSec; //time in seconds?
     [SerializeField] int playMin; //time in seconds?
     [SerializeField] string playTime; //time in seconds?
+    
 
     //heartrate animator is not in endscene
     [SerializeField] int highRate;
@@ -39,8 +43,11 @@ public class endgameGameInfo : MonoBehaviour
         playMin = 0;
         playTime = "";
         yogurtCollected = 0;
+        deaths = 0;
+        shifterUse = 0;
 
         DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(introFunction.gameObject);
     }
 
     public void displayData()
@@ -48,16 +55,18 @@ public class endgameGameInfo : MonoBehaviour
         endgameCanvas = GameObject.Find("Stats");
         endgameText = endgameCanvas.GetComponent<TextMeshProUGUI>();
 
-        endgameText.text =  "Time Played - " + playTime +
+        /*endgameText.text =  "Time Played - " + playTime +
                             "\n\nHighest Heart Rate - " + highRate + " BPM" +
                             "\n\nLowest Heart Rate - " + lowRate + " BPM" +
-                            "\n\nYogurt Cups Collected - " + yogurtCollected + "/10";
+                            "\n\nYogurt Cups Collected - " + yogurtCollected + "/10";*/
 
         StartCoroutine(introFunction.TypeText(endgameText, 
                                                             "Time Played - " + playTime +
-                                                            "\n\nHighest Heart Rate - " + highRate + " BPM" +
-                                                            "\n\nLowest Heart Rate - " + lowRate + " BPM" +
-                                                            "\n\nYogurt Cups Collected - " + yogurtCollected + "/10", 
+                                                            "\nDeath Count - " + deaths +
+                                                            "\nDimension Shifter Used " + shifterUse + "Times" +
+                                                            "\nHighest Heart Rate - " + highRate + " BPM" +
+                                                            "\nLowest Heart Rate - " + lowRate + " BPM" +
+                                                            "\nYogurt Cups Collected - " + yogurtCollected + "/10", 
             0.05f, 0.02f, true));
     }
 

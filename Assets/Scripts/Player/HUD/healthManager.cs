@@ -44,6 +44,8 @@ public class HealthManager : MonoBehaviour
     public AudioSource reviveSound;
     public PlayGameButton playButton;
 
+    [SerializeField] endgameGameInfo gameInfo;
+
     // Current active overlay reference
     private Image currentOverlay;
 
@@ -216,6 +218,8 @@ public class HealthManager : MonoBehaviour
     // New method to handle player death
     private void HandlePlayerDeath()
     {
+        gameInfo.deaths++;
+
         RevealGameOverUI();
         StopAllCoroutines();
         if (UIComponents != null)

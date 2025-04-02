@@ -52,6 +52,8 @@ public class DarkController : MonoBehaviour
 
     private float darkEntryCooldown = 0f; // Tracks cooldown period after entering dark
 
+    [SerializeField] endgameGameInfo gameInfo;
+
     void Start()
     {
         keyBindManager = FindObjectOfType<KeyBindManager>();
@@ -114,6 +116,8 @@ public class DarkController : MonoBehaviour
     {
         if (Input.GetKeyDown(keyBindManager.dimensionShiftKey) && hasDevice)
         {
+            gameInfo.shifterUse++;
+
             if (inDark)
             {
                 // Only allow manual exit if cooldown is finished
