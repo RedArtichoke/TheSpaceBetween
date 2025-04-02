@@ -121,6 +121,8 @@ public class IntroCutscene : MonoBehaviour
         {
             IntroScene.SetActive(false);
         }
+
+        DontDestroyOnLoad(computerSound.transform.parent.gameObject); //need for endgame info typing
     }
     void Update()
     {

@@ -47,7 +47,7 @@ public class endgameGameInfo : MonoBehaviour
         shifterUse = 0;
 
         DontDestroyOnLoad(gameObject);
-        //DontDestroyOnLoad(introFunction.gameObject);
+        DontDestroyOnLoad(introFunction.gameObject);
     }
 
     public void displayData()
@@ -62,11 +62,11 @@ public class endgameGameInfo : MonoBehaviour
 
         StartCoroutine(introFunction.TypeText(endgameText, 
                                                             "Time Played - " + playTime +
-                                                            "\nDeath Count - " + deaths +
-                                                            "\nDimension Shifter Used " + shifterUse + "Times" +
-                                                            "\nHighest Heart Rate - " + highRate + " BPM" +
-                                                            "\nLowest Heart Rate - " + lowRate + " BPM" +
-                                                            "\nYogurt Cups Collected - " + yogurtCollected + "/10", 
+                                                            "\r\nDeath Count - " + deaths +
+                                                            "\r\nDimension Shifter Used " + shifterUse + " Times" +
+                                                            "\r\nHighest Heart Rate - " + highRate + " BPM" +
+                                                            "\r\nLowest Heart Rate - " + lowRate + " BPM" +
+                                                            "\r\nYogurt Cups Collected - " + yogurtCollected + "/10\n", 
             0.05f, 0.02f, true));
     }
 
