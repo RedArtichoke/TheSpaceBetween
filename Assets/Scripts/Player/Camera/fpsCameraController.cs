@@ -5,7 +5,8 @@ using UnityEngine;
 public class FpsCameraController : MonoBehaviour
 {
     // Sensitivity of the mouse, because we all love a sensitive mouse
-    public float mouseSensitivity = 2.7f;
+    public float baseSensitivity = 2.7f; // Base sensitivity value
+    public float mouseSensitivity = 2.7f; // Current sensitivity value
     public Transform playerBody; // The body of the player, not to be confused with a real body
     public float lerpSpeed = 0.1f; // Speed of the lerp, not to be confused with a slurp
 
@@ -167,5 +168,14 @@ public class FpsCameraController : MonoBehaviour
         }
 
         Camera.main.transform.position = originalPosition;
+    }
+
+    // Adjusts camera sensitivity using a normalized value (0-1)
+    public float SetSensitivity(float normalizedValue)
+    {
+        // Map 0-1 to 0.1-2.0 using Lerp
+        float mappedValue = Mathf.Lerp(0.1f, 2.0f, normalizedValue);
+        mouseSensitivity = baseSensitivity * mappedValue;
+        return mouseSensitivity;
     }
 }
