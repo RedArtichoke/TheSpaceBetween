@@ -46,6 +46,8 @@ public class PlayerMovementController : MonoBehaviour
     public CapsuleCollider hitbox;
     private float originalHeight;
     private Vector3 originalCenter;
+    private bool highlightEnabled = true; // Default to true to match toggle default
+    private bool crouchToggleMode = false; // Whether crouch is toggle or hold mode
 
     // UI and visual elements
     public GameObject hudElement;
@@ -111,6 +113,30 @@ public class PlayerMovementController : MonoBehaviour
 
     public ControlPromptAnimator dimensionPrompt; 
     public SubtitleText subtitleText;
+
+    // Public method to control highlight functionality
+    public void SetHighlightEnabled(bool enabled)
+    {
+        highlightEnabled = enabled;
+        // If disabling highlights, restore any currently highlighted object
+        if (!enabled && lastHighlightedRenderer != null)
+        {
+            RestoreOriginalMaterial(lastHighlightedRenderer);
+            lastHighlightedRenderer = null;
+        }
+    }
+
+    // Public method to set crouch mode
+    public void SetCrouchToggleMode(bool isToggle)
+    {
+        crouchToggleMode = isToggle;
+        // If switching to hold mode, ensure crouch state is released
+        if (!isToggle && isCrouching)
+        {
+            isCrouching = false;
+        }
+    }
+
     void Start()
     {
         keyBindManager = FindObjectOfType<KeyBindManager>();
@@ -169,17 +195,33 @@ public class PlayerMovementController : MonoBehaviour
         }
         
         // Update crouch state based on input and canStand
-        if (Input.GetKey(keyBindManager.crouchKey) || Input.GetKey(KeyCode.RightControl))
+        if (crouchToggleMode)
         {
-            // Player wants to crouch
-            isCrouching = true;
+            // Toggle mode: crouch state changes on key press
+            if (Input.GetKeyDown(keyBindManager.crouchKey) || Input.GetKeyDown(KeyCode.RightControl))
+            {
+                if (isCrouching && canStand)
+                {
+                    isCrouching = false;
+                }
+                else if (!isCrouching)
+                {
+                    isCrouching = true;
+                }
+            }
         }
-        else if (canStand)
+        else
         {
-            // Player wants to stand and can stand
-            isCrouching = false;
+            // Hold mode: crouch state follows key state
+            if (Input.GetKey(keyBindManager.crouchKey) || Input.GetKey(KeyCode.RightControl))
+            {
+                isCrouching = true;
+            }
+            else if (canStand)
+            {
+                isCrouching = false;
+            }
         }
-        // If canStand is false, isCrouching remains true even if the key is released
 
         // Adjust bob frequency and movement speed based on crouch state
         bobFrequency = isCrouching ? 10.0f : 15.0f;
@@ -818,6 +860,28 @@ public class PlayerMovementController : MonoBehaviour
 
     void UpdateObjectGlow()
     {
+        // Skip highlight logic if disabled
+        if (!highlightEnabled)
+        {
+            // Restore any currently highlighted object
+            if (lastHighlightedRenderer != null)
+            {
+                RestoreOriginalMaterial(lastHighlightedRenderer);
+                lastHighlightedRenderer = null;
+            }
+
+            // Destroy all active interact prompts
+            foreach (GameObject prompt in activeInteractPrompts)
+            {
+                if (prompt != null)
+                {
+                    Destroy(prompt);
+                }
+            }
+            activeInteractPrompts.Clear();
+            return;
+        }
+
         // Update the glow effect on objects being looked at
         Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
         bool isHit = Physics.Raycast(ray, out RaycastHit hit, pickupDistance, 
