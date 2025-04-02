@@ -38,6 +38,7 @@ public class NoteInventory : MonoBehaviour
 
         //inventoryCanvas = transform.GetChild(0).gameObject;
         inventoryCanvas.SetActive(false);
+
     }
 
     // Update is called once per frame
@@ -64,8 +65,11 @@ public class NoteInventory : MonoBehaviour
         invPaper.Add(inventoryPaper.transform.GetChild(0).GetComponent<TextMeshProUGUI>());
         invPaper.Add(inventoryPaper.transform.GetChild(1).GetComponent<TextMeshProUGUI>());
 
+        Image imgThing = inventoryPaper.transform.GetChild(2).GetComponent<Image>();
+        if (imgThing != null) { Debug.Log("HELLO"); }
+
         page.Play();
-        noteInfo.editNote(noteName, invPaper[1], invPaper[0]);
+        noteInfo.editNote(noteName, invPaper[1], invPaper[0], imgThing);
     }
 
     void toggleNoteUI()
