@@ -173,8 +173,8 @@ public class SubtitleText : TextMeshProUGUI
     // Play a sequence of subtitles
     public void PlaySubtitles(SubtitleLine[] lines)
     {
-        // Don't start if already playing
-        if (isPlaying) return;
+        // Don't start if already playing or if subtitles are disabled
+        if (isPlaying || !settingsManager.SubtitlesEnabled) return;
 
         currentSequence = StartCoroutine(PlaySubtitleSequence(lines));
     }
@@ -197,6 +197,14 @@ public class SubtitleText : TextMeshProUGUI
 
         foreach (SubtitleLine line in lines)
         {
+            // Check if subtitles got disabled during playback
+            if (!settingsManager.SubtitlesEnabled)
+            {
+                text = "";
+                isPlaying = false;
+                yield break;
+            }
+
             text = line.text;
             yield return new WaitForSeconds(line.delay);
         }

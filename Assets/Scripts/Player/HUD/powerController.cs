@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
+
 public class PowerController : MonoBehaviour
 {
     public Image powerRing; // The circle of power
@@ -30,6 +33,13 @@ public class PowerController : MonoBehaviour
     private float originalInnerSpotAngle; // The flashlight's inner secret
     private float originalOuterSpotAngle; // The flashlight's outer secret
     private float originalIntensity; // The flashlight's true power
+    private Color originalLightColor; // The original light color
+
+    private const float FULL_FLASHBANG_INTENSITY = 10000f; // Maximum flashbang intensity
+    private const float REDUCED_FLASHBANG_INTENSITY = 500f; // Reduced to 5% of full intensity
+    private const float FULL_POST_EXPOSURE = 5f; // Maximum post exposure for flash
+    private const float REDUCED_POST_EXPOSURE = 2f; // Reduced post exposure for flash
+    private static readonly Color RED_LIGHT_COLOR = new Color(1f, 0.1f, 0.1f); // Deep red color
 
     private bool isFlickering = false; // Is the light having a disco moment?
     private float flickerChance = 0.001f; // The chance of a disco
@@ -52,6 +62,9 @@ public class PowerController : MonoBehaviour
     private KeyBindManager keyBindManager;
     public TextMeshProUGUI flashBangBinding;
 
+    private Volume postProcessVolume;
+    private ColorAdjustments colorAdjustments;
+
     void Start()
     {
         keyBindManager = FindObjectOfType<KeyBindManager>();
@@ -62,7 +75,16 @@ public class PowerController : MonoBehaviour
             originalInnerSpotAngle = flashlight.innerSpotAngle; // Remember the inner secret
             originalOuterSpotAngle = flashlight.spotAngle; // Remember the outer secret
             originalIntensity = flashlight.intensity; // Remember the true power
+            originalLightColor = flashlight.color; // Remember the original color
         }
+
+        // Set up post-processing
+        postProcessVolume = FindObjectOfType<Volume>();
+        if (postProcessVolume != null)
+        {
+            postProcessVolume.profile.TryGet(out colorAdjustments);
+        }
+
         audioSource = GetComponent<AudioSource>(); // Get the AudioSource component
         if (audioSource == null) {
             audioSource = gameObject.AddComponent<AudioSource>(); // Add an AudioSource component if not found
@@ -106,9 +128,7 @@ public class PowerController : MonoBehaviour
                 // Execute flashbang effect
                 power -= 20;
                 UpdateHUD();
-                flashlight.intensity = 10000f; // Supernova mode
-                flashlight.innerSpotAngle = 179f; // Wide-eyed mode
-                flashlight.spotAngle = 179f; // Wide-eyed mode
+                
                 audioSource.priority = 0;       
                 if (arduinoScript) {
                     arduinoScript.sendFlashbang();
@@ -120,19 +140,18 @@ public class PowerController : MonoBehaviour
 
                 // Play pre-stun sound
                 if (audioSource != null && preStunSound != null) {
-                    audioSource.PlayOneShot(preStunSound); // Play the pre-stun sound
+                    audioSource.PlayOneShot(preStunSound);
                 }
 
                 // Play stun sound
                 if (audioSource != null && stunSound != null) {
-                    audioSource.PlayOneShot(stunSound); // Play the stun sound
+                    audioSource.PlayOneShot(stunSound);
                 }
                 
                 // Logic to stun mimics
                 RaycastHit[] hits = Physics.SphereCastAll(transform.position, 10f, Vector3.forward, 0f);
                 foreach (RaycastHit hit in hits)
                 {
-                    Debug.Log(hit.collider.name);
                     if (hit.collider.CompareTag("Mimic"))
                     {
                         MimicBehaviour mimic = hit.collider.GetComponent<MimicBehaviour>();
@@ -151,14 +170,20 @@ public class PowerController : MonoBehaviour
                     }
                 }
                 
-                StartCoroutine(ResetFlashlight()); // Cool down the supernova
+                StartCoroutine(FlashbangEffect());
             }
             else if (holdTime < toggleThreshold)
             {
                 // Toggle flashlight if it was a short press
                 isDraining = !isDraining;
-                targetIntensity = isDraining ? 100f : 0f; // Light on or off
+                targetIntensity = isDraining ? originalIntensity : 0f; // Light on or off
                 lerpTime = 0f; // Reset the mind-changing timer
+                
+                // Update color when toggling on
+                if (isDraining)
+                {
+                    UpdateFlashlightColor();
+                }
 
                 if (audioSource != null && toggleSounds.Length > 0) {
                     audioSource.priority = 0; // Set to max priority, so it plays over the background music
@@ -224,25 +249,57 @@ public class PowerController : MonoBehaviour
         }
     }
 
+    private IEnumerator FlashbangEffect()
+    {
+        // Set flashlight intensity
+        float flashIntensity = settingsManager.ReducedFlashEnabled ? REDUCED_FLASHBANG_INTENSITY : FULL_FLASHBANG_INTENSITY;
+        float postExposure = settingsManager.ReducedFlashEnabled ? REDUCED_POST_EXPOSURE : FULL_POST_EXPOSURE;
+        
+        // Store current post exposure before flash
+        float currentPostExposure = colorAdjustments != null ? colorAdjustments.postExposure.value : 0f;
+        
+        flashlight.intensity = flashIntensity;
+        flashlight.innerSpotAngle = 179f;
+        flashlight.spotAngle = 179f;
+
+        // Set post-processing flash
+        if (colorAdjustments != null)
+        {
+            colorAdjustments.postExposure.Override(postExposure);
+        }
+
+        // Wait for flash duration
+        yield return new WaitForSeconds(0.1f);
+
+        // Reset post-processing to what it was before the flash
+        if (colorAdjustments != null)
+        {
+            colorAdjustments.postExposure.Override(currentPostExposure);
+        }
+
+        // Start flashlight reset
+        StartCoroutine(ResetFlashlight());
+    }
+
     // Coroutine to reset the flashlight intensity and angles after the flashbang effect
     private IEnumerator ResetFlashlight()
     {
         float duration = 0.2f; // Quick cool down
         float elapsedTime = 0f;
+        float startingIntensity = settingsManager.ReducedFlashEnabled ? REDUCED_FLASHBANG_INTENSITY : FULL_FLASHBANG_INTENSITY;
 
         while (elapsedTime < duration)
         {
             elapsedTime += Time.deltaTime;
             float t = elapsedTime / duration;
-            flashlight.intensity = Mathf.Lerp(10000f, originalIntensity, 1 - (1 - t) * (1 - t)); // Smoothly return to normal
+            float currentIntensity = Mathf.Lerp(startingIntensity, originalIntensity, 1 - (1 - t) * (1 - t));
+            flashlight.intensity = currentIntensity;
             yield return null;
         }
-        if (isDraining) {
-            flashlight.intensity = originalIntensity; // Back to normal power
-        }
-        else {
-            flashlight.intensity = 0.0f; // Lights out
-        }
+        
+        float finalIntensity = isDraining ? originalIntensity : 0.0f;
+        flashlight.intensity = finalIntensity;
+        
         flashlight.innerSpotAngle = originalInnerSpotAngle; // Restore inner secret
         flashlight.spotAngle = originalOuterSpotAngle; // Restore outer secret
     }
@@ -304,5 +361,14 @@ public class PowerController : MonoBehaviour
     public void AddPower(float amount) {
         power = Mathf.Min(power + amount, 100f); // Cap power at 100
         UpdateHUD();
+    }
+
+    // Update flashlight color based on red light setting
+    private void UpdateFlashlightColor()
+    {
+        if (flashlight != null)
+        {
+            flashlight.color = settingsManager.RedLightEnabled ? RED_LIGHT_COLOR : originalLightColor;
+        }
     }
 }

@@ -9,6 +9,11 @@ using UnityEngine.Rendering.Universal; // For URP post-processing effects
 
 public class settingsManager : MonoBehaviour
 {
+    // Static property to access reduced flashbang setting from anywhere
+    public static bool ReducedFlashEnabled { get; private set; }
+    public static bool SubtitlesEnabled { get; private set; }
+    public static bool RedLightEnabled { get; private set; }
+
     private FpsCameraController cameraController;
     public Slider sensitivitySlider; // Reference to the UI slider
     public TextMeshProUGUI sensitivityText; // Reference to display the value
@@ -37,6 +42,7 @@ public class settingsManager : MonoBehaviour
     public Slider crosshairSizeSlider;
     public Toggle subtitlesToggle;
     public Toggle reducedFlashToggle;
+    public Toggle redLightToggle;
     public TextMeshProUGUI crosshairSizeText;
     public RectTransform crosshairCanvasRect; // Reference to crosshair's RectTransform
     public Slider colorblindnessSlider;
@@ -280,12 +286,19 @@ public class settingsManager : MonoBehaviour
         {
             subtitlesToggle.onValueChanged.AddListener(OnSubtitlesToggleChanged);
             subtitlesToggle.isOn = true; // Enable subtitles by default
+            SubtitlesEnabled = true; // Set initial static property value
         }
 
         if (reducedFlashToggle != null)
         {
             reducedFlashToggle.onValueChanged.AddListener(OnReducedFlashToggleChanged);
             reducedFlashToggle.isOn = false; // Flash effects enabled by default
+        }
+
+        if (redLightToggle != null)
+        {
+            redLightToggle.onValueChanged.AddListener(OnRedLightToggleChanged);
+            redLightToggle.isOn = false; // Normal light by default
         }
 
         // Set up colorblindness slider
@@ -495,14 +508,29 @@ public class settingsManager : MonoBehaviour
 
     private void OnSubtitlesToggleChanged(bool isOn)
     {
-        // Will implement subtitle system later
-        // This toggle will control subtitle visibility
+        SubtitlesEnabled = isOn;
+        
+        // Find and clear any active subtitles when disabled
+        if (!isOn)
+        {
+            SubtitleText[] activeSubtitles = FindObjectsOfType<SubtitleText>();
+            foreach (SubtitleText subtitle in activeSubtitles)
+            {
+                subtitle.ClearSubtitles();
+            }
+        }
     }
 
     private void OnReducedFlashToggleChanged(bool isOn)
     {
+        ReducedFlashEnabled = isOn;
         // Will implement flash reduction system later
         // This toggle will control intensity of flash effects
+    }
+
+    private void OnRedLightToggleChanged(bool isOn)
+    {
+        RedLightEnabled = isOn;
     }
 
     private void UpdateCrosshairSizeDisplay(float value)
