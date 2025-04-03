@@ -670,7 +670,7 @@ public class PlayerMovementController : MonoBehaviour
 
 
 
-    void DropObject(bool applyThrowForce)
+    public void DropObject(bool applyThrowForce)
     {
         // Drop the currently held object, optionally applying a throw force
         if (heldObject != null)
