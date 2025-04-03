@@ -83,6 +83,8 @@ public class IntroCutscene : MonoBehaviour
 
     public ShipFlight shipFlight;
 
+    public AudioSource arduinoTYPINGAudio;
+
     private void OnEnable()
     {
         canCheckInput = false;
@@ -155,6 +157,7 @@ public class IntroCutscene : MonoBehaviour
                 introSkipped = true;
                 introPlaying = false;
                 staticSound.Stop();
+                arduinoTYPINGAudio.Stop();
 
                 StartCoroutine(SkippedFadeCutscene());
 
@@ -171,6 +174,7 @@ public class IntroCutscene : MonoBehaviour
 
                 // Re-enable player movement
                 playerMovement.enabled = true;
+                arduinoTYPINGAudio.Stop();
 
                 // Re-enable UI components
                 UIComponents.gameObject.SetActive(true);

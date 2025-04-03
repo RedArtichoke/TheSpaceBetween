@@ -210,6 +210,7 @@ public class arduinoStart : MonoBehaviour
     {
         // Stop all running coroutines
         StopAllCoroutines();
+        typingSound.Stop();
 
         //intro.GetComponent<IntroCutscene>().SkipCount +=1;
 
