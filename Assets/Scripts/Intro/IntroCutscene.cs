@@ -219,11 +219,14 @@ public class IntroCutscene : MonoBehaviour
         yield return new WaitForSeconds(3f);
         StartCoroutine(FadeOutText(text, 2f));
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2.5f);
+        logoIntro.Play();
+        yield return new WaitForSeconds(0.5f);
         GameTitle.gameObject.SetActive(true);
+        
         StartCoroutine(FadeInImage(GameTitle, 2f));
         //computerSound.clip = computerclip2;
-        logoIntro.Play();
+        
 
         yield return new WaitForSeconds(2.5f);
         StartCoroutine(FadeOutImage(GameTitle, 2f));
