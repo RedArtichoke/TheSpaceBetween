@@ -1043,6 +1043,18 @@ public class PlayerMovementController : MonoBehaviour
                         instructionsText.text = "Press " + keyBindManager.interactKey + " to Push";
                 }
 
+                else if (targetObject.name == "Suit")
+                {
+                    if (nameText != null)
+                    {
+                        nameText.text = FormatObjectName(objectRenderer.transform.name);
+                        nameText.color = new Color(0.99f, 0.69f, 0.13f, 1f); // Reset to default color
+                    }
+
+                    if (instructionsText != null)
+                        instructionsText.text = "Press " + keyBindManager.interactKey + " to Put On";
+                }
+
                 else
                 {
                     string formattedName = FormatObjectName(objectRenderer.transform.name);
