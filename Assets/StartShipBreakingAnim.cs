@@ -8,11 +8,14 @@ public class StartShipBreakingAnim : MonoBehaviour
 
     public doorOpen researchDoor;
 
+    public AudioSource audioSource;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             ship.SetTrigger("BreakShip");
+            audioSource.Play();
             researchDoor.SetLockState(false);
             Destroy(gameObject);
         }

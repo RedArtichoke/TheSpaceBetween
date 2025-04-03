@@ -5,13 +5,8 @@ using TMPro;
 
 public class ShipFlight : MonoBehaviour
 {
-    [Header("Movement Settings")]
-    [Tooltip("The transform you want this GameObject to move toward.")]
     public Transform target;
-
-    [Tooltip("How fast you want the object to move.")]
     public float speed = 7f;
-
     private bool isMoving = false;
 
     public GameObject invisibleWall;
@@ -46,6 +41,7 @@ public class ShipFlight : MonoBehaviour
     public GameObject smoke2;
     public GameObject smoke3;
 
+    public AudioSource MimicSound;
     [SerializeField] endgameGameInfo gameInfo;
 
     void Start()
@@ -163,6 +159,7 @@ public class ShipFlight : MonoBehaviour
     {
         smoke1.SetActive(true);
         smoke2.SetActive(true);
+        MimicSound.Play();
     }
 
     public void SmokeBlast2()
