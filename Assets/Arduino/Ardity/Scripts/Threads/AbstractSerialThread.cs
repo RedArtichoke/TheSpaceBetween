@@ -166,7 +166,7 @@ public abstract class AbstractSerialThread
             // Before closing the COM port, give the opportunity for all messages
             // from the output queue to reach the other endpoint.
 
-                
+                    
             //while (outputQueue.Count != 0)
             //{
             //    SendToWire(outputQueue.Dequeue(), serialPort);

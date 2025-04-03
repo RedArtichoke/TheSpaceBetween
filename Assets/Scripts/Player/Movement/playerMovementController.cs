@@ -602,6 +602,7 @@ public class PlayerMovementController : MonoBehaviour
         float shakeDuration = 3f; 
         float shakeIntensity = 0.05f; 
 
+        // First play the original mimic scream
         AudioSource audioSource = mimicTransform.GetComponent<AudioSource>();
         if (audioSource != null)
         {
@@ -653,7 +654,20 @@ public class PlayerMovementController : MonoBehaviour
                 GameObject originalMimic = disguisedMimic.originalMimic;
                 if (originalMimic != null)
                 {
+                    // Play the bone crunch sound after shaking finishes and before revealing
                     MimicBehaviour mimicBehaviour = originalMimic.GetComponent<MimicBehaviour>();
+                    if (mimicBehaviour != null && mimicBehaviour.boneCrunchSounds != null && mimicBehaviour.boneCrunchSounds.Length > 0)
+                    {
+                        if (audioSource != null)
+                        {
+                            int soundIndex = Random.Range(0, mimicBehaviour.boneCrunchSounds.Length);
+                            audioSource.pitch = Random.Range(0.8f, 1.2f); // Random pitch variation
+                            audioSource.PlayOneShot(mimicBehaviour.boneCrunchSounds[soundIndex]);
+                            
+                            // Small delay to let the bone crunch sound play before destroying the object
+                            yield return new WaitForSeconds(0.1f);
+                        }
+                    }
 
                     originalMimic.SetActive(true);
                     originalMimic.transform.position += Vector3.up * 2;
