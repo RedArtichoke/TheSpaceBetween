@@ -38,6 +38,8 @@ public class MimicBehaviour : MonoBehaviour
     public AudioClip[] stunSounds; // Array to store stun sounds
 
     public AudioClip shakingSound;
+    
+    public AudioClip[] boneCrunchSounds; // Array to store bone crunch sounds for disguise
 
     void Start()
     {
@@ -460,6 +462,14 @@ public class MimicBehaviour : MonoBehaviour
         // Scan for objects in the "Pickup" layer
         Collider[] objects = Physics.OverlapSphere(transform.position, roamRadius, LayerMask.GetMask("Pickup"));
         if (objects.Length == 0) return; // No objects found, continue roaming
+
+        // Play a random bone crunch sound with randomised pitch
+        if (boneCrunchSounds != null && boneCrunchSounds.Length > 0 && mimicAudioSource != null)
+        {
+            int soundIndex = Random.Range(0, boneCrunchSounds.Length);
+            mimicAudioSource.pitch = Random.Range(0.8f, 1.2f); // Random pitch variation
+            mimicAudioSource.PlayOneShot(boneCrunchSounds[soundIndex]);
+        }
 
         // Choose a random object
         int randomIndex = Random.Range(0, objects.Length);

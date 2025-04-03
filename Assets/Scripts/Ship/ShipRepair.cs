@@ -42,6 +42,9 @@ public class ShipRepair : MonoBehaviour
     public GameObject alarmAudio;
     public GameObject sparksAudio;
 
+    public GameObject brokenScreen1;
+    public GameObject brokenScreen2;
+
     [Header("Transparent Ship Objects")]
     public GameObject transWheel;
     public GameObject transCell;
@@ -85,6 +88,9 @@ public class ShipRepair : MonoBehaviour
         door2.SetActive(false);
         cap1.SetActive(false);
 
+        brokenScreen1.SetActive(true);
+        brokenScreen2.SetActive(true);
+
         alarmAudio.SetActive(true);
 
         sparksAudio.SetActive(true);
@@ -124,6 +130,23 @@ public class ShipRepair : MonoBehaviour
 
     public void EndGame()
     {
+        alarmAudio.SetActive(false);
+
+        brokenScreen1.SetActive(false);
+        brokenScreen2.SetActive(false);
+
+        sparksAudio.SetActive(false);
+
+        lightsource1.canFlicker = false;
+
+        DoorOpens.SetActive(true);
+        DoorDestroyed.SetActive(false);
+
+        alarm.isDestroyed = false;
+
+        pipeburst1.SetActive(false);
+        pipeburst2.SetActive(false);
+
         deadButton.SetActive(false);
         buttonTakeOff.SetActive(true);
     }
