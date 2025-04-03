@@ -41,12 +41,6 @@ public class MarkerSequencing : MonoBehaviour
     // Current active marker array (points to one of the above arrays)
     private GameObject[] currentSequenceMarkers;
 
-    // Add these variables for marker switching logic
-    private float markerSwitchCooldown = 2.0f;
-    private float lastMarkerSwitchTime = 0f;
-    private float backtrackingThreshold = -0.5f;
-    private float backtrackingRangeMultiplier = 1.5f;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -78,7 +72,7 @@ public class MarkerSequencing : MonoBehaviour
         {
             keycard2Marker,
             maintenance2Marker,
-            maintenance1Marker, // Note: Comment says maintenance3Marker but using maintenance1Marker as placeholder
+            maintenance1Marker,
             securityMarker,
             hangarMarker,
             shipMarker
@@ -89,7 +83,7 @@ public class MarkerSequencing : MonoBehaviour
         {
             hangarMarker,
             securityMarker,
-            diensionMarker // Using this as deviceMarker
+            diensionMarker
         };
     }
 
@@ -223,108 +217,30 @@ public class MarkerSequencing : MonoBehaviour
             currentMarker.SetActive(true);
         }
         
-        // Only process marker changes if we're not in the cooldown period
-        if (Time.time - lastMarkerSwitchTime >= markerSwitchCooldown)
+        // Check if the player is within range of the current marker
+        float distanceToMarker = Vector3.Distance(player.transform.position, currentMarker.transform.position);
+        if (distanceToMarker <= detectorRange)
         {
-            // Check if the player is within range of the current marker
-            float distanceToMarker = Vector3.Distance(player.transform.position, currentMarker.transform.position);
-            if (distanceToMarker <= detectorRange)
+            // Player reached the marker, advance to the next one
+            currentMarkerIndex++;
+            
+            // If there's a next marker, show it
+            if (currentMarkerIndex < currentSequenceMarkers.Length)
             {
-                // Player reached the marker, advance to the next one
-                currentMarkerIndex++;
-                lastMarkerSwitchTime = Time.time; // Record switch time
-                
-                // If there's a next marker, show it
-                if (currentMarkerIndex < currentSequenceMarkers.Length)
-                {
-                    hideAllMarkers();
-                    currentSequenceMarkers[currentMarkerIndex].SetActive(true);
-                }
-                else
-                {
-                    // We completed the sequence
-                    hideAllMarkers();
-                    Debug.Log(activeSequence.ToString() + " sequence completed!");
-                    
-                    // If we just completed the Ship sequence, start the Device sequence
-                    if (activeSequence == SequenceType.Ship)
-                    {
-                        Debug.Log("Ship sequence completed! Starting Device sequence...");
-                        EnableDeviceSequence();
-                    }
-                }
+                hideAllMarkers();
+                currentSequenceMarkers[currentMarkerIndex].SetActive(true);
             }
-            // Handle backtracking - but only if player has gone past a previous marker
-            else if (currentMarkerIndex > 0)
+            else
             {
-                bool shouldSwitch = false;
-                int newIndex = currentMarkerIndex;
+                // We completed the sequence
+                hideAllMarkers();
+                Debug.Log(activeSequence.ToString() + " sequence completed!");
                 
-                // First check if we need to go back multiple steps
-                for (int i = 0; i < currentMarkerIndex - 1; i++)
+                // If we just completed the Ship sequence, start the Device sequence
+                if (activeSequence == SequenceType.Ship)
                 {
-                    GameObject prevMarker = currentSequenceMarkers[i];
-                    GameObject nextMarker = currentSequenceMarkers[i+1];
-                    
-                    // Skip if either marker is null
-                    if (prevMarker == null || nextMarker == null)
-                        continue;
-                    
-                    // Add additional safety check before accessing transform
-                    if (!prevMarker || !nextMarker) 
-                        continue;
-                    
-                    // Calculate vector from this marker to the next marker (the intended path direction)
-                    Vector3 pathDirection = (nextMarker.transform.position - prevMarker.transform.position).normalized;
-                    
-                    // Calculate vector from this marker to the player
-                    Vector3 playerDirection = (player.transform.position - prevMarker.transform.position).normalized;
-                    
-                    // Use a more decisive threshold for backtracking detection
-                    float dotProduct = Vector3.Dot(pathDirection, playerDirection);
-                    float distance = Vector3.Distance(player.transform.position, prevMarker.transform.position);
-                    
-                    // Only consider it a backtrack if significantly behind the marker and relatively close
-                    if (dotProduct < backtrackingThreshold && distance <= detectorRange * backtrackingRangeMultiplier)
-                    {
-                        newIndex = i;
-                        shouldSwitch = true;
-                        // Don't break - continue to find the earliest marker the player has backtracked past
-                    }
-                }
-                
-                // If we didn't find a multi-step backtrack, check the immediate previous marker
-                if (!shouldSwitch && currentMarkerIndex > 0)
-                {
-                    int i = currentMarkerIndex - 1;
-                    GameObject prevMarker = currentSequenceMarkers[i];
-                    GameObject nextMarker = currentSequenceMarkers[currentMarkerIndex];
-                    
-                    // Check if markers are valid before proceeding
-                    if (prevMarker != null && nextMarker != null && prevMarker && nextMarker)
-                    {
-                        Vector3 pathDirection = (nextMarker.transform.position - prevMarker.transform.position).normalized;
-                        Vector3 playerDirection = (player.transform.position - prevMarker.transform.position).normalized;
-                        
-                        float dotProduct = Vector3.Dot(pathDirection, playerDirection);
-                        float distance = Vector3.Distance(player.transform.position, prevMarker.transform.position);
-                        
-                        if (dotProduct < backtrackingThreshold && distance <= detectorRange * backtrackingRangeMultiplier)
-                        {
-                            newIndex = i;
-                            shouldSwitch = true;
-                        }
-                    }
-                }
-                
-                // Only switch if needed and record the switch time
-                if (shouldSwitch && newIndex != currentMarkerIndex)
-                {
-                    currentMarkerIndex = newIndex;
-                    lastMarkerSwitchTime = Time.time;
-                    hideAllMarkers();
-                    currentSequenceMarkers[currentMarkerIndex].SetActive(true);
-                    Debug.Log("Player backtracked to marker " + currentMarkerIndex + " in " + activeSequence + " sequence");
+                    Debug.Log("Ship sequence completed! Starting Device sequence...");
+                    EnableDeviceSequence();
                 }
             }
         }
