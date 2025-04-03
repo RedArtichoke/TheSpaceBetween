@@ -8,6 +8,7 @@ public class SubtitleText : TextMeshProUGUI
 {
     private bool isPlaying = false;
     private Coroutine currentSequence;
+    public bool subtitlesEnabled = true; // Simple toggle for subtitles
 
     // Struct to hold subtitle data
     [System.Serializable]
@@ -15,13 +16,17 @@ public class SubtitleText : TextMeshProUGUI
     {
         public string text;
         public float delay;
+        public int priority; // 1 = low priority, 2 = high priority
 
-        public SubtitleLine(string text, float delay)
+        public SubtitleLine(string text, float delay, int priority = 1)
         {
             this.text = text;
             this.delay = delay;
+            this.priority = priority;
         }
     }
+
+    private int currentPriority = 0; // Track the priority of currently playing subtitles
 
     /*——————————————————————————————————————————————————————————————————————————————————————————————————————————————
     Automated Suit System
@@ -29,47 +34,47 @@ public class SubtitleText : TextMeshProUGUI
 
     private SubtitleLine[] suit100 = new SubtitleLine[]
     {
-        new SubtitleLine("Suit power levels restored to 100%.", 3.0f),
+        new SubtitleLine("Suit power levels restored to 100%.", 3.0f, 1),
     };
 
     private SubtitleLine[] suit75 = new SubtitleLine[]
     {
-        new SubtitleLine("Suit Power Levels at 75%.", 2.5f),
+        new SubtitleLine("Suit Power Levels at 75%.", 2.5f, 1),
     };
 
     private SubtitleLine[] suit50 = new SubtitleLine[]
     {
-        new SubtitleLine("Suit Power Levels at 50%.", 2.5f),
+        new SubtitleLine("Suit Power Levels at 50%.", 2.5f, 1),
     };
 
     private SubtitleLine[] suit25 = new SubtitleLine[]
     {
-       new SubtitleLine("Suit Power Levels at 25%.", 2.5f),
+       new SubtitleLine("Suit Power Levels at 25%.", 2.5f, 1),
     };
 
     private SubtitleLine[] suit10 = new SubtitleLine[]
     {
-        new SubtitleLine("Warning: Suit Power Levels are below 10%.", 5.71f),
+        new SubtitleLine("Warning: Suit Power Levels are below 10%.", 5.71f, 1),
     };
 
     private SubtitleLine[] suitDamaged = new SubtitleLine[]
     {
-        new SubtitleLine("Warning: Critical Injury Sustained, seek safety immediately.", 4.5f),
+        new SubtitleLine("Warning: Critical Injury Sustained, seek safety immediately.", 4.5f, 1),
     };
     
     private SubtitleLine[] suitEnemy = new SubtitleLine[]
     {
-        new SubtitleLine("Warning, unknown lifeform detected.", 3.5f),
+        new SubtitleLine("Warning, unknown lifeform detected.", 3.5f, 1),
     };
     
     private SubtitleLine[] suitShifter = new SubtitleLine[]
     {
-        new SubtitleLine("The dimension shifter has been acquired, the dark dimension can help you find your ship components.", 10.5f),
+        new SubtitleLine("The dimension shifter has been acquired, the dark dimension can help you find your ship components.", 10.5f, 2),
     };
 
     private SubtitleLine[] suitHeal = new SubtitleLine[]
     {
-        new SubtitleLine("Automatic medical systems engaged.", 2.5f),
+        new SubtitleLine("Automatic medical systems engaged.", 2.5f, 1),
     };
 
     public void PlaySuit100()
@@ -135,47 +140,60 @@ public class SubtitleText : TextMeshProUGUI
     private SubtitleLine[] introSequence = new SubtitleLine[]
     {
         new SubtitleLine("", 5.65f),
-        new SubtitleLine("Good morning captain, all systems are optimal and ready for today's ___.", 4.53f),
-        new SubtitleLine("The ship's diagnostics confirm that propulsion, __________, and life support are fully operational", 6.1f),
-        new SubtitleLine("and our current trajectory is set toward the Intervallum Research Freighter.", 4.0f),
-        new SubtitleLine("According to the limited data available, you will need to wear your R.A.M.P suit for this ______ mission.", 6.13f),
-        new SubtitleLine("Your R.A.M.P suit is located in the closet; please proceed to put it on.", 5.41f),
+        new SubtitleLine("Good morning captain, all systems are optimal and ready for today's ___.", 4.53f, 2),
+        new SubtitleLine("The ship's diagnostics confirm that propulsion, __________, and life support are fully operational", 6.1f, 2),
+        new SubtitleLine("and our current trajectory is set toward the Intervallum Research Freighter.", 4.0f, 2),
+        new SubtitleLine("According to the limited data available, you will need to wear your R.A.M.P suit for this ______ mission.", 6.13f, 2),
+        new SubtitleLine("Your R.A.M.P suit is located in the closet; please proceed to put it on.", 5.41f, 2),
         new SubtitleLine("", 1.0f)
     };
 
     // RAMP suit sequence
     private SubtitleLine[] rampSuitSequence = new SubtitleLine[]
     {
-        new SubtitleLine("Before we begin, let's verify that the suit systems are in proper order.", 5.55f),
-        new SubtitleLine("Please turn on your flashlight.", 2.13f),
+        new SubtitleLine("Before we begin, let's verify that the suit systems are in proper order.", 5.55f, 2),
+        new SubtitleLine("Please turn on your flashlight.", 2.13f, 2),
     };
 
     // Flashbang sequence
     private SubtitleLine[] flashbangSequence = new SubtitleLine[]
     {
-        new SubtitleLine("Next, check that the flash defensive systems are operational.", 5.4f),
+        new SubtitleLine("Next, check that the flash defensive systems are operational.", 5.4f, 2),
     };
 
     // Power drain sequence
     private SubtitleLine[] powerDrainSequence = new SubtitleLine[]
     {
-        new SubtitleLine("Excellent. The R.A.M.P suit lighting systems are functioning correctly.", 6.71f),
-        new SubtitleLine("Remember, using these systems will drain the suit's power levels, so manage them carefully.", 6.19f),
-        new SubtitleLine("Before departure, replenish your suit's battery by retrieving a spare from the boxes.", 5.23f)
+        new SubtitleLine("Excellent. The R.A.M.P suit lighting systems are functioning correctly.", 6.71f, 2),
+        new SubtitleLine("Remember, using these systems will drain the suit's power levels, so manage them carefully.", 6.19f, 2),
+        new SubtitleLine("Before departure, replenish your suit's battery by retrieving a spare from the boxes.", 5.23f, 2)
     };
 
     // Battery sequence
     private SubtitleLine[] landingSequence = new SubtitleLine[]
     {
-        new SubtitleLine("When you are ready to board the Intervallum, press the button to initiate the landing sequence.", 7.0f)
+        new SubtitleLine("When you are ready to board the Intervallum, press the button to initiate the landing sequence.", 7.0f, 2),
+        new SubtitleLine("", 1.0f, 2)
     };
 
     // Play a sequence of subtitles
     public void PlaySubtitles(SubtitleLine[] lines)
     {
-        // Don't start if already playing or if subtitles are disabled
-        if (isPlaying || !settingsManager.SubtitlesEnabled) return;
+        // Don't start if subtitles are disabled
+        if (!subtitlesEnabled) return;
 
+        // Check if the new sequence has higher priority than current
+        int newPriority = lines.Length > 0 ? lines[0].priority : 1;
+        if (newPriority < currentPriority)
+        {
+            // Lower priority subtitles can't interrupt higher ones
+            return;
+        }
+
+        // Clear any currently playing subtitles
+        ClearSubtitles();
+
+        currentPriority = newPriority;
         currentSequence = StartCoroutine(PlaySubtitleSequence(lines));
     }
 
@@ -185,10 +203,12 @@ public class SubtitleText : TextMeshProUGUI
         if (currentSequence != null)
         {
             StopCoroutine(currentSequence);
+            currentSequence = null;
         }
         
         text = "";
         isPlaying = false;
+        currentPriority = 0;
     }
 
     private IEnumerator PlaySubtitleSequence(SubtitleLine[] lines)
@@ -198,10 +218,11 @@ public class SubtitleText : TextMeshProUGUI
         foreach (SubtitleLine line in lines)
         {
             // Check if subtitles got disabled during playback
-            if (!settingsManager.SubtitlesEnabled)
+            if (!subtitlesEnabled)
             {
                 text = "";
                 isPlaying = false;
+                currentPriority = 0;
                 yield break;
             }
 
@@ -212,6 +233,7 @@ public class SubtitleText : TextMeshProUGUI
         // Clear final subtitle and reset
         text = "";
         isPlaying = false;
+        currentPriority = 0;
     }
 
     // Public method to play the intro sequence
