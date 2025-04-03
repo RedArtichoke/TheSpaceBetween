@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI; // For UI components
 using TMPro; // For TextMeshPro
 using UnityEngine.Audio; // For audio mixing
+using UnityEngine.Rendering; // For global volume
+using UnityEngine.Rendering.Universal; // For URP post-processing effects
 
 public class settingsManager : MonoBehaviour
 {
@@ -34,12 +36,79 @@ public class settingsManager : MonoBehaviour
     public GameObject crosshair;
     public GameObject uiComponents;
 
+    // Graphical effects
+    private Volume globalVolume;
+    public Slider brightnessSlider;
+    public Slider contrastSlider;
+    public Slider bloomSlider;
+    public TextMeshProUGUI brightnessText;
+    public TextMeshProUGUI contrastText;
+    public TextMeshProUGUI bloomText;
+
+    // Post-processing effect components
+    private ColorAdjustments colorAdjustments;
+    private Bloom bloom;
+
     // Start is called before the first frame update
     void Start()
     {
         // Find the camera controller in the scene
         cameraController = FindObjectOfType<FpsCameraController>();
-        
+
+        // Get the global volume and its effects
+        globalVolume = FindObjectOfType<Volume>();
+        if (globalVolume != null)
+        {
+            Volume volume = globalVolume.GetComponent<Volume>();
+            if (volume != null)
+            {
+                volume.profile.TryGet(out colorAdjustments);
+                volume.profile.TryGet(out bloom);
+
+                // Enable overrides for post-processing effects
+                if (colorAdjustments != null)
+                {
+                    colorAdjustments.active = true;
+                    colorAdjustments.postExposure.overrideState = true;
+                    colorAdjustments.contrast.overrideState = true;
+                }
+                
+                if (bloom != null)
+                {
+                    bloom.active = true;
+                    bloom.intensity.overrideState = true;
+                }
+
+                // Set up brightness slider
+                if (brightnessSlider != null && colorAdjustments != null)
+                {
+                    // Set initial post exposure to 0
+                    colorAdjustments.postExposure.Override(0f);
+                    
+                    brightnessSlider.onValueChanged.AddListener(OnBrightnessChanged);
+                    // Set slider to middle position (0 post exposure)
+                    brightnessSlider.value = 0.4f; // 0.4 maps to approximately 0 in our -2 to 3 range
+                    UpdateBrightnessDisplay(0f); // Show initial value of 0
+                }
+
+                // Set up contrast slider
+                if (contrastSlider != null && colorAdjustments != null)
+                {
+                    contrastSlider.onValueChanged.AddListener(OnContrastChanged);
+                    contrastSlider.value = colorAdjustments.contrast.value / 100; // Map 0-100 range to 0-1
+                    UpdateContrastDisplay(colorAdjustments.contrast.value);
+                }
+
+                // Set up bloom slider
+                if (bloomSlider != null && bloom != null)
+                {
+                    bloomSlider.onValueChanged.AddListener(OnBloomChanged);
+                    bloomSlider.value = bloom.intensity.value / 3; // Map 0-3 range to 0-1
+                    UpdateBloomDisplay(bloom.intensity.value);
+                }
+            }
+        }
+
         // Set up the slider's value changed event
         if (sensitivitySlider != null && cameraController != null)
         {
@@ -290,5 +359,60 @@ public class settingsManager : MonoBehaviour
                 image.enabled = !isOn;
             }
         }
-    }   
+    }
+
+    // Post-processing effect handlers
+    private void OnBrightnessChanged(float value)
+    {
+        if (colorAdjustments != null)
+        {
+            float postExposure = (value * 5) - 2; // Map 0-1 to -2 to 3 range
+            colorAdjustments.postExposure.Override(postExposure);
+            UpdateBrightnessDisplay(postExposure);
+        }
+    }
+
+    private void OnContrastChanged(float value)
+    {
+        if (colorAdjustments != null)
+        {
+            float contrast = value * 100; // Map 0-1 to 0-100 range
+            colorAdjustments.contrast.Override(contrast);
+            UpdateContrastDisplay(contrast);
+        }
+    }
+
+    private void OnBloomChanged(float value)
+    {
+        if (bloom != null)
+        {
+            float intensity = value * 3; // Map 0-1 to 0-3 range for more intense bloom
+            bloom.intensity.Override(intensity);
+            UpdateBloomDisplay(intensity);
+        }
+    }
+
+    private void UpdateBrightnessDisplay(float value)
+    {
+        if (brightnessText != null)
+        {
+            brightnessText.text = value.ToString("F1");
+        }
+    }
+
+    private void UpdateContrastDisplay(float value)
+    {
+        if (contrastText != null)
+        {
+            contrastText.text = value.ToString("F0");
+        }
+    }
+
+    private void UpdateBloomDisplay(float value)
+    {
+        if (bloomText != null)
+        {
+            bloomText.text = value.ToString("F1");
+        }
+    }
 }

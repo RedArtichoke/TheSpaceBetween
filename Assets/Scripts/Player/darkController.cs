@@ -54,9 +54,12 @@ public class DarkController : MonoBehaviour
 
     [SerializeField] endgameGameInfo gameInfo;
 
+    private settingsManager settings;
+
     void Start()
     {
         keyBindManager = FindObjectOfType<KeyBindManager>();
+        settings = FindObjectOfType<settingsManager>();
         heartRateSimulator = GameObject.FindWithTag("HeartRateSimulator").GetComponent<HeartRateSimulator>();
         // Configure fog
         RenderSettings.fog = false; 
@@ -74,7 +77,6 @@ public class DarkController : MonoBehaviour
             volume.profile.TryGet(out vignette);
             volume.profile.TryGet(out chromaticAberration);
             volume.profile.TryGet(out lensDistortion);
-            colorAdjustments.postExposure.value = -2f;
             currentExposure = colorAdjustments.postExposure.value;
         }
 
@@ -143,11 +145,12 @@ public class DarkController : MonoBehaviour
     {
         float duration = 0.15f; // Half of the total time for each transition
         float elapsedTime = 0f;
+        float baseExposure = settings != null ? colorAdjustments.postExposure.value : 0f;
 
-        // Transition from -2 to -7
+        // Transition from base exposure to -7
         while (elapsedTime < duration)
         {
-            currentExposure = Mathf.Lerp(-2f, -7f, elapsedTime / duration);
+            currentExposure = Mathf.Lerp(baseExposure, -7f, elapsedTime / duration);
             colorAdjustments.postExposure.value = currentExposure;
             elapsedTime += Time.deltaTime;
             yield return null;
@@ -228,17 +231,17 @@ public class DarkController : MonoBehaviour
 
         elapsedTime = 0f;
 
-        // Transition from -7 to -2
+        // Transition from -7 back to base exposure
         while (elapsedTime < duration)
         {
-            currentExposure = Mathf.Lerp(-7f, -2f, elapsedTime / duration);
+            currentExposure = Mathf.Lerp(-7f, baseExposure, elapsedTime / duration);
             colorAdjustments.postExposure.value = currentExposure;
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        // Ensure it ends at -2
-        currentExposure = -2f;
+        // Ensure it ends at base exposure
+        currentExposure = baseExposure;
         colorAdjustments.postExposure.value = currentExposure;
     }
 
