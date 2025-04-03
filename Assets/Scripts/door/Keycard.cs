@@ -11,18 +11,27 @@ public class Keycard : MonoBehaviour
         MainDoor
     }
 
-    private int doorsUnlocked = 0;
-    private bool isDisabled = false;
-
     public KeycardIdentity identity;  
 
-    public void RegisterDoorUnlock()
+    private HashSet<string> unlockedDoorIDs = new HashSet<string>();
+    private bool isDisabled = false;
+
+    private static Dictionary<KeycardIdentity, int> maxUnlocksPerIdentity = new Dictionary<KeycardIdentity, int>
     {
-        if (isDisabled) return;
+        { KeycardIdentity.ResearchRoom, 2 },
+        { KeycardIdentity.MaintenanceRoom, 1 },
+        { KeycardIdentity.MainDoor, 1 }
+    };
 
-        doorsUnlocked++;
+    public void RegisterDoorUnlock(string doorID)
+    {
+        if (isDisabled || unlockedDoorIDs.Contains(doorID)) return;
 
-        if (doorsUnlocked >= 2)
+        unlockedDoorIDs.Add(doorID);
+
+        int requiredUnlocks = maxUnlocksPerIdentity.ContainsKey(identity) ? maxUnlocksPerIdentity[identity] : 1;
+
+        if (unlockedDoorIDs.Count >= requiredUnlocks)
         {
             DisableKeycard();
         }

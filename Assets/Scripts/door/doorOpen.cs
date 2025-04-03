@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class doorOpen : MonoBehaviour
 {
+    public string doorID;
     private Animator animator;
     public bool IsLocked = true;  
     public Light doorLight;  
@@ -126,25 +127,24 @@ public class doorOpen : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Keycard"))
+    {
+        Keycard keycard = other.GetComponent<Keycard>();
+        if (keycard != null && keycard.identity == requiredKeycardIdentity)
         {
-            Keycard keycard = other.GetComponent<Keycard>();
-            if (keycard != null && keycard.identity == requiredKeycardIdentity)
-            {
-                SetLockState(false);  // Unlock the door
-                Debug.Log("Correct keycard detected. Door is now unlocked.");
+            SetLockState(false);
+            Debug.Log("Correct keycard detected. Door is now unlocked.");
 
-                keycard.RegisterDoorUnlock(); // Track door unlock
+            keycard.RegisterDoorUnlock(doorID); 
 
-                audioSource3.Play();
-                StartCoroutine(FlashingLight());
-
-                OpenDoor();
-            }
-            else
-            {
-                Debug.Log("Incorrect keycard identity.");
-            }
+            audioSource3.Play();
+            StartCoroutine(FlashingLight());
+            OpenDoor();
         }
+        else
+        {
+            Debug.Log("Incorrect keycard identity.");
+        }
+    }
 
 
         if (other.CompareTag("KeyItem"))
