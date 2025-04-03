@@ -138,16 +138,6 @@ public class KeyBindButton : MonoBehaviour
                     isListening = false;
                     keyText.color = normalColor;
                     UpdateKeyText();
-
-                    if (actionName == "flashlight")
-                    {
-                        kbm.flashBangBinding.text = "Hold " + GetKeyCodeDisplayName(GetCurrentKeyCode());
-                        kbm.flashLightBinding.text = GetKeyCodeDisplayName(GetCurrentKeyCode());
-                    }
-                    else if (actionName == "dimensionShift")
-                    {
-                        kbm.dimensionShiftBinding.text = GetKeyCodeDisplayName(GetCurrentKeyCode());
-                    }
                     
                     yield break;
                 }

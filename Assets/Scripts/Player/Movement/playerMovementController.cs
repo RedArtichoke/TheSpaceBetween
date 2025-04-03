@@ -590,7 +590,7 @@ public class PlayerMovementController : MonoBehaviour
                     TMP_Text instructionsText = promptTransform.Find("Canvas/Instructions").GetComponent<TMP_Text>();
                     if (instructionsText != null)
                     {
-                            instructionsText.text = "Press " + keyBindManager.interactKey + " to Drop";
+                            instructionsText.text = "Press " + keyBindManager.GetKeyCodeDisplayName(keyBindManager.throwKey) + " to Throw";
                     } 
                 }
             }

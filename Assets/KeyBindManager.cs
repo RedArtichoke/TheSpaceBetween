@@ -36,22 +36,39 @@ public class KeyBindManager : MonoBehaviour
 
             if (!resetOnStart) 
             {
-                // Create a temporary KeyBindButton instance
-                KeyBindButton tempButton = new KeyBindButton();
-
-                // Use the instance to get display names for key codes
-                flashBangBinding.text = "Hold " + tempButton.GetKeyCodeDisplayName(flashlightKey);
-                flashLightBinding.text = tempButton.GetKeyCodeDisplayName(flashlightKey);
-                dimensionShiftBinding.text = tempButton.GetKeyCodeDisplayName(dimensionShiftKey);
-
-                // Destroy the temporary instance
-                Destroy(tempButton);
+                UpdateBindingDisplays();
             }
         }
         else
         {
             Destroy(gameObject); // Destroy duplicates
         }
+    }
+
+    // Helper method to get display names for key codes
+    public string GetKeyCodeDisplayName(KeyCode keyCode)
+    {
+        switch (keyCode)
+        {
+            case KeyCode.Mouse0: return "LMB";
+            case KeyCode.Mouse1: return "RMB";
+            case KeyCode.Mouse2: return "MMB";
+            case KeyCode.LeftControl: return "CTRL";
+            case KeyCode.LeftShift: return "SHIFT";
+            case KeyCode.LeftAlt: return "ALT";
+            default: return keyCode.ToString();
+        }
+    }
+
+    // Update all binding displays
+    public void UpdateBindingDisplays()
+    {
+        if (flashBangBinding != null)
+            flashBangBinding.text = "Hold " + GetKeyCodeDisplayName(flashlightKey);
+        if (flashLightBinding != null)
+            flashLightBinding.text = GetKeyCodeDisplayName(flashlightKey);
+        if (dimensionShiftBinding != null)
+            dimensionShiftBinding.text = GetKeyCodeDisplayName(dimensionShiftKey);
     }
     
     // Saves current keybind configuration to PlayerPrefs
@@ -108,7 +125,8 @@ public class KeyBindManager : MonoBehaviour
                 break;
         }
         
-        // Save changes immediately
+        // Update displays and save changes
+        UpdateBindingDisplays();
         SaveKeybinds();
     }
     
@@ -122,7 +140,8 @@ public class KeyBindManager : MonoBehaviour
         throwKey = KeyCode.Mouse0;
         dimensionShiftKey = KeyCode.Q;
         
-        // Save the default values to PlayerPrefs
+        // Update displays and save changes
+        UpdateBindingDisplays();
         SaveKeybinds();
     }
 
