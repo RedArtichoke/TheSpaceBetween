@@ -133,11 +133,12 @@ public class doorOpen : MonoBehaviour
                 SetLockState(false);  // Unlock the door
                 Debug.Log("Correct keycard detected. Door is now unlocked.");
 
+                keycard.RegisterDoorUnlock(); // Track door unlock
+
                 audioSource3.Play();
                 StartCoroutine(FlashingLight());
 
                 OpenDoor();
-               // keycard.enabled = false;
             }
             else
             {
