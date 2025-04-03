@@ -11,6 +11,8 @@ public class Keycard : MonoBehaviour
         MainDoor
     }
 
+    public PlayerMovementController player;
+
     public KeycardIdentity identity;  
 
     private HashSet<string> unlockedDoorIDs = new HashSet<string>();
@@ -39,8 +41,20 @@ public class Keycard : MonoBehaviour
 
     private void DisableKeycard()
     {
-        Debug.Log("Keycard has unlocked 2 doors. Disabling...");
+        Debug.Log("Disabling card");
         isDisabled = true;
-        gameObject.SetActive(false); 
+
+        player.DropObject(false);
+        gameObject.layer = LayerMask.NameToLayer("Default");
+        gameObject.tag = "Untagged"; 
+
+        StartCoroutine(countdownCardDestroy());
+    }
+
+    public IEnumerator countdownCardDestroy()
+    {
+        yield return new WaitForSeconds(8f);
+
+        Destroy(gameObject);
     }
 }
