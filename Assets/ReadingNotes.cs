@@ -116,8 +116,9 @@ public class ReadingNotes : MonoBehaviour
 
                                 Time.timeScale = 0f;
                                 string noteIndex = hit.transform.name;
-                                int indexNum = noteIndex[noteIndex.Length - 1] - '0' - 1;
-                                if (indexNum < 0){ indexNum = 10; }
+                                int indexNum = noteIndex[noteIndex.Length - 1] - '0';
+                                if (indexNum == 0){ indexNum = 10; }
+
                                 reading = true;
 
                                 noteInterface.SetActive(true);
@@ -125,7 +126,7 @@ public class ReadingNotes : MonoBehaviour
 
                                 editNote(hit.transform.name, noteTitle, noteText, Thing);
 
-                                Transform selectedNote = noteButtons[indexNum];
+                                Transform selectedNote = noteButtons[indexNum-1];
 
                                 //index is last number of note
                                 if (selectedNote != null)
