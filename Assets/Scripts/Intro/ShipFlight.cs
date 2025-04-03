@@ -63,7 +63,7 @@ public class ShipFlight : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
-            SkipCutscene();
+            //SkipCutscene();
         }
     }
 

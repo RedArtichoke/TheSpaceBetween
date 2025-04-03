@@ -13,6 +13,8 @@ public class IntroCutscene : MonoBehaviour
 
     public bool introPlaying = true;
 
+    public int SkipCount;
+
     [SerializeField] private TextMeshProUGUI text;
     //[SerializeField] private TextMeshProUGUI text2;
     //[SerializeField] private TextMeshProUGUI text2Title;
@@ -46,6 +48,7 @@ public class IntroCutscene : MonoBehaviour
 
     public bool flashbang;
 
+    private bool canCheckInput = false;
     private bool introSkipped = false;
 
     public TextMeshProUGUI uiGoalText;
@@ -76,8 +79,23 @@ public class IntroCutscene : MonoBehaviour
     public SubtitleText subtitleText;
     private GameObject instructionCanvas;
 
+    public ShipFlight shipFlight;
+
+    private void OnEnable()
+    {
+        canCheckInput = false;
+        StartCoroutine(EnableInputAfterDelay());
+    }
+
+    private IEnumerator EnableInputAfterDelay()
+    {
+        yield return new WaitForSeconds(1f);
+        canCheckInput = true;
+    }
+
     private void Start()
     {
+        Debug.Log("STARTING INTRO");
         keyBindManager = FindObjectOfType<KeyBindManager>();
         playerCamera.enabled = true;
 
@@ -126,44 +144,58 @@ public class IntroCutscene : MonoBehaviour
     }
     void Update()
     {
-        if(Input.GetKey(KeyCode.P) && !introSkipped)
+        Debug.Log(SkipCount);
+        if (canCheckInput && Input.GetKeyDown(KeyCode.P))
         {
-            introSkipped = true;
+            if(SkipCount == 0)
+            {
+                HideIntroElements();
+                StopAllCoroutines();
+                introSkipped = true;
+                introPlaying = false;
+                staticSound.Stop();
+
+                StartCoroutine(SkippedFadeCutscene());
+
+                
+            }
+
+            if(SkipCount == 2)
+            {
+                introSkipped = true;
+                Intro = true;
+                IntroScene.SetActive(false);
+
+                StopAllCoroutines();
+
+                // Re-enable player movement
+                playerMovement.enabled = true;
+
+                // Re-enable UI components
+                UIComponents.gameObject.SetActive(true);
+                HUD.SetActive(true);
+                crosshair.SetActive(true);
+                noteInventory.SetActive(true);
+
+                powerController.enabled = true;
+
+                uiGoalText.text = "Fix the Maintenance Issue";
+                objectiveText.text = "Go To the Maintenance Room";
+
+                introPlaying = false;
+
+                flashbangPrompt.ShowInstantly();
+                flashLightPrompt.ShowInstantly();
+                powerDisplay.ShowInstantly();
+                damageDisplay.ShowInstantly();
+                
+                subtitleText.ClearSubtitles();
+
+                shipFlight.SkipCutscene();
+            }
+
+            SkipCount +=1;
             
-            Intro = false;
-            IntroScene.SetActive(false);
-            
-            StopAllCoroutines();
-            
-            HideIntroElements();
-            
-            // Re enable player movement
-            playerMovement.enabled = true;
-
-            //Re enable UI components
-            UIComponents.gameObject.SetActive(true);
-
-            HUD.SetActive(true);
-
-            crosshair.SetActive(true);
-
-            noteInventory.SetActive(true);
-
-            powerController.enabled = true;
-
-            uiGoalText.text = "Fix the Maintenance Issue";
-
-            objectiveText.text = "Go To the Maintenance Room";
-
-            introPlaying = false;
-
-            flashbangPrompt.ShowInstantly();
-            flashLightPrompt.ShowInstantly();
-            powerDisplay.ShowInstantly();
-            damageDisplay.ShowInstantly();
-            staticSound.Stop();
-            subtitleText.ClearSubtitles();
-
         }
     }
 
@@ -268,7 +300,52 @@ public class IntroCutscene : MonoBehaviour
         closetDoor.OpenDoorCloset();
     }
 
-    // Add a new method to hide all UI elements
+    public IEnumerator SkippedFadeCutscene()
+    {
+        float fadeDuration = 0.7f;
+        float elapsedTime = 0f;
+
+        playerMovement.enabled = true;
+
+        yield return new WaitForSeconds(1f);
+
+        moveControls.SetActive(true);
+        noteInventory.SetActive(true);
+
+        speaker.Play();
+        UIComponents.gameObject.SetActive(true);
+        instructionCanvas = uiGoalText.gameObject.transform.parent.gameObject;
+        instructionCanvas.SetActive(false);
+        subtitleText.gameObject.SetActive(true);
+        subtitleText.PlayIntroSequence();
+
+        yield return new WaitForSeconds(5f);
+
+        fadeDuration = 1f;
+        elapsedTime = 0f;
+        
+        moveControlsGroup.alpha = 1f; 
+
+        while (elapsedTime < fadeDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float alpha = Mathf.Lerp(1f, 0f, elapsedTime / fadeDuration);
+            moveControlsGroup.alpha = alpha;
+            yield return null;  
+        }
+        yield return new WaitForSeconds(0.5f);
+
+        moveControls.SetActive(false);
+        
+        yield return new WaitForSeconds(12f);
+        // InteractControls.SetActive(true);
+
+        //Enable suit
+        suit.SetActive(true);
+        tutSuitMarker.SetActive(true);
+        closetDoor.OpenDoorCloset();
+    }
+
     private void HideIntroElements()
     {
         // Hide all text elements

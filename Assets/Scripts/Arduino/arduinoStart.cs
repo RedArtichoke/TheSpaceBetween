@@ -211,6 +211,8 @@ public class arduinoStart : MonoBehaviour
         // Stop all running coroutines
         StopAllCoroutines();
 
+        //intro.GetComponent<IntroCutscene>().SkipCount +=1;
+
         // Hide all UI elements
         if (introText != null) introText.SetActive(false);
         if (connectArduinoUI != null) connectArduinoUI.SetActive(false);
