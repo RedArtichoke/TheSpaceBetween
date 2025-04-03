@@ -46,6 +46,8 @@ public class IntroCutscene : MonoBehaviour
 
     public GameObject battery;
 
+    public GameObject objectiveCanvas;
+
     public bool flashbang;
 
     private bool canCheckInput = false;
@@ -144,7 +146,6 @@ public class IntroCutscene : MonoBehaviour
     }
     void Update()
     {
-        Debug.Log(SkipCount);
         if (canCheckInput && Input.GetKeyDown(KeyCode.P))
         {
             if(SkipCount == 0)
@@ -173,6 +174,7 @@ public class IntroCutscene : MonoBehaviour
 
                 // Re-enable UI components
                 UIComponents.gameObject.SetActive(true);
+                objectiveCanvas.SetActive(true);
                 HUD.SetActive(true);
                 crosshair.SetActive(true);
                 noteInventory.SetActive(true);
