@@ -31,6 +31,19 @@ public class settingsManager : MonoBehaviour
     public Toggle toggleHighlight;
     public Toggle toggleHUD;
     public Toggle toggleCrossHair;
+    public Toggle toggleVSync; // Controls vertical synchronisation
+
+    // Quality settings controls
+    public Slider antiAliasingSlider;
+    public Slider anisotropicSlider;
+    public Slider shadowQualitySlider;
+    public Slider textureQualitySlider;
+    public Slider lodBiasSlider;
+    public TextMeshProUGUI antiAliasingText;
+    public TextMeshProUGUI anisotropicText;
+    public TextMeshProUGUI shadowQualityText;
+    public TextMeshProUGUI textureQualityText;
+    public TextMeshProUGUI lodBiasText;
 
     // HUD component references
     public GameObject crosshair;
@@ -222,6 +235,53 @@ public class settingsManager : MonoBehaviour
             toggleCrossHair.onValueChanged.AddListener(OnToggleCrossHairChanged);
             toggleCrossHair.isOn = false; // Set crosshair toggle off by default
         }
+
+        if (toggleVSync != null)
+        {
+            toggleVSync.onValueChanged.AddListener(OnToggleVSyncChanged);
+            toggleVSync.isOn = QualitySettings.vSyncCount > 0; // Set initial state based on current VSync setting
+        }
+
+        // Set up quality settings sliders
+        if (antiAliasingSlider != null)
+        {
+            antiAliasingSlider.onValueChanged.AddListener(OnAntiAliasingChanged);
+            float normalizedValue = QualitySettings.antiAliasing / 8f;
+            antiAliasingSlider.value = normalizedValue;
+            UpdateAntiAliasingDisplay(QualitySettings.antiAliasing);
+        }
+
+        if (anisotropicSlider != null)
+        {
+            anisotropicSlider.onValueChanged.AddListener(OnAnisotropicChanged);
+            float normalizedValue = (int)QualitySettings.anisotropicFiltering / 16f;
+            anisotropicSlider.value = normalizedValue;
+            UpdateAnisotropicDisplay((int)QualitySettings.anisotropicFiltering);
+        }
+
+        if (shadowQualitySlider != null)
+        {
+            shadowQualitySlider.onValueChanged.AddListener(OnShadowQualityChanged);
+            float normalizedValue = (int)QualitySettings.shadowResolution / 3f;
+            shadowQualitySlider.value = normalizedValue;
+            UpdateShadowQualityDisplay((int)QualitySettings.shadowResolution);
+        }
+
+        if (textureQualitySlider != null)
+        {
+            textureQualitySlider.onValueChanged.AddListener(OnTextureQualityChanged);
+            float normalizedValue = (3 - QualitySettings.globalTextureMipmapLimit) / 3f;
+            textureQualitySlider.value = normalizedValue;
+            UpdateTextureQualityDisplay(3 - QualitySettings.globalTextureMipmapLimit);
+        }
+
+        if (lodBiasSlider != null)
+        {
+            lodBiasSlider.onValueChanged.AddListener(OnLODBiasChanged);
+            float normalizedValue = Mathf.InverseLerp(0.5f, 2.0f, QualitySettings.lodBias);
+            lodBiasSlider.value = normalizedValue;
+            UpdateLODBiasDisplay(QualitySettings.lodBias);
+        }
     }
 
     // Audio volume change handlers
@@ -361,6 +421,12 @@ public class settingsManager : MonoBehaviour
         }
     }
 
+    private void OnToggleVSyncChanged(bool isOn)
+    {
+        // Enable or disable VSync based on toggle state
+        QualitySettings.vSyncCount = isOn ? 1 : 0;
+    }
+
     // Post-processing effect handlers
     private void OnBrightnessChanged(float value)
     {
@@ -413,6 +479,85 @@ public class settingsManager : MonoBehaviour
         if (bloomText != null)
         {
             bloomText.text = value.ToString("F1");
+        }
+    }
+
+    // Quality settings handlers
+    private void OnAntiAliasingChanged(float value)
+    {
+        int msaaLevel = Mathf.RoundToInt(value * 8); // Convert 0-1 to 0, 2, 4, 8
+        QualitySettings.antiAliasing = msaaLevel;
+        UpdateAntiAliasingDisplay(msaaLevel);
+    }
+
+    private void OnAnisotropicChanged(float value)
+    {
+        int anisoLevel = Mathf.RoundToInt(value * 16); // Convert 0-1 to 0, 2, 4, 8, 16
+        QualitySettings.anisotropicFiltering = (AnisotropicFiltering)anisoLevel;
+        UpdateAnisotropicDisplay(anisoLevel);
+    }
+
+    private void OnShadowQualityChanged(float value)
+    {
+        int qualityLevel = Mathf.RoundToInt(value * 3); // Convert 0-1 to 0-3
+        QualitySettings.shadowResolution = (UnityEngine.ShadowResolution)qualityLevel;
+        UpdateShadowQualityDisplay(qualityLevel);
+    }
+
+    private void OnTextureQualityChanged(float value)
+    {
+        int qualityLevel = Mathf.RoundToInt(value * 3); // Convert 0-1 to 0-3
+        QualitySettings.globalTextureMipmapLimit = 3 - qualityLevel; // Invert because lower limit = higher quality
+        UpdateTextureQualityDisplay(qualityLevel);
+    }
+
+    private void OnLODBiasChanged(float value)
+    {
+        float bias = Mathf.Lerp(0.5f, 2.0f, value); // Convert 0-1 to 0.5-2.0
+        QualitySettings.lodBias = bias;
+        UpdateLODBiasDisplay(bias);
+    }
+
+    // Display update methods
+    private void UpdateAntiAliasingDisplay(int value)
+    {
+        if (antiAliasingText != null)
+        {
+            antiAliasingText.text = value == 0 ? "Off" : value + "x";
+        }
+    }
+
+    private void UpdateAnisotropicDisplay(int value)
+    {
+        if (anisotropicText != null)
+        {
+            anisotropicText.text = value == 0 ? "Off" : value + "x";
+        }
+    }
+
+    private void UpdateShadowQualityDisplay(int value)
+    {
+        if (shadowQualityText != null)
+        {
+            string[] qualities = { "Low", "Medium", "High", "Ultra" };
+            shadowQualityText.text = qualities[value];
+        }
+    }
+
+    private void UpdateTextureQualityDisplay(int value)
+    {
+        if (textureQualityText != null)
+        {
+            string[] qualities = { "Low", "Medium", "High", "Ultra" };
+            textureQualityText.text = qualities[value];
+        }
+    }
+
+    private void UpdateLODBiasDisplay(float value)
+    {
+        if (lodBiasText != null)
+        {
+            lodBiasText.text = value.ToString("F1");
         }
     }
 }
