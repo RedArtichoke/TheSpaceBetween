@@ -16,12 +16,7 @@ public class EnableCrouchPrompt : MonoBehaviour
         if (collider.CompareTag("Player"))
         {
             CrouchPrompt.SetActive(true);
-
-            objectiveText.text = "Repair your Ship";
-            instructionsText.text = "Key Items found 0/4";
-
             StartCoroutine(ShowCrouchPrompt());
-
             GetComponent<Collider>().enabled = false;
         }
     }

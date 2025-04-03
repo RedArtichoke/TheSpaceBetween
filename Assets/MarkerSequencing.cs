@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class MarkerSequencing : MonoBehaviour
 {
@@ -30,6 +31,9 @@ public class MarkerSequencing : MonoBehaviour
     // Track which sequence is currently active
     private SequenceType activeSequence = SequenceType.None;
     
+    // Public property to access the active sequence
+    public SequenceType ActiveSequence => activeSequence;
+    
     // Variables to track the current active marker in each sequence
     private int currentMarkerIndex = 0;
     
@@ -40,6 +44,10 @@ public class MarkerSequencing : MonoBehaviour
     
     // Current active marker array (points to one of the above arrays)
     private GameObject[] currentSequenceMarkers;
+
+    // Add text component references
+    public TextMeshProUGUI objectiveText;
+    public TextMeshProUGUI instructionsText;
 
     // Start is called before the first frame update
     void Start()
@@ -142,6 +150,13 @@ public class MarkerSequencing : MonoBehaviour
         // Switch to the device sequence
         activeSequence = SequenceType.Device;
         currentSequenceMarkers = deviceSequenceMarkers;
+        
+        // Update the text components
+        if (objectiveText != null)
+            objectiveText.text = "Repair your Ship";
+        if (instructionsText != null)
+            instructionsText.text = "Ship Parts found 0/4";
+            
         StartSequence();
     }
     
