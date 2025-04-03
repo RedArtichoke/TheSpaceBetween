@@ -495,7 +495,7 @@ public class PlayerMovementController : MonoBehaviour
                     rb.useGravity = true;    
                 }
             }
-            else if(hit.transform.name.Contains("yogurtCup"))
+            else if(hit.transform.name.Contains("Yogurt Cup"))
             {
                 //add 1 to the counter and destroy the cup
                 yogurt.yogurtCollected++;
