@@ -43,6 +43,7 @@ public class HealthManager : MonoBehaviour
 
     public AudioSource reviveSound;
     public PlayGameButton playButton;
+    public HeartRateAnimator heartRateAnimator;
 
     [SerializeField] endgameGameInfo gameInfo;
 
@@ -222,6 +223,9 @@ public class HealthManager : MonoBehaviour
 
         RevealGameOverUI();
         StopAllCoroutines();
+
+        heartRateAnimator.heartAudioSource.mute = true;
+
         if (UIComponents != null)
         {
             UIComponents.SetActive(false);
@@ -346,6 +350,8 @@ public class HealthManager : MonoBehaviour
         bg.alpha = 1f;
 
         UIComponents.SetActive(true);
+
+        heartRateAnimator.heartAudioSource.mute = false;
 
         gameOverUIButton1.SetActive(true);
         gameOverUIButton2.SetActive(true);

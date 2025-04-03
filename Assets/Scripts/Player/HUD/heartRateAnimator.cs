@@ -13,7 +13,7 @@ public class HeartRateAnimator : MonoBehaviour
 
     private Vector3 originalScale; // The heart's original size before it gets all excited
     private float pulseSpeed; // How quickly the heart beats
-    private AudioSource heartAudioSource; // The source of the heart's sound
+    public AudioSource heartAudioSource; // The source of the heart's sound
     private float noiseOffset; // A little randomness to keep things interesting
     private Volume globalVolume; // Reference to the global volume
     private LensDistortion lensDistortion; // Lens distortion effect
