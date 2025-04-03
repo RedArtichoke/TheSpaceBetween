@@ -197,6 +197,8 @@ public class IntroCutscene : MonoBehaviour
                 
                 subtitleText.ClearSubtitles();
 
+                speaker.Stop();
+
                 shipFlight.SkipCutscene();
             }
 
