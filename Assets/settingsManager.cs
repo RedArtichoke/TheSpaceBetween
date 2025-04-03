@@ -33,6 +33,20 @@ public class settingsManager : MonoBehaviour
     public Toggle toggleCrossHair;
     public Toggle toggleVSync; // Controls vertical synchronisation
 
+    // Accessibility settings
+    public Slider crosshairSizeSlider;
+    public Toggle subtitlesToggle;
+    public Toggle reducedFlashToggle;
+    public TextMeshProUGUI crosshairSizeText;
+    public RectTransform crosshairCanvasRect; // Reference to crosshair's RectTransform
+    public Slider colorblindnessSlider;
+    public TextMeshProUGUI colorblindnessText;
+
+    // Store default color values
+    private float defaultSaturation;
+    private float defaultHueShift;
+    private float defaultContrast;
+
     // Quality settings controls
     public Slider antiAliasingSlider;
     public Slider anisotropicSlider;
@@ -78,7 +92,18 @@ public class settingsManager : MonoBehaviour
                 volume.profile.TryGet(out colorAdjustments);
                 volume.profile.TryGet(out bloom);
 
-                // Enable overrides for post-processing effects
+                // Store default color values
+                if (colorAdjustments != null)
+                {
+                    defaultSaturation = colorAdjustments.saturation.value;
+                    defaultHueShift = colorAdjustments.hueShift.value;
+                    defaultContrast = colorAdjustments.contrast.value;
+
+                    // Enable additional overrides for colorblindness
+                    colorAdjustments.saturation.overrideState = true;
+                    colorAdjustments.hueShift.overrideState = true;
+                }
+                
                 if (colorAdjustments != null)
                 {
                     colorAdjustments.active = true;
@@ -240,6 +265,35 @@ public class settingsManager : MonoBehaviour
         {
             toggleVSync.onValueChanged.AddListener(OnToggleVSyncChanged);
             toggleVSync.isOn = QualitySettings.vSyncCount > 0; // Set initial state based on current VSync setting
+        }
+
+        // Set up accessibility settings
+        if (crosshairSizeSlider != null)
+        {
+            crosshairSizeSlider.onValueChanged.AddListener(OnCrosshairSizeChanged);
+            // Set default to 1.0 (middle of 0.5-2.0 range)
+            crosshairSizeSlider.value = 0.5f; // 0.5 maps to 1.0 in our 0.5-2.0 range
+            OnCrosshairSizeChanged(0.5f); // Apply default size
+        }
+
+        if (subtitlesToggle != null)
+        {
+            subtitlesToggle.onValueChanged.AddListener(OnSubtitlesToggleChanged);
+            subtitlesToggle.isOn = true; // Enable subtitles by default
+        }
+
+        if (reducedFlashToggle != null)
+        {
+            reducedFlashToggle.onValueChanged.AddListener(OnReducedFlashToggleChanged);
+            reducedFlashToggle.isOn = false; // Flash effects enabled by default
+        }
+
+        // Set up colorblindness slider
+        if (colorblindnessSlider != null)
+        {
+            colorblindnessSlider.onValueChanged.AddListener(OnColorblindnessChanged);
+            colorblindnessSlider.value = 0f; // Default to no colorblindness correction
+            UpdateColorblindnessDisplay(0);
         }
 
         // Set up quality settings sliders
@@ -427,6 +481,38 @@ public class settingsManager : MonoBehaviour
         QualitySettings.vSyncCount = isOn ? 1 : 0;
     }
 
+    // Accessibility settings handlers
+    private void OnCrosshairSizeChanged(float value)
+    {
+        if (crosshairCanvasRect != null)
+        {
+            // Map 0-1 slider value to 0.5-2.0 scale range
+            float scale = Mathf.Lerp(0.5f, 2.0f, value);
+            crosshairCanvasRect.localScale = new Vector3(scale, scale, 1f);
+            UpdateCrosshairSizeDisplay(scale);
+        }
+    }
+
+    private void OnSubtitlesToggleChanged(bool isOn)
+    {
+        // Will implement subtitle system later
+        // This toggle will control subtitle visibility
+    }
+
+    private void OnReducedFlashToggleChanged(bool isOn)
+    {
+        // Will implement flash reduction system later
+        // This toggle will control intensity of flash effects
+    }
+
+    private void UpdateCrosshairSizeDisplay(float value)
+    {
+        if (crosshairSizeText != null)
+        {
+            crosshairSizeText.text = value.ToString("F1") + "x";
+        }
+    }
+
     // Post-processing effect handlers
     private void OnBrightnessChanged(float value)
     {
@@ -558,6 +644,52 @@ public class settingsManager : MonoBehaviour
         if (lodBiasText != null)
         {
             lodBiasText.text = value.ToString("F1");
+        }
+    }
+
+    private void OnColorblindnessChanged(float value)
+    {
+        if (colorAdjustments != null)
+        {
+            int mode = Mathf.RoundToInt(value * 3); // 0-3: None, Protanopia, Deuteranopia, Tritanopia
+
+            switch (mode)
+            {
+                case 0: // None - restore defaults
+                    colorAdjustments.saturation.Override(defaultSaturation);
+                    colorAdjustments.hueShift.Override(defaultHueShift);
+                    colorAdjustments.contrast.Override(defaultContrast);
+                    break;
+
+                case 1: // Protanopia (red-blind)
+                    colorAdjustments.saturation.Override(-10f);
+                    colorAdjustments.hueShift.Override(5f);
+                    colorAdjustments.contrast.Override(defaultContrast + 5f);
+                    break;
+
+                case 2: // Deuteranopia (green-blind)
+                    colorAdjustments.saturation.Override(-15f);
+                    colorAdjustments.hueShift.Override(-5f);
+                    colorAdjustments.contrast.Override(defaultContrast + 10f);
+                    break;
+
+                case 3: // Tritanopia (blue-blind)
+                    colorAdjustments.saturation.Override(-20f);
+                    colorAdjustments.hueShift.Override(15f);
+                    colorAdjustments.contrast.Override(defaultContrast + 15f);
+                    break;
+            }
+
+            UpdateColorblindnessDisplay(mode);
+        }
+    }
+
+    private void UpdateColorblindnessDisplay(int mode)
+    {
+        if (colorblindnessText != null)
+        {
+            string[] modes = { "Off", "Protanopia", "Deuteranopia", "Tritanopia" };
+            colorblindnessText.text = modes[mode];
         }
     }
 }
