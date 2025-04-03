@@ -36,6 +36,8 @@ public class ReadingNotes : MonoBehaviour
 
     private GameObject interactCanvas;
 
+    [SerializeField] ControlPromptAnimator notePrompt;
+
     void Start()
     {
         keyBindManager = FindObjectOfType<KeyBindManager>();
@@ -73,6 +75,11 @@ public class ReadingNotes : MonoBehaviour
                 
                 UIBlur.SetActive(false);
                 noteInterface.SetActive(false);
+
+                if (notesCollected == 1) //after collecting the first note
+                {
+                    notePrompt.RevealWithAnimation();
+                }
             }
             else 
             { 

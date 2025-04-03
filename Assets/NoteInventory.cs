@@ -95,6 +95,7 @@ public class NoteInventory : MonoBehaviour
             UIBlur.SetActive(false);
             crosshair.SetActive(true);
         }
+
         if (noteInfo.notesCollected <= 0) //if no notes have been collected
         {
             inventoryPaper.SetActive(false);
