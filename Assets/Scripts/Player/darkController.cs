@@ -36,6 +36,7 @@ public class DarkController : MonoBehaviour
     public GameObject keyItemReplacementPrefab; // Assign in inspector
     public GameObject keyItemChildPrefab; // Assign in inspector
     public GameObject batteryMarkerPrefab; // Assign in inspector - separate marker for batteries
+    public TextMeshProUGUI darkPrompt;
 
     private List<GameObject> keyItemsWithHighlights = new List<GameObject>();
 
@@ -403,6 +404,9 @@ public class DarkController : MonoBehaviour
             instructionSubtitling.text = "While in the dark, you are safe from mimics";
             instructionTitling.text = "The Thing is Hunting You";
             
+            darkPrompt.gameObject.SetActive(true);
+            darkPrompt.text = "Find <color=#007BFF>Ship Parts</color> in the Dark";
+
             inDark = true; // Set inDark to true
             StartCoroutine(AdjustExposure()); // Adjust exposure for entering dark
 
@@ -456,7 +460,9 @@ public class DarkController : MonoBehaviour
                 // Play the sound
                 audioSource.PlayOneShot(darkEntrySounds[randomIndex]);
             }
-            
+
+            darkPrompt.gameObject.SetActive(false);
+
             // Restore original text
             instructionSubtitling.text = originalSubtitleText;
             instructionTitling.text = originalTitleText;
