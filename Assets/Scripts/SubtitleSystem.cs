@@ -193,6 +193,7 @@ public class SubtitleText : TextMeshProUGUI
     {
         new SubtitleLine("", 2.0f, 2),
         new SubtitleLine("Successfully boarded, good luck captain.", 2.5f, 2),
+        new SubtitleLine("", 2.0f, 1),
     };
 
     // Play a sequence of subtitles
