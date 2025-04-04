@@ -16,6 +16,7 @@ public class bgMusicPlayer : MonoBehaviour
 
         audioSource = gameObject.AddComponent<AudioSource>(); // Create audio source
         audioSource.volume = originalVolume; // Store original volume
+        audioSource.priority = 5;
         StartCoroutine(PlayRandomTrack()); // Start playing tracks
     }
 
