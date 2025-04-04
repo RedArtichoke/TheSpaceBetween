@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3580715718164361183}
   - component: {fileID: 7295843509346786046}
   - component: {fileID: 9003088596771544054}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -191,11 +191,31 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8455533564901400444, guid: 31a1d33c87936d14a82d5a84f546e22b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -6288739751691136447, guid: 31a1d33c87936d14a82d5a84f546e22b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: -5376020066864858571, guid: 31a1d33c87936d14a82d5a84f546e22b,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 24c96c5de32b313418db01b5116cee78, type: 2}
+    - target: {fileID: -4324114545524403173, guid: 31a1d33c87936d14a82d5a84f546e22b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -4324114545524403173, guid: 31a1d33c87936d14a82d5a84f546e22b,
+        type: 3}
+      propertyPath: m_TagString
+      value: KeyItem
+      objectReference: {fileID: 0}
     - target: {fileID: -1970819409931250716, guid: 31a1d33c87936d14a82d5a84f546e22b,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -210,6 +230,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: powercell
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 31a1d33c87936d14a82d5a84f546e22b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 31a1d33c87936d14a82d5a84f546e22b,
+        type: 3}
+      propertyPath: m_TagString
+      value: KeyItem
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

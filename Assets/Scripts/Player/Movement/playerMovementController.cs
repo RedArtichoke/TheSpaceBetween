@@ -97,6 +97,12 @@ public class PlayerMovementController : MonoBehaviour
     private float largeObjectDistance = 2.5f; // Increased from 1.5f to 2.5f - Hold large objects even further away
     private bool isLargeObject = false;
 
+    // Marker objects for special items
+    public GameObject engineMarker;
+    public GameObject steeringWheelMarker;
+    public GameObject powerCellMarker;
+    public GameObject tesseractMarker;
+
     public doorOpen door1;
     public doorOpen door2;
 
@@ -538,6 +544,9 @@ public class PlayerMovementController : MonoBehaviour
                 objectCollisionRadius = Mathf.Max(0.3f, objectSize * 0.3f);
             }
 
+            // Enable appropriate marker based on the held object's name
+            EnableMarkerForHeldObject();
+
             if (heldObjectRb != null)
             {
                 // Remove all forces from the object
@@ -689,6 +698,9 @@ public class PlayerMovementController : MonoBehaviour
         // Drop the currently held object, optionally applying a throw force
         if (heldObject != null)
         {
+            // Disable all markers when dropping the object
+            DisableAllMarkers();
+            
             // Store a reference to the object before clearing heldObject
             Transform droppedObject = heldObject;
             Renderer objectRenderer = droppedObject.GetComponent<Renderer>();
@@ -1077,7 +1089,13 @@ public class PlayerMovementController : MonoBehaviour
                         nameText.text = formattedName;
                         // Check if this is a special object that should be blue
                         string[] specialObjects = { "Powercell Core", "Steering Wheel", "Tesseract", "Engine" };
-                        if (specialObjects.Contains(formattedName))
+                        // Special case for Powercell to show as "Powercell Core" in display
+                        if (formattedName == "Powercell")
+                        {
+                            nameText.text = "Powercell Core";
+                            nameText.color = new Color(0.41f, 0.8f, 1f, 1f); // Bright blue color
+                        }
+                        else if (specialObjects.Contains(formattedName))
                         {
                             nameText.color = new Color(0.41f, 0.8f, 1f, 1f); // Bright blue color
                         }
@@ -1331,5 +1349,94 @@ public class PlayerMovementController : MonoBehaviour
         }
 
         return formattedName.ToString();
+    }
+
+    // New method to enable the appropriate marker based on the held object
+    private void EnableMarkerForHeldObject()
+    {
+        if (heldObject == null) return;
+        
+        // Disable all markers first
+        DisableAllMarkers();
+        
+        // Get the formatted name of the held object
+        string objectName = FormatObjectName(heldObject.name);
+        
+        // Debug logging to see what's happening
+        Debug.Log("Held object name: " + heldObject.name);
+        Debug.Log("Formatted object name: " + objectName);
+        Debug.Log("Powercell marker reference: " + (powerCellMarker != null ? "Valid" : "Null"));
+        
+        bool isKeyItem = false;
+        
+        // Enable the appropriate marker based on the object name
+        switch (objectName)
+        {
+            case "Engine":
+                if (engineMarker != null) engineMarker.SetActive(true);
+                isKeyItem = true;
+                break;
+            case "Steering Wheel":
+                if (steeringWheelMarker != null) steeringWheelMarker.SetActive(true);
+                isKeyItem = true;
+                break;
+            case "Powercell":
+                Debug.Log("Attempting to enable Powercell marker");
+                if (powerCellMarker != null) 
+                {
+                    powerCellMarker.SetActive(true);
+                    Debug.Log("Powercell marker enabled: " + powerCellMarker.activeSelf);
+                }
+                isKeyItem = true;
+                break;
+            case "Tesseract":
+                if (tesseractMarker != null) tesseractMarker.SetActive(true);
+                isKeyItem = true;
+                break;
+            default:
+                Debug.Log("No matching special object found for: " + objectName);
+                break;
+        }
+
+        // Update the throw text if this is a key item
+        if (isKeyItem)
+        {
+            Debug.Log("Attempting to update throw text for key item: " + objectName);
+            
+            // Get all renderers in children
+            Renderer[] renderers = heldObject.GetComponentsInChildren<Renderer>();
+            Debug.Log("Found " + renderers.Length + " renderers in children");
+            
+            foreach (Renderer renderer in renderers)
+            {
+                // Try to find the prompt on this renderer's GameObject
+                Transform promptTransform = renderer.transform.Find("InteractPrompt");
+                if (promptTransform != null)
+                {
+                    Debug.Log("Found prompt on renderer: " + renderer.name);
+                    Transform instructionsTransform = promptTransform.Find("Canvas/Instructions");
+                    if (instructionsTransform != null)
+                    {
+                        TMP_Text instructionsText = instructionsTransform.GetComponent<TMP_Text>();
+                        if (instructionsText != null)
+                        {
+                            string newText = "Press " + keyBindManager.GetKeyCodeDisplayName(keyBindManager.throwKey) + " to Throw";
+                            instructionsText.text = newText;
+                            Debug.Log("Updated instructions text to: " + newText);
+                            break; // Exit once we've found and updated the text
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    // New method to disable all markers
+    private void DisableAllMarkers()
+    {
+        if (engineMarker != null) engineMarker.SetActive(false);
+        if (steeringWheelMarker != null) steeringWheelMarker.SetActive(false);
+        if (powerCellMarker != null) powerCellMarker.SetActive(false);
+        if (tesseractMarker != null) tesseractMarker.SetActive(false);
     }
 }
