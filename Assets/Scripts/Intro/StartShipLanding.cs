@@ -35,7 +35,7 @@ public class StartShipLanding : MonoBehaviour
 
     public GameObject player;
 
-
+    [SerializeField] PlayerMovementController movement;
     void Start()
     {
         keyBindManager = FindObjectOfType<KeyBindManager>();
@@ -107,8 +107,13 @@ public class StartShipLanding : MonoBehaviour
     public IEnumerator EndGame()
     {
         gameEndCanvas.SetActive(true);
+        gameInfo.stopTimer();
 
         yield return new WaitForSeconds (1f);
+
+        gameInfo.displayData();
+
+        movement.enabled = false;
 
         UIComponents.SetActive(false);
 
@@ -125,7 +130,6 @@ public class StartShipLanding : MonoBehaviour
             yield return null;  
         }
 
-        gameInfo.stopTimer();
         //player.SetActive(false);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true; 

@@ -11,7 +11,8 @@ public class endgameGameInfo : MonoBehaviour
     public int yogurtCollected;
     public AudioSource collectSound;
 
-    bool inGame;
+    public bool inGame;
+    public bool pastIntro;
 
     public int deaths;
     public int shifterUse;
@@ -37,6 +38,7 @@ public class endgameGameInfo : MonoBehaviour
     void Start()
     {
         inGame = false;
+        pastIntro = false;
 
         startTime = 0;
         playSec = 0;
@@ -52,7 +54,7 @@ public class endgameGameInfo : MonoBehaviour
 
     public void displayData()
     {
-        endgameCanvas = GameObject.Find("Stats");
+        //endgameCanvas = GameObject.Find("EndGame/Image/Stats");
         endgameText = endgameCanvas.GetComponent<TextMeshProUGUI>();
 
         /*endgameText.text =    "Time Played - " + playTime +
@@ -91,11 +93,14 @@ public class endgameGameInfo : MonoBehaviour
     {
         if (inGame)
         {
+            inGame = false;
+
             //the time from starting to play to beating the game
             playSec = (int)(Time.timeSinceLevelLoad - startTime); //example: 125 second playthrough = 125 playSec
 
             playMin = playSec / 60; // 125/60 seconds = 2 playMin and 5 playSec
-            playTime = playMin + ":" + (playSec%60); // 125 seconds should read as 2:05
+            playSec = playSec % 60;
+            playTime = playMin + ":" + (playSec); // 125 seconds should read as 2:05
 
             highRate = (int)heartinfo.highestHeartRate;
             lowRate = (int)heartinfo.lowestHeartRate;
