@@ -15,8 +15,6 @@ public class MenuController : MonoBehaviour
     
     private PlayerMovementController playerMovement; // Reference to player movement controller
 
-    [SerializeField] endgameGameInfo gameInfo;
-
     void Start()
     {
         pauseMenuPrefab.SetActive(false); // Ensure the pause menu is hidden at the start
@@ -35,7 +33,7 @@ public class MenuController : MonoBehaviour
     void Update()
     {
         // Check for Escape key press
-        if (Input.GetKeyDown(KeyCode.Escape) && gameInfo.inGame)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             TogglePause();
         }

@@ -65,11 +65,11 @@ public class NoteInventory : MonoBehaviour
         invPaper.Add(inventoryPaper.transform.GetChild(0).GetComponent<TextMeshProUGUI>());
         invPaper.Add(inventoryPaper.transform.GetChild(1).GetComponent<TextMeshProUGUI>());
 
-        Image imgThing = inventoryPaper.transform.GetChild(2).GetComponent<Image>();
+        Transform imgThing = inventoryPaper.transform.GetChild(2);
         if (imgThing != null) { Debug.Log("HELLO"); }
 
         page.Play();
-        noteInfo.editNote(noteName, invPaper[1], invPaper[0], imgThing);
+        noteInfo.editNote(noteName, invPaper[1], invPaper[0], imgThing.gameObject);
     }
 
     void toggleNoteUI()

@@ -124,7 +124,7 @@ public class ReadingNotes : MonoBehaviour
                                 noteInterface.SetActive(true);
                                 UIBlur.SetActive(true);
 
-                                editNote(hit.transform.name, noteTitle, noteText, Thing);
+                                editNote(hit.transform.name, noteTitle, noteText, Thing.gameObject);
 
                                 Transform selectedNote = noteButtons[indexNum-1];
 
@@ -154,11 +154,11 @@ public class ReadingNotes : MonoBehaviour
         }
     }
 
-    public void editNote(string noteName, TextMeshProUGUI title, TextMeshProUGUI body, Image thing)
+    public void editNote(string noteName, TextMeshProUGUI title, TextMeshProUGUI body, GameObject thing)
     {
-        if(thing.gameObject.activeInHierarchy)
+        if(thing.activeInHierarchy)
         {
-            thing.gameObject.SetActive(false);
+            thing.SetActive(false);
         }
 
         switch (noteName)
@@ -175,7 +175,7 @@ public class ReadingNotes : MonoBehaviour
                 title.text = "HE'S ALWAYS WATCHING";
                 body.text = "";
                 //picture goes here
-                thing.gameObject.SetActive(true);
+                thing.SetActive(true);
                 break;
 
             case ("note 3"):
