@@ -57,6 +57,8 @@ public class ElevatorCutscene : MonoBehaviour
     public GameObject door;
     public GameObject veil;
 
+    public GameObject keyitemBlue;
+
     private KeyBindManager keyBindManager;
 
     void Start()
@@ -96,7 +98,7 @@ public class ElevatorCutscene : MonoBehaviour
             if (Physics.Raycast(crosshair, out RaycastHit hit, range, buttonLayer) && hit.transform.name.Contains("geo_elevator_panel")) 
             {
                 //Debug.Log(hit.transform.name); //what was pressed?
-                
+                keyitemBlue.SetActive(false);
                 StartCoroutine(ElevatorSequence());
             }
         }
