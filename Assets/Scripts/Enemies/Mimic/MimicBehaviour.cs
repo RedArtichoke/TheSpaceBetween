@@ -54,6 +54,7 @@ public class MimicBehaviour : MonoBehaviour
         mimicAudioSource = gameObject.GetComponent<AudioSource>();
         mimicAudioSource.spatialBlend = 1.0f; // Make the sound 3D
         mimicAudioSource.maxDistance = 35f; // Set max distance for sound
+        mimicAudioSource.priority = 80;
 
         // Add reverb filter for haunting effect
         if (!GameObject.Find("MimicReverb")) {
