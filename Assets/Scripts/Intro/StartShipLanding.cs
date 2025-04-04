@@ -33,6 +33,9 @@ public class StartShipLanding : MonoBehaviour
     public endgameGameInfo gameInfo;
     private SubtitleText subtitleText;
 
+    public GameObject player;
+
+
     void Start()
     {
         keyBindManager = FindObjectOfType<KeyBindManager>();
@@ -123,9 +126,12 @@ public class StartShipLanding : MonoBehaviour
         }
 
         gameInfo.stopTimer();
+        //player.SetActive(false);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true; 
 
-        yield return new WaitForSeconds (1f);
+        //yield return new WaitForSeconds (1f);
 
-        SceneManager.LoadScene("EndGame");
+        //SceneManager.LoadScene("EndGame");
     }
 }
