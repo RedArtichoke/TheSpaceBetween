@@ -175,6 +175,8 @@ public class DarkController : MonoBehaviour
                 
                 // Randomise reverb zone mix between 0 and 1
                 audioSource.reverbZoneMix = Random.Range(0f, 1f);
+
+                audioSource.priority = 30;
                 
                 // Play the sound
                 audioSource.PlayOneShot(darkEntrySounds[randomIndex]);
@@ -288,6 +290,22 @@ public class DarkController : MonoBehaviour
 
         if (inDark) // Check if still in dark
         {
+            if (darkEntrySounds.Length > 0)
+            {
+                int randomIndex = Random.Range(0, darkEntrySounds.Length);
+                
+                // Randomise pitch between 0.8 and 1.2 for variation
+                audioSource.pitch = Random.Range(0.8f, 1.2f);
+                
+                // Randomise reverb zone mix between 0 and 1
+                audioSource.reverbZoneMix = Random.Range(0f, 1f);
+
+                audioSource.priority = 30;
+                
+                // Play the sound
+                audioSource.PlayOneShot(darkEntrySounds[randomIndex]);
+            }
+
             // Reset color filter
             colorAdjustments.colorFilter.value = Color.white;
 
@@ -423,6 +441,22 @@ public class DarkController : MonoBehaviour
     {
         if (inDark)
         {
+            if (darkEntrySounds.Length > 0)
+            {
+                int randomIndex = Random.Range(0, darkEntrySounds.Length);
+                
+                // Randomise pitch between 0.8 and 1.2 for variation
+                audioSource.pitch = Random.Range(0.8f, 1.2f);
+                
+                // Randomise reverb zone mix between 0 and 1
+                audioSource.reverbZoneMix = Random.Range(0f, 1f);
+
+                audioSource.priority = 30;
+                
+                // Play the sound
+                audioSource.PlayOneShot(darkEntrySounds[randomIndex]);
+            }
+            
             // Restore original text
             instructionSubtitling.text = originalSubtitleText;
             instructionTitling.text = originalTitleText;
