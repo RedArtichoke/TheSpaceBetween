@@ -176,6 +176,25 @@ public class SubtitleText : TextMeshProUGUI
         new SubtitleLine("", 1.0f, 2)
     };
 
+    // Docking sequence
+    private SubtitleLine[] dockingSequence = new SubtitleLine[]
+    {
+        new SubtitleLine("Initiating docking procedures for the intervallum freighter.", 5.0f, 2),
+    };
+
+    // Landed sequence
+    private SubtitleLine[] landedSequence = new SubtitleLine[]
+    {
+        new SubtitleLine("According to mission details, you must navigate to the maintenance room to fix a major power outage within the ship.", 8.0f, 2),
+    };
+
+    // Boarded sequence
+    private SubtitleLine[] boardedSequence = new SubtitleLine[]
+    {
+        new SubtitleLine("", 2.0f, 2),
+        new SubtitleLine("Successfully boarded, good luck captain.", 2.5f, 2),
+    };
+
     // Play a sequence of subtitles
     public void PlaySubtitles(SubtitleLine[] lines)
     {
@@ -269,5 +288,26 @@ public class SubtitleText : TextMeshProUGUI
     {
         PlaySubtitles(landingSequence);
         Debug.Log("Playing landing sequence");
+    }
+
+    // Public method to play the docking sequence
+    public void PlayDockingSequence()
+    {
+        PlaySubtitles(dockingSequence);
+        Debug.Log("Playing docking sequence");
+    }       
+
+    // Public method to play the landed sequence
+    public void PlayLandedSequence()
+    {
+        PlaySubtitles(landedSequence);
+        Debug.Log("Playing landed sequence");
+    }
+
+    // Public method to play the boarded sequence
+    public void PlayBoardedSequence()
+    {
+        PlaySubtitles(boardedSequence);
+        Debug.Log("Playing boarded sequence");
     }
 } 

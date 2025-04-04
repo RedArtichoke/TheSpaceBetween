@@ -41,6 +41,8 @@ public class ShipFlight : MonoBehaviour
     public GameObject smoke2;
     public GameObject smoke3;
 
+    private SubtitleText subtitleText;
+
     public AudioSource MimicSound;
     [SerializeField] endgameGameInfo gameInfo;
 
@@ -66,6 +68,7 @@ public class ShipFlight : MonoBehaviour
     IEnumerator MoveToTarget()
     {
         isMoving = true;
+        subtitleText = FindObjectOfType<SubtitleText>();
         
         while (Vector3.Distance(transform.position, target.position) > 0.01f)
         {
@@ -94,7 +97,7 @@ public class ShipFlight : MonoBehaviour
         railingRaise.SetActive(true);
 
         speaker.PlayOneShot(speaker8);
-
+        subtitleText.PlayBoardedSequence();
         // Start the Plug sequence
         if (markerSequencing != null)
         {
@@ -115,6 +118,7 @@ public class ShipFlight : MonoBehaviour
     public void SkipCutscene()
     {
         Debug.Log("SKipped");
+        subtitleText = FindObjectOfType<SubtitleText>();
 
         transform.position = target.position;
         invisibleWall.SetActive(true);
@@ -128,6 +132,7 @@ public class ShipFlight : MonoBehaviour
         paAudio.SetActive(true);
         railingRaise.SetActive(true);
         speaker.PlayOneShot(speaker8);
+        subtitleText.PlayBoardedSequence();
 
         
 

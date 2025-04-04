@@ -31,6 +31,7 @@ public class StartShipLanding : MonoBehaviour
     private KeyBindManager keyBindManager;
 
     public endgameGameInfo gameInfo;
+    private SubtitleText subtitleText;
 
     void Start()
     {
@@ -62,6 +63,11 @@ public class StartShipLanding : MonoBehaviour
                     buttonLight.GetComponent<Light>().enabled = false;
 
                     speaker.PlayOneShot(ship7);
+                    subtitleText = FindObjectOfType<SubtitleText>();
+                    if (subtitleText != null)
+                    {
+                        subtitleText.PlayLandedSequence();
+                    }
                     gameObject.layer = LayerMask.NameToLayer("Default");
                     interactionRange = 0;
                 }
