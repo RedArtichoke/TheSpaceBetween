@@ -15,7 +15,7 @@ public class ReadingNotes : MonoBehaviour
     
     [SerializeField] TextMeshProUGUI noteText;
     [SerializeField] TextMeshProUGUI noteTitle;
-    Image Thing;
+    Transform Thing;
 
     Ray crosshair;
     float range;
@@ -53,7 +53,7 @@ public class ReadingNotes : MonoBehaviour
         }
         notesCollected = 0;
 
-        Thing = noteText.transform.parent.GetChild(2).GetComponent<Image>();
+        Thing = noteText.transform.parent.GetChild(2);
     }
 
     // Update is called once per frame
