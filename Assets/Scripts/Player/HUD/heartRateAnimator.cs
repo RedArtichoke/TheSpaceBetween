@@ -24,6 +24,11 @@ public class HeartRateAnimator : MonoBehaviour
     private float lastBeatTime; // When the last beat occurred
     private float beatInterval; // Time between beats
 
+    // Visual effect smoothing variables
+    private float currentLensDistortionValue = 0f;
+    private float currentChromaticAberrationValue = 0.21f;
+    public float visualEffectSmoothingSpeed = 3f; // How quickly visual effects transition
+
     public float highestHeartRate = 0; 
     public float lowestHeartRate = 0;
 
@@ -123,13 +128,27 @@ public class HeartRateAnimator : MonoBehaviour
         // Adjust lens distortion based on heart rate
         if (lensDistortion != null)
         {
-            lensDistortion.intensity.value = Mathf.Lerp(-0.1f, 0.3f, Mathf.Clamp((currentBPM - 80) / 30f, 0f, 1f));
+            // Calculate target value based on heart rate
+            float targetLensDistortion = Mathf.Lerp(-0.1f, 0.3f, Mathf.Clamp((currentBPM - 80) / 30f, 0f, 1f));
+            
+            // Smoothly interpolate current value toward target
+            currentLensDistortionValue = Mathf.Lerp(currentLensDistortionValue, targetLensDistortion, Time.deltaTime * visualEffectSmoothingSpeed);
+            
+            // Apply the smoothed value
+            lensDistortion.intensity.value = currentLensDistortionValue;
         }
 
         // Adjust chromatic aberration based on heart rate
         if (chromaticAberration != null)
         {
-            chromaticAberration.intensity.value = Mathf.Lerp(0.21f, 1.0f, Mathf.Clamp((currentBPM - 80) / 30f, 0f, 1f));
+            // Calculate target value based on heart rate
+            float targetChromaticAberration = Mathf.Lerp(0.21f, 1.0f, Mathf.Clamp((currentBPM - 80) / 30f, 0f, 1f));
+            
+            // Smoothly interpolate current value toward target
+            currentChromaticAberrationValue = Mathf.Lerp(currentChromaticAberrationValue, targetChromaticAberration, Time.deltaTime * visualEffectSmoothingSpeed);
+            
+            // Apply the smoothed value
+            chromaticAberration.intensity.value = currentChromaticAberrationValue;
         }
 
         if (currentBPM > highestHeartRate)
