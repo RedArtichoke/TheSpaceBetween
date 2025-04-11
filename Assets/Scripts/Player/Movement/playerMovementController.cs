@@ -451,17 +451,21 @@ public class PlayerMovementController : MonoBehaviour
             }
             else if (hit.transform.CompareTag("Medkit"))
             {
-                healthManager.HealPlayer(25);
-                
-                // Play the pickup sound using the audio clip
-                if (pickupClip != null)
+                if(healthManager.health < 100)
                 {
-                    audioSource.clip = pickupClip;
-                    audioSource.Play();
-                }
+                    healthManager.HealPlayer(25);
+                
+                    // Play the pickup sound using the audio clip
+                    if (pickupClip != null)
+                    {
+                        audioSource.clip = pickupClip;
+                        audioSource.Play();
+                    }   
 
-                Destroy(hit.transform.gameObject); // Delete the object
-                return; // Exit the method
+                    Destroy(hit.transform.gameObject); // Delete the object
+                    return; // Exit the method
+                }
+                
             }
             else if (hit.transform.CompareTag("Suit"))
             {
@@ -1038,7 +1042,7 @@ public class PlayerMovementController : MonoBehaviour
                 {
                     if (nameText != null)
                     {
-                        nameText.text = "elevator button";
+                        nameText.text = "Elevator Button";
                         nameText.color = new Color(0.99f, 0.69f, 0.13f, 1f); // Reset to default color
                     }
 
