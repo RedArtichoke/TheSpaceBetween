@@ -56,6 +56,7 @@ public class ElevatorCutscene : MonoBehaviour
 
     public GameObject door;
     public GameObject veil;
+    public GameObject buttonPanel;
 
     public GameObject keyitemBlue;
 
@@ -63,6 +64,7 @@ public class ElevatorCutscene : MonoBehaviour
 
     void Start()
     {
+        buttonPanel.SetActive(false);
         keyBindManager = FindObjectOfType<KeyBindManager>();
         doorAnimator = transform.parent.GetComponent<Animator>();
         //skull = transform.parent.GetChild(3).gameObject; //the skull is the 4th child of "Elevator Room";
@@ -111,6 +113,22 @@ public class ElevatorCutscene : MonoBehaviour
         if (inMotion)
         {
             rumble();
+        }
+    }
+    
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            buttonPanel.SetActive(true);
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            buttonPanel.SetActive(false);
         }
     }
 
