@@ -8,7 +8,8 @@ public class Keycard : MonoBehaviour
     {
         ResearchRoom,
         MaintenanceRoom,
-        MainDoor
+        MainDoor,
+        NotUnlockable
     }
 
     public PlayerMovementController player;
