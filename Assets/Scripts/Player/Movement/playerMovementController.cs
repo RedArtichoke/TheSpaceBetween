@@ -436,18 +436,22 @@ public class PlayerMovementController : MonoBehaviour
             }
             else if (hit.transform.CompareTag("Battery"))
             {
-                powerController.AddPower(100);
-                suitVoice.PlayPowerRestoreAudio();
-                
-                // Play the pickup sound using the audio clip
-                if (pickupClip != null)
+                if(powerController.power < 100)
                 {
-                    audioSource.clip = pickupClip;
-                    audioSource.Play();
-                }
+                    powerController.AddPower(100);
+                    suitVoice.PlayPowerRestoreAudio();
 
-                Destroy(hit.transform.gameObject); // Delete the object
-                return; // Exit the method
+                    // Play the pickup sound using the audio clip
+                    if (pickupClip != null)
+                    {
+                        audioSource.clip = pickupClip;
+                        audioSource.Play();
+                    }
+
+                    Destroy(hit.transform.gameObject); // Delete the object
+                    return; // Exit the method
+                }
+               
             }
             else if (hit.transform.CompareTag("Medkit"))
             {
