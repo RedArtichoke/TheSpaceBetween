@@ -37,6 +37,7 @@ public class DarkController : MonoBehaviour
     public GameObject keyItemChildPrefab; // Assign in inspector
     public GameObject batteryMarkerPrefab; // Assign in inspector - separate marker for batteries
     public TextMeshProUGUI darkPrompt;
+    public AudioSource negativeAudio;
 
     private List<GameObject> keyItemsWithHighlights = new List<GameObject>();
 
@@ -128,6 +129,10 @@ public class DarkController : MonoBehaviour
                 {
                     ExitDark();
                 }
+                //else
+                //{
+                //    negativeAudio.Play();
+                //}
             }
             else
             {

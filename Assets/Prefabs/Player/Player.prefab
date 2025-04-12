@@ -126,6 +126,10 @@ MonoBehaviour:
     type: 3}
   dimensionPromptPrefab: {fileID: 0}
   suitUIAnim: {fileID: 0}
+  engineMarker: {fileID: 0}
+  steeringWheelMarker: {fileID: 0}
+  powerCellMarker: {fileID: 0}
+  tesseractMarker: {fileID: 0}
   door1: {fileID: 0}
   door2: {fileID: 0}
   dimensionPrompt: {fileID: 0}
@@ -205,6 +209,7 @@ MonoBehaviour:
   bg: {fileID: 8076156410899565923}
   reviveSound: {fileID: 2346873872953407511}
   playButton: {fileID: 4635592743030926515}
+  heartRateAnimator: {fileID: 0}
   gameInfo: {fileID: 0}
   healAmount: 25
   healSound: {fileID: 8300000, guid: 16c1dfa77b2834a40a485e95a21288e8, type: 3}
@@ -245,6 +250,8 @@ MonoBehaviour:
     type: 3}
   batteryMarkerPrefab: {fileID: 847762195381366513, guid: a13a48fd8f6374f65a0edb36d6821476,
     type: 3}
+  darkPrompt: {fileID: 0}
+  negativeAudio: {fileID: 0}
   instructionSubtitling: {fileID: 0}
   instructionTitling: {fileID: 0}
   gameInfo: {fileID: 0}
@@ -309,6 +316,7 @@ MonoBehaviour:
   pageTurn: {fileID: 0}
   screenOff: {fileID: 2100000, guid: b62fc20b7d3133740b62ad97a674714d, type: 2}
   screenOn: {fileID: 2100000, guid: be8f04f5ce4c38d439ca4670d4203203, type: 2}
+  notePrompt: {fileID: 0}
 --- !u!114 &933689128155746293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -323,6 +331,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   yogurtCollected: 0
   collectSound: {fileID: 0}
+  inGame: 0
+  pastIntro: 0
   deaths: 0
   shifterUse: 0
   startTime: 0
