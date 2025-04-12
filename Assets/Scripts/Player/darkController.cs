@@ -129,10 +129,10 @@ public class DarkController : MonoBehaviour
                 {
                     ExitDark();
                 }
-                //else
-                //{
-                //    negativeAudio.Play();
-                //}
+                else
+                {
+                    negativeAudio.Play();
+                }
             }
             else
             {
