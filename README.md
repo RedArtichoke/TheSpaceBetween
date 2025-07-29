@@ -8,10 +8,10 @@
 
 ## 🧬 Overview
 
-**The Space Between** is a psychological horror game that reacts to your *real* heartbeat. Built in Unity over the course of 8 months by a team of 6, this immersive experience blends biometric input with atmospheric storytelling to test your nerves in every step.
+**The Space Between** is a psychological horror game that reacts to your *real* heartbeat. Built in Unity over the course of 8 months by a team of 6, this immersive experience blends biometric input with atmospheric storytelling to test your nerves in every step. (Using Arduinio custom built device)
 
 * 🎮 **Engine**: Unity
-* 🧠 **Language**: C#
+* 🧠 **Language**: C#, Arduino
 * ⏱️ **Development Time**: 8 months
 * 👥 **Team Size**: 6
 
@@ -75,5 +75,4 @@ It knows. It hears. And it *responds*.
 * `Scenes/` — Game scenes
 * `Scripts/` — Game logic and heartbeat integration
 * `Shaders/` — Custom UI/visual shaders
-* `Docs/` — Design documentation (if any)
 
