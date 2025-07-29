@@ -1,4 +1,4 @@
-# **The Space Between 👁️🫀**
+# **The Space Between**
 
 **A Biometric Horror Game Set in Deep Space**
 
@@ -65,7 +65,7 @@ It knows. It hears. And it *responds*.
 
 ## 🚀 How to Play
 
-> (Optional: Insert installation/build instructions here, e.g. how to download, play, or run the game in Unity if you’re sharing code.)
+> https://akuldev.itch.io/the-space-between
 
 ---
 
@@ -77,6 +77,3 @@ It knows. It hears. And it *responds*.
 * `Shaders/` — Custom UI/visual shaders
 * `Docs/` — Design documentation (if any)
 
----
-
-Feel free to let me know if you want this version to include installation instructions, screenshots, GIFs, or a devlog/dev branch structure as well.
