@@ -1,39 +1,82 @@
-A Biometric Horror Game set in Outer Space.
-Created in a team of 6, in 8 months:
-- Unity Game Engine
-- Coded in C#
+# **The Space Between 👁️🫀**
 
-In The Space Between, your fear isn’t just a feeling—it’s the enemy. 
+**A Biometric Horror Game Set in Deep Space**
 
-🫀 Use your real heartbeat to survive... or risk losing your grip entirely.
-
-🛰️ Navigate the cold corridors of a derelict station.  
-
-🔧 Perform your duties. Hold your breath.  
-
-💀 And whatever you do… don’t let it know you’re scared.
+> *Your fear isn’t just a feeling — it’s the enemy.*
 
 ---
 
-Mission: Deep-space anomaly research
-Project Codename: The Space Between
-Manifest Registry: tsb.crd.co
+## 🧬 Overview
 
+**The Space Between** is a psychological horror game that reacts to your *real* heartbeat. Built in Unity over the course of 8 months by a team of 6, this immersive experience blends biometric input with atmospheric storytelling to test your nerves in every step.
 
-Blake Cyze — Lead Programmer and Designer
-> Programming, UI Design, Player Mechanics, Enemy AI, Music, Website, SFX, UI Shaders, Itch
+* 🎮 **Engine**: Unity
+* 🧠 **Language**: C#
+* ⏱️ **Development Time**: 8 months
+* 👥 **Team Size**: 6
 
-Luka Jovanovic — Programmer and Level Designer
-> Programming, Level Design, Sound Design, Enemy AI, Visual Effects
+---
 
-Maryam Musa — Project and Art Director
-> Project Management, 3D Modelling, 2D Art, Concept Art, Hardware Development, Hardware Programming
+## 🔦 Gameplay Features
 
-Moulees Ariyanayagam — Concept Artist
-> 3D Modelling, Finance, User Testing, Concept Art
+🫀 **Heart Rate as a Mechanic**
+Your fear feeds it. Stay calm — or be hunted.
 
-Samuel Rivera — 3D Modeller
-> 3D Modelling, User Testing, Concept Art, Hardware Development
+🛰️ **Explore a Derelict Space Station**
+Uncover secrets and navigate the cold, creaking halls of a lost research facility.
 
-Shayne Lord — Programmer
-> Programming, Sound Design, Concept Art
+🔧 **Perform High-Stress Tasks Under Pressure**
+Even routine maintenance can cost your life when you’re being watched.
+
+💀 **Fear is Fatal**
+It knows. It hears. And it *responds*.
+
+---
+
+## 📡 Mission Brief
+
+* **Objective**: Investigate a deep-space anomaly
+* **Codename**: *The Space Between*
+* **Registry**: [tsb.crd.co](https://tsb.crd.co)
+
+---
+
+## 🛠️ Development Team
+
+**🎮 Blake Cyze — Lead Programmer & Designer**
+*Programming, Player Mechanics, UI, AI, Audio, Shader Effects, Web, Music, Itch*
+
+**🛰 Luka Jovanovic — Programmer & Level Designer**
+*Programming, Level Design, Enemy AI, Sound, Visual Effects*
+
+**🎨 Maryam Musa — Project & Art Director**
+*Project Management, Concept Art, 3D/2D Art, Hardware Dev & Programming*
+
+**🖋 Moulees Ariyanayagam — Concept Artist**
+*3D Modeling, Concept Art, Finance, Playtesting*
+
+**🔧 Samuel Rivera — 3D Artist**
+*Modeling, Concept Art, Hardware Integration, Playtesting*
+
+**🔊 Shayne Lord — Programmer**
+*Programming, Sound Design, Concept Art*
+
+---
+
+## 🚀 How to Play
+
+> (Optional: Insert installation/build instructions here, e.g. how to download, play, or run the game in Unity if you’re sharing code.)
+
+---
+
+## 💻 Repository Contents
+
+* `Assets/` — Unity assets and scripts
+* `Scenes/` — Game scenes
+* `Scripts/` — Game logic and heartbeat integration
+* `Shaders/` — Custom UI/visual shaders
+* `Docs/` — Design documentation (if any)
+
+---
+
+Feel free to let me know if you want this version to include installation instructions, screenshots, GIFs, or a devlog/dev branch structure as well.
